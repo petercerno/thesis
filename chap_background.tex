@@ -1,0 +1,492 @@
+\chapter{Theoretical Background}
+\label{chapter:background}
+
+In this chapter we give a short survey of the theory of automata and formal languages and introduce the notation for all subsequent chapters.
+
+The material used in this chapter comes from \cite{RozSal97I, HopcroftMotwaniUllman07}, and the free encyclopedia Wikipedia (\url{http://en.wikipedia.org/}). The overall structure of this chapter and some formulations are taken from \cite{C10Diploma}.
+
+In Section \ref{section:words-and-languages} (according to \cite{MaSa1997formal}) we give the reader some preliminary views about the very basics of the formal language theory, about words and languages. In Section \ref{section:regular-languages} (using \cite{Sh1997regular}) we focus on regular languages. We describe several types of finite automata, introduce regular expression, and mention some standard properties of regular languages. In Section \ref{section:context-free-languages} we investigate context-free languages, grammars, and their normal forms (we follow \cite{AuBeBo1997context-free}). We also define pushdown automata as a device for accepting context-free languages, and mention some of the most important subfamilies of this family. The last Section \ref{section:chomsky-hierarchy} (according to \cite{MaSa1997aspects}) is devoted to Chomsky hierarchy of grammars and languages. We cover some properties  of type $0$ (phrase-structure) and type $1$ (context-sensitive) grammars and languages.
+
+\section{Words and Languages}
+\label{section:words-and-languages}
+
+An \index{alphabet}\emph{alphabet} is a finite nonempty set. The elements of an alphabet $\Sigma$ are called \index{letter}\emph{letters} or \index{symbol}\emph{symbols}. A \index{word}\emph{word} or \index{string}\emph{string} over an alphabet $\Sigma$ is a finite sequence consisting of zero or more letters of $\Sigma$, whereby the same letter may occur several times. The sequence of zero letters is called the \index{word!empty} \emph{empty word}, written $\lambda$. The set of all words (all nonempty words, respectively) over an alphabet $\Sigma$ is denoted by $\Sigma^*$ ($\Sigma^+$, respectively). If $x$ and $y$ are words over $\Sigma$, then so is their \index{catenation}\emph{catenation} (or \index{concatenation}\emph{concatenation}) $xy$ (or $x \cdot y$), obtained by juxtaposition, that is, writing $x$ and $y$ one after another. Catenation is an associative operation and the empty word $\lambda$ acts as an identity: $w \lambda = \lambda w = w$ holds for all words $w$. Because of the associativity, we may use the notation $w^i$ in the usual way. By definition, $w^0 = \lambda$.
+
+Let $u$ be a word in $\Sigma^*$, say $u = a_1 \ldots a_n$ with $a_i \in \Sigma$. We use $u[i]$ to denote the $i$th letter of $u$, i.e. $u[i] = a_i$. We say that $n$ is the \index{length}\emph{length} of $u$ and we write $|u|=n$. The sets of all words over $\Sigma$ of length $k$, or at most $k$, are denoted by $\Sigma^k$ and $\Sigma^{\le k}$, respectively. By $|u|_a$, for $a \in \Sigma$, we denote the total number of occurrences of the letter $a$ in $u$. The \index{reversal}\emph{reversal} \index{mirror image}(\emph{mirror image}) of $u$, denoted $u^R$, is the word $a_n \ldots a_1$. Finally a \index{factorization}\emph{factorization} of $u$ is any sequence $u_1$, ..., $u_t$ of words such that $u = u_1 \cdots u_t$.
+
+For a pair $u$, $v$ of words we define four relations:
+
+\begin{enumerate}
+\item $u$ is a \index{prefix}\emph{prefix} of $v$, if there exists a word $z$ such that $v = uz$,
+\item $u$ is a \index{suffix}\emph{suffix} of $v$, if there exists a word $z$ such that $v = zu$, and
+\item $u$ is a \index{factor}\emph{factor} (or \index{subword}\emph{subword}) of $v$, if there exist words $z$ and $z'$ such that $v = zuz'$.
+\item $u$ is a \index{subword!scattered}\emph{scattered subword} of $v$, if $v$ as a sequence of letters contains $u$ as a subsequence, i.e. there exist words $z_1, \ldots, z_t$ and $y_0, \ldots, y_t$ such that $u = z_1 \ldots z_t$ and $v = y_0 z_1 y_1 \ldots z_t y_t$.
+\end{enumerate}
+
+Observe that $u$ itself and $\lambda$ are subwords, prefixes and suffixes of $u$. Other subwords, prefixes and suffixes are called \emph{nontrivial}.
+
+\index{$\Pref_k(u)$}$\Pref_k(u)$ denotes either the (nontrivial) \index{prefix}prefix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. Similarly, \index{$\Suff_k(u)$}$\Suff_k(u)$ denotes either the (nontrivial) \index{suffix}suffix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. The set of all subwords of length $k$ of $u$ that occur in $u$ in a position other than the prefix or suffix is denoted \index{$\Int_k(u)$}$\Int_k(u)$ \index{interior words}(interior words).
+
+We now proceed from words to languages. Subsets, finite or infinite, of $\Sigma^*$ are referred to as (\emph{formal}) \index{language}\emph{languages} over $\Sigma$. Thus $L_1 = \{\lambda, 0, 111, 1001\}$ and $L_2 = \{0^p \mid p \ \text{is a prime}\}$ are languages over the \index{alphabet!binary}\emph{binary alphabet} $\{0, 1\}$. A \index{language!finite}finite language can always, at least in principle, be defined as $L_1$ above: by listing all of its words. Such a procedure is not possible for \index{language!infinite}infinite languages. Some finitary specification other than simple listing is needed to define an infinite language. 
+
+In formal language theory in general, there are two major types of mechanisms for defining languages: \index{acceptor}\emph{acceptors} and \index{generator}\emph{generators}. Acceptors are usually defined in terms of \index{automaton}\emph{automata}, which work as follows: they are given an input word and after some processing they either accept or reject this input word. For instance, the so-called \index{finite automaton}\emph{finite automata} consist of a finite set of internal states and a set of rules that govern the change of the current state when reading a given input symbol. The finite automaton reads a given input word from left to right starting in a specific \index{state!starting}\emph{starting state}. After reading the input word it accepts only if it ends in one of its \index{state!accepting}\emph{accepting states}, otherwise it rejects. Finite automata recognize the family of \index{language!regular}\emph{regular languages}, which plays a central role in the whole formal language theory (see Section \ref{section:regular-languages}).
+
+Generators, on the other hand, usually generate the language using some finite set of rules. Typically they are defined in terms of grammars. One of the most famous is the classical \index{Chomsky hierarchy}\emph{Chomsky hierarchy} of grammars (and corresponding languages), which consists of \index{grammar!phrase-structure}\emph{phrase-structure}, \index{grammar!context-sensitive}\emph{context-sensitive}, \index{grammar!context-free}\emph{context-free}, and \index{grammar!regular}\emph{regular} grammars. They are also called type $0$, type $1$, type $2$, and type $3$ grammars, respectively (see Section \ref{section:context-free-languages} and \ref{section:chomsky-hierarchy}).
+
+Regarding languages as sets, we may define the \index{operation!Boolean}\emph{Boolean} operations of \index{union}\emph{union}, \index{intersection}\emph{intersection} and \index{complementation}\emph{complementation} in the usual fashion. The operation of \emph{catenation} (or \index{concatenation}\emph{concatenation}) is extended to concern languages in the natural way: $$L_1 L_2 = \{w_1 w_2 \mid w_1 \in L_1 \ \text{and} \ w_2 \in L_2\}.$$
+
+The notation $L^i$ is extended to concern languages, now $L^0 = \{\lambda\}$. The \index{concatenation!closure}\emph{catenation closure} or \index{Kleene star} \emph{Kleene star} \index{Kleene plus}(\emph{Kleene plus}, respectively) of a language $L$, in symbols $L^*$ ($L^+$, respectively) is defined to be the union of all nonnegative powers of $L$ (of all positive powers of $L$, respectively). Observe that this definition is in accordance with our earlier notations $\Sigma^*$ and $\Sigma^+$ if we understand $\Sigma$ as the finite language whose words are the singleton letters. The \index{language!reversal}\emph{reversal} \index{language!mirror image}(\emph{mirror image}) of a language $L$, denoted $L^R$, is the set $$L^R = \{w^R \mid w \in L\}.$$
+
+For each $x \in \Sigma^*$, the \index{left-derivate}\emph{left-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set $$\delta_x(L) = x \backslash L = \{y \in \Sigma^* \mid xy \in L\},$$ and for a language $L_0 \subseteq \Sigma^*$, the \index{left-quotient}\emph{left-quotient} of $L$ by $L_0$ is the set $$L_0 \backslash L = \bigcup_{x \in L_0} x \backslash L = \{y \in \Sigma^* \mid xy \in L, x \in L_0\}.$$ Similarly, the \index{right-derivate}\emph{right-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set $$\delta^x(L) = L / x = \{y \in \Sigma^* \mid yx \in L\},$$ and the \index{right-quotient}\emph{right-quotient} of $L$ by a language $L_0 \subseteq \Sigma^*$ is $$L / L_0 = \bigcup_{x \in L_0} L / x = \{y \in \Sigma^* \mid yx \in L, x \in L_0\}.$$
+
+It is clear by the above definition that $$(L_1 \backslash L) \cup (L_2 \backslash L) = (L_1 \cup L_2) \backslash L$$ for any $L_1, L_2 \subseteq \Sigma^*$. Similar equality holds for right-quotient of languages.
+
+The operations of union, catenation, and Kleene star are referred as \index{operation!regular}\emph{regular} operations. A language $L$ over $\Sigma$ is termed \index{language!regular}\emph{regular} if $L$ can be obtained from the \index{language!atomic}``atomic'' languages $\emptyset$ (the \index{language!empty} empty language) and $\{a\}$, where $a$ is a letter of $\Sigma$, by applying regular operations finitely many times. By applying union and catenation, we obviously get all \index{language!finite}finite languages \index{$\Fin$}($\Fin$). The star operation is needed to produce \index{language!infinite}infinite languages. In fact, for any $k$, there are regular languages that cannot be represented with fewer than $k$ nested star operations. When we speak of the \emph{family} of regular languages, we mean all languages that are regular over some $\Sigma$, that is, the alphabet may vary from language to language. The family of regular languages has many desirable formal properties. It is closed under most of the usual operations for languages, in particular, under all Boolean operations.
+
+A language $L$ over $\Sigma$ is \index{language!star-free}\emph{star-free} if $L$ can be obtained from the atomic languages $\{a\}$, where $a \in \Sigma$, by applying \index{operation!Boolean}Boolean operations (complement is taken with respect to $\Sigma^*$) and catenation finitely many times. Apparently every star-free language is regular.
+
+We say that a language $L$ is \index{language!noncounting}\emph{noncounting} if there is an integer $n$ such that, for all words $x$, $y$, $z$, $$x y^n z \in L \Leftrightarrow x y^{n+1} z \in L.$$
+
+It can be proved that every star-free language is noncounting. The converse holds in the form: every regular noncounting language is star-free.
+
+A special subclass of star-free languages which has attracted much attention is the \index{language!locally testable}\emph{locally testable languages}. Informally, for a locally testable language $L$, one can decide whether a word $w$ is in $L$ by looking at all subwords of $w$ of a previously given length $k$. Formally, a language $L \subseteq \Sigma^*$ is said to be \index{language!$k$-testable}\emph{$k$-testable} if, for any words $x, y \in \Sigma^*$, $|x|, |y| \ge k$, the conditions \index{$\Pref_k(u)$}$\Pref_k(x) = \Pref_k(y)$, \index{$\Suff_k(u)$}$\Suff_k(x) = \Suff_k(y)$, and \index{$\Int_k(u)$}$\Int_k(x) = \Int_k(y)$ imply that $x \in L \Leftrightarrow y \in L$. A language is said to be \index{language!locally testable}\emph{locally testable} if it is $k$-testable for some integer $k \ge 1$.
+
+Let $\Sigma$ and $\Gamma$ be two finite alphabets. A mapping $h: \Sigma^* \to \Gamma^*$ is called a \index{morphism}\emph{morphism} if $h(xy) = h(x) h(y)$ for all $x, y \in \Sigma^*$. In particular, $h(\lambda) = \lambda$.
+
+For a set $S$, let \index{$2^S$}$2^S$ (or \index{$\mathcal{P}(S)$}$\mathcal{P}(S)$) denote the \index{power set}\emph{power set} of $S$, i.e. the collection of all subsets of $S$. A mapping $\phi: \Sigma^* \to 2^{\Gamma^*}$ is  called a \index{substitution}\emph{substitution} if $\phi(\lambda) = \{\lambda\}$ and $\phi(xy) = \phi(x) \phi(y)$ for all $x, y \in \Sigma^*$.
+
+Clearly, a morphism is a special kind of substitution where each word is associated with a singleton set. Morphisms and substitutions are usually defined by specifying only the image of each letter in $\Sigma$ under the mapping. We extend the definitions of $h$ and $\phi$, respectively, to define $$h(L) = \{h(w) \mid w \in L\}$$ and $$\phi(L) = \bigcup_{w \in L}\phi(w)$$ for $L \subseteq \Sigma^*$.
+
+A morphism $h: \Sigma^* \to \Gamma^*$ is said to be \index{morphism!$\lambda$-free}$\lambda$-free if $h(a) \neq \lambda$ for all $a \in \Sigma$. A substitution $\phi: \Sigma^* \to 2^{\Gamma^*}$ is said to be \index{substitution!$\lambda$-free}$\lambda$-free if $\lambda \notin \phi(a)$ for all $a \in \Sigma$. And $\phi$ is called a \index{substitution!finite} \emph{finite substitution} if, for each $a \in \Sigma$, $\phi(a)$ is a finite subset of $\Gamma^*$. Similarly, $\phi$ is called a \index{substitution!regular} \emph{regular substitution} if, for each $a \in \Sigma$, $\phi(a)$ is a regular language over $\Gamma$.
+
+Let $h: \Sigma^* \to \Gamma^*$ be a morphism. The \index{morphism!inverse} \emph{inverse} of the morphism $h$ is a mapping $h^{-1}: \Gamma^* \to 2^{\Sigma^*}$ defined by, for each $y \in \Gamma^*$, $$h^{-1}(y) = \{x \in \Sigma^* \mid h(x) = y\}.$$ Similarly, for a substitution $\phi: \Sigma^* \to 2^{\Gamma^*}$, the \index{substitution!inverse}\emph{inverse} of the substitution $\phi$ is a mapping $\phi^{-1}: \Gamma^* \to 2^{\Sigma^*}$ defined by, for each $y \in \Gamma^*$, $$\phi^{-1}(y) = \{x \in \Sigma^* \mid y \in \phi(x)\}.$$
+
+\section{Regular Languages}
+\label{section:regular-languages}
+
+Most of the material covered in this Section is taken from Sheng Yu \cite{Sh1997regular}.
+
+In this section we provide a very short survey of some basic notions concerning the family of \index{language!regular}regular languages. This is by no means a comprehensive survey. For a more thorough introduction we refer the reader to \cite{HopcroftMotwaniUllman07}.
+
+For \index{language!regular} regular languages, the natural acceptors are \index{finite automaton}finite automata and the generators are \index{regular expressions}regular expressions and \index{grammar!right-linear}right \index{grammar!left-linear}(left) linear grammars (see Section \ref{subsection:context-free-subfamilies}).
+
+In Section \ref{subsection:finite-automata} we describe several types of finite automata, all of which accept exactly the family of regular languages. In Section \ref{subsection:regular-expressions} we introduce regular expressions and their relationship to finite automata. The last Section \ref{subsection:properties-of-regular-languages} gives some properties of regular languages.
+
+\subsection{Finite Automata}
+\label{subsection:finite-automata}
+
+\index{language!regular}Regular languages and \index{finite automaton}finite automata have had a wide range of applications. Their most celebrated application has been lexical analysis in programming language compilation and user-interface translations. Other notable applications include circuit design, text editing, and pattern matching.
+
+A \index{finite automaton}\emph{finite automaton} \index{$\FA$}($\FA$) consists of a finite set of internal states and a set of rules that govern the change of the current state when reading a given input symbol. If the next state is always uniquely determined by the current state and the current input symbol, we say that the automaton is deterministic. Formally, we define a deterministic finite automaton as follows:
+
+A \index{finite automaton!deterministic}\emph{deterministic finite automaton} \index{$\DFA$}($\DFA$) $A$ is a quintuple $(Q, \Sigma, \delta, s, F)$, where:
+
+\begin{enumerate}[]
+\item $Q$ is the finite set of \index{state}\emph{states},
+\item $\Sigma$ is the \index{alphabet!input}\emph{input alphabet},
+\item $\delta: Q \times \Sigma \to Q$ is the \index{transition!function}\emph{state transition function},
+\item $s \in Q$ is the \index{state!starting}\emph{starting state}, and
+\item $F \subseteq Q$ is the set of \index{state!final}\emph{final states}.
+\end{enumerate}
+
+Note that, in general, we do not require the transition function $\delta$ to be total, i.e. to be defined for every pair in $Q \times \Sigma$. If $\delta$ is total, then we call $A$ a \emph{complete} \index{$\DFA$!complete}$\DFA$.
+
+A \index{$\DFA$}$\DFA$ such that every state is reachable from the starting state and reaches a final state is called a \index{$\DFA$!reduced}\emph{reduced} $\DFA$. A reduced $\DFA$ may not be a complete $\DFA$.
+
+A \index{configuration}\emph{configuration} of $A = (Q, \Sigma, \delta, s, F)$ is a word in $Q \Sigma^*$, i.e. a state $q \in Q$ followed by a word $x \in \Sigma^*$ where $q$ is the current state of $A$ and $x$ is the remaining part of the input. The \index{configuration!starting}\emph{starting configuration} of $A$ for an input word $x \in \Sigma^*$ is $sx$.  \index{configuration!accepting}\emph{Accepting configuration} are defined to be elements of $F$ (followed by the empty word $\lambda$).
+
+A \index{computation!step}computation step of $A$ is a \index{transition}transition from a configuration $\alpha$ to a configuration $\beta$, denoted by $\alpha \vdash_A \beta$, where $\vdash_A$ is a binary relation on the set of configurations of $A$. The relation $\vdash_A$ is defined by: for $px, qy \in Q \Sigma^*$, $px \vdash_A qy$ if $x = ay$ for some $a \in \Sigma$ and $\delta(p, a) = q$. We use $\vdash$ instead of $\vdash_A$ if there is no confusion. The transitive closure and the reflexive and transitive closure of $\vdash$ are denoted $\vdash^+$ and $\vdash^*$, respectively.
+
+The language accepted by a \index{$\DFA$}$\DFA$ $A = (Q, \Sigma, \delta, s, F)$, denoted $L(A)$, is defined as follows: $$L(A) = \{w \mid sw \vdash^* f \ \text{for some} \ f \in F\}.$$
+
+For convenience, we define the extension of $\delta$, $\delta^*: Q \times \Sigma^* \to Q$, inductively as follows. We set $\delta^*(q, \lambda) = q$ and $\delta^*(q, xa) = \delta(\delta^*(q, x), a)$, for $q \in Q$, $a \in \Sigma$. Then we can also write: $$L(A) = \{w \mid \delta^*(s, w) = f \ \text{for some} \ f \in F\}.$$
+
+\index{finite automaton!nondeterministic}Nondeterministic finite automata \index{$\NFA$}($\NFA$) are a generalization of \index{$\DFA$}$\DFA$ where, for a given state and an input symbol, the number of possible transitions can be greater than one. Formally, a \index{finite automaton!nondeterministic} \emph{nondeterministic finite automaton} $A$ is a quintuple $(Q, \Sigma, \delta, s, F)$ where $Q$, $\Sigma$, $s$, and $F$ are defined exactly the same way as for a \index{$\DFA$}$\DFA$, and $\delta: Q \times \Sigma \to 2^Q$ is the \index{transition!function}transition function.
+
+The \index{computation!relation}computation relation $\vdash_A: Q \Sigma^* \times Q \Sigma^*$ of an \index{$\NFA$}$\NFA$ $A$ is defined by setting $px \vdash_A qy$ if $x = ay$ and $q \in \delta(p, a)$, for $p, q \in Q$, $x, y \in \Sigma^*$, and $a \in \Sigma$. The language accepted by $A$ is defined in the same way as for \index{$\DFA$}$\DFA$.
+
+\index{$\NFA$}$\NFA$ can be further generalized to have state transitions without reading any input symbol. Such transitions are called \index{transition!$\lambda$-transition} $\lambda$-transitions in the following definition.
+
+A \emph{nondeterministic finite automaton with $\lambda$-transitions} \index{$\lambda$-$\NFA$}($\lambda$-$\NFA$) $A$ is a quintuple $(Q, \Sigma, \delta, s, F)$ where $Q$, $\Sigma$, $s$, and $F$ are the same as for an \index{$\NFA$}$\NFA$; and $\delta: Q \times (\Sigma \cup \{\lambda\}) \to 2^Q$ is the transition function.
+
+For a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$ $A = (Q, \Sigma, \delta, s, F)$, the binary relation $\vdash_A: Q \Sigma^* \times Q \Sigma^*$ is defined by that $px \vdash_A qy$, for $p, q \in Q$ and $x, y \in \Sigma^*$, if $x = ay$ and $q \in \delta(p, a)$ or if $x = y$ and $q \in \delta(p, \lambda)$. The language accepted by $A$ is again defined in the same way as for \index{$\DFA$}$\DFA$.
+
+Let $A = (Q, \Sigma, \delta, s, F)$ be a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$. The \index{$\lambda$-closure}\emph{$\lambda$-closure} of a state $q \in Q$, denoted by $\lambda \text{-closure}(q)$, is the set of all states that are reachable from $q$ by zero or more $\lambda$-transitions, i.e. $$\lambda \text{-closure}(q) = \{q \in Q \mid q \vdash_A^* p \}.$$
+
+For a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$ $A = (Q, \Sigma, \delta, s, F)$ let $A' = (Q, \Sigma, \delta', s, F')$ be an \index{$\NFA$}$\NFA$, such that for each $q \in Q$ and $a \in \Sigma$, $$\delta'(p, a) = \delta(p, a) \cup \bigcup_{q \in \lambda \text{-closure}(p)}\delta(q, a)$$ and $$F' = \{ q \in Q \mid \lambda\text{-closure}(q) \cap F \neq \emptyset \}.$$ It can be easily verified that $L(A) = L(A')$.
+
+Another form of generalization of \index{$\NFA$}$\NFA$ is defined in the following.
+
+A \emph{$\NFA$ with nondeterministic starting state} \index{$\NNFA$}($\NNFA$) $A = (Q, \Sigma, \delta, S, F)$ is an \index{$\NFA$}$\NFA$ except that there is a set of \index{state!starting}starting states $S$ rather than exactly one starting state. Thus, for an input word, the \index{computation}computation of $A$ starts from a nondeterministically chosen \index{state!starting}starting state.
+
+It can be shown that for each $\NNFA$ $A$ of $n$ states, we can construct an equivalent \index{$\DFA$}$\DFA$ $A'$ of at most $2^n$ states.
+
+There are also several models of finite automata with output, which include \index{Moore machine}Moore machines, \index{Mealy machine}Mealy machine, and \index{finite transducer}finite transducers.
+
+\subsection{Regular Expressions}
+\label{subsection:regular-expressions}
+
+In the previous section we have described various forms of finite automata. These automata can be easily implemented by computer programs. However, finite automata in any of the above mentioned forms are not convenient to be specified manually by users. A succinct and comprehensible expression in sequential form would be better suited than a finite automaton definition. Such expressions are regular expressions which are often used as user interfaces for specifying regular languages.
+
+We define, inductively, a \index{regular expressions}\emph{regular expression} $e$ over an alphabet $\Sigma$ and the language $L(e)$ it denotes as follows:
+
+\begin{enumerate}
+\item $e = \emptyset$ is a regular expression denoting the language $L(e) = \emptyset$.
+\item $e = \lambda$ is a regular expression denoting the language $L(e) = \{\lambda\}$.
+\item $e = a$, $a \in \Sigma$, is a regular expression denoting the language $L(e) = \{a\}$.
+
+Let $e_1$ and $e_2$ be regular expressions and $L(e_1)$ and $L(e_2)$ be the languages they
+denote, respectively. Then
+\item $e = (e_1 + e_2)$ is a regular expression denoting the language $L(e) = L(e_1) \cup L(e_2)$.
+\item $e = (e_1 \cdot e_2)$ is a regular expression denoting the language $L(e) = L(e_1) L(e_2)$.
+\item $e = e_1^*$ is a regular expression denoting the language $(L(e_1))^*$.
+\end{enumerate}
+
+We assume that $*$ has higher precedence than $\cdot$ and $+$, and $\cdot$ has higher precedence than $+$. A pair of parentheses may be omitted whenever the omission would not cause any confusion. Also, we usually omit the symbol $\cdot$ in regular expressions.
+
+There are three major approaches for transforming regular expressions into finite automata. The first approach is to transform a regular expression into a \index{$\lambda$-$\NFA$} $\lambda$-$\NFA$. This approach is simple and intuitive, but may generate many \index{transition!$\lambda$-transition}$\lambda$-transitions. The second approach transforms a regular expression into an \index{$\NFA$}$\NFA$ without \index{transition!$\lambda$-transition}$\lambda$-transitions. The third and most involved approach is to transform a regular expression directly into an equivalent \index{$\DFA$}$\DFA$.
+
+The converse is also possible, i.e. for a given finite automaton $A$, we can construct a regular expression $e$ such that $e$ denotes the language accepted by $A$. The construction uses \index{finite automaton!extended}\emph{extended finite automata} where a transition between a pair of states is labeled by a regular expression. For a given finite automaton, a so-called \emph{state elimination technique} deletes a state at each step and changes the transitions accordingly. This process continues until the \index{$\FA$}$\FA$ contains only the starting state, a final state, and the transition between them. The regular expression labeling the transition specifies exactly the language accepted by $A$.
+
+\subsection{Properties of Regular Languages}
+\label{subsection:properties-of-regular-languages}
+
+There are many ways to show that a language is regular; for example, this can be done by demonstrating that the language is accepted by a finite automaton, specified by a regular expression, or generated by a right-linear grammar. To prove that a language is not regular, the most commonly used tools are the \emph{pumping properties} of \index{language!regular}regular languages, which are usually stated as \index{pumping lemma}``pumping lemmas''. The term ``pumping'' intuitively describes the property that any sufficiently long word of the language has a nonempty subword that can be ``pumped'', i.e. if the subword is replaced by an arbitrary number of copies of the same subword, the resulting word is still in the language.
+
+There are many versions of pumping lemmas for regular languages. The ``standard'' version is a necessary but not sufficient condition for regularity.
+
+\index{pumping lemma!regular language}
+\begin{lemma}
+Let $L$ be a regular language over $\Sigma$. Then there is a constant $n$, depending on $L$, such that for each $w \in L$ with $|w| \ge n$ there exist $x, y, z \in \Sigma^*$ such that $w = xyz$ and
+\begin{enumerate}
+\item $|xy| \le n$,
+\item $|y| \ge 1$,
+\item $x y^t z \in L$ for all $t \ge 0$.
+\end{enumerate}
+\end{lemma}
+
+The proof is based on the observation that if an $n$-state $\DFA$ reads a word $w$ of length $|w| \ge n$, then it passes through the sequence of $|w| + 1 > n$ states, thus (by the pigeonhole principle) at least two states in this sequence must be equal.
+
+In the following theorem we summarize some selected closure properties of regular languages.
+
+\begin{theorem}
+The family of regular languages is closed under the following operations (we assume that $L \subseteq \Sigma^*$):
+\begin{enumerate}
+\item Boolean operations: union, intersection, complementation,
+\item catenation, Kleene star, reversal,
+\item left and right-quotient by an arbitrary language,
+\item $\text{prefix}(L) = \{x \in \Sigma^* \mid xy \in L, y \in \Sigma^*\}$,
+\item $\text{suffix}(L) = \{y \in \Sigma^* \mid xy \in L, x \in \Sigma^*\}$,
+\item $\text{infix}(L) = \{y \in \Sigma^* \mid xyz \in L, x,z \in \Sigma^*\}$,
+\item morphism, inverse morphism,
+\item finite substitution, inverse finite substitution,
+\item regular substitution, inverse regular substitution.
+\end{enumerate}
+\end{theorem}
+
+Finally, we characterize the family of regular languages by a so-called \index{Myhill-Nerode theorem}Myhill-Nerode Theorem. Let $L \subseteq \Sigma^*$ and $x \in \Sigma^*$. The \emph{derivate} of $L$ with respect to $x$, denoted $D_x L$, is $$D_x L = x \backslash L = \{y \in \Sigma^* \mid xy \in L\}.$$
+
+For $L \subseteq \Sigma^*$, we define a relation $\equiv_L \subseteq \Sigma^* \times \Sigma^*$ by $$x \equiv_L y \Leftrightarrow D_x L = D_y L$$ for each pair $x, y \in \Sigma^*$. Clearly, $\equiv_L$ is an equivalence relation. It partitions $\Sigma^*$ into equivalence classes. The number of equivalence classes of $\equiv_L$ is called the \emph{index} of $\equiv_L$. 
+%We denote the equivalence class that contains $x$ by $[x]_{\equiv_L}$, i.e. $$[x]_{\equiv_L} = \{y \in \Sigma^* \mid y \equiv_L x\}.$$ Clearly, $x \equiv_L y$ if and only if $[x]_{\equiv_L} = [y]_{\equiv_L}$. We simply write $[x]$ instead of $[x]_{\equiv_L}$ if there is no confusion.
+The following \index{Myhill-Nerode theorem}Myhill-Nerode Theorem characterizes the family of regular languages.
+
+\begin{theorem}
+A language $L \subseteq \Sigma^*$ is regular if and only if $\equiv_L$ has a finite index.
+\end{theorem}
+
+If $L$ is a regular language, then it can be shown that the minimal number of states of a complete $\DFA$ that accepts $L$ is equal to the index of $\equiv_L$.
+
+\section{Context-Free Languages}
+\label{section:context-free-languages}
+
+This section is devoted to \index{language!context-free} context-free languages \index{$\CFL$}($\CFL$). Context-free languages and \index{grammar!context-free} grammars were designed  initially to formalize grammatical properties of natural languages. They subsequently appeared to be well adapted to the formal description of the syntax of programming languages. This led to a considerable development of the theory.
+
+We focus on two basic tools: context-free grammars and \index{pushdown automaton} pushdown automata. These are indeed the standard tools to generate and to recognize context-free languages. In Section \ref{subsection:context-free-grammars} we give a short introduction to context-free grammars, followed by the survey of their \index{normal form}normal forms in Section \ref{subsection:context-free-normal-forms}. In Section \ref{subsection:pushdown-machines} we introduce pushdown automata as a basic accepting device for context-free languages. In the last Section \ref{subsection:context-free-subfamilies} we present some subfamilies of context-free languages.
+
+The main source for this Section is Autebert et al. \cite{AuBeBo1997context-free}.
+
+\subsection{Context-Free Grammars}
+\label{subsection:context-free-grammars}
+
+A \index{grammar!context-free}\emph{context-free grammar} $G$ is a quadruple $G = (V_N, V_T, S, P)$, where $V_N$ is disjoint from $V_T$ and:
+
+\begin{enumerate}[]
+\item $V_N$ is the finite nonempty set of \index{nonterminal}\emph{nonterminals} or \index{variable}\emph{variables},
+\item $V_T$ is the finite nonempty set of \index{terminal}\emph{terminals} or \emph{terminal letters},
+\item $S \in V_N$ is the distinguished nonterminal called the \index{axiom}\emph{axiom},
+\item $P \subseteq V_N \times (V_N \cup V_T)^*$ is the finite set of \index{production}\emph{productions} or \index{derivation rule}\emph{derivation rules}.
+\end{enumerate}
+
+Given words $u, v \in (V_N \cup V_T)^*$, we write $u \Rightarrow_G v$ whenever there exist factorizations $u = x X y$, $v = x \alpha y$, with production $(X, \alpha) \in P$. A \index{derivation}\emph{derivation} of length $k \ge 0$ from $u$ to $v$ is a sequence $(u_0, u_1, \ldots, u_k)$ of words in $(V_N \cup V_T)^*$ such that $u_{i-1} \Rightarrow_G u_i$ for $i = 1, 2, \ldots, k$, and $u = u_0, v = u_k$. If this holds, we write $u \Rightarrow^k_G v$. The existence of some derivation from $u$ to $v$ is denoted by $u \Rightarrow^*_G v$. If there is a proper derivation
+(i.e. of length $\ge 1$), we use the notation $u \Rightarrow^+_G v$. The \emph{language generated by a nonterminal $X$} in the grammar $G$ is the set
+$$L_G(X) = \{w \in V_T^* \mid X \Rightarrow^*_G w\}.$$ The \emph{language generated by the grammar $G$} is $L_G(S)$ and is denoted, for short, $L_G$ or $L(G)$.
+
+A language $L$ is called \index{language!context-free}\emph{context-free} if it is the language generated by some context-free grammar. Two grammars $G$ and $G'$ are \emph{equivalent} if they generate the same language, i.e. if $L(G) = L(G')$.
+
+More generally, if $x \in (V_N \cup V_T)^*$, we set $$L_G(x) = \{w \in V_T^* \mid x \Rightarrow^*_G w\}.$$ Context-freeness easily implies that $L_G(xy) = L_G(x) L_G(y)$.
+
+Consider a derivation $u = u_0 \Rightarrow_G u_1 \Rightarrow_G \ldots \Rightarrow_G u_k = v$, with $u, v \in (V_N \cup V_T)^*$. Then there exist productions $p_i = (X_i, \alpha_i)$ and words $x_i$, $y_i$ such that $u_i = x_i X_i y_i$ and $u_{i+1} = x_i \alpha_i y_i$ for $i = 0, 1, \ldots, k-1$. The derivation is \index{derivation!leftmost}\emph{leftmost} if $|x_i| \le |x_{i+1}|$ for $i = 0, 1, \ldots k-2$, and \index{derivation!rightmost}\emph{rightmost} if, symmetrically, $|y_i| \le |y_{i+1}|$ for $i = 0, 1, \ldots k-2$. It is an interesting fact that any word in a context-free language $L_G(X)$ has the same number of leftmost and of rightmost derivations. A context-free grammar $G$ is \index{grammar!unambiguous}\emph{unambiguous} for a nonterminal $X$ if every word in $L_G(X)$ has exactly one leftmost (rightmost) derivation. A language is \index{language!unambiguous}\emph{unambiguous} if there is an unambiguous grammar to generate it, otherwise it is called \index{language!ambiguous}\emph{inherently ambiguous}.
+
+We define the \index{tree!parse}\emph{parse tree} or the \index{tree!derivation}\emph{derivation tree} as a rooted tree which satisfies the following conditions:
+
+\begin{enumerate}
+\item each node is labeled by some element from $V_N \cup V_T \cup \{\lambda\}$,
+\item internal nodes are labeled by nonterminals,
+\item if an internal node is labeled $A$ and its children are labeled $B_1, \ldots, B_n$ respectively, from the left, then $(A, B_1 \ldots B_n) \in P$,
+\item if some node is labeled by $\lambda$, then it is the leaf and the only child of its parent.
+\end{enumerate}
+
+If we look at the leaves of any parse tree and concatenate them from the left, we get a string, called the \index{yield}\emph{yield} of the tree, which is always a string that is derived from the root nonterminal. It can be shown that $A \Rightarrow^*_G w$ if and only if there is a parse tree with root $A$ and yield $w$.
+
+A context-free grammar $G$ is \index{grammar!trim}\emph{trim} in the nonterminal $S$ if the following two conditions are fulfilled:
+
+\begin{enumerate}
+\item for every nonterminal $X$, the language $L_G(X)$ is nonempty,
+\item for every nonterminal $X$, there exist $u, v \in V_T^*$ such that $S \Rightarrow^*_G uXv$.
+\end{enumerate}
+
+It is not difficult to see that a context-free grammar can always be trimmed effectively.
+
+A production is \index{production!terminal}\emph{terminal} if its right side contains no nonterminal. A production is called a \index{production!$\lambda$-production} \emph{$\lambda$-production} if its right side is the empty word. At least one $\lambda$-production is necessary if the language generated by the grammar contains the empty word. It is not too difficult to construct, for every context-free grammar $G$, an equivalent context-free grammar with no $\lambda$-production excepted the production $(S, \lambda)$ if $\lambda \in L(G)$.
+
+A grammar $G$ is \index{grammar!proper}\emph{proper} if it has neither $\lambda$-productions nor any production of the form $(X, Y)$ with $Y$ a nonterminal. Again, an equivalent proper grammar can effectively be constructed for any grammar $G$ if $\lambda \notin L(G)$.
+
+There are several convenient shorthands to describe context-free grammars. Usually, a production $(X, \alpha)$ is written $X \to \alpha$, and productions with same left side are grouped together, the corresponding right sides being separated by a $\mid$. Usually, the nonterminals and terminal letters are clear from the context.
+
+Subsequently, we make use of the following notation. Let $A$ be an alphabet. A \index{copy}\emph{copy} of $A$ is an alphabet that is disjoint from $A$ and in bijection with $A$. A copy is often denoted $\bar{A}$ or $A'$. This implicitly means that the bijection is denoted similarly, namely as the mapping $a \mapsto \bar{a}$ or $a \mapsto a'$. The inverse bijection is denoted the same, that is $\bar{\bar{a}} = a$ ($(a')' = a$, respectively), and it is extended to a bijection from $(A \cup \bar{A})^*$ into itself  by $\overline{xy} = \bar{x} \bar{y}$ (similarly for $(A \cup A')^*$).
+
+Let $A$ be an alphabet and let $\bar{A}$ be a copy. The \index{Dyck language}\emph{Dyck language} over $A \cup \bar{A}$ is the language $D^*_A$ generated by $S$ in the grammar: $$S \to TS \mid \lambda; \ \ T \to a S \bar{a} \text{ for all } a \in A.$$ If $A$ has $n$ letters, then the notation $D^*_n$ is frequently used instead of $D^*_A$.
+
+The \index{Lukasiewicz language}\emph{Lukasiewicz language} is the language generated by the grammar: $$S \to aSS \mid \bar{a}$$ It is sometimes denoted by ${\L}$. It can be proved that ${\L} = D^*_1 \bar{a}$.
+
+\subsection{Normal Forms}
+\label{subsection:context-free-normal-forms}
+
+In this section, we present three \index{normal form}normal forms of context-free grammars. The two first ones are the \index{normal form!Chomsky} Chomsky normal form and the \index{normal form!Greibach}Greibach normal form. They are often used to get easier proofs of results about context-free languages. The third normal form is the \index{normal form!operator}operator normal form. It is an example of a normal form that has been used in the syntactical analysis.
+
+A context-free grammar $G = (V_N, V_T, S, P)$ is in \index{normal form!weak Chomsky}\emph{weak Chomsky normal form} if each nonterminal production has a right member in $V_N^*$ and each terminal production has a right member in $V_T \cup \{\lambda\}$. It is in \index{normal form!Chomsky}\emph{Chomsky normal form} if it is in weak Chomsky normal form and each right member of a nonterminal production has length $2$.
+
+It can be shown, that given a context-free grammar, an equivalent context-free grammar in Chomsky normal form can effectively be constructed.
+
+One of the consequences of Chomsky normal form is the following pumping lemma for context-free languages.
+
+\index{pumping lemma!context-free language}
+\begin{lemma}
+Let $L$ be a context-free language over $\Sigma$. Then there exist natural numbers $p$ and $q$, depending on $L$, such that for each $z \in L$ with $|z| > p$ there exist a factorization $u v w x y$ of $z$ such that
+\begin{enumerate}
+\item $|vwx| \le q$,
+\item $v \neq \lambda$ or $x \neq \lambda$,
+\item $u v^i w x^i y \in L$ for all $i \ge 0$.
+\end{enumerate}
+\end{lemma}
+
+A context-free grammar $G = (V_N, V_T, S, P)$ is in \index{normal form!Greibach}\emph{Greibach normal form} if each production of the grammar rewrites a nonterminal into a word in $V_T V_N^*$. In particular, the grammar is proper and each terminal production rewrites a nonterminal in a terminal letter.
+
+It is in \index{normal form!quadratic Greibach}\emph{quadratic Greibach normal form} if it is in Greibach normal form and each right member of a production of $G$ contains at most $2$ nonterminals.
+
+It is in \index{normal form!double Greibach}\emph{double Greibach normal form} if each right member of the productions  of $G$ are in $V_T V_N^* V_T \cup V_T$. In particular, a terminal production  rewrites a nonterminal in a letter or in a word of length $2$.
+
+It is in \index{normal form!cubic double Greibach}\emph{cubic double Greibach normal form} (in \index{normal form!quadratic double Greibach}\emph{quadratic double Greibach normal form}, respectively) if it is in double Greibach normal form and each right member of a production contains at most $3$ nonterminals (at most $2$ nonterminals, respectively).
+
+A proper context-free grammar $G$ can effectively be transformed into an equivalent context-free grammar $G'$ in any of the aforementioned Greibach normal forms.
+
+A context-free grammar $G = (V_N, V_T, S, P)$ is in \index{normal form!operator}\emph{operator normal form} if no right member of a production contains two consecutive nonterminals. This normal form has been introduced for purposes from syntactical analysis. For these grammars, an operator precedence can be defined which is inspired by the classical precedence relations of usual arithmetic operators.
+
+Again, given a context-free grammar $G$, an equivalent context-free grammar $G'$ in operator normal form can effectively be constructed.
+
+\subsection{Pushdown Machines}
+\label{subsection:pushdown-machines}
+
+In this section, we focus on the accepting device for context-free languages, namely \index{pushdown automaton}pushdown automaton with the important subclass induced by determinism.
+
+A \index{pushdown machine}\emph{pushdown machine} over $\Sigma$ (a \index{$\pdm$}$\pdm$ for short) is a quadruple $M = (Q, \Sigma, Z, T)$, where
+
+\begin{enumerate}[]
+\item $Q$ is the finite set of \emph{states},
+\item $\Sigma$ is the \emph{input alphabet},
+\item $Z$ is the \emph{stack alphabet},
+\item $T$ is a finite subset of $(\Sigma \cup \{\lambda\}) \times Q \times Z \times Z^* \times Q$, called the set of \emph{transition rules}.
+\end{enumerate}
+
+An element $(y, q, z, h, q')$ of $T$ is a \index{rule}\emph{rule}, and if $y = \lambda$, it is called a \index{rule!$\lambda$-rule}\emph{$\lambda$-rule}. The first three components are viewed as preconditions in the behavior of a \index{$\pdm$}$\pdm$ (and therefore the last two components are viewed as postconditions). $T$ is often seen as a function from $(\Sigma \cup \{\lambda\}) \times Q \times Z$ into the subsets of $Z^* \times Q$, and we use $(h, q') \in T(y, q, z)$ as the equivalent for $(y, q, z, h, q') \in T$.
+
+A pushdown machine is \index{pushdown machine!realtime}\emph{realtime} if $T$ is a finite subset of $\Sigma \times Q \times Z \times Z^* \times Q$, i.e. if there is no $\lambda$-rule. A realtime \index{$\pdm$}$\pdm$ is \index{pushdown machine!simple}\emph{simple}, if it has only one state. In this case, the state giving no information, it is omitted, and $T$ is a subset of $A \times Z \times Z^*$.
+
+An \index{configuration!internal}\emph{internal configuration} of a \index{$\pdm$}$\pdm$ $M$ is a couple $(q, h) \in Q \times Z^*$, where $q$ is the current state, and $h$ is the string over $Z^*$ composed of the symbols in the stack, the first letter of $h$ being the bottom-most symbol of the stack. A \index{configuration}\emph{configuration} is a triple $(x, q, h) \in \Sigma^* \times Q \times Z^*$, where $x$ is the input word to be read, and $(q, h)$ is an internal configuration.
+
+The \index{transition!relation}\emph{transition relation} is a relation over configurations defined in the following way: let $c = (yg, q, wz)$ and $c' = (g, q', wh)$ be two configurations, where $y \in (\Sigma \cup \{\lambda\})$, $g \in \Sigma^*$, $q, q' \in Q$, $z \in Z$, and $w, h \in Z^*$. There is a \index{transition}\emph{transition} between $c$ and $c'$, and we note $c \mapsto c'$, if $(y, q, z, h, q') \in T$. If $y = \lambda$, the transition is called a \index{transition!$\lambda$-transition}$\lambda$-transition, and if $y \in \Sigma$, the transition  is said to involve the reading of a letter. A \index{computation!valid}\emph{valid computation} is an element of the reflexive and transitive closure of the transition relation, and we note $c \mapsto^* c'$ a valid computation from $c$ and leading to $c'$. A convenient notation is to introduce, for any word $x \in \Sigma^*$, the relation on internal configurations, denoted $\xrightarrow{x}$, and defined by: $$(q, w) \xrightarrow{x} (q', w') \Leftrightarrow (x, q, w) \mapsto^* (\lambda, q', w').$$ We clearly have: $\xrightarrow{x} \circ \xrightarrow{y}\ =\ \xrightarrow{xy}$.
+
+An internal configuration $(q', w')$ is \index{configuration!internal!accessible}\emph{accessible} from an internal configuration $(q, w)$, or equivalently, $(q, w)$ is \index{configuration!internal!co-accessible}\emph{co-accessible} from $(q', w')$ if there is some $x \in \Sigma^*$ such that $(q, w) \xrightarrow{x} (q', w')$.
+
+A rule $(y, q, z, h, q') \in T$ is an \index{rule!increasing}increasing rule (respectively a \index{rule!stationary}stationary, respectively a \index{rule!decreasing}decreasing rule) if $|h| > 1$ (respectively $|h| = 1$, respectively $|h| < 1$). The use of an increasing rule (respectively a stationary, respectively a decreasing rule) in a \index{computation}computation increases (respectively leaves unchanged, respectively decreases) the number of symbols in the stack. A \index{$\pdm$}$\pdm$ is in \index{$\pdm$!quadratic form}\emph{quadratic form} if for all rules $(y, q, z, h, q') \in T$, we have: $|h| \le 2$.
+
+A \index{$\pdm$}$\pdm$ is used as a device for recognizing words by specifying \index{configuration!starting}starting configurations and \index{configuration!accepting}accepting configurations. The convention is that there is only one starting internal configuration $i = (q, z)$, where the state $q$ is the initial state, and the letter $z$ is the initial stack symbol. The sets of internal accepting configurations usually considered are:
+
+\begin{enumerate}
+\item the set $F \times Z^*$ where $F$ is a subset of $Q$, called the set of \index{state!accepting}\emph{accepting states},
+\item the set $Q \times \{\lambda\}$,
+\item the set $F \times \{\lambda\}$ where $F$ is a subset of $Q$,
+\item the set $Q \times Z^* Z'$ where $Z'$ is a subset of $Z$.
+\end{enumerate}
+
+We call each of these cases a \index{mode of acceptance}\emph{mode of acceptance}.
+
+A \index{pushdown automaton}\emph{pushdown automaton} over $\Sigma$ (a \index{$\pda$}$\pda$ for short) is composed of a pushdown machine $(Q, \Sigma, Z, T)$, together with an  \index{configuration!internal!initial} \emph{initial internal configuration} $i$, and a set $K$ of \index{configuration!internal!accepting}\emph{internal accepting configurations}. It is so a $6$-tuple $A = (Q, \Sigma, Z, i, K, T)$, and $(Q, \Sigma, Z, T)$ is called the \index{$\pdm$}\emph{$\pdm$ associated} to $A$.
+
+A word $x \in \Sigma^*$ is \emph{recognized} by a \index{$\pda$}$\pda$ $A = (Q, \Sigma, Z, i, K ,T)$ over $\Sigma$ with a specified \index{mode of acceptance} mode of acceptance if there is $k \in K$ such that $i \xrightarrow{x} k$. Considering  the modes of acceptance defined above, in the first case the word is said to be recognized by \index{language recognized by!accepting states} \emph{accepting states $F$}, in the second case the word is said to be recognized by \index{language recognized by!empty storage}\emph{empty storage}, in the third case the word is said to be recognized by \emph{empty storage and accepting states $F$}, and in the last case the word is said to be recognized by \emph{topmost stack symbols $Z'$}. The \emph{language accepted} by a \index{$\pda$}$\pda$ with a given mode of acceptance is the set of all words recognized by the \index{$\pda$}$\pda$ with this mode. For any $\pda$ $A = (Q, \Sigma, Z, i, K, T)$, we note $L(A)$ the language recognized by $A$, and for any set of internal accepting configurations $K'$, we note $L(A, K')$ the language recognized by the \index{$\pda$}$\pda$ $A' = (Q, \Sigma, Z, i, K', T)$.
+
+In general, for a given \index{$\pda$}$\pda$, changing the mode of acceptance changes the languages recognized. Nevertheless, the family of languages that are recognized by \index{$\pda$}$\pda$'s, using any of these modes remains the same. 
+%This can be proved easily using a useful, though technical, transformation of a 
+%$\pda$ adding it the bottom symbol testing ability. A $\pda$ \index{bottom testing}
+%\emph{admits bottom testing} if there is a partition of the stack alphabet $Z$ in 
+%$B \cup B'$ such that for any accessible configuration $(q, w)$, the word $w$ 
+%is in $B B'^*$.
+Moreover, the family of languages recognized by \index{$\pda$}$\pda$'s using any of the aforementioned modes of acceptance is exactly the family of \index{language!context-free}context-free languages.
+
+The characterization of context-free languages in terms of languages recognized by \index{$\pda$}$\pda$'s allows much simpler proofs of certain properties of context-free languages.
+
+A pushdown automaton is \index{pushdown automaton!realtime}\emph{realtime} \index{pushdown automaton!simple}(\emph{simple}, respectively) if the associated \index{$\pdm$}$\pdm$ is realtime (simple, respectively).
+
+The fact that any proper context-free language can be generated by a context-free grammar in Greibach normal form implies that realtime \index{$\pda$}$\pda$'s, and even simple \index{$\pda$}$\pda$'s, recognize exactly proper context-free languages.
+
+A \index{$\pdm$}$\pdm$ $M = (Q, \Sigma, Z, T)$ is \index{pushdown machine!deterministic}\emph{deterministic} if the set $T$ of transitions satisfies the following conditions for all $(y, q, z) \in (\Sigma \cup \{\lambda\}) \times Q \times Z$:
+
+\begin{enumerate}
+\item $|T(y, q, z)| \le 1$
+\item $T(\lambda, q, z) \neq \emptyset \Rightarrow \forall a \in \Sigma: T(a, q, z) = \emptyset$
+\end{enumerate}
+
+A \index{pushdown automaton!deterministic}\emph{deterministic $\pda$} \index{$\dpda$}($\dpda$ for short) is a $\pda$ with a deterministic associated \index{$\pdm$}$\pdm$.
+
+It is possible to prove that the family of languages recognized by $\dpda$'s by \index{language recognized  by!empty storage}empty storage is the same as the family of languages recognized by $\dpda$'s by empty storage and \index{language recognized by!accepting states}accepting states, and that this family is included in the family of languages recognized by $\dpda$'s by accepting states. On the other hand, it is easy to verify that a language recognized by empty storage by $\dpda$ is prefix, i.e. no proper prefix of a word of this language belongs to this language. So, we are left with two families of languages: the family of languages recognized by accepting states, called the family of \index{language!context-free!deterministic}\emph{deterministic languages} \index{$\DCFL$}($\DCFL$), and the family of languages recognized by empty storage, called the family of \index{language!context-free!deterministic-prefix} \emph{deterministic-prefix languages}. It is easy to check that the family of deterministic-prefix languages is exactly the family of deterministic languages that are prefix languages.
+
+The two families are distinct. As an example, the language $L_1 = \{a^n b^p \mid p > n > 0\}$ is deterministic but not prefix. To avoid these problems, a usual trickis to consider languages with an end marker: indeed, $L \sharp$ is a prefix language which is deterministic if and only if $L$ is deterministic.
+
+For any $\dpda$ it is possible to construct a $\dpda$ recognizing the same language such that an accepting state cannot be on the left side of an $\lambda$-rule. Consequently, in such a $\dpda$, for any recognized word, there is only one successful \index{computation}computation. This proves that deterministic languages are \index{language!unambiguous}unambiguous. Moreover, the family of deterministic languages is closed under complementation. This property does not hold for the family of context-free languages.
+
+\subsection{Subfamilies}
+\label{subsection:context-free-subfamilies}
+
+We present here some subfamilies of the family of context-free languages. We begin with the probably most classical one, namely the family of \index{language!linear}linear languages. The simplest way to define the family of linear languages is by grammars. A context-free grammar $G = (V_N, V_T, S, P)$ is:
+
+\begin{enumerate}[]
+\item \index{grammar!linear}\emph{linear}, if each production $X \to v \in P$ has $v \in V_T^* \cup V_T^* V_N V_T^*$,
+\item \index{grammar!right-linear}\emph{right-linear}, if each production $X \to v \in P$ has $v \in V_T^* \cup V_T^* V_N$,
+\item \index{grammar!left-linear}\emph{left-linear}, if each production $X \to v \in P$ has $v \in V_T^* \cup V_N V_T^*$,
+\item \index{grammar!regular}\emph{regular}, if each production $X \to v \in P$ has $v \in V_T \cup V_T V_N \cup \{\lambda\}$.
+\end{enumerate}
+
+The family of languages generated by right- or by left-linear grammars are equal and equal to the family of languages generated by regular grammars, which is exactly the family of \index{language!regular}regular languages.
+
+However, the family of regular languages is strictly included in the family of linear languages, denoted by \index{$\Lin$}$\Lin$.
+
+Let $\Delta = \{a^n b^n \mid n \ge 0\}$. The language $\Delta$ is linear, but not regular. Moreover, the language $\Delta \Delta$ is context-free but not linear. Thus, the family of linear languages is a proper subfamily of the family of context-free languages. 
+%The proof leads to a specific pumping lemma for linear languages:
+%
+%\index{pumping lemma!linear language}
+%\begin{lemma}
+%Let $L$ be a linear language over $\Sigma$. Then there exists a 
+%natural number $n$ such that any word $z$ in $L$ of length at least $n$
+%admits a factorization $z = u v w x y$ satisfying
+%\begin{enumerate}
+%\item $|uvxy| \le n$,
+%\item $v \neq \lambda$ or $x \neq \lambda$,
+%\item $u v^i w x^i y \in L$ for all $i \ge 0$.
+%\end{enumerate}
+%\end{lemma}
+
+The linear languages can be characterized also by pushdown automata. Given a \index{computation}computation of \index{$\pda$}$\pda$ A, a \emph{turn} in the computation is a move that decreases the height of the pushdown store and is preceded by a move that has not decreased it. A \index{$\pda$}$\pda$ $A$ is said to be \index{pushdown automaton!one-turn} \emph{one-turn} if in any computation, there is at most one turn. It can be shown that a language is linear if and only if it is recognized by a one-turn $\pda$. This characterization can further be generalized to \index{pushdown automaton!finite-turn} finite-turn \index{$\pda$}$\pda$'s and languages.
+
+Next we present the family of \index{language!one-counter}one-counter languages. It is defined through \index{$\pda$}$\pda$'s. A \index{$\pda$}$\pda$ is \index{pushdown automaton!one-counter}\emph{one-counter} if the stack alphabet contains only one letter. A \index{language!context-free}context-free language is a \index{language!one-counter}\emph{one-counter language} if it is recognized by a one-counter \index{$\pda$}$\pda$ by empty storage and accepting states.
+
+We denote by \index{$\Ocl$}$\Ocl$ this family of languages. The terminology used here comes from the fact that, as soon as the stack alphabet is reduced to a single letter, the stack can be viewed a counter.
+
+However, it is worth noticing that, contrarily to the case of linear languages, one-counter languages do not enjoy other characterizations through grammars as linear languages did.
+
+We now turn to another subfamily of the family of context-free languages. Consider an alphabet $\Sigma$ containing two particular letters $a$ and $\bar{a}$. A context-free grammar over the terminal alphabet $\Sigma$ is \index{grammar!parenthetic}\emph{parenthetic} if each rule of the grammar has the following form $X \to a \alpha \bar{a}$ with $\alpha$ containing neither the letter $a$ nor the letter $\bar{a}$. As usual, a language is said to be \index{language!parenthetic}\emph{parenthetic} if it is generated by some parenthetic grammar. In the particular case where the alphabet $\Sigma$ does not contain any other letters than the two special ones $a$ and $\bar{a}$, we speak of \emph{pure parenthetic} \index{grammar!pure parenthetic}grammar or \index{language!pure parenthetic}language.
+
+Clearly, any pure parenthetic language over $\Sigma = \{a, \bar{a}\}$ is included in the \index{Dyck language}Dyck language $D_1^*$. However, it should be noted that $D_1^*$ is not (purely) parenthetic.
+
+A context-free grammar $G = (V_N, V_T, S, P)$ is  \index{grammar!simple}\emph{simple} if it is in  Greibach normal form and if, for each pair $(X, a) \in V_N \times V_T$, there is at most one rule of the form $X \to am$. As usual, a \index{language!simple}language is \emph{simple} if it can be generated by a simple grammar. It is easy to check that any simple language is deterministic, and that there do exist deterministic languages which are not simple. The simple languages are exactly the languages recognized by \index{pushdown automaton!simple} simple deterministic \index{$\pda$}$\pda$'s as defined in Section \ref{subsection:pushdown-machines}. Moreover, this family of languages enjoys nice properties. For instance, any simple language is prefix, and the family of simple languages generates a free monoid.
+
+A context-free grammar is \index{grammar!very simple}\emph{very simple} if it is simple and for any terminal letter $a$ there is at most one rule of the form $X \to am$. Clearly, any very simple language is simple. The converse is not true.
+
+We end this survey of various classical subfamilies of the family of context-free languages by briefly presenting the two most usual subfamilies appearing in syntactical analysis.
+
+A context-free grammar $G = (V_N, V_T, S, P)$ is a \index{$\LL(k)$}$\LL(k)$-grammar if
+
+\begin{enumerate}[]
+\item $S \Rightarrow^*_{\text{left}} u X m \Rightarrow_G u \alpha m \Rightarrow^*_{\text{left}} uv$,
+\item $S \Rightarrow^*_{\text{left}} u X m' \Rightarrow_G u \alpha' m' \Rightarrow^*_{\text{left}} uv'$,
+\item $\Pref_k(v) = \Pref_k(v')$,
+\end{enumerate}
+
+\noindent imply $\alpha = \alpha'$, where $u, v, v' \in V_T^*$, $X \in V_N$, and $\Rightarrow_{\text{left}}$ denotes the relation of the leftmost derivation of $G$, and $\Rightarrow^*_{\text{left}}$ its reflexive and transitive closure.
+
+A language is a \emph{$\LL(k)$-language} if it can be generated by a $\LL(k)$-grammar. It is a \emph{$\LL$-language} if it is a $\LL(k)$-language for some $k$. The idea is that given a terminal word $uv$ and a leftmost derivation from $S$ into $uXm$, the first $k$ letters of $v$ allow to determine what is the next rule to be used in the derivation. It follows clearly from this remark that any $\LL$-language is deterministic. More precisely, the families of $\LL(k)$-languages form a hierarchy. Their infinite union is a strict subfamily of the family of deterministic languages.
+
+Using rightmost derivations instead of leftmost derivations leads to define the $\LR$-grammars.
+
+A context-free grammar $G = (V_N, V_T, S, P)$ is a \index{$\LR(k)$}$\LR(k)$-grammar if
+
+\begin{enumerate}[]
+\item $S \Rightarrow^*_{\text{right}} m X u \Rightarrow_G m \alpha u = pv$,
+\item $S \Rightarrow^*_{\text{right}} m' X' u' \Rightarrow_G m' \alpha' u' = pv'$,
+\item $\Pref_k(v) = \Pref_k(v')$,
+\end{enumerate}
+
+\noindent imply $X = X'$ and $\alpha = \alpha'$, where $u, u' \in V_T^*$, $p \in (V_N \cup V_T)^* V_N$, and $\Rightarrow_{\text{right}}$ denotes the relation of the rightmost derivation of $G$, and $\Rightarrow^*_{\text{right}}$ its reflexive and transitive closure.
+
+Again, a language is a \emph{$\LR(k)$-language} if it generated by a $\LR(k)$-grammar. It is a \emph{$\LR$-language} if it is a $\LR(k)$-language for some $k$. The idea is the following: given $pv$ where $v$ is the longest terminal suffix, the first $k$ letters of $v$ allows to determine the rule that has been applied just before getting $pv$. This remark implies that any $\LR(k)$-language is deterministic. However, the family of $\LR(1)$-languages is exactly the family of deterministic context-free languages. So the $\LR(k)$-condition does not give raise to an infinite hierarchy.
+
+\section{Chomsky Hierarchy}
+\label{section:chomsky-hierarchy}
+
+\subsection{Context-Sensitive Languages}
+
+\subsection{Growing Context-Sensitive Languages}
+
+\subsection{Recursively Enumerable Languages}
+
+\section{Restarting Automata}
+\label{section:restarting-automata}
+
+The material for this section will be covered by \cite{O06}.
+
+\subsection{General Overview}
+
+\subsection{Types}
+
+\section{String-Rewriting Systems}
+\label{section:string-rewriting-systems}
+
+The material for this section will be covered by \cite{bookOtto93}.
+
+\subsection{McNaughton Families of Languages}
+
+The material for this sub-section will be covered by \cite{Beaudry2003}.
+
+\section{Delimited String-Rewriting Systems}
+\label{section:delimited-string-rewriting-systems}
+
+The material for this section will be covered by \cite{delaHiguera2010, Eyraud2007}.
+
+\subsection{LARS}
+
+\section{Context Rewriting Systems}
+\label{section:context-rewriting-systems}
+
+\section{Other Models}
+\label{section:other-models}
+
+The material for this section will be covered by \cite{C10Diploma}.
+
+\subsection{Marcus Contextual Grammars}
+
+\subsection{Pure Grammars}
+
+\subsection{Church-Rosser String-Rewriting Systems}
+
+\subsection{Two-Pushdown Automata}
+
+The material for this subsection will be covered by \cite{NO98}.

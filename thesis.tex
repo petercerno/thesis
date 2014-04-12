@@ -1,0 +1,321 @@
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
+
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+%\documentclass[12pt,a4paper]{report}
+%\setlength\textwidth{145mm}
+%\setlength\textheight{247mm}
+%\setlength\oddsidemargin{15mm}
+%\setlength\evensidemargin{15mm}
+%\setlength\topmargin{0mm}
+%\setlength\headsep{0mm}
+%\setlength\headheight{0mm}
+%% \openright zařídí, aby následující text začínal na pravé straně knihy
+%\let\openright=\clearpage
+
+% Pokud tiskneme oboustranně:
+\documentclass[12pt,a4paper,twoside,openright,natbib]{book}
+
+\pagestyle{headings}
+\pagestyle{plain}
+
+\frenchspacing
+
+\input{layout}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%% Ostatní balíčky
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% POZOR, nezapomeňte vyplnit jméno práce a autora.
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+
+% insert here the call for the packages your document requires
+\usepackage{amsthm}
+\usepackage{amssymb, amsmath}
+\usepackage{setspace}
+\usepackage{xspace}
+\usepackage{wasysym}
+
+\usepackage{index}
+\usepackage{enumerate}
+
+\usepackage[square,sort,comma,numbers]{natbib}
+%\usepackage{natbib}
+
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=true,
+    unicode=true,
+    pdftoolbar=true,
+    pdfmenubar=true,
+    pdffitwindow=false,
+    pdfstartview={FitH},
+    pdftitle={Restricted Restarting Automata},
+    pdfauthor={Peter Černo},
+    pdfkeywords={analysis by reduction, grammatical inference, restarting automata, string-rewriting systems},
+    pdfnewwindow=true,
+    colorlinks=false,
+    linkcolor=red,
+    citecolor=green,
+    filecolor=magenta,
+    urlcolor=cyan
+}
+\usepackage[all]{hypcap}
+
+\hypersetup{pdftitle=Restricted Restarting Automata}
+\hypersetup{pdfauthor=Peter Černo}
+
+\input{commands}
+\input{environment}
+
+%%% Drobné úpravy stylu
+
+% Tato makra přesvědčují mírně ošklivým trikem LaTeX, aby hlavičky kapitol
+% sázel příčetněji a nevynechával nad nimi spoustu místa. Směle ignorujte.
+\makeatletter
+\def\@makechapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+   \Huge\bfseries \thechapter. #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\def\@makeschapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+   \Huge\bfseries #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\makeatother
+
+% Toto makro definuje kapitolu, která není očíslovaná, ale je uvedena v obsahu.
+\def\chapwithtoc#1{
+\chapter*{#1}
+\addcontentsline{toc}{chapter}{#1}
+}
+
+\newindex{default}{idx}{ind}{Index}
+
+\frontmatter
+
+\begin{document}
+
+% Trochu volnější nastavení dělení slov, než je default.
+\lefthyphenmin=2
+\righthyphenmin=2
+
+%%% Titulní strana práce
+
+\pagestyle{empty}
+\begin{center}
+
+\large
+
+Charles University in Prague
+
+\medskip
+
+Faculty of Mathematics and Physics
+
+\vfill
+
+{\bf\Large DOCTORAL THESIS}
+
+\vfill
+
+\centerline{\mbox{\includegraphics[width=60mm]{img/logo.eps}}}
+
+\vfill
+\vspace{5mm}
+
+{\LARGE Peter Černo}
+
+\vspace{15mm}
+
+% Název práce přesně podle zadání
+{\LARGE\bfseries Restricted Restarting Automata}
+
+\vfill
+
+% Název katedry nebo ústavu, kde byla práce oficiálně zadána
+% (dle Organizační struktury MFF UK)
+Department of Software and Computer Science Education
+
+\vfill
+
+\begin{tabular}{rl}
+
+Supervisor of the doctoral thesis: & František Mráz \\
+\noalign{\vspace{2mm}}
+Study programme: & Informatics \\
+\noalign{\vspace{2mm}}
+Specialization: & Theoretical Informatics (4I1) \\
+\end{tabular}
+
+\vfill
+
+% Zde doplňte rok
+Prague 2014
+
+\end{center}
+
+\newpage
+
+%%% Na tomto místě mohou být napsána případná poděkování (vedoucímu práce,
+%%% konzultantovi, tomu, kdo zapůjčil software, literaturu apod.)
+
+\openright
+
+\noindent
+First of all, I would like to thank my advisor, RNDr. František Mráz CSc., for his time and generous support during my PhD studies. František Mráz also helped me with obtaining the grant from the Grant Agency of Charles University. The research presented in this thesis was supported by the Grant Agency of Charles University under Grant-No. 272111/A-INF/MFF and by the Czech Science Foundation under Grant-No. P103/10/0783 and Grant-No. P202/10/1333.
+
+Special thanks belong to my research advisor Prof. Dr. Friedrich Otto who influenced me in many ways and whose discussions with me and my advisor often led to many new ideas and insights partially reflected in this thesis.
+
+Additionally, I would like to thank Martin Plátek CSc. for extra financial support of my research.
+
+During my studies, I could spend some time at the University of Kassel in Kassel, Germany. For this I would like to thank Prof. Dr. Friedrich Otto who invited me to his group and to my advisor who negotiated this stay. The chapter on grammatical inference was based on ideas developed during this internship.
+
+I also thank all members and PhD students at our department who created such friendly and pleasant atmosphere and also our secretary Blanka Herrmann who provided me with the administrative support.
+
+Finally, I would like to thank my family, my friends and my girlfriend for their love and support during my PhD studies. Your patience and encouragement made this thesis possible. I affectionately dedicate this thesis to you.
+
+\newpage
+
+%%% Strana s čestným prohlášením k disertační práci
+
+\vglue 0pt plus 1fill
+
+\noindent
+I declare that I carried out this doctoral thesis independently, and only with the cited sources, literature and other professional sources.
+
+\medskip\noindent
+I understand that my work relates to the rights and obligations under the Act No. 121/2000 Coll., the Copyright Act, as amended, in particular the fact that the Charles University in Prague has the right to conclude a license agreement on the use of this work as a school work pursuant to Section 60 paragraph 1 of the Copyright Act.
+
+\vspace{10mm}
+
+\hbox{\hbox to 0.5\hsize{%
+In ........ date ............
+\hss}\hbox to 0.5\hsize{%
+signature of the author
+\hss}}
+
+\vspace{20mm}
+\newpage
+
+%%% Povinná informační strana disertační práce
+
+\vbox to 0.5\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+Název práce:
+Restricted Restarting Automata
+% přesně dle zadání
+
+Autor:
+Peter Černo
+
+Katedra:  % Případně Ústav:
+Kabinet software a výuky informatiky
+% dle Organizační struktury MFF UK
+
+Vedoucí disertační práce:
+RNDr. František Mráz, CSc., Kabinet software a výuky informatiky
+% dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF UK
+
+Abstrakt:
+Restartovací automaty byly navrženy jako model pro redukční analýzu, která představuje lingvisticky motivovanou metodu pro kontrolu korektnosti věty. Cílem dizertační práce je prozkoumat lokálně omezené modely restartovacích automatů, které (na rozdíl od obecných restartovacích automatů) smí upravovat obsah vstupní pásky jenom na základě lokálně omezeného kontextu. Studium takových omezených modelů se ukazuje jako jednodušší než studium obecných restartovacích automatů. Navíc se tyhle modely efektivně učí z pozitivních příkladů redukcí a jejich instrukce jsou srozumitelné i pro člověka.
+
+Klíčová slova:
+% 3 až 5 klíčových slov
+gramatická inference, přepisovací systémy, redukční analýza, retartovací automaty.
+
+\vss}\nobreak\vbox to 0.49\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+Title:
+Restricted Restarting Automata
+% přesný překlad názvu práce v angličtině
+
+Author:
+Peter Černo
+
+Department:
+Department of Software and Computer Science Education
+% dle Organizační struktury MFF UK v angličtině
+
+Supervisor:
+RNDr. František Mráz, CSc., Department of Software and Computer Science Education
+% dle Organizační struktury MFF UK, případně plný název pracoviště
+% mimo MFF UK v angličtině
+
+Abstract:
+Restarting automata were introduced as a model for analysis by reduction which is a linguistically motivated method for checking correctness of a sentence. The goal of the thesis is to study locally restricted models of restarting automata which (to the contrary of general restarting automata) can modify the input tape based only on a limited context. The investigation of such restricted models is easier than in the case of general restarting automata. Moreover, these models are effectively learnable from positive samples of reductions and their instructions are human readable.
+
+Keywords:
+% 3 až 5 klíčových slov v angličtině
+analysis by reduction, grammatical inference, restarting automata, 
+string-rewriting systems.
+
+\vss}
+
+\newpage
+
+%%% Strana s automaticky generovaným obsahem disertační práce. U matematických
+%%% prací je přípustné, aby seznam tabulek a zkratek, existují-li, byl umístěn
+%%% na začátku práce, místo na jejím konci.
+
+\openright
+\pagestyle{plain}
+\setcounter{page}{1}
+\tableofcontents
+
+\mainmatter
+
+\input{index-ref}
+
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+\include{preface}
+\include{chap_background}
+\include{chap_crs_nonaux}
+\include{chap_crs_aux}
+
+\backmatter
+
+% Ukázka použití některých konstrukcí LateXu (odkomentujte, chcete-li)
+%\include{example}
+
+\include{epilog}
+
+%%% Seznam použité literatury	
+\def\bibname{Bibliography}
+%\bibliographystyle{plain}
+\bibliographystyle{these}
+\bibliography{bibliography}
+\addcontentsline{toc}{chapter}{\bibname}
+
+%%% Obrazky v disertační práci, existují-li.
+\chapwithtoc{List of Figures}
+
+%%% Tabulky v disertační práci, existují-li.
+\chapwithtoc{List of Tables}
+
+%%% Použité zkratky v disertační práci, existují-li, včetně jejich vysvětlení.
+\chapwithtoc{List of Abbreviations}
+
+%%% Přílohy k disertační práci, existují-li (různé dodatky jako výpisy programů,
+%%% diagramy apod.). Každá příloha musí být alespoň jednou odkazována z vlastního
+%%% textu práce. Přílohy se číslují.
+\chapwithtoc{Attachments}
+
+\vspace{12pt}
+
+\printindex
+
+\openright
+\end{document}
