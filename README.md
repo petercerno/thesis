@@ -5,8 +5,8 @@ PhD Thesis
 Restricted Restarting Automata
 ------------------------------
 
-[Charles University in Prague][1]
-[Faculty of Mathematics and Physics][2]
+[Charles University in Prague][1], 
+[Faculty of Mathematics and Physics][2], 
 [Department of Software and Computer Science Education][3]
 
 * Author: [Peter Černo][4]

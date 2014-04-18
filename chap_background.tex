@@ -27,6 +27,8 @@ Observe that $u$ itself and $\lambda$ are subwords, prefixes and suffixes of $u$
 
 \index{$\Pref_k(u)$}$\Pref_k(u)$ denotes either the (nontrivial) \index{prefix}prefix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. Similarly, \index{$\Suff_k(u)$}$\Suff_k(u)$ denotes either the (nontrivial) \index{suffix}suffix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. The set of all subwords of length $k$ of $u$ that occur in $u$ in a position other than the prefix or suffix is denoted \index{$\Int_k(u)$}$\Int_k(u)$ \index{interior words}(interior words).
 
+The \index{shuffle}\emph{shuffle} operation between words, denoted $\shuffle$, is defined recursively by $$(au \shuffle bv) = a(u \shuffle bv) \cup b(au \shuffle v),$$ and $$(u \shuffle \lambda) = (\lambda \shuffle u) = \{u\},$$ where $u, v \in \Sigma^*$ and $a, b \in \Sigma$. Obviously, $$(u \shuffle v) = \{x_1 y_1 \ldots x_n y_n \mid u = x_1 \ldots x_n, v = y_1 \ldots y_n, n \ge 1\}.$$
+
 We now proceed from words to languages. Subsets, finite or infinite, of $\Sigma^*$ are referred to as (\emph{formal}) \index{language}\emph{languages} over $\Sigma$. Thus $L_1 = \{\lambda, 0, 111, 1001\}$ and $L_2 = \{0^p \mid p \ \text{is a prime}\}$ are languages over the \index{alphabet!binary}\emph{binary alphabet} $\{0, 1\}$. A \index{language!finite}finite language can always, at least in principle, be defined as $L_1$ above: by listing all of its words. Such a procedure is not possible for \index{language!infinite}infinite languages. Some finitary specification other than simple listing is needed to define an infinite language. 
 
 In formal language theory in general, there are two major types of mechanisms for defining languages: \index{acceptor}\emph{acceptors} and \index{generator}\emph{generators}. Acceptors are usually defined in terms of \index{automaton}\emph{automata}, which work as follows: they are given an input word and after some processing they either accept or reject this input word. For instance, the so-called \index{finite automaton}\emph{finite automata} consist of a finite set of internal states and a set of rules that govern the change of the current state when reading a given input symbol. The finite automaton reads a given input word from left to right starting in a specific \index{state!starting}\emph{starting state}. After reading the input word it accepts only if it ends in one of its \index{state!accepting}\emph{accepting states}, otherwise it rejects. Finite automata recognize the family of \index{language!regular}\emph{regular languages}, which plays a central role in the whole formal language theory (see Section \ref{section:regular-languages}).
@@ -40,6 +42,9 @@ The notation $L^i$ is extended to concern languages, now $L^0 = \{\lambda\}$. Th
 For each $x \in \Sigma^*$, the \index{left-derivate}\emph{left-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set $$\delta_x(L) = x \backslash L = \{y \in \Sigma^* \mid xy \in L\},$$ and for a language $L_0 \subseteq \Sigma^*$, the \index{left-quotient}\emph{left-quotient} of $L$ by $L_0$ is the set $$L_0 \backslash L = \bigcup_{x \in L_0} x \backslash L = \{y \in \Sigma^* \mid xy \in L, x \in L_0\}.$$ Similarly, the \index{right-derivate}\emph{right-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set $$\delta^x(L) = L / x = \{y \in \Sigma^* \mid yx \in L\},$$ and the \index{right-quotient}\emph{right-quotient} of $L$ by a language $L_0 \subseteq \Sigma^*$ is $$L / L_0 = \bigcup_{x \in L_0} L / x = \{y \in \Sigma^* \mid yx \in L, x \in L_0\}.$$
 
 It is clear by the above definition that $$(L_1 \backslash L) \cup (L_2 \backslash L) = (L_1 \cup L_2) \backslash L$$ for any $L_1, L_2 \subseteq \Sigma^*$. Similar equality holds for right-quotient of languages.
+
+Also the \index{shuffle}shuffle operation is extended in the natural to languages:
+$$(L_1 \shuffle L_2) = \bigcup_{u \in L_1, v \in L_2}(u \shuffle v).$$
 
 The operations of union, catenation, and Kleene star are referred as \index{operation!regular}\emph{regular} operations. A language $L$ over $\Sigma$ is termed \index{language!regular}\emph{regular} if $L$ can be obtained from the \index{language!atomic}``atomic'' languages $\emptyset$ (the \index{language!empty} empty language) and $\{a\}$, where $a$ is a letter of $\Sigma$, by applying regular operations finitely many times. By applying union and catenation, we obviously get all \index{language!finite}finite languages \index{$\Fin$}($\Fin$). The star operation is needed to produce \index{language!infinite}infinite languages. In fact, for any $k$, there are regular languages that cannot be represented with fewer than $k$ nested star operations. When we speak of the \emph{family} of regular languages, we mean all languages that are regular over some $\Sigma$, that is, the alphabet may vary from language to language. The family of regular languages has many desirable formal properties. It is closed under most of the usual operations for languages, in particular, under all Boolean operations.
 
@@ -442,29 +447,430 @@ Again, a language is a \emph{$\LR(k)$-language} if it generated by a $\LR(k)$-gr
 \section{Chomsky Hierarchy}
 \label{section:chomsky-hierarchy}
 
-\subsection{Context-Sensitive Languages}
+In this Section we present classical \index{Chomsky hierarchy}\emph{Chomsky hierarchy} of grammars and languages:
 
-\subsection{Growing Context-Sensitive Languages}
+\begin{enumerate}
+\item \index{grammar!phrase-structure}\emph{phrase-structure} or \index{language!type $0$}\index{grammar!type $0$}\emph{type $0$},
+\item \index{language!context-sensitive}\index{grammar!context-sensitive}\emph{context-sensitive} or \index{language!type $1$}\index{grammar!type $1$}\emph{type $1$},
+\item \index{language!context-free}\index{grammar!context-free}\emph{context-free} or \index{language!type $2$}\index{grammar!type $2$}\emph{type $2$},
+\item \index{language!regular}\index{grammar!regular}\emph{regular} or \index{language!type $3$}\index{grammar!type $3$}\emph{type $3$}.
+\end{enumerate}
 
-\subsection{Recursively Enumerable Languages}
+The phrase-structure, context-sensitive, context-free, and regular grammars are also called type $0$, type $1$, type $2$, and type $3$ grammars, respectively. The families of languages they generate are denoted by 
+\index{$\mathcal{L}_0$}$\mathcal{L}_0$ (or \index{$\RE$}$\RE$),
+\index{$\mathcal{L}_1$}$\mathcal{L}_1$ (or \index{$\CSL$}$\CSL$), 
+\index{$\mathcal{L}_2$}$\mathcal{L}_2$ (or \index{$\CFL$}$\CFL$), and 
+\index{$\mathcal{L}_3$}$\mathcal{L}_4$ (or \index{$\Reg$}$\Reg$), respectively.
+The following strict inclusions hold: $$\Reg \subset \Lin \subset \CFL \subset \CSL \subset \RE.$$
+
+Type $0$ grammars and languages are equivalent to \emph{computability}: what is in principle computable. Thus, their importance is beyond any question. The same or almost the same can be said about regular grammars and languages. They correspond to strictly finitary computing devices. The remaining two classes lie in-between.
+
+The class of context-sensitive languages has turned out to be of smaller importance than the other classes. The particular type of context-sensitivity combined with linear work-space is perhaps not the essential type, it has been replaced by various complexity hierarchies.
+
+The Chomsky hierarchy still constitutes a testing ground often used: new classes are compared with those in the Chomsky hierarchy. However, it is not any more the only testing ground in the language theory.
+
+In Section \ref{subsection:phrase-structure-grammars} we introduce \index{grammar!phrase-structure}phrase-structure grammars and formulate the relation between languages generated by these grammars and \index{language!recursively enumerable} recursively enumerable languages. In Section \ref{subsection:context-sensitive-grammars} we concentrate on the family of context-sensitive languages. Regular languages and context-free languages have already been covered in Section \ref{section:regular-languages} and Section \ref{section:context-free-languages}, respectively.Finally, in Section \ref{subsection:closure-properties} we summarize closure properties of families in Chomsky hierarchy.
+
+%In Section 
+%\ref{subsection:closure-properties} and Section \ref{subsection:decidability-properties}
+%we summarize closure and decidability properties of families in Chomsky hierarchy.
+
+The main source for this Section is Mateescu and Salomaa \cite{MaSa1997formal, MaSa1997aspects}. Paragraph concerning \index{language!context-sensitive!growing}\emph{growing context-sensitive 
+languages} is taken from \cite{BO98}. For brevity, we omit definitions of Turing machines and complexity classes. The interested reader is referred to Mateescu and Salomaa \cite{MaSa1997aspects}.
+%, or to a nice survey of structural complexity theory in Balc{\'a}zar et al. \cite{BRSI88, BRSII90}.
+
+\subsection{Phrase-Structure Grammars}
+\label{subsection:phrase-structure-grammars}
+
+A \index{grammar!phrase-structure}\emph{phrase-structure} grammar or a \index{grammar!type $0$}\emph{type $0$} Chomsky grammar is a construct $G = (V_N, V_T, S, P)$, $V_N$ and $V_T$ are disjoint alphabets, $S \in V_N$ and $P$ is a finite set of ordered pairs $(u, v)$, where $u, v \in (V_N \cup V_T)^*$ and $u$ contains at least one element from $V_N$.
+
+As in Section \ref{subsection:context-free-grammars}, elements in $V_N$ are referred to as \index{nonterminal}\emph{nonterminals}, $V_T$ is the  \index{terminal}\emph{terminal} alphabet, $S$ is the \index{start symbol}\emph{start symbol} (or \index{axiom}\emph{axiom}) and $P$ is the set of \index{production} \emph{productions} or \index{rewriting rule}\emph{rewriting rules}. Productions $(u, v)$ are written $u \to v$. The \index{derivation!direct}\emph{direct derivation} relation induced by $G$ is a binary relation between words over $V_N \cup V_T$, denoted $\Rightarrow_G$, and defined as: $$\alpha \Rightarrow_G \beta \Leftrightarrow \alpha = xuy, \beta = xvy, \text{ and } (u \to v) \in P,$$ where $\alpha, \beta, x, y \in (V_N \cup V_T)^*$.
+
+The \index{derivation!relation}\emph{derivation relation} induced by $G$, denoted $\Rightarrow^*_G$, is the reflexive and transitive closure of the relation $\Rightarrow_G$.
+
+The \emph{language} generated by $G$, denoted $L(G)$, is: $$L(G) = \{w \in V_T^* \mid S \Rightarrow^*_G w\}.$$
+
+A language $L$ is of type $0$ if there exists a grammar $G$ of type $0$ such that $L = L(G)$. The family of all languages of type $0$ is denoted by \index{$\mathcal{L}_0$}$\mathcal{L}_0$.
+
+The fundamental result of Formal Language Theory is that the family \index{$\mathcal{L}_0$}$\mathcal{L}_0$ is equal to the family \index{$\RE$}$\RE$ of all \index{language!recursively enumerable}recursively enumerable languages. The family $\RE$ can be introduced by using \index{Turing machine}Turing machines, although there are many other formalisms for defining this family.
+
+\subsection{Context-Sensitive Grammars}
+\label{subsection:context-sensitive-grammars}
+
+A \index{grammar!context-sensitive}\emph{context-sensitive} \index{grammar!type $1$}(\emph{type $1$}) grammar is a phrase-structure grammar $G = (V_N, V_T, S, P)$ such that each production in $P$ is of the form $\alpha X \beta \to \alpha u \beta$, where $X \in V_N$, $\alpha, \beta, u \in (V_N \cup V_T)^*$, $u \neq \lambda$. In addition, $P$ may contain the production $S \to \lambda$ and in this case $S$ does not occur on the right side of any production of $P$.
+
+A \index{language!context-sensitive}language $L$ is context-sensitive if there exists a context-sensitive grammar $G$ such that $L = L(G)$. The family of all context-sensitive languages is denoted by \index{$\CSL$}$\CSL$ or \index{$\mathcal{L}_1$}$\mathcal{L}_1$. Note that $\mathcal{L}_1 = \CSL \subseteq \mathcal{L}_0 = \RE$.
+
+A \index{grammar!length-increasing}\index{grammar!monotonous}\emph{length-increasing} (\emph{monotonous}) grammar is a type $0$ grammar $G = (V_N, V_T, S, P)$ such that for each production $u \to v$ in $P$, $|u| \le |v|$. In addition, $P$ may contain the production $S \to \lambda$ and in this case $S$ does not occur on the right side of any production from $P$.
+
+It can be shown, that $L$ is a context-sensitive language if and only if there exists a length-increasing grammar $G$ such that $L = L(G)$.
+
+Let $L = \{a^n b^n c^n \mid n \ge 1\}$. It can be shown, that $L$ is a context-sensitive language. This immediately implies, that the family of context-free languages is strictly contained in the family of context-sensitive languages, since $L \notin \CFL$.
+
+Now we characterize the family of context-sensitive languages by a so-called \index{workspace theorem}\emph{Workspace Theorem}. Let $G = (V_N, V_T, S, P)$ be a type $0$ grammar and consider a derivation $D$ according to $G$, $$D: S = w_0 \Rightarrow_G w_1 \Rightarrow_G \ldots \Rightarrow_G w_n = w.$$ The \emph{workspace} of $w$ by the derivation $D$ is: $$WS_G(w, D) = \max \{|w_i| \mid 0 \le i \le n\}.$$ The \emph{workspace} of $w$ is: $$WS_G(w) = \min \{WS_G(w, D) \mid D \text{ is a derivation of } w\}.$$ Observe that $WS_G(w) \ge |w|$ for all $G$ and $w$.
+
+The following \emph{Workspace Theorem} is a powerful tool in showing languages to be context-sensitive.
+
+\index{workspace theorem}
+\begin{theorem}[Workspace theorem]
+If $G$ is a type $0$ grammar and if there is a nonnegative integer $k$ such that $$WS_G(w) \le k |w| \text{ for all nonempty words } w \in L(G),$$ then $L(G)$ is a context-sensitive language.
+\end{theorem}
+
+The family of context-sensitive languages can also be characterized in terms of so-called \index{linear bounded automaton}\emph{linear bounded automata}. Linear bounded automata are a special type of Turing machines, which are closely related to a certain class of Turing space complexity, $NSPACE(n)$. More precisely, a linear bounded automaton \index{$\LBA$}($\LBA$) is a nondeterministic Turing machine of space complexity $S(n) = n$.
+
+\begin{theorem}
+The family $\mathcal{L}_1 = \CSL$ is equal to the family of languages accepted by linear bounded automata, i.e. $$\CSL = NSPACE(n).$$
+\end{theorem}
+
+It is not known whether the inclusion $DSPACE(n) \subseteq NSPACE(n)$ is strict or not.
+
+It can be shown, that there exist \index{language!context-sensitive}context-sensitive languages for which the membership problem is $\classPSPACE$-complete. Thus, in their full generality these languages are too powerful for practical applications. On the other hand, \index{language!context-free}context-free languages are not powerful enough to completely describe all the syntactical aspects of a programming language like \index{Pascal}Pascal, since some of them are inherently context dependent. There are various alternatives to define classes of languages that are strictly in between \index{$\CFL$}$\CFL$ and \index{$\CSL$}$\CSL$. One approach is based on making the \index{grammar!context-free}context-free grammars more powerful by adding certain attributes that must be evaluated in order to decide whether a sentence derived from that grammar is considered to be `valid'. Another approach is based on restricting the power of \index{grammar!context-sensitive}context-sensitive grammars.
+
+Dahlhaus and Warmuth \cite{DW86} consider \index{grammar!context-sensitive!growing}\emph{growing context-sensitive grammars} \index{$\GCSL$}($\GCSL$), that is, \index{grammar!context-sensitive} context-sensitive grammars for which each \index{production}production rule is strictly length-increasing. Obviously, for such a grammar the length of a \index{derivation}derivation is bounded from above by the length of the sentence derived. Dahlhaus and Warmuth prove that all \emph{growing context-sensitive languages}, that is, the languages that are generated by \emph{growing context-sensitive grammars}, have membership problems that are solvable in polynomial time.
+
+We conclude this section by summarizing some closure properties of the family of context-sensitive languages.
+
+\begin{theorem}
+The family $\mathcal{L}_1 = \CSL$ is closed under the following operations: union, intersection, complementation, concatenation, Kleene star, Kleene plus, intersection with regular languages, $\lambda$-free morphism, inverse morphism, $\lambda$-free substitution, mirror. 
+
+It is not closed under substitution, morphism, and left (right) quotient with regular languages.
+\end{theorem}
+
+\subsection{Closure properties}
+\label{subsection:closure-properties}
+
+\index{closure properties}Closure properties of families in Chomsky hierarchy 
+(Y stands for \emph{yes} and N stands for \emph{no}) taken from 
+Mateescu and Salomaa \cite{MaSa1997formal}:
+
+\begin{center}
+\begin{tabular}{ | l | c | c | c | c | c | }
+\hline
+              & \index{$\RE$}$\RE$
+              & \index{$\CSL$}$\CSL$
+              & \index{$\CFL$}$\CFL$ 
+              & \index{$\Lin$}$\Lin$ 
+              & \index{$\Reg$}$\Reg$\\
+\hline
+\index{union}Union
+              & Y     & Y      & Y      & Y      & Y \\
+\hline
+\index{intersection}Intersection
+              & Y     & Y      & N      & N      & Y \\
+\hline
+\index{complementation}Complementation
+              & N     & Y      & N      & N      & Y \\
+\hline
+\index{concatenation}Concatenation
+              & Y     & Y      & Y      & N      & Y \\
+\hline
+\index{Kleene star}Kleene star
+              & Y     & Y      & Y      & N      & Y \\
+\hline
+\index{intersection!with regular language}Intersection with regular languages
+              & Y     & Y      & Y      & Y      & Y \\
+\hline
+\index{substitution}Substitution
+              & Y     & N      & Y      & N      & Y \\
+\hline
+\index{substitution!$\lambda$-free}$\lambda$-free substitution  
+              & Y     & Y      & Y      & N      & Y \\
+\hline
+\index{morphism}Morphism
+              & Y     & N      & Y      & Y      & Y \\
+\hline
+\index{morphism!$\lambda$-free}$\lambda$-free morphism
+              & Y     & Y      & Y      & Y      & Y \\
+\hline
+\index{morphism!inverse}Inverse morphism
+              & Y     & Y      & Y      & Y      & Y \\
+\hline
+\index{left-quotient}\index{right-quotient}Left/right quotient
+              & Y     & N      & N      & N      & Y \\
+\hline
+\index{left-quotient!with regular language}\index{right-quotient!with regular 
+language}Left/right quotient with regular language
+              & Y     & N      & Y      & Y      & Y \\
+\hline
+\index{left-derivate}\index{right-derivate}Left/right derivate
+              & Y     & Y      & Y      & Y      & Y \\
+\hline
+\index{shuffle}Shuffle
+              & Y     & Y      & N      & N      & Y \\
+\hline
+\index{mirror image}Mirror image
+              & Y     & Y      & Y      & Y      & Y \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Decidability properties}
+\label{subsection:decidability-properties}
+
+Given a class $G$ of grammars, the following basic questions about arbitrary
+elements $G_1$, $G_2$ of $G$ can be formulated:
+
+\begin{enumerate}
+\item \index{equivalence}\emph{equivalence}: are $G_1$, $G_2$ equivalent?
+\item \index{inclusion}\emph{inclusion}: is $L(G_1)$ included in $L(G_2)$?
+\item \index{membership}\emph{membership}: is an arbitrarily given string $x$ an 
+element of $L(G_1)$?
+\item \index{emptiness}\emph{emptiness}: is $L(G_1)$ empty?
+\item \index{finiteness}\emph{finiteness}: is $L(G_1)$ finite?
+\item \index{regularity}\emph{regularity}: is $L(G_1)$ a regular language?
+\end{enumerate}
+
+\index{decidability properties}Decidability properties of classes of phrase-structure, 
+context-sensitive, context-free, linear, and regular grammars (N stands for 
+\emph{non-decidable} and D stands for \emph{decidable}) taken from 
+Mateescu and Salomaa \cite{MaSa1997formal}:
+
+\begin{center}
+\begin{tabular}{ | l | c | c | c | c | c | }
+\hline
+              & \index{$\RE$}$\RE$ 
+              & \index{$\CSL$}$\CSL$ 
+              & \index{$\CFL$}$\CFL$ 
+              & \index{$\Lin$}$\Lin$ 
+              & \index{$\Reg$}$\Reg$\\
+\hline
+\index{equivalence}Equivalence
+              & N     & N      & N      & N      & D \\
+\hline
+\index{inclusion}Inclusion
+              & N     & N      & N      & N      & D \\
+\hline
+\index{membership}Membership
+              & N     & D      & D      & D      & D \\
+\hline
+\index{emptiness}Emptiness
+              & N     & N      & D      & D      & D \\
+\hline
+\index{finiteness}Finiteness
+              & N     & N      & D      & D      & D \\
+\hline
+\index{regularity}Regularity
+              & N     & N      & N      & N      & D \\
+\hline
+\end{tabular}
+\end{center}
+
+%We conclude this section with \index{Rice theorem}\emph{Rice Theorem}:
+%
+%\begin{theorem}[Rice theorem]
+%Let $P$ be a nontrivial property of type $0$ languages (there are languages having
+%property $P$ and also languages not having property $P$). Then property $P$
+%is undecidable for type $0$ languages.
+%\end{theorem}
 
 \section{Restarting Automata}
 \label{section:restarting-automata}
+\index{restarting automaton}
 
-The material for this section will be covered by \cite{O06}.
+The main source for this section is \cite{O06}. The \index{restarting automaton}restarting automaton was introduced by Jančar et al. in 1995 in order to model the so-called \index{analysis by reduction}`analysis by reduction,' which is a technique used in linguistics to analyze sentences of natural languages that have a free word order. By now there are many different models of \index{restarting automaton}restarting automata, and their investigation has proved very fruitful in that they offer an opportunity to study the influence of various kinds of resources on their expressive power. Here we introduce and discuss the main variants of these automata.
 
-\subsection{General Overview}
+\index{analysis by reduction}\emph{Analysis by reduction} is a technique used in linguistics to analyze sentences of natural languages that have a free word order. This analysis consists of a stepwise simplification of a sentence in such a way that the syntactical correctness or incorrectness of the sentence is not affected. After a finite number of steps either a correct simple sentence is obtained, or an error is detected. In the former case the given sentence is accepted as being syntactically correct; if, however, all possible sequences of simplifications yield errors, then the given sentence is not syntactically correct. In this way it is also possible to determine dependencies between various parts of the given sentence, and to disambiguate between certain morphological ambiguities contained in the sentence.
 
-\subsection{Types}
+As illustrated by Jančar et al. (e.g. \cite{JMPV99}) the \index{restarting automaton}restarting automaton was invented to model the \index{analysis by reduction}analysis by reduction. In fact, many aspects of the work on restarting automata are motivated by the basic tasks of computational linguistics. The notions developed in the study of restarting automata give a rich taxonomy of constraints for various models of analyzers and parsers. Already several programs are being used in Czech and German (corpus) linguistics that are based on the idea of restarting automata.
+
+As defined in \cite{JMPV95} the \index{restarting automaton}\emph{restarting automaton} is a nondeterministic machine model that processes strings which are stored in a list (or a ‘rubber’ \index{tape}tape) with end \index{marker}markers. It has a finite control, and it has a \index{read/write window}read/write window with a finite look-ahead working on the list of symbols. The \index{restarting automaton}restarting automaton can only perform two kinds of operations: \index{transition step!move-right} \emph{move-right transitions}, which shift the \index{read/write window}read/write window one position to the right, thereby changing the actual state, and combined \index{transition step!delete/restart}\emph{delete/restart transitions}, which delete some symbols from the \index{read/write window}read/write window, place this window over the left end of the list, and put the automaton back into its \index{state!initial}initial state. Hence, after performing a \index{transition step!delete/restart}delete/restart transition a \index{restarting automaton}restarting automaton has no way to remember that it has already performed some steps of a computation. Further, by each application of a \index{transition step!delete/restart}delete/restart transition the list is shortened. It follows that \index{restarting automaton}restarting automata are linearly space-bounded.
+
+Subsequently Jančar et al. extended their model in various ways. Instead of simply deleting some symbols from the actual content of the \index{read/write window}read/write window during a \index{transition step!delete/restart}delete/restart transition, a \index{restarting automaton!with rewriting}restarting automaton \emph{with rewriting} has combined \index{transition step!rewrite/restart}\emph{rewrite/restart} transitions that replace the content of the \index{read/write window}read/write window by a shorter string \cite{JMPV97}. Further, the use of \index{auxiliary symbol}auxiliary (that is, non-input) symbols was added to the model in \cite{JMPV98}, which yields the so-called \index{$\RWW$-automaton}\emph{$\RWW$-automaton}. Also in \cite{JMPV98} the \index{transition step!restart}restart transition was separated from the \index{transition step!rewrite}rewrite transition so that, after performing a rewrite step, the automaton can still read the remaining part of the tape before performing a \index{transition step!restart}restart transition. This gives the so-called \index{$\RRWW$-automaton}\emph{$\RRWW$-automaton}, which is required to execute exactly one \index{transition step!rewrite}rewrite transition between any two \index{transition step!restart}restart transitions. In addition, various notions of \index{restarting automaton!monotone}\emph{monotonicity} have been discussed for the various types of \index{restarting automaton}restarting automata. It turned out that monotone \index{$\RWW$-automaton}$\RWW$- and \index{$\RRWW$-automaton}$\RRWW$-automata accept exactly the \index{language!context-free}context-free languages, and that all the various types of monotone deterministic \index{$\RWW$-automaton}$\RWW$- and \index{$\RRWW$-automaton}$\RRWW$-automata accept exactly the \index{language!context-free!deterministic}deterministic context-free languages. Finally, \index{transition step!move-left}\emph{move-left transitions} were added to the \index{restarting automaton}restarting automaton, which gave the so-called \index{restarting automaton!two-way}\emph{two-way restarting automaton} \index{$\RLWW$-automaton}($\RLWW$-automaton) \cite{P01}. This automaton can first scan its tape completely, and then move left to apply a rewrite transition to some factor of the \index{tape}tape content.
+
+In defining the \index{restarting automaton}restarting automaton and its main variants we will not follow the historical development outlined above, but we will first present the most general model, the \index{$\RLWW$-automaton}$\RLWW$-automaton, and then describe the other variants as restrictions thereof.
+
+As indicated above a \index{restarting automaton}restarting automaton is a nondeterministic machine model that has a finite control and a \index{read/write window}read/write window that works on a list of symbols delimited by end \index{marker}markers (see Figure \ref{figure:restarting_automaton}).
+
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=1.0]{img/restarting_automaton.eps}
+\caption[Schematic representation of a restarting automaton.]
+{Schematic representation of a restarting automaton.}
+\label{figure:restarting_automaton}
+\end{figure}
+
+Formally, a \index{restarting automaton!two-way}\emph{two-way restarting automaton}, \index{$\RLWW$-automaton}$\RLWW$-automaton for short, is a one-tape machine described by an $8$-tuple $M = (Q, \Sigma, \Gamma, \cent, \$, q_0, k, \delta)$, where $Q$ is a finite set of \index{state}states, $\Sigma$ is a finite \index{alphabet!input}input alphabet, $\Gamma$ is a finite \index{alphabet!tape}tape alphabet containing $\Sigma$, $\cent, \$ \notin \Gamma$ are symbols that serve as \index{marker}markers for the left and right border of the work space, respectively, $q_0 \in Q$ is the \index{state!initial}initial state, $k \ge 1$ is the size of the \index{read/write window}\emph{read/write window}, and $$\delta: Q \times \mathfrak{PC}^{(k)} \to \mathcal{P}((Q \times (\{\MVR, \MVL\} \cup \mathfrak{PC}^{\le (k-1)})) \cup \{\Restart, \Accept\})$$ is the \index{transition!relation}\emph{transition relation}. Here $\mathfrak{PC}^{(k)}$ is the set of \index{read/write window!possible contents}\emph{possible contents} of the read/write window of $M$, where $$\mathfrak{PC}^{(i)} = (\cent \cdot \Gamma^{i-1}) \cup \Gamma^i \cup (\Gamma^{\le i-1} \cdot \$) \cup (\cent \cdot \Gamma^{\le i-2} \cdot \$)\ \ (i \ge 0),$$ and $$\Gamma^{\le n} = \bigcup_{i=0}^n \Gamma^i \text{ and } \mathfrak{PC}^{\le (k-1)} = \bigcup_{i=0}^{k-1}\mathfrak{PC}^{(i)}.$$
+
+The \index{transition!relation}transition relation describes five different types of \index{transition step}transition steps:
+
+\begin{enumerate}
+\item A \emph{move-right step} is of the form \index{$\MVR$}$(q', \MVR) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$, $u \neq \$$. If $M$ is in state $q$ and sees the string $u$ in its read/write window, then this move-right step causes $M$ to shift the read/write window one position to the right and to enter state $q'$. However, if the content $u$ of the read/write window is only the symbol $\$$, then no shift to the right is possible.
+\item A \index{transition step!move-left}\emph{move-left step} is of the form \index{$\MVL$}$(q', \MVL) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$ does not begin with the symbol $\cent$. It causes $M$ to shift the \index{read/write window}read/write window one position to the left and to enter state $q'$. This, however, is only possible if the window is not already at the left end of the tape.
+\item A \index{transition step!rewrite}\emph{rewrite step} is of the form $(q', v) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$, $u \neq \$$, and $v \in \mathfrak{PC}^{\le (k-1)}$ such that $|v| < |u|$. It causes $M$ to replace the content of $u$ of the \index{read/write window}read/write window by the string $v$, thereby shortening the tape, and to enter state 
+$q'$. Further, the \index{read/write window}read/write window is placed immediately to the right of the string $v$. However, some additional restrictions apply in that the border \index{marker}markers  $\cent$ and $\$$ must not disappear from the tape nor that new occurrences of these markers are created. Further, the \index{read/write window}read/write window must not move across the right border \index{marker}marker $\$$, that is, if the string $u$ ends in $\$$, then so does the string $v$, and after performing the rewrite operation, the \index{read/write window}read/write window is placed on the $\$$-symbol.
+\item A \index{transition step!restart}\emph{restart step} is of the form \index{$\Restart$}$\Restart \in \delta(q, u)$, where $q \in Q$ and $u \in \mathfrak{PC}^{(k)}$. It causes $M$ to place its \index{read/write window}read/write window over the left end of the tape, so that the first symbol it sees is the left border \index{marker}marker $\cent$, and to reenter the \index{state!initial}initial state $q_0$.
+\item An \index{transition step!accept}\emph{accept step} is of the form \index{$\Accept$}$\Accept \in \delta(q, u)$, where $q \in Q$ and $u \in \mathfrak{PC}^{(k)}$. It causes $M$ to halt and accept.
+\end{enumerate}
+
+If $\delta(q, u) = \emptyset$ for some $q \in Q$ and $u \in \mathfrak{PC}^{(k)}$, then $M$ necessarily halts, and we say that $M$ \emph{rejects} in this situation. Further, the letters in $\Gamma \backslash \Sigma$ are called \index{auxiliary symbol}\emph{auxiliary symbols}.
+
+A \index{configuration}\emph{configuration} of $M$ is a string $\alpha q \beta$, where $q \in Q$, and either $\alpha = \lambda$ and $\beta \in \{\cent\} \cdot \Gamma^* \cdot \{\$\}$ or $\alpha \in \{\cent\} \cdot \Gamma^*$ and $\beta \in \Gamma^* \cdot \{\$\}$; here $q \in Q$ represents the \index{state!current}current state, $\alpha \beta$ is the current content of the \index{tape}tape, and it is understood that the \index{read/write window}read/write window contains the first $k$ symbols of $\beta$ or all of $\beta$ when $|\beta| \le k$. A \index{configuration!restarting}\emph{restarting configuration} is of the form $q_0 \cent w \$$, where $w \in \Gamma^*$; if $w \in \Sigma^*$, then $q_0 \cent w \$$ is an \index{configuration!initial}\emph{initial configuration}. Thus, initial configurations are a particular type of restarting configurations. Further, we use \index{$\Accept$}$\Accept$ to denote the \index{configuration!accepting}\emph{accepting configurations}, which are those configurations that $M$ reaches by executing an \index{$\Accept$}$\Accept$ instruction. A configuration of the form $\alpha q \beta$ such that $\delta(q, \beta_1) = \emptyset$, where $\beta_1$ is the current content of the \index{read/write window}read/write window, is a \index{configuration!rejecting}\emph{rejecting configuration}. A \index{configuration!halting}\emph{halting configuration} is either an \index{configuration!accepting}accepting or a \index{configuration!rejecting}rejecting configuration.
+
+In general, the automaton $M$ is \index{restarting automaton!nondeterministic}\emph{nondeterministic}, that is, there can be two or more instructions with the same left-hand side $(q, u)$, and thus, there can be more than one \index{computation}computation for an input word. If this is not the case, the automaton is \index{restarting automaton!deterministic}\emph{deterministic}. We use the prefix \index{$\detPrefix$}$\detPrefix$ to denote deterministic classes of restarting automata.
+
+We observe that any finite \index{computation}computation of a \index{restarting automaton!two-way}two-way restarting automaton $M$ consists of certain phases. A phase, called a \index{cycle}\emph{cycle}, starts in a \index{configuration!restarting}restarting configuration, the head moves along the \index{tape}tape performing \index{$\MVR$}$\MVR$, \index{$\MVL$}$\MVL$, and \index{$\Rewrite$}$\Rewrite$ operations until a \index{$\Restart$}$\Restart$ operation is performed and thus a new \index{configuration!restarting}restarting configuration is reached. If no further \index{$\Restart$}$\Restart$ operation is performed, any finite computation necessarily finishes in a \index{configuration!halting}halting configuration -- such a phase is called a \index{tail}\emph{tail}. We require that $M$ performs \emph{exactly one} \index{$\Rewrite$}$\Rewrite$ operation during any cycle -- thus each new phase starts on a shorter word than the previous one. During a \index{tail}tail at most one \index{$\Rewrite$}$\Rewrite$ operation may be executed. By $\vdash_M^c$ we denote the execution of a complete \index{cycle}cycle, and $\vdash_M^{c^*}$ is the reflexive and transitive closure of this relation. It can be seen as the \index{rewriting relation}\emph{rewrite relation} that is realized by $M$ on the set of restarting configurations.
+
+An input $w \in \Sigma^*$ is accepted by $M$, if there exists a \index{computation}computation of $M$ which starts with the \index{configuration!initial}initial configuration  $q_0 \cent w \$$, and which finally ends with executing an \index{$\Accept$}$\Accept$ instruction.
+
+Given an input of length $n$, and $\RLWW$-automaton can execute at most $n$ cycles. Thus, we have the following result, where $\classNP$ and $\classP$ denote the well-known complexity classes, and $\DCSL$ denotes the class of \emph{deterministic context-sensitive languages}, that is, the space complexity $DSPACE(n)$.
+
+\begin{proposition}
+\begin{eqnarray*}
+\calL{\RLWW} & \subseteq & \classNP \cap \CSL,\\
+\calL{\detRLWW} & \subseteq & \classP \cap \DCSL.
+\end{eqnarray*}
+\end{proposition}
+
+In the following we restate some basic facts about \index{computation}computations of \index{restarting automaton}restarting automata.
+
+\index{error preserving theorem}
+\begin{proposition}[Error Preserving Property]
+Let $M$ be an \index{$\RLWW$-automaton}$\RLWW$-automaton, and let $u, v$ be words over its \index{alphabet!input}\emph{input} alphabet $\Sigma$. If $q_0 \cent u \$ \vdash_M^{c^*} q_0 \cent v \$$ holds and $u \notin L(M)$, then $v \notin L(M)$, either.
+\end{proposition}
+
+\index{correctness preserving theorem}
+\begin{proposition}[Correctness Preserving Property]
+Let $M$ be an \index{$\RLWW$-automaton}$\RLWW$-automaton, and let $u, v$ be words over its \index{alphabet!input}\emph{input} alphabet $\Sigma$. If $q_0 \cent u \$ \vdash_M^{c^*} q_0 \cent v \$$ is an initialsegment of an \emph{accepting} computation of $M$, then $v \in L(M)$.
+\end{proposition}
+
+Each \index{cycle}cycle of each \index{computation}computation of an \index{$\RLWW$-automaton}$\RLWW$-automaton $M$ consists of three phases: first $M$ scans its tape performing \index{$\MVR$}$\MVR$- and \index{$\MVL$}$\MVL$-instructions, then it executes a \index{$\Rewrite$}$\Rewrite$ step, and finally it scans its tape again performing \index{$\MVR$}$\MVR$- and \index{$\MVL$}$\MVL$-steps. Hence, in the first and the last phase of each cycle $M$ behaves like a nondeterministic two-way finite-state acceptor ($2$-$\NFA$). In an analogy to the proof that the language accepted by a $2$-$\NFA$ is regular (see e.g. \cite{HopcroftMotwaniUllman07}), the following result can be established. Here a \index{restarting automaton}restarting automaton is called an \index{$\RRWW$-automaton}\emph{$\RRWW$-automaton} if it does not use any \index{$\MVL$}$\MVL$-transitions. Thus, in each cycle an \index{$\RRWW$-automaton}$\RRWW$-automaton can scan its tape only once from left to right.
+
+\begin{theorem}
+Let $M_L = (Q_L, \Sigma, \Gamma, \cent, \$, q_0, k, \delta_L)$ be an \index{$\RLWW$-automaton}$\RLWW$-automaton. Then there exists an \index{$\RRWW$-automaton}$\RRWW$-automaton $M_R = (Q_R, \Sigma, \Gamma, \cent, \$, q_0, k, \delta_R)$ such that, for all $u, v \in \Gamma^*$, $$q_0 \cent u \$ \vdash_{M_L}^c q_0 \cent v \$ \text{ if and only if } q_0 \cent u \$ \vdash_{M_R}^c q_0 \cent v \$,$$ and the languages $L(M_L)$ and $L(M_R)$ coincide.
+\end{theorem}
+
+Thus, as far as \index{restarting automaton!nondeterministic}nondeterministic restarting automata are concerned, the \index{$\MVL$}$\MVL$-instruction is not needed. However, this does not hold for \index{restarting automaton!deterministic}deterministic restarting automata. For \index{$\RRWW$-automaton}$\RRWW$-automata we have the following normalization result, which is easily proved by using standard techniques from automata theory.
+
+\begin{lemma}
+Each \index{$\RRWW$-automaton}$\RRWW$-automaton $M$ is equivalent to an \index{$\RRWW$-automaton}$\RRWW$-automaton $M'$ that satisfies the following additional restriction:
+\begin{enumerate}
+\item[(*)] $M'$ makes an \index{transition step!accept}accept or a \index{transition step!restart}restart step only when it sees the right border \index{marker}marker $\$$ in its \index{read/write window}read/write window.
+\end{enumerate}
+\end{lemma}
+
+This lemma means that in each \index{cycle}cycle of each \index{computation}computation and also during the \index{tail}tail of each \index{computation!accepting}accepting computation the \index{read/write window}read/write window moves all the way to the right before a restart is made, respectively, before the machine halts and accepts.
+
+Based on this fact each \index{cycle}cycle (and also the \index{tail}tail) of a \index{computation}computation of an \index{$\RRWW$-automaton}$\RRWW$-automaton consists of three phases. Accordingly, the transition relation of an \index{$\RRWW$-automaton}$\RRWW$-automaton can be described through a sequence of so-called \index{meta-instruction}\emph{meta-instructions} of the form $(E_1, u \to v, E_2)$, where $E_1$ and $E_2$ are \index{language!regular}regular languages, called the \index{constraint}\emph{regular constraints} of this instruction, and $u$ and $v$ are strings such that $|u| > |v|$. The rule $u \to v$ stands for a \index{$\Rewrite$}$\Rewrite$ step of the \index{$\RRWW$-automaton}$\RRWW$-automaton $M$ considered. On trying to execute this \index{meta-instruction}meta-instruction $M$ will get stuck (and so reject) starting from the \index{configuration}configuration $q_0 \cent w \$$, if $w$ does not admit a factorization of the form $w = w_1 u w_2$ such that $\cent w_1 \in E_1$ and $w_2 \$ \in E_2$. On the other hand, if $w$ does have a factorization of this form, then one such factorization is chosen nondeterministically, and $q_0 \cent w \$$ is transformed into $q_0 \cent w_1 v w_2 \$$. In order to describe the \index{tail}tails of \index{computation!accepting}accepting computations we use \index{meta-instruction}meta-instructions of the form \index{$\Accept$}$(\cent \cdot E \cdot \$, \Accept)$, where the strings from the \index{language!regular}regular language $E$ are accepted by $M$ in \index{tail}tail \index{computation}computations.
+
+\begin{example}
+Let $M$ be the $\RRWW$-automaton with input alphabet $\Sigma = \{a, b, c, d\}$ and without auxiliary symbols that is described by the following sequence of meta-instructions:
+\begin{center}
+\begin{tabular}{c c c c c c c}
+$(1)$ & $(\cent \cdot a^*,$ & $ab \to \lambda,$ & $b^* \cdot c \$),$ & \hspace{1cm} $(3)$ & $(\cent c \$,$ & $\Accept),$ \\
+$(2)$ & $(\cent \cdot a^*,$ & $abb \to \lambda,$ & $b^* \cdot d \$),$ & \hspace{1cm} $(4)$ & $(\cent d \$,$ & $\Accept).$ \\
+\end{tabular}
+\end{center}
+It is easily seen that $L(M) = \{a^n b^n c \mid n \ge 0\} \cup \{a^n b^{2n} d \mid n \ge 0\}$.
+\end{example}
+
+Finally, we introduce some restricted types of restarting automata. A \index{restarting automaton}restarting automaton is called an \index{$\RWW$-automaton}\emph{$\RWW$-automaton} if it makes a \index{transition step!restart}restart immediately after performing a \index{transition step!rewrite}rewrite operation. In particular, this means that it cannot perform a \index{transition step!rewrite}rewrite step during the \index{tail}tail of a \index{computation}computation.
+
+A \index{cycle}cycle of a \index{computation}computation of an \index{$\RWW$-automaton}$\RWW$-automaton $M$ consists of two phases only. Accordingly, the transition relation of an $\RWW$-automaton can be described by a finite sequence of \index{meta-instruction}\emph{meta-instructions} of the form $(E, u \to v)$, where $E$ is a \index{language!regular}regular language, and $u$ and $v$ are strings such that $|u| > |v|$, and \index{meta-instruction}meta-instructions of the form \index{$\Accept$}$(\cent \cdot E \cdot \$, \Accept)$ for describing \index{tail}tail \index{computation}computations.
+
+An \index{$\RLWW$-automaton}$\RLWW$-automaton is called an \index{$\RLW$-automaton}\emph{$\RLW$-automaton} if its \index{alphabet!tape}tape alphabet $\Gamma$ coincides with its \index{alphabet!input}input alphabet $\Sigma$, that is, if no \index{auxiliary symbol}auxiliary symbols are available. It is an \index{$\RL$-automaton}\emph{$\RL$-automaton} if it is an \index{$\RLW$-automaton}$\RLW$-automaton for which the right-hand side $v$ of each \index{$\Rewrite$}$\Rewrite$ step $(q', v) \in \delta(q, u)$ is a \index{subword!scattered}scattered subword of the left-hand side $u$. Analogously, we obtain \index{$\RRW$-automaton}$\RRW$- and \index{$\RR$-automaton}$\RR$-automata from the \index{$\RRWW$-automaton}$\RRWW$-automaton and \index{$\RW$-automaton}$\RW$- and \index{$\R$-automaton}$\R$-automata from the \index{$\RWW$-automaton}$\RWW$-automaton, respectively.
+
+It can be shown that $\calL{\R}$ contains languages that are not \index{language!context-sensitive!growing}\emph{growing context-sensitive}. Hence, already the \index{$\R$-automaton}$\R$-automaton has a fairly large expressive power.
+
+We conclude this section with the notion of monotonicity for restarting automata (introduced in \cite{JMPV97}). Here we consider a slightly more general notion, which is taken from \cite{JMPV07}. Let $M$ be an \index{$\RLWW$-automaton} $\RLWW$-automaton. Each \index{computation}computation of $M$ can be described by a sequence of \index{cycle}cycles $C_1, C_2, \ldots, C_n$, where $C_n$ is the last cycle, which is followed by the \index{tail}tail of the \index{computation}computation. Each \index{cycle}cycle $C_i$ of this \index{computation}computation contains a unique \index{configuration}configuration of the form $\cent x q u y \$$ such that $q$ is a \index{state}state and $(q', v) \in \delta(q, u)$ is the \index{$\Rewrite$}$\Rewrite$ step that is applied during this cycle. By $D_r(C_i)$ we denote the \index{cycle!right distance}\emph{right distance} $|u y \$|$ of this cycle, and $D_l(C_i)$ is the \index{cycle!left distance}\emph{left distance} $|\cent x|$ of this cycle. The sequence of cycles $C_1, C_2, \ldots, C_n$ is called \emph{monotone} if $D_r(C_1) \ge D_r(C_2) \ge \ldots \ge D_r(C_n)$ holds. A computation of $M$ is called \index{computation!monotone}\emph{monotone} if the corresponding sequence of cycles is monotone. Observe that the tail of the computation is not taken into account here. Finally, the \index{$\RLWW$-automaton}$\RLWW$-automaton $M$ is called \index{restarting automaton!monotone}\emph{monotone} if each of its \index{computation}computations that starts from an \index{configuration!initial}initial configuration is monotone.
+
+Here we want to compare the expressive power of the various types of \index{restarting automaton!monotone}monotone restarting automata to each other. We use the prefix \index{$\monPrefix$}$\monPrefix$ to denote the classes of monotone restarting automata.
+
+All variants of 
+\index{restarting automaton!deterministic}\index{restarting automaton!monotone}deterministic monotone restarting automata obtained from the \index{$\RRWW$-automaton}$\RRWW$-automaton coincide in their expressive power:
+
+\index{$\DCFL$}\index{$\R$-automaton}\index{$\RR$-automaton}\index{$\RW$-automaton}\index{$\RRW$-automaton}\index{$\RWW$-automaton}\index{$\RRWW$-automaton}
+\begin{theorem}
+For all types $\X \in \{\R, \RR, \RW, \RRW, \RWW, \RRWW\}$, $$\calL{\detmonX} = \DCFL.$$
+\end{theorem}
+
+\noindent However, it can be shown that \index{$\RL$-automaton} \index{$\RLWW$-automaton} $\DCFL \subset \calL{\detmonRL} \subseteq \calL{\detmonRLWW}$.
+
+For nondeterministic restarting automata it turns out that the use of \index{auxiliary symbol}auxiliary symbols is necessary to obtain a characterization of the class of \index{language!context-free}context-free languages.
+
+\index{$\CFL$}\index{$\RLWW$-automaton}\index{$\RRWW$-automaton}\index{$\RWW$-automaton}
+\begin{theorem}
+For all types $\X \in \{\RLWW, \RRWW, \RWW\}$, $$\calL{\monX} = \CFL.$$
+\end{theorem}
 
 \section{String-Rewriting Systems}
 \label{section:string-rewriting-systems}
 
-The material for this section will be covered by \cite{bookOtto93}.
+The main source for this section is \cite{bookOtto93}.
+
+\begin{definition}[String-rewriting systems \cite{bookOtto93}]
+Let $\Sigma$ be a finite alphabet.
+
+\begin{enumerate}
+\item A \emph{string-rewriting system} $R$ on $\Sigma$ is a subset of $\Sigma^* \times \Sigma^*$. Each element $(l, r)$ of $R$ is a \emph{(rewrite) rule}. The set $\{l \in \Sigma^* \mid \exists 
+r \in \Sigma^*: (l, r) \in R\}$ is called the \emph{domain} of $R$ and is denoted $\dom(R)$. The set $\{r \in \Sigma^* \mid \exists l \in \Sigma^*: (l, r) \in R\}$ is called the \emph{range} of $R$ and is denoted $\rng(R)$. If $R$ is finite, then the \emph{size} of $R$ is defined to be $\sum_{(l,r) \in R}(|l| + |r|)$ and is denoted $\|R\|$. The \emph{width} of rule $(l,r) \in R$ is $|l| + |r|$.
+\item If $R$ is a string-rewriting system on $\Sigma$, then the \emph{single-step reduction relation} on $\Sigma^*$, that is induced by $R$ is defined as follows: for any $u, v \in \Sigma^*$, $u \to_R v$ if and only if there exists $(l, r) \in R$ such that for some $x, y \in \Sigma^*$, $u = xly$ and $v = xry$. The \emph{reduction relation} on $\Sigma^*$ induced by $R$ is the reflexive and transitive closure of $\to_R$ and is denoted by $\to^*_R$.
+\item For a string $u \in \Sigma^*$, if there exists a string $v$ such that $u \to_R v$ holds, then $u$ is called \emph{reducible} modulo $R$, $v$ is a \emph{direct descendant} of $u$, and $u$ is a \emph{direct ancestor} of $v$. If such a string $v$ does not exist, then $u$ is called \emph{irreducible} modulo $R$. By $\Delta_R^*(u)$ we denote the set of all descendants of $u$, that is, $\Delta_R^*(u) := \{v \mid u \to_R^* v\}$, $\nabla_R^*(v)$ is the set of all ancestors of $v$, that is, $\nabla_R^*(v) := \{u \mid u \to_R^* v\}$, and by $\IRR(R)$ we denote the set of all irreducible strings modulo $R$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Let $R$ be a string-rewriting system on $\Sigma$. We say that $R$ is:
+\begin{enumerate}
+\item \emph{terminating} or \emph{noetherian} if there is no infinite sequence of reduction steps $w_1 \to_R w_2 \to_R w_3 \to_R \ldots$,
+\item \emph{locally confluent} if, for all $u, v, w \in \Sigma^*$, $u \to_R v$ and $u \to_R w$ imply that there exists some $z \in \Sigma^*$ such that $v \to_R^* z$ and $w \to_R^* z$ hold,
+\item \emph{confluent} if, for all $u, v, w \in \Sigma^*$, $u \to_R^* v$ and $u \to_R^* w$ imply that there exists some $z \in \Sigma^*$ such that $v \to_R^* z$ and $w \to_R^* z$ hold,
+\item \emph{convergent} if it is both noetherian and confluent,
+\item \emph{generalized monadic}, if $|l| \ge |r|$ and $|r|\le 1$ for each rule $(l, r)\in R$,
+\item \emph{monadic}, if $|l| > |r|$ and $|r|\le 1$ for each rule $(l, r)\in R$,
+\item \emph{length-reducing}, if for each rule $(l, r) \in R: |l| > |r|$. 
+\item \emph{non-increasing}, if for each rule $(l, r) \in R: |l| \ge |r|$. 
+\item \emph{weight-reducing}, if there exists a so-called \emph{weight function} $f: \Sigma \to \mathsf{N}$, such that for each rule $(l, r) \in R: f^*(l) > f^*(r)$, where $f^*: \Sigma^* \to \mathsf{N}$ is defined inductively as: $f^*(\lambda) = 0$, $f^*(xa) = f^*(x) + f(a)$ for all $x \in \Sigma^*, a \in \Sigma$.
+
+Note that the length-reducing string-rewriting systems represent only a special case of the more general weight-reducing string-rewriting systems. To see this just consider the following weight function: $f(a) := 1$ for all $a \in \Sigma$.
+
+Also note that every weight-reducing string-rewriting system is noetherian.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[\cite{bookOtto93}]
+If $R$ is a finite string-rewriting system on alphabet $\Sigma$, then the set $\IRR(R)$ of irreducible strings with respect to $R$ is a regular language; furthermore, a finite automaton for $\IRR(R)$ can be constructed in a polynomial time from $R$.
+\end{lemma}
+
+In the literature string-rewriting systems are also known as \emph{semi-Thue systems}. A string-rewriting system $R$ with the property that $(l, r) \in R$ implies $(r, l) \in R$ is also called a \emph{Thue system}. For a Thue system $R$, the single-step reduction relation $\to_R$ is symmetric, so that the reduction relation $\to^*_R$ coincides with the \emph{Thue congruence} $\leftrightarrow^*_R$, where $\leftrightarrow_R := \rightarrow_R \cup \rightarrow_R^{-1}$.
+
+The reason that the relation $\leftrightarrow^*_R$ is called a ``congruence'' relation is that it is an equivalence relation that is compatible with respect to concatenation of strings. For a convergent system $R$, the set $\IRR(R)$ of irreducible strings is a complete set of unique representatives for the Thue congruence $\leftrightarrow^*_R$ (see, e.g.,~\cite{bookOtto93}).
+
+While it is undecidable in general whether a finite string-rewriting system is confluent (see, e.g.,~\cite{bookOtto93}), confluence is a decidable property for finite string-rewriting systems that are terminating. Let $R$ be a string-rewriting system on~$\Sigma$. If there are two rules $(l, r)$ and $(l', r')$ in $R$ such that $l = ul'v$ for some $u,v\in\Sigma^*$, then the word $l$ can be rewritten by either of the two rules: $l \rightarrow_R r$ and $l =ul'v\rightarrow_R ur'v$. If the system $R$ is to be confluent, then the words $r$ and $ur'v$ must have a common descendant. Accordingly, the pair $(r,ur'v)$ is called a \emph{critical pair} of~$S$. Furthermore, if $l = uv$ and $l'=vw$ for some words $u,v,w\in\Sigma^+$, then the word $uvw$ can be rewritten by either rule: $uvw= l w\rightarrow_R rw$ and $uvw =ul'\rightarrow_R ur'$. Hence, also $(rw,ur')$ is  a \emph{critical pair} of~$R$.
+
+\begin{proposition}\label{PropCon}{\rm \cite{KnBe70}}
+A terminating string-rewriting system is confluent if and only if, for each critical pair $(p,q)$ of $R$, $p$ and $q$ have a common descendant mod~$S$. 
+\end{proposition}
+
+If $R$ is finite, then it has only finitely many critical pairs, which can be computed. Hence, it follows immediately that confluence is decidable for finite terminating string-rewriting systems.
+
+String-rewriting systems play a central part in the definition of the so called \emph{Church-Rosser languages}. A language $L \subseteq \Sigma^*$ is called a \emph{Church-Rosser language}, if it consists of those strings $w \in \Sigma^*$ that, placed within the context $t_1 w t_2$ of certain auxiliary strings $t_1$ and $t_2$, reduce to a certain ``accepting'' symbol with respect to a finite, length-reducing and confluent string-rewriting system. Apart from the final symbol and the symbols occurring in the contexts $t_1$ and $t_2$, also other non-terminal symbols are allowed in this definition. Although the rewriting process with respect to the string-rewriting system considered is inherently non-deterministic, the confluence of the system ensures that each reduction sequence will lead to the same result.
 
 \subsection{McNaughton Families of Languages}
 
-The material for this sub-section will be covered by \cite{Beaudry2003}.
+The natural generalization of Church-Rosser languages led to the development of the broad concept of the so-called \emph{McNaughton families} \cite{Beaudry2003}.
+
+A language $L\subseteq \Sigma^*$ is called a \emph{McNaughton language}, if there exist a finite alphabet $\Gamma$ strictly containing~$\Sigma$, a finite string-rewriting system $R$ on~$\Gamma$, strings $t_1,t_2\in(\Gamma\smallsetminus\Sigma)^*\cap \IRR(R)$, and a letter $Y\in(\Gamma\smallsetminus\Sigma)\cap \IRR(R)$ such that, for all $w\in\Sigma^*$, $w\in L$ if and only if $t_1wt_2\rightarrow^*_R Y$. Here the symbols of $\Sigma$ are \emph{terminals}, while those of $\Gamma\smallsetminus\Sigma$ can be seen as \emph{nonterminals}. We say that the McNaughton language $L$ is \emph{specified} by the four-tuple $(R,t_1,t_2,Y)$. This fact will be expressed as $L = L(R,t_1,t_2,Y)$.
+
+We illustrate this definition by a simple example.
+
+\begin{example}\label{ExMcNL}
+Let $\Sigma=\{a\}$, let $\Gamma=\{a,\cent,\$,F,Y\}$, and let $R$ be the following finite and length-reducing string-rewriting system on~$\Gamma$: $$R=\{\cent aaaa\to \cent aaF, Faa\to aF, F\$\to \$, \cent aa\$ \to Y, \cent a\$\to Y\}.$$ This system does not have any critical pairs, and hence, it is confluent. Now, for all $m\in \N$, $\cent a^m\$\rightarrow_R^* Y\mbox{ if and only if } m=2^n\mbox{ for some }n\ge 0,$ which implies that the McNaughton language $L(R,\cent,\$,Y)$ is the language $L_{\rm expo} = \{\,a^{2^n}\mid n\in \N\,\}.$
+\end{example}
+
+By placing restrictions on the finite string-rewriting systems used we obtain certain families of McNaughton languages. A McNaughton language is called \emph{weight-reducing} (\emph{length-reducing}), if it is defined using a finite string-rewriting system that is weight-reducing (length-reducing). The resulting class of languages is denoted by~\wrMcNL\ (\lrMcNL). A McNaughton language is called (\emph{generalized}) \emph{monadic}, if it is defined using a finite string-rewriting system that is (generalized) monadic. The resulting language classes are denoted by~{\sf gen-mon-McNL} and {\sf mon-McNL}. By requiring, in addition, that the string-rewriting system is confluent, we obtain the McNaughton families \conwrMcNL, \conlrMcNL, {\sf con-gen-mon-McNL}, and {\sf con-mon-McNL}. Thus, Example~\ref{ExMcNL} shows that $L_{\rm expo}\in \conlrMcNL$. Concerning these families the following results are known.
+
+\begin{theorem}{\rm \cite{Beaudry2003,Leupold2011}}\label{ThmMcNL}\\[+0.2cm]
+$\begin{array}[t]{crcccl}
+{\rm (a)} & \GCSL & = & \wrMcNL & = & \lrMcNL.\\
+{\rm (b)} & \CRL  & = & \conwrMcNL & = & \conlrMcNL.\\
+{\rm (c)} & \CFL  & = & \mbox{\sf gen-mon-McNL} & = & \mbox{\sf mon-McNL}.\\
+{\rm (d)} & \REG  & \subsetneq & \mbox{\sf con-mon-McNL} & \subseteq & 
+\mbox{\sf con-gen-mon-McNL}\; \subsetneq\; \symDCFL.
+\end{array}$
+\end{theorem}
+
+We refer the interested reader 
+to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
 
 \section{Delimited String-Rewriting Systems}
 \label{section:delimited-string-rewriting-systems}
