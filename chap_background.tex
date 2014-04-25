@@ -801,8 +801,7 @@ The main source for this section is \cite{bookOtto93}.
 Let $\Sigma$ be a finite alphabet.
 
 \begin{enumerate}
-\item A \emph{string-rewriting system} $R$ on $\Sigma$ is a subset of $\Sigma^* \times \Sigma^*$. Each element $(l, r)$ of $R$ is a \emph{(rewrite) rule}. The set $\{l \in \Sigma^* \mid \exists 
-r \in \Sigma^*: (l, r) \in R\}$ is called the \emph{domain} of $R$ and is denoted $\dom(R)$. The set $\{r \in \Sigma^* \mid \exists l \in \Sigma^*: (l, r) \in R\}$ is called the \emph{range} of $R$ and is denoted $\rng(R)$. If $R$ is finite, then the \emph{size} of $R$ is defined to be $\sum_{(l,r) \in R}(|l| + |r|)$ and is denoted $\|R\|$. The \emph{width} of rule $(l,r) \in R$ is $|l| + |r|$.
+\item A \emph{string-rewriting system} ($\SRS$) $R$ on $\Sigma$ is a subset of $\Sigma^* \times \Sigma^*$. Each element $(l, r)$ of $R$ is a \emph{(rewrite) rule}. The set $\{l \in \Sigma^* \mid \exists r \in \Sigma^*: (l, r) \in R\}$ is called the \emph{domain} of $R$ and is denoted $\dom(R)$. The set $\{r \in \Sigma^* \mid \exists l \in \Sigma^*: (l, r) \in R\}$ is called the \emph{range} of $R$ and is denoted $\rng(R)$. If $R$ is finite, then the \emph{size} of $R$ is defined to be $\sum_{(l,r) \in R}(|l| + |r|)$ and is denoted $\|R\|$. The \emph{width} of rule $(l,r) \in R$ is $|l| + |r|$.
 \item If $R$ is a string-rewriting system on $\Sigma$, then the \emph{single-step reduction relation} on $\Sigma^*$, that is induced by $R$ is defined as follows: for any $u, v \in \Sigma^*$, $u \to_R v$ if and only if there exists $(l, r) \in R$ such that for some $x, y \in \Sigma^*$, $u = xly$ and $v = xry$. The \emph{reduction relation} on $\Sigma^*$ induced by $R$ is the reflexive and transitive closure of $\to_R$ and is denoted by $\to^*_R$.
 \item For a string $u \in \Sigma^*$, if there exists a string $v$ such that $u \to_R v$ holds, then $u$ is called \emph{reducible} modulo $R$, $v$ is a \emph{direct descendant} of $u$, and $u$ is a \emph{direct ancestor} of $v$. If such a string $v$ does not exist, then $u$ is called \emph{irreducible} modulo $R$. By $\Delta_R^*(u)$ we denote the set of all descendants of $u$, that is, $\Delta_R^*(u) := \{v \mid u \to_R^* v\}$, $\nabla_R^*(v)$ is the set of all ancestors of $v$, that is, $\nabla_R^*(v) := \{u \mid u \to_R^* v\}$, and by $\IRR(R)$ we denote the set of all irreducible strings modulo $R$.
 \end{enumerate}
@@ -875,12 +874,200 @@ to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in
 \section{Delimited String-Rewriting Systems}
 \label{section:delimited-string-rewriting-systems}
 
-The material for this section will be covered by \cite{delaHiguera2010, Eyraud2007}.
+In this section we give a short overview of \emph{delimited string-rewriting systems} ($\DSRS$) \cite{Eyraud2007}, which are expressive enough to define a nontrivial class of languages containing all regular languages and some context-free languages. Additionally, we present a novel algorithm \emph{LARS} \cite{Eyraud2007} (Learning Algorithm for Rewriting Systems) which identifies a large subclass of these languages in polynomial time. In fact, a simplified version of LARS \cite{delaHiguera2010} identifies any delimited string-rewriting system in the limit. The main difference between delimited string-rewriting systems and string-rewriting systems is that delimited string-rewriting systems use a specific order relation over the set of all terms and rules in order to make always only one single rule eligible for application for any given input string. This makes them an efficient (often linear) parsing device for strings with the membership problem decidable in polynomial time.
 
-\subsection{LARS}
+First, we introduce two new symbols $\cent$ and $\$$, called the \emph{sentinels}, that do not belong to the alphabet $\Sigma$. We will be concerned with languages that are subsets of $\cent \cdot \Sigma^* \cdot \$$. As for the rewrite rules, they will be made of pairs of \emph{terms} partially marked; a term is a string from $T(\Sigma) = \{\lambda, \cent\} \cdot \Sigma^* \cdot \{\lambda, \$\}$.
+
+Terms in $T(\Sigma)$ can be of the following \emph{types}: type $1$: $w \in \Sigma^*$, type $2$: $w \in \cent \cdot \Sigma^*$, type $3$: $w \in \Sigma^* \cdot \$$, and type $4$: $w \in \cent \cdot \Sigma^* \cdot \$$. For $w \in T(\Sigma)$ the \emph{root} of $w$ is $w$ without the sentinels $\cent$ and $\$$, e.g. $root(\cent aab) = aab$. We define a specific order relation over $T(\Sigma)$: $u < v \Leftrightarrow root(u) <_{lex-length} root(v) \vee (root(u) = root(v) \wedge type(u) < type(v))$, where $w_1 <_{lex-length} w_2 \Leftrightarrow |w_1| < |w_2| \vee (|w_1| = |w_2| \wedge w_1 <_{lex} w_2)$. For instance, $ab < \cent ab < ab \$ < \cent ab \$ < ba$.
+
+A \emph{rewrite rule} $\rho$ is an ordered pair of terms $\rho = (l, r)$, generally written as $\rho = l \vdash r$. The term $l$ is called the \emph{left-hand side} of $\rho$ and $r$ is \emph{right-hand side} of $\rho$. We say that $\rho = l \vdash r$ is a \emph{delimited rewrite rule} if $l$ and $r$ are of the same type. By a \emph{delimited string-rewriting system} ($\DSRS$), we mean any finite set $\mathcal{R}$ of delimited rewrite rules. The order relation extends to rules: $(l_1, r_1) < (l_2, r_2)$ if $l_1 < l_2$ or $(l_1 = l_2) \wedge (r_1 < r_2)$.
+
+A system is \emph{deterministic} if no two rules share a common left-hand side. Given a system $\mathcal{R}$ and string $w$, there may be several rules applicable upon $w$. Nevertheless, only one rule is eligible. This is the rule having the smallest left-hand side. The same rule might be eligible in different places, but we systematically privilege the leftmost position.
+
+Given a $\DSRS$ $\mathcal{R}$ and two strings $w_1, w_2 \in T(\Sigma)$, we say that $w_1$ \emph{rewrites in one step into} $w_2$, written $w_1 \vdash_{\mathcal{R}} w_2$ or simply $w_1 \vdash w_2$, if there exists an eligible rule $(l \vdash r) \in \mathcal{R}$ for $w_1$, and there are two strings $u, v \in T(\Sigma)$ such that $w_1 = ulv$ and $w_2 = urv$, and furthermore $u$ is shortest for this rule. A string $w$ is \emph{reducible} if there exists $w'$ such that $w \vdash w'$, and \emph{irreducible} otherwise. Let $\vdash_{\mathcal{R}}^* $ (or simply $\vdash^*$) denote the reflexive and transitive closure of $\vdash_{\mathcal{R}}$. We say that $w_1$ \emph{reduces to} $w_2$ or that $w_2$ is \emph{derivable from} $w_1$ if $w_1 \vdash_{\mathcal{R}}^* w_2$.
+
+Given a $\DSRS$ $\mathcal{R}$ and an irreducible string $e \in \Sigma^*$ we define the language $L(\mathcal{R}, e)$ as the set of strings that reduce to $e$ using the rules of $\mathcal{R}$: $L(\mathcal{R}, e) = \{ w \in \Sigma^* \mid \cent w \$ \vdash_{\mathcal{R}}^* \cent e \$ \}.$ Deciding whether a string $w$ belongs to a language $L(\mathcal{R}, e)$ consists of trying to obtain $e$ from $w$ by a rewriting derivation. We will denote by $\Apply_{\mathcal{R}}(w)$ the string obtained by applying the different rules in $\mathcal{R}$ until no more rules can be applied. We extend the notation to a set of strings: $\Apply_{\mathcal{R}}(S) = \{\Apply_{\mathcal{R}}(w) \mid w \in S\}$.
+
+\begin{example}
+Let $\Sigma = \{a, b\}$. 
+\begin{enumerate}
+\item $L(\{ab \vdash \lambda\}, \lambda)$ is the \emph{Dyck language}. The single rule erases substring $ab$, as is illustrated in the following example of derivation:
+$$\cent aabb \underline{ab} \$ \vdash
+\cent a \underline{ab} b \$ \vdash
+\cent \underline{ab} \$ \vdash
+\cent \lambda \$.$$
+\item $L(\{ab \vdash \lambda; ba \vdash \lambda\}, \lambda)$ is the language $\{w \in \Sigma^* \mid |w|_a = |w|_b\}$, because every rewriting step erases one $a$ and one $b$.
+\item $L(\{aabb \vdash ab; \cent ab \$ \vdash \cent \$\}, \lambda)$ is the language $\{a^n b^n \mid n \ge 0\}$. For instance, 
+$$\cent aa \underline{aabb} bb \$ \vdash
+\cent a \underline{aabb} b \$ \vdash
+\cent \underline{aabb} \$ \vdash
+\cent \underline{ab} \$ \vdash
+\cent \lambda \$.$$
+\item $L(\{\cent ab \vdash \cent \}, \lambda)$ is the regular language $(ab)^*$. It can be shown that given any regular language $L$ there is a system $\mathcal{R}$ such that $L(\mathcal{R}, \lambda) = L$.
+\end{enumerate}
+\end{example}
+
+\subsection{Algorithm LARS}\label{section:lars}
+
+Learning Algorithm for Rewriting Systems (LARS) introduced in \cite{Eyraud2007} generates the possible rules among those that can be applied over the positive samples $S_+$, tries using them and keeps them if they do not create inconsistency (using the negative samples $S_-$ for that). Algorithm LARS calls the function $\NewRule$, which generates the next possible rule to be checked.
+
+For this, one should choose \emph{useful} rules, i.e. those that can be applied on at least one string from $S_+$. One might also consider useful a rule that allows us to diminish the size of the set $S_+$: a rule which, when added, has the property that two different strings rewrite into an identical string. The goal of usefulness is to avoid an exponential explosion in the number of rules to be checked. The function $\Consistent$ checks that by adding the new rule to the system, one does not rewrite a positive example and a negative example into a same string.
+
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Learning algorithm $\mathsf{LARS}(S_+, S_-)$}
+\label{algorithm:lars}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{Sample $S = (S^+, S^-)$ over $\Sigma$.}
+\Output{A $\DSRS$ $\mathcal{R}$}
+$\mathcal{R} \gets \emptyset,\ \rho \gets (\lambda \vdash \lambda)$\;
+\While{$|S_+| > 1$}
+{$\rho \gets \NewRule(S_+, \rho)$\;
+\If{$\Consistent(S_+, S_-, \mathcal{R} \cup \{\rho\})$}{
+$\mathcal{R} \gets \mathcal{R} \cup \{\rho\}$\;
+$S_+ \gets \Apply_{\mathcal{R}}(S_+)$\;
+$S_- \gets \Apply_{\mathcal{R}}(S_-)$\;
+}}
+\Return{$\mathcal{R}$}\;
+\end{algorithm}
+
+The goal is to be able to learn any $\DSRS$ with LARS. The simplified version proposed here can be used as basis for that, and does identify in the limit any $\DSRS$. Nevertheless, a more comprehensive study of the properties of this algorithm is beyond scope of this thesis. We refer the interested reader to the article \cite{Eyraud2007}.
 
 \section{Context Rewriting Systems}
 \label{section:context-rewriting-systems}
+
+In this thesis we use the so-called \emph{context rewriting systems} ($\CRS$) as a framework for all considered models. Context rewriting systems naturally emerge from ideas of both string-rewriting systems and delimited string-rewriting systems. However, there are several important differences. Unlike string-rewriting systems the rewriting rules of $\CRS$ are extended by \emph{contexts} that limit their application. As we have already mentioned, delimited string-rewriting systems use a specific order relation over the set of all terms and rules. Context rewriting systems, on the other hand, are nondeterministic and do not use any ordering. To test whether a word $w$ belongs to the language $L(M)$ accepted by a given $\CRS$ $M$, one has to check whether $w$ can be reduced to the empty word $\lambda$ by a sequence of applications of the instructions of $M$.
+
+\begin{definition}[Context rewriting systems \cite{CM10}]\label{definition:crs}
+A \emph{context rewriting system} (\emph{$\CRS$} for short) is a system $M = (\Sigma, \Gamma, \Phi)$, where $\Sigma$ is an \emph{input alphabet}, $\Gamma \supseteq \Sigma$ is a \emph{working alphabet} not containing the special symbols $\cent$ and $\$$, called \emph{sentinels}, and $\Phi$ is a finite set of \emph{instructions} of the form: $$(x, z \to t, y)\;,$$ where $x$ is called the \emph{left context}, $x \in \{\lambda, \cent\}\cdot\Gamma^*$, $y$ is called the \emph{right context}, $y \in \Gamma^*\cdot\{\lambda, \$\}$, and $z \to t$ is called the \emph{instruction-rule}, $z, t \in \Gamma^*$. The \emph{width} of the instruction $\phi = (x, z \to t, y)$ is $|\phi| = |xzty|$. The \emph{width} of the context rewriting system $M$ is $|M| = \max_{\phi \in \Phi} |\phi|$ and the \emph{size} of the context rewriting system $M$ is $\size(M) = \sum_{\phi \in \Phi} |\phi|$. If the input alphabet and the working alphabet of $M$ are known from the context, we use $M$ and $\Phi$ interchangeably. We also use a shorter notation $(\Sigma, \Phi)$ to denote a $\CRS$ $(\Sigma, \Sigma, \Phi)$ without auxiliary symbols.
+
+For arbitrary words $u, v, z, t \in \Gamma^*$, a word $w = uzv$ \emph{can be rewritten} into $utv$ (denoted as $uzv \vdash_M utv$ or $uzv \vdash_{\Phi} utv$) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$ such that $x$ is a suffix of $\cent \cdot u$ and $y$ is a prefix of $v \cdot \$ $. We often underline the rewritten part of the word $w$, and if the instruction $\phi$ is known we use $\vdash^{(\phi)}_M$ instead of $\vdash_M$, i.e., $u \underline{z} v \vdash^{(\phi)}_M utv$.
+
+The relation $\vdash_M \ \subseteq \Gamma^* \times \Gamma^*$ is called the \emph{rewriting relation}.
+
+Let $l \in \{\lambda, \cent\} \cdot \Gamma^*$, and $r \in \Gamma^* \cdot \{\lambda, \$\}$. A word $w = uzv$ \emph{can be rewritten in the context $(l, r)$} into $utv$ (denoted as $uzv \vdash_M utv$ \emph{in the context $(l, r)$}) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$, such that $x$ is a suffix of $l \cdot u$ and $y$ is a prefix of $v \cdot r$. Each definition that uses the rewriting relation $\vdash_M$ can be \emph{relativized} to any context $(l, r)$. Unless told otherwise, we will use the \emph{standard context} $(l, r) = (\cent, \$)$.
+
+A context rewriting system $M = (\Sigma, \Gamma, \Phi)$ is called \emph{simplified} if for every $\phi = (x, z \to t, y) \in \Phi: z \not\vdash_{\Phi - \{\phi\}}^* t$ in the context $(x, y)$.
+
+The \emph{language} associated with $M$ is defined as $L(M) = \{w \in \Sigma^* \mid w \vdash_M^* \lambda \}$, where $\vdash_M^*$ is the reflexive and transitive closure of $\vdash_M$. Note that, by definition, $\lambda \in L(M)$.
+\end{definition}
+
+\begin{example}[\cite{C13}]\label{example:a^n_b^n}
+Let $M = (\Sigma, \Phi)$ be a $\CRS$ with $\Sigma = \{a, b\}$ and $\Phi$ consisting of the following two instructions:
+$$
+\begin{array}{l}
+(1) \quad (a, ab \to \lambda, b),\\
+(2) \quad (\cent, ab \to \lambda, \$).
+\end{array}
+$$
+Then we have $aaa\underline{ab}bbb \vdash^{(1)}_{M} aa\underline{ab}bb \vdash^{(1)}_{M} a\underline{ab}b \vdash^{(1)}_{M} \underline{ab} \vdash^{(2)}_{M} \lambda$, which means that $aaaabbbb \vdash_{M}^* \lambda$. So the word $aaaabbbb$ is accepted by $M$. It is easy to see that $M$ recognizes the language $L(M) = \{a^n b^n \mid n\ge 0\}$.
+\end{example}
+
+\begin{example}\label{example:dyck}
+Let $M = (\Sigma, \Phi)$ be a $\CRS$ with $\Sigma = \{a, b\}$ and $\Phi$ consisting of only one instruction $(\lambda, ab \to \lambda, \lambda)$. Then we have $aba\underline{ab}bab \vdash_M ab\underline{ab}ab \vdash_M \underline{ab}ab \vdash_M \underline{ab} \vdash_M \lambda$, which means that $abaabbab \vdash_M^* \lambda$. So the word $abaabbab$ is accepted by $M$. It is easy to see that $M$ recognizes the \emph{Dyck language} of correct parentheses over $\Sigma$, i.e., the language generated by $S$ in the grammar: $S \to TS \mid \lambda; \ \ T \to a S b$.
+\end{example}
+
+\begin{definition}
+Let  $M = (\Sigma, \Gamma, \Phi)$ be a context rewriting system. We say that $M$ is:
+\begin{enumerate}
+\item \emph{length-reducing}, if for each instruction $\phi = (x, z \to t, y) \in \Phi: |z| > |t|$.
+
+\item \emph{weight-reducing}, if there exists a \emph{weight function} $f: \Gamma \to \mathsf{N}$, such that for each instruction $\phi = (x, z \to t, y) \in \Phi: f^*(z) > f^*(t)$, where $f^*: \Gamma^* \to \mathsf{N}$ is defined inductively as: $f^*(\lambda) = 0$, $f^*(xa) = f^*(x) + f(a)$ for all $x \in \Gamma^*, a \in \Gamma$.
+
+\item \emph{confluent} if, for all $u, v, w \in \Gamma^*$, $u \vdash_M^* v$ and $u \vdash_M^* w$ imply that there exists some $z \in \Gamma^*$ such that $v \vdash_M^* z$ and $w \vdash_M^* z$ hold.
+
+\item \emph{$\lambda$-confluent} if, for all $u, v \in \Gamma^*$, $u \vdash_M^* \lambda$ and $u \vdash_M^* v$ imply that $v \vdash_M^* \lambda$.
+
+%Note that length-reducing context rewriting systems are only a special case of weight-reducing context rewriting systems. To see this just consider a weight function: $f(a) := 1$, for all $a \in \Gamma$.
+\end{enumerate}
+\end{definition}
+
+All context rewriting systems have the following basic property.
+
+\begin{lemma}[Error Preserving Property, \cite{O06}]\label{lemma:error-preserving}
+Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$ and $u, v$ be two words over $\Gamma$. If $u \vdash_M^* v$ and $u \not\in L(M)$, then $v \not\in L(M)$.
+\end{lemma}
+
+All $\lambda$-confluent context rewriting systems can be characterized in the following way.
+
+\begin{lemma}[Correctness Preserving Property, \cite{O06}]\label{lemma:correctness-preserving}
+Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$. $M$ is $\lambda$-confluent if and only if for all $u, v \in \Gamma^*$ the following property holds: if $u \vdash_M^* v$ and $u \in L(M)$, then $v \in L(M)$.
+\end{lemma}
+
+It is easy to see that general $\CRS$ can simulate any type $0$ grammar (according to the Chomsky hierarchy \cite{HopcroftMotwaniUllman07}). Hence we will not study $\CRS$ in their general form, since they are too powerful (they can represent all recursively enumerable languages). Instead, we will always put some restrictions on the instructions and then study such restricted models.
+
+\begin{definition}[Restrictions \cite{C13}]\label{definition:restrictions}
+We distinguish two types of restrictions: \emph{local} and \emph{global} restrictions. \emph{Local restrictions} (\ref{restriction:contexts}, \ref{restriction:width}, \ref{restriction:rules}) restrict each instruction individually (in other words, the decision whether the instruction satisfies a local restriction does not depend on other instructions). \emph{Global restrictions} (\ref{restriction:lambda}) restrict the whole set of instructions.
+\begin{enumerate}
+\item\label{restriction:contexts}
+We can restrict the \emph{length of contexts} to a positive integer constant $k$. More precisely, we can restrict each instruction $(x, z \to t, y)$ of a $\CRS$ $M=(\Sigma, \Gamma, \Phi)$ to satisfy the following constraints: $x \in LC_k := \Gamma^k \cup \{\cent\}\cdot\Gamma^{\le k-1}$ and $y \in RC_k := \Gamma^k \cup \Gamma^{\le k-1}\cdot\{\$\}$.
+
+We also include a special case $k = 0$. In this case we require that each instruction $(x, z \to t, y)$ of a $\CRS$ $M=(\Sigma, \Gamma, \Phi)$ satisfies: $x = y = \lambda$.
+
+In addition, we use a special notation $k = \cdot$, if the length of contexts $k$ is not specified. In this case we define $LC_k = \{\lambda, \cent\} \cdot \Gamma^*$ and $RC_k = \Gamma^* \cdot \{\lambda, \$\}$.
+
+If a context rewriting system $M=(\Sigma, \Gamma, \Phi)$ satisfies the above restrictions, then we call such system $M$ a \emph{$k$-context rewriting system} ($\kCRS$ for short). We extend this notation to all classes derived from context rewriting systems: If $\calM$ is a class of context rewriting systems, then $\kcalM$ denotes the class of all context rewriting systems $M=(\Sigma, \Gamma, \Phi) \in \calM$ such that, for every instruction $(x, z \to t, y) \in \Phi$: $x \in LC_k$ and $y \in RC_k$.
+
+Naturally, if we increase the length of contexts used in instructions of a context rewriting system, we do not decrease their expressiveness.
+
+\item\label{restriction:width}
+We can restrict the \emph{width} of a context rewriting system $M=(\Sigma, \Gamma, \Phi)$ to be bounded from above by a positive integer constant $l$. In that case every instruction $\phi = (x, z \to t, y) \in \Phi$ satisfies the following constraint: $|\phi| = |xzty| \le l$.
+
+We call such system $M$ a context rewriting system \emph{with maximal width $l$}.
+
+If $\calM$ is a class of context rewriting systems, then $\llcalM$ denotes the class of all context rewriting systems $M \in \calM$ such that, for every instruction $\phi \in \Phi$: $|\phi| \le l$. Similarly, $\klcalM$ denotes the class of all context rewriting systems $M \in \kcalM$ such that, for every instruction $\phi \in \Phi$: $|\phi| \le l$.
+
+\item\label{restriction:rules}
+We can restrict the \emph{instruction-rules} of a context rewriting system $M=(\Sigma, \Gamma, \Phi)$. There are too many possibilities how to restrict instruction-rules, so we list only few examples. We can restrict each instruction $\phi = (x, z \to t, y)$ of a
+$\CRS$ $M$ to satisfy:
+\begin{enumerate}
+\item $t = \lambda$.
+\item $t$ is a subword of $z$.
+\item $t$ is at most one letter, i.e., $|t| \le 1$.
+\end{enumerate}
+
+\item\label{restriction:lambda}
+Finally, we can restrict the context rewriting system to be $\lambda$-confluent. Notice that this is a global restriction affecting the whole \emph{set of instructions}.
+\end{enumerate}
+For each combination of the above restrictions we get a different class of context rewriting systems $\calM$ with possibly different properties and expressiveness. By $\calL{\calM}$ we denote the corresponding class of languages, i.e., $\calL{\calM} = \{L(M) \mid M \in \calM\}$.
+\end{definition}
+
+\begin{definition}[\cite{C13}]\label{definition:nf}
+Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definition:restrictions}. We say that $M = (\Sigma, \Phi) \in \calM$ has:
+\begin{enumerate}
+\item \emph{Minimal set of instructions}, if for every $N = (\Sigma, \Psi) \in \calM$, $\Psi \subset \Phi \Rightarrow L(N) \neq L(M)$.
+\item \emph{Minimal width}, if for every $N = (\Sigma, \Psi) \in \calM$, $|N| < |M| \Rightarrow L(N) \neq L(M)$.
+\end{enumerate}
+\end{definition}
+
+By using the framework of context rewriting systems we can define many interesting classes that have been studied intensively in several papers. In the following, we discuss \emph{clearing}, \emph{$\Delta$-clearing}, \emph{subword-clearing} and \emph{limited-context restarting automata}.
+
+%\begin{definition}[Derived Classes]
+
+\begin{enumerate}
+\item\label{definition:clra} A \emph{clearing restarting automaton} \cite{CM10} (\emph{$\clRA$} for short) is a $\CRS$ $M = (\Sigma, \Phi)$, where for each instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t = \lambda$. Since $t$ is always the empty word, we use the short notation $\phi = (x, z, y)$.
+
+\item\label{definition:dclra} A \emph{$\Delta$-clearing restarting automaton} \cite{CM10} (\emph{$\DclRA$} for short) is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where $\Gamma = \Sigma \cup \{\Delta\}$, $\Delta \notin \Sigma$, and for each instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Gamma^+$ and $t \in \{\lambda, \Delta\}$.
+
+\item\label{definition:sclra}
+A \emph{subword-clearing restarting automaton} \cite{C12} (\emph{$\sclRA$} for short) is a $\CRS$ $M = (\Sigma, \Phi)$, where for each instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t$ is a subword of $z$, such that $|t| < |z|$.
+
+\item \label{definition:lcra} A \emph{limited-context restarting automaton} \cite{B10Diploma, B11, OCM12} (\emph{$\lcRA$} for short) of type $\mathcal{R}_0$ is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where each instruction $\phi = (x, z \to t, y) \in \Phi$ is length-reducing. For $\lcRA$ of type $\mathcal{R}_1$ we require, in addition, that $|t| \le 1$, and for $\lcRA$ of type $\mathcal{R}_2$ we require, in addition, that $|t| \le 1$, $x \in \{\cent, \lambda\}$, and $y \in \{\$, \lambda\}$.
+\end{enumerate}
+%\end{definition}
+
+\begin{remark}\label{remark:lambda}
+Speaking about a $\clRA$ $M$ ($\DclRA$, $\sclRA$, $\lcRA$ $M$, respectively) we use ``automata terminology,'' e.g., we say that $M$ \emph{accepts} a word $w$ if $w \in L(M)$. By definition, each $\clRA$ ($\DclRA$, $\sclRA$, $\lcRA$) accepts $\lambda$. If we say that a $\clRA$ ($\DclRA$, $\sclRA$, $\lcRA$) $M$ \emph{recognizes} (or \emph{accepts}) a language $L$, we always mean that $L(M) = L \cup \{\lambda\}$.
+This implicit acceptance of the empty word can be avoided by a slight modification of context rewriting systems, but in principle, we would not get a more powerful model. We simply ignore the empty word in this setting.
+\end{remark}
+
+Clearing restarting automata are studied in \cite{CM10}. Although clearing restarting automata are very restricted, they can recognize all regular languages, some context-free languages and even some non-context-free languages. However, there are some context-free languages that are outside the class of languages accepted by clearing restarting automata. For instance, the language $L = \{a^n c b^n \mid n \ge 0\}$ is not recognized by any clearing restarting automaton. On the other hand, it can be easily shown that this language is recognized by the subword-clearing restarting automaton $M = (\{a, b, c\}, \Phi)$ with $\Phi = \{(a, acb \to c, b), (\cent, acb \to \lambda, \$)\}$. In general, however, not all context-free languages can be recognized by subword-clearing restarting automata \cite{C13}. Interestingly, in \cite{CM11} it has been shown that $\CFL \subseteq \calL{\DclRA}$, thus only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages. 
+
+Obviously, limited-context restarting automaton ($\lcRA$) of type $\mathcal{R}_1$ is a proper extension of the clearing restarting automaton, while $\lcRA$ of type $\mathcal{R}_2$ is incomparable to the clearing restarting automaton. In \cite{OCM12} limited context restarting automata and their confluent versions are put into the context of \emph{McNaughton families of languages} \cite{Beaudry2003}, relating the classes of languages accepted by these automata in particular to the class $\GCSL$ of \emph{growing context-sensitive languages} \cite{BO98,Dahlhaus1986} and to the class $\CRL$ of \emph{Church-Rosser languages} \cite{MNO88}.
+
+The decidability of $\lambda$-confluence for clearing restarting automata and limited-context restarting automata is studied in \cite{OM13}. It turns out that $\lambda$-confluence is not even recursively enumerable for clearing restarting automata and that it is decidable in double exponential time for limited-context restarting automata of type $\mathcal{R}_2$. Although the undecidability of $\lambda$-confluence for clearing restarting automata might seem prohibitive for learning $\lambda$-confluent $\CRS$, we will see that we do not need to verify $\lambda$-confluence at all. Interestingly, a stronger notion of \emph{confluence} is decidable for all limited-context restarting automata of type $\mathcal{R}_0$. 
 
 \section{Other Models}
 \label{section:other-models}
