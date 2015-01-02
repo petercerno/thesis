@@ -1,0 +1,16 @@
+2014-05-16
+
+[ ] TODO: Replace "i.e." by "i.\,e.\ "
+[ ] TODO: Replace \mbox (\makebox) by \textup.
+
+2015-01-01
+
+[ ] Resolve all TODOs in the text.
+[ ] Add \cite{} references to Theorems.
+[ ] Unify ending symbol in definitions etc.
+[ ] Check old reviews. Update i.e., etc.
+[ ] Check missing references \ref{} and citations \cite{}.
+[ ] Add index.
+[ ] Add list of tables / figures etc.
+
+[ ] Make a technical report from the rejected FI publication.
