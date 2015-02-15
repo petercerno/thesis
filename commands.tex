@@ -198,3 +198,6 @@
 \newcommand{\Apply}{\makebox{\sf Apply}}
 \newcommand{\NewRule}{\makebox{\sf NewRule}}
 \newcommand{\Consistent}{\makebox{\sf Consistent}}
+
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line

@@ -14,3 +14,8 @@
 [ ] Add list of tables / figures etc.
 
 [ ] Make a technical report from the rejected FI publication.
+
+2015-01-17
+
+[ ] Update reference labels!
+[ ] Update the reference concerning the decidability of the lambda-confulence.
