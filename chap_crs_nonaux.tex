@@ -888,7 +888,6 @@ Let $\calLL$ be a class of languages represented by some class $\calM$ of models
 
 \item An $(\calLL, \calM)$-learning algorithm $\calA$ is a program that takes as input a sample and outputs a representation from $\calM$. The \emph{size} of a model $M \in \calM$, denoted as $\size(M)$, can be defined as a measure proportional to the number of bits that we need in order to represent the model $M$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 We use the paradigm of polynomial identification, as defined in \cite{Gold78, delaHiguera1997}. In this paradigm we require that the learning algorithm has a running time polynomial in the size of the data from which it has to learn from. Next we want the algorithm to converge in some way to a chosen target, ideally after having seen a polynomial number of examples only. As this constraint is usually too hard, we want the convergence to take place in the limit, i.\,e., after having seen a finite number of examples. The polynomial aspects are then taken into account by using the size of a minimal \emph{characteristic} sample, whose presence should ensure identification.
@@ -900,7 +899,6 @@ A class $\calLL$ of languages is \emph{identifiable in polynomial time and data 
 
 \item\label{polynomial2} For each model $M \in \calM$ representing the language $L \in \calLL$, there exists a finite \emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ of size at most $O(\beta(\size(M)))$ and a model $N \in \calM$: $L(N) = L(M)$, such that, on all samples $S = (S^+, S^-)$ for $L$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, $\calA$ returns the model $N$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 Unfortunately, Definition \ref{definition:identification2} is too strict for our purposes. We will need to relax this definition in two ways. First, we drop the requirement on the size of the characteristic sample, since in some cases the characteristic sample can be exponentially large. Second, we relax the condition $\calLL = \calL{\calM}$ to $\calLL \subseteq \calL{\calM}$. In other words, our class of models $\calM$ will be more expressive than the class of languages $\calLL$ that we want to infer. This is a reasonable relaxation in the setting of inferring $\lambda$-confluent models, since we are not able to effectively represent the class of $\lambda$-confluent models ($\lambda$-confluence is, in most cases, not even recursively enumerable).
@@ -912,7 +910,6 @@ Let $\calLL$ be a class of languages that is representable by some class $\calM$
 
 \item\label{relaxed-polynomial2} For each model $M \in \calM$ representing the language $L \in \calLL$, there exists a finite \emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ and a model $N \in \calM$: $L(N) = L(M)$, such that, on all samples $S = (S^+, S^-)$ for $L$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, $\calA$ returns the model $N$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 \subsection{Learning Algorithm}\label{section:algorithm}
@@ -962,18 +959,16 @@ We call the function $\mathsf{Assumptions}$ \emph{correct} with respect to a cla
 \item For every set $S^+ \subseteq \Sigma^*$, the set of instructions $\Phi = \mathsf{Assumptions}(S^+, k, l)$ is finite. Additionally, every instruction $\phi = (x, z \to t, y) \in \Phi$ is a \emph{legal} instruction of the class $\klcalM$ (i.\,e., $\phi$ satisfies all local restrictions of the class $\klcalM$).
 \item For every $M = (\Sigma, \Phi) \in \klcalM$  with \emph{minimal set of instructions}, there exists a finite set $S_0^+ \subseteq L(M)$ such that for every $S^+ \supseteq S_0^+: \Phi \subseteq \mathsf{Assumptions}(S^+, k, l)$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 \begin{definition}[Monotone assumptions]\label{definition:monotone-assumptions}
 We call the function $\mathsf{Assumptions}$ \emph{monotone} if:
 \begin{enumerate}
 \item For every $S_1^+ \subseteq S_2^+ \subseteq \Sigma^*:
-\mathsf{Assumptions}(S_1^+, k, l) \subseteq \mathsf{Assumptions}(S_2^+, k, l)$, and
+\mathsf{Assumptions}(S_1^+, k, l) \subseteq \mathsf{Assumptions}(S_2^+, k, l)$, 
 \item For every $l_1 \le l_2:
 \mathsf{Assumptions}(S^+, k, l_1) \subseteq \mathsf{Assumptions}(S^+, k, l_2)$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 

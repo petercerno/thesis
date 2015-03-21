@@ -15,8 +15,6 @@
 \newcommand{\DXclRA}{\mbox{\sf $\Delta^*$cl-RA\/}}
 \newcommand{\kDXclRA}[1][k]{\mbox{\sf $#1$-\DXclRA}}
 
-\newcommand{\lcRA}{\mbox{\sf lc-RA\xspace}}
-
 \newcommand{\Pref}{\mbox{\it Pref\/}}
 \newcommand{\Suff}{\mbox{\it Suff\/}}
 \newcommand{\Int}{\mbox{\it Int\/}}
@@ -31,6 +29,8 @@
 \newcommand{\pda}{\mbox{\sf pda}}
 \newcommand{\dpda}{\mbox{\sf dpda}}
 
+\newcommand{\subsetfin}{\subset_{fin}}
+
 \newcommand{\X}{\mbox{\sf X}}
 \newcommand{\R}{\mbox{\sf R}}
 \newcommand{\RW}{\mbox{\sf RW}}
@@ -44,6 +44,7 @@
 \newcommand{\RRWW}{\mbox{\sf RRWW}}
 \newcommand{\RrWW}{\mbox{\sf R(R)WW}}
 \newcommand{\RLWW}{\mbox{\sf RLWW}}
+\newcommand{\sRRWW}{\mbox{\sf sRRWW}}
 
 \newcommand{\monPrefix}{\mbox{\sf mon-}}
 \newcommand{\monX}{\mbox{\sf mon-X}}
@@ -93,6 +94,7 @@
 \newcommand{\ALD}{\mbox{\sf ALD}}
 \newcommand{\CFL}{\makebox{\sf CFL}}
 \newcommand{\DCFL}{\makebox{\sf DCFL}}
+\newcommand{\symDCFL}{\makebox{\sf symDCFL}}
 \newcommand{\Lin}{\makebox{\sf Lin}}
 \newcommand{\Ocl}{\makebox{\sf Ocl}}
 \newcommand{\LL}{\makebox{\sf LL}}
@@ -101,20 +103,18 @@
 \newcommand{\DCSL}{\makebox{\sf DCSL}}
 \newcommand{\GCSL}{\makebox{\sf GCSL}}
 \newcommand{\RE}{\makebox{\sf RE}}
+\newcommand{\REG}{\makebox{\sf REG}}
 \newcommand{\FA}{\makebox{\sf FA}}
 \newcommand{\DFA}{\makebox{\sf DFA}}
 \newcommand{\NFA}{\makebox{\sf NFA}}
 \newcommand{\NNFA}{\makebox{\sf NNFA}}
+\newcommand{\TNFA}{\makebox{\sf 2NFA}}
 \newcommand{\AFA}{\makebox{\sf AFA}}
 \newcommand{\LBA}{\makebox{\sf LBA}}
 \newcommand{\ATM}{\makebox{\sf ATM}}
-
-\newcommand{\symDCFL}{\makebox{\sf symDCFL}}
 \newcommand{\ICGB}{\makebox{\sf ICGBC}}
 \newcommand{\PDA}{\makebox{\sf PDA}}
 \newcommand{\DPDA}{\makebox{\sf DPDA}}
-\newcommand{\TNFA}{\makebox{\sf 2NFA}}
-\newcommand{\REG}{\makebox{\sf REG}}
 
 \newcommand{\TPDA}{\mbox{\sf TPDA}}
 \newcommand{\sTPDA}{\mbox{\sf sTPDA}}
@@ -160,7 +160,7 @@
 \newcommand{\CR}{\makebox{\sf CR}}
 
 \newcommand{\calLL}{\textup{\sf $\mathcal{L}$\xspace}}
-\newcommand{\calL}[1]{{\mathcal{L}}(#1)}
+\newcommand{\calL}[1]{{\cal L}(#1)}
 \newcommand{\calM}{\textup{\sf $\mathcal{M}$\xspace}}
 \newcommand{\calA}{\textup{\sf $\mathcal{A}$\xspace}}
 \newcommand{\kcalM}[1][k]{\textup{\sf $#1$-\calM}}
@@ -201,3 +201,36 @@
 
 \let\oldnl\nl% Store \nl in \oldnl
 \newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+
+\newcommand\LNCS[1]{{\it LNCS #1}}
+\newcommand\LNAI{{\it LNAI}}
+\newcommand{\FI}{{\em Fund.~Inf.}}
+\newcommand{\ICOM}{{\em Inform.~and Comput.}}
+\newcommand{\IJFCS}{{\em Intern.~J.~Found.~Comput.~Sci.}}
+\newcommand{\JACM}{{\em J.~Assoc.~Comput.~Mach.}}
+\newcommand{\JALC}{{\em J.~Autom.~Lang.~Comb.}}
+\newcommand{\JCSS}{{\em J.~Comput.~System~Sci.}}
+\newcommand{\RAIRO}{{\em RAIRO-Inf.~Theor.~Appl.}}
+\newcommand{\TCS}{{\em Theoret.~Comput.~Sci.}}
+\newcommand{\ArchMLG}{{\em Arch.~f.~Math.~Logik Grundlagenf.}}
+
+\newlength{\cwidth}
+
+%\newcommand{\lcRA}{\mbox{\sf lc-RA\xspace}}
+\newcommand{\lcRA}[1][]{\ifthenelse{\equal{#1}{}}{\mbox{\sf lc-RA}}{\mbox{\sf lc-RA$[\mathcal{R}_#1]$}}\xspace}
+\newcommand{\lcRAp}[1][]{\ifthenelse{\equal{#1}{}}{\mbox{\sf lc-RA}}{\mbox{\sf lc-RA$[\mathcal{R}_#1']$}}\xspace}
+\newcommand{\lcR}[1][]{\ifthenelse{\equal{#1}{}}{\mbox{\sf lc-R}}{\mbox{\sf lc-R$[\mathcal{R}_#1]$}}\xspace}
+\newcommand{\lcRp}[1][]{\ifthenelse{\equal{#1}{}}{\mbox{\sf lc-R}}{\mbox{\sf lc-R$[\mathcal{R}_#1']$}}\xspace}
+\newcommand{\conlcRA}[1][]{\mbox{\sf lc-RA$[\mbox{\sf con-}\mathcal{R}_#1]$}\xspace}
+\newcommand{\conlcRAp}[1][]{\mbox{\sf lc-RA$[\mbox{\sf con-}\mathcal{R}_#1']$}\xspace}
+\newcommand{\conlcR}[1][]{\mbox{\sf lc-R$[\mbox{\sf con-}\mathcal{R}_#1]$}\xspace}
+\newcommand{\conlcRp}[1][]{\mbox{\sf lc-R$[\mbox{\sf con-}\mathcal{R}_#1']$}\xspace}
+\newcommand{\leftsentinel}{\cent}
+\newcommand{\rightsentinel}{\$}
+\newcommand{\rarule}[4]{(#1,\,#2\rightarrow#3,\,#4)}
+
+\newcommand{\beginproof}{{\noindent \bf Proof. }}
+\newcommand{\myendproof}{\hspace*{\fill} $\Box$ \vspace{+0.2cm}}
+
+\newcommand{\RESTART}{\makebox{\sf RESTART}}
+\newcommand{\REWRITE}{\makebox{\sf REWRITE}}

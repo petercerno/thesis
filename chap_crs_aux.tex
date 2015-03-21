@@ -660,9 +660,288 @@ In is not difficult to modify Algorithms \ref{algorithm:dxclra_solver} and \ref{
 
 \section{Limited Context Restarting Automata}
 
-The material for this section will be covered by \cite{OCM12}.
-TODO: The reference should be updated to a newer publication!
+This section is covered by \cite{OCM13}.
+
+In \cite{B11} \emph{limited context restarting automata} were defined as an extension of the clearing restarting automaton. Also these automata apply rewrite steps only based on context information, but their rewrite rules are more general. In fact, the most general form of these automata accepts exactly the growing context-sensitive languages. In addition, in~\cite{B11} a special version of a genetic algorithm is proposed to learn these automata from positive and negative samples. Here we introduce a slightly generalized version which uses weight-reducing rules instead of length-reducing ones.
+
+We study the correspondence between the various types of limited context restarting automata on the one hand and the various McNaughton families of languages of~\cite{Beaudry2003} on the other hand, among which the class \GCSL\ of \emph{growing context-sensitive languages} \cite{Buntrock19981,DW86}, the class \CRL\ of \emph{Church-Rosser languages}~\cite{MNO88}, and the class {\sf con-gen-mon-McNL} of \emph{confluent generalized monadic McNaughton languages}~\cite{Leupold2011} will appear prominently.
+
+\begin{definition}\label{DefLCRA}
+A {\em limited context restarting automaton} $M$ ($\lcRA$ $M$, for short) is simply a weight-reducing context rewriting system $M=(\Sigma,\Gamma,\Phi)$ (see Definitions \ref{definition:crs} and \ref{definition:crs-types}).
+\end{definition}
+
+\begin{example}
+Let $M=(\{a,b,c\},\{a,b,c\},\Phi)$ be the $\lcRA$ that is defined by the set of instruction $\Phi=\{\rarule{\lambda}{\underline{acbb}}{c}{\lambda},\rarule{\cent}{\underline{c}}{\lambda}{\$}\}$. Then $aa\underline{acbb}bbbb \vdash_M a\underline{acbb}bb \vdash_M \underline{acbb} \vdash_M \underline{c} \vdash_M \lambda$, and so the word $a^3cb^6$ belongs to $L(M)$. It is easily seen that $L(M) = \{\, a^ncb^{2n} \mid n \ge 0 \,\}$.
+\end{example}
+
+Recall from Definition~\ref{DefLCRA} that all instructions of an $\lcRA$ are necessarily weight-reducing. These most general $\lcRA$ are said to be of type~$\mathcal{R}_0'$. We now define some restricted types of $\lcRA$ by putting additional restrictions on the form of their instructions. We say that an $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is of type
+
+\begin{itemize}
+\item[$\bullet\;\mathcal{R}_1'$,] if for every $\rarule{u}{x}{y}{v} \in \Phi$: $|y|\le 1$, and $x \in \Gamma^+$;
+\item[$\bullet\;\mathcal{R}_2'$,] if for every $\rarule{u}{x}{y}{v} \in \Phi$: $|y|\le 1$, $u \in \{\lambda,\leftsentinel\}$, $v \in \{\lambda,\rightsentinel\}$, and $x \in \Gamma^+$;
+\item[$\bullet\;\mathcal{R}_3'$,]  if $\Phi$ only contains instructions of the form $\rarule{u}{x}{y}{\rightsentinel}$, where $|y|\le 1$, $u \in \{\lambda,\leftsentinel\}$, and $x \in \Gamma^+$;
+\end{itemize}
+
+We say that an $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is of type $\mathcal{R}_i$, for $i \in \{0, 1, 2, 3\}$, if $M$ is of type $\mathcal{R}_i'$ and $\Phi$ only contains length-reducing instructions.
 
 \subsection{Restricted Types}
 
+For any $\mathcal{R} \in \{\mathcal{R}_0,\mathcal{R}_0',\mathcal{R}_1,\mathcal{R}_1',\mathcal{R}_2,\mathcal{R}_2',\mathcal{R}_3,\mathcal{R}_3'\}$, we will refer to $\lcRA$ of type $\mathcal{R}$ as ${\lcRA}[\mathcal{R}]$. In~\cite{B10Diploma}, Basovn{\'\i}k  studied length-reducing $\lcRA$, obtaining the following three characterizations.
+
+\begin{theorem}{\rm \cite{B10Diploma}}\label{ThmBasovnik} \\[+0.2cm]
+${\rm (a)}\;  {\mathcal L}(\lcRA[0])   =  \GCSL.\;
+{\rm (b)}\; {\mathcal L}(\lcRA[2])   =  \CFL.\;
+{\rm (c)}\; {\mathcal L}(\lcRA[3])   =  \REG.$
+\end{theorem}
+
+In the current section we complete these results by also studying the other five types of $\lcRA$.
+\vspace{+0.2cm}
+
+Let $M = (\Sigma,\Gamma,\Phi)$ be an $\lcRA$. With $M$ we can associate the finite string-rewriting system $R(M) = \{\,uxv\to uyv\mid \rarule{u}{x}{y}{v}\in \Phi\,\}.$ Then $R(M)$ induces a \emph{reduction relation} $\Rightarrow_{R(M)}^*$ on the set of bordered words $\cent\cdot\Gamma^*\cdot\$$, which is the reflexive and transitive closure of the \emph{single-step reduction relation} $\Rightarrow_{R(M)}$ 
+that is defined as follows:
+$$\begin{array}{c}
+\cent w\$\Rightarrow_{R(M)}\cent z\$
+\text{ iff }\\
+\exists \alpha,\beta\in(\Gamma\cup\{\cent,\$\})^*\,\exists (\ell\to r)\in R(M):
+   \cent w\$ = \alpha \ell\beta \mbox{ and } \cent z\$ = \alpha r\beta.
+\end{array}$$
+Thus, for all $w,z\in\Gamma^*$, we have $\cent w\$ \Rightarrow_{R(M)}\cent z\$$ iff $w \vdash_M z$ holds. Accordingly, we see that
+$$L(M) = \{\,w\in\Sigma^*\mid w\vdash_M^*\lambda\,\}
+       = \{\,w\in\Sigma^*\mid \cent w\$\Rightarrow_{R(M)}^*\cent \$\,\}.$$
+By taking $S(M) = R(M) \cup \{\cent \$\to Y\}$, where $Y$ is a new letter, we obtain a finite string-rewriting system on $\Gamma'=\Gamma\cup\{\cent,\$,Y\}$ such that $L(M) = \{\,w\in\Sigma^*\mid \cent w\$ \Rightarrow_{S(M)}^*Y\,\}$ holds. It follows that $L(M)$ is the \emph{McNaughton language} that is specified by the four-tuple $(S(M),\cent,\$,Y)$.
+\vspace{+0.2cm}
+
+If $M$ is of type $\mathcal{R}_0'$, then the string-rewriting system $S(M)$ is weight-reducing. Hence, it follows from Theorem~\ref{ThmMcNL}(a) that $L(M)\in\GCSL$. In fact, we will establish the following characterization, extending Theorem~\ref{ThmBasovnik}(a).
+
+\begin{theorem}\label{PropR0}
+${\mathcal L}(\lcRAp[0]) = {\mathcal L}(\lcRA[0]) =  \GCSL.$
+\end{theorem}
+
+\noindent
+\begin{proof}
+Because of the above observation, it suffices to show that each growing context-sensitive language is accepted by some $\lcRA$ of type~$\mathcal{R}_0$. Hence, assume that $L\subseteq\Sigma^*$ is growing context-sensitive. We construct an $\lcRA[0]$ $M$ for~$L$. As $L$ is growing context-sensitive, there exists a length-reducing two-pushdown automaton (\TPDA, for short, see, e.g.,~\cite{Buntrock19981}) $T = (Q,\Sigma,\Gamma,\delta,$ $q_0,\bot,\lambda,\lambda,\{q_f\})$ that accepts~$L$. Here $\Gamma$ is the tape alphabet of $T$ that includes the input alphabet $\Sigma$ as well as the special bottom marker~$\bot$ for the pushdowns. Thus, for all $w\in\Sigma^*$, $w\in L$ if and only if $T$ accepts starting from the initial configuration $\bot q_0w\bot$, that is, if and only if $\bot q_0 w\bot\vdash_T^* q_f$ holds (see \cite{N2005} Lemma 3.4 and Lemma 4.1). Actually, we may even assume without loss of generality that the initial step of a computation of $T$ that starts from an initial configuration of the form $\bot q_0w\bot$ reduces the overall length of the configuration by at least two, and that $T$ never enters its initial state $q_0$ during a computation.
+
+Let $\overline{\Gamma}=\{\,\overline{a} \mid a\in  \Gamma\,\}$ be a new alphabet in one-to-one correspondence to $\Gamma$ such that $Q$, $\Gamma$, and $\overline{\Gamma}$ are pairwise disjoint, let $\overline{\phantom{a}}:\Gamma^*\to {\overline{\Gamma}}^*$ denote the corresponding isomorphism that is induced by $a\mapsto\overline{a}$ ($a\in\Gamma$), and let $\Delta = Q\cup\Gamma \cup \overline{\Gamma}$. In analogy to the proof of \cite{N2005} Lemma 4.1, we can construct a finite length-reducing string-rewriting system $R$ on $\Delta$ such that, for all $w\in\Sigma^*$, $w\in L \mbox{ iff }  \overline{\bot}q_0w\bot \Rightarrow_R^*q_f.$ Here the final state $q_f$ is introduced by specific rules of the form $\overline{\bot} \overline{u} qv\bot \to q_f$. Now from~$R$ we obtain an $\lcRA$ $M = (\Sigma,\Delta,\Phi)$ by taking
+$$\begin{array}{lcl}
+\Phi  & = &\{\,(\lambda, \ell\to r, \lambda)\mid (\ell\to r)\in R,|\ell|_{\overline{\bot}}=|\ell|_\bot=0\,\}\;\cup\\
+      &   &\{\,(\cent, u\to v, \lambda)\mid (\overline{\bot}u\to \overline{\bot}v)\in R, |u|_\bot = 0 =|u|_{q_0}\, \}\;\cup\\
+%\end{array}$$
+%$$\begin{array}{lcl}   
+   &   &\{\,(\cent, u\to v, \lambda)\mid (\overline{\bot}q_0u\to \overline{\bot}v)\in R, |u|_\bot = 0\, \}\;\cup\\
+   &   &\{\,(\lambda, u\to v, \$)\mid (u\bot\to v\bot)\in R, |u|_{\overline{\bot}} = 0\, \}\;\cup\\
+%\end{array}$$
+%$$\begin{array}{lcl}   
+   &   &\{\,(\cent, u\to v, \$)\mid (\overline{\bot}u\bot\to \overline{\bot}v\bot)\in R, |u|_{q_0}=0\, \}\;\cup\\
+   &   &\{\,(\cent, u\to v, \$)\mid (\overline{\bot}q_0u\bot\to \overline{\bot}v\bot)\in R\, \}\;\cup\\
+%\end{array}$$
+%$$\begin{array}{lcl}  
+   &   &\{\,(\cent, u\to \lambda, \$)\mid (\overline{\bot}q_0u\bot\to q_f)\in R,|u|>0 \}\;\cup\\
+   &   &\{\,(\cent, u\to\lambda,\$) \mid (\overline{\bot}u\bot\to q_f)\in R, |u|_{q_0}=0\,\}.\\
+\end{array}$$
+Then $M$ is of type $\mathcal{R}_0$, and for all $w\in\Sigma^+$,
+$$w\in L(M) \;\Leftrightarrow\;  w\vdash_M^*\lambda
+            \;\Leftrightarrow\;  \cent w\$ \Rightarrow_{R(M)}^* \cent \$
+            \;\Leftrightarrow\;  \overline{\bot}q_0 w\bot \Rightarrow_R^* q_f
+            \;\Leftrightarrow\;  w\in L.$$
+Thus, $L(M)\, \dot{=}\, L$. This completes the proof of Theorem~\ref{PropR0}.
+\end{proof}
+
+Let $G=(N,T,S,P)$ be a weight-increasing context-sensitive grammar, that is, there exists a weight function $g$ such that $g(\ell) < g(r)$ for each rule $(\ell\to r)$ of $P$, and in addition, each rule $(\ell\to r)$ has the form $\ell=uAv$ and $r=uxv$ for some $A\in N$, $u,v\in(N\cup T)^*$, and $x\in (N\cup T)^+$. By taking
+$$\Phi(G)  =  \{\,\rarule{u}{x}{A}{v} \mid (uAv\to uxv)\in P\,\}\; \cup
+              \{\,\rarule{\cent}{r}{\lambda}{\$} \mid (S\to r)\in P\,\},$$
+we obtain an $\lcRA$ $M(G) = (T,N\cup T,\Phi(G))$. It is easily seen that $M(G)$ is of type $\mathcal{R}_1'$, and that $L(M(G))$ $ = L(G)\cup\{\lambda\}$ holds. Thus, ignoring the special case of the empty word we see that all languages that are generated by weight-increasing context-sensitive languages are accepted by \lcRAp[1]. However, the class of languages that are generated by weight-increasing context-sensitive grammars, which is known as the class {\sf ACSL} of \emph{acyclic context-sensitive languages}, coincides with the class \GCSL\ of growing context-sensitive languages~\cite{NiWo01}. Hence, we obtain the following characterization.
+
+\begin{theorem}\label{PropR1a}
+${\mathcal L}(\lcRAp[1]) =  \GCSL.$
+\end{theorem}
+
+If $M = (\Sigma,\Gamma,\Phi)$ is an $\lcRA[1]$, then the rules of $R(M)$ have the form $(uxv \to uyv)$, where $|x|>|y|$ and $|y|\le 1$. By replacing each instruction of the form $\rarule{u}{x}{\lambda}{v}\in \Phi$ by finitely many rules with a revised context, the following technical result can be derived.
+
+\begin{lemma}\label{LemR1a}
+If $M = (\Sigma,\Gamma,\Phi)$ is an $\lcRA[1]$, then there exists an equivalent $\lcRA$ $M'=(\Sigma,\Gamma,\Phi')$ of type $\mathcal{R}_1$ such that $|y|=1$ for all instructions $\rarule{u}{x}{y}{v}\in \Phi'$ satisfying $u\not=\cent$ or $v\not=\$$. In fact, for all $w,z\in \Gamma^*$, $w\vdash_M z$ if and only if $w\vdash_{M'} z$.
+\end{lemma}
+
+\begin{proof}
+To obtain $M'$ from $M$, we simply replace each instruction of the form $\phi=\rarule{u}{x}{\lambda}{v}\in \Phi$. If $u=u_1A$ for some $A\in\Gamma$, then we replace $\phi$ by the instruction $\phi'=\rarule{u_1}{Ax}{A}{v}$; if $u=\lambda$ or $u=\cent$ and $v=Bv_1$ for some $B\in\Gamma$, then we replace $\phi$ by the instruction $\phi'=\rarule{u}{xB}{B}{v_1}$; if $u =\cent$ and $v=\lambda$, then we replace $\phi$ by the set of instructions $\Phi'(\phi) = \{\,\rarule{\cent}{xA}{A}{\lambda}\mid A\in \Gamma\,\} \,\cup\,\{\rarule{\cent}{x}{\lambda}{\$}\}$; if $u=\lambda$ and $v=\$$, then we replace $\phi$ by the set of instructions $\Phi'(\phi) = \{\,\rarule{\lambda}{Ax}{A}{\$}\mid A\in \Gamma\,\} \,\cup\,\{\rarule{\cent}{x}{\lambda}{\$}\}$; and if $u=\lambda=v$, then we replace $\phi$ by the set of instructions $\Phi'(\phi) = \{\,\rarule{\lambda}{xA}{A}{\lambda},\rarule{\lambda}{Ax}{A}{\lambda}\mid A\in \Gamma\,\} \,\cup\,\{\rarule{\cent}{x}{\lambda}{\$}\}$. Then, for all $w,z\in\Gamma^*$, if $w\vdash_M z$ using instruction~$\phi$, then $w\vdash_{M'} z$ by instruction $\phi'$ or by one of the instructions of $\Phi'(\phi)$, and conversely, if $w\vdash_{M'} z$ by instruction $\phi'$ or by one of the instructions of $\Phi'(\phi)$, then $w\vdash_M z$ by instruction~$\phi$.
+\end{proof}
+
+Let $M=(\Sigma,\Gamma,\Phi)$ be an $\lcRA[1]$ that satisfies the properties of Lemma~\ref{LemR1a}, let $R(M)$ be the corresponding string-rewriting system, and let $R(M)^{-1}$ denote the system $R(M)^{-1} = \{\,(v\to u) \mid (u\to v)\in R(M)\,\}.$ From $R(M)^{-1}$ we can construct a length-increasing context-sensitive grammar $G(M) = (\Gamma',\Sigma',S,R')$ that generates the language $L(G(M)) = \cent\cdot L(M)\cdot\$$. Thus, the language $\cent\cdot L(M)\cdot\$$ is a growing acyclic context-sensitive language  (see, e.g.,~\cite{NiWo01}). It is known from~\cite{BunHabil} that the class $\mathsf{GACSL}$ of \emph{growing acyclic context-sensitive languages} is closed under the operations of removing left and right end markers. Hence, the language $L(M)$ is growing acyclic context-sensitive, too. Conversely, if $G=(N,T,S,P)$ is a length-increasing context-sensitive grammar, then by taking
+$$
+\Phi(G)  =  \{\,\rarule{u}{x}{A}{v} \mid (uAv\to uxv)\in P\,\}\; \cup
+            \{\,\rarule{\cent}{r}{\lambda}{\$}\mid (S\to r)\in P\,\},
+$$
+we obtain an $\lcRA$ $M(G) = (T,N\cup T,\Phi(G))$ of type $\mathcal{R}_1$ such that $L(M(G)) = L(G)\cup\{\lambda\}$ holds. Thus,  we have the following characterization.
+
+\begin{theorem}\label{PropR1b}
+${\mathcal L}(\lcRA[1]) = {\sf GACSL}.$
+\end{theorem}
+
+It is known that the class {\sf GACSL} properly contains the class $\CFL$ of context-free languages, and it is obviously contained in ${\sf ACSL} = \GCSL$. However, it is an open problem whether this containment is strict or not.
+\vspace{+0.1cm}
+
+Let $M = (\Sigma,\Gamma,\Phi)$ be an \lcRA[2']. Then, for each instruction $\rarule{u}{x}{y}{v}\in \Phi$, we have $u\in\{\lambda,\cent\}$, $v\in\{\lambda,\$\}$, $|x|\ge 1$, $|y|\le 1$, and $g(x)>g(y)$ for a fixed weight function~$g$. Hence, the corresponding string-rewriting system $R(M)$ can be split into four disjoint subsystems:
+$$\begin{array}{llcll}
+{\rm (a)} & R_{bif} & = & \{\,\cent x\$ \to \cent y\$ \mid \rarule{\cent}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{bifix rules} of }R(M),\\
+{\rm (b)} & R_{pre}& = & \{\,\cent x \to \cent y \mid \rarule{\cent}{x}{y}{\lambda}\in \Phi\,\}, & \mbox{the \emph{prefix rules} of }R(M),\\
+{\rm (c)} & R_{suf}& = & \{\,x\$ \to y\$ \mid \rarule{\lambda}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{suffix rules} of }R(M),\\
+{\rm (d)} & R_{inf}& = & \{\,x \to y \mid \rarule{\lambda}{x}{y}{\lambda}\in \Phi\,\}, & \mbox{the \emph{infix rules} of }R(M).\\
+\end{array}$$
+Let $B(M) = \{\,\alpha\in\Gamma^*\mid \cent \alpha\$\in {\rm dom}(R_{bif}) \mbox{ and }
+\cent \alpha\$\Rightarrow_{R(M)}^* \cent \$\,\}\,\cup\,\{\lambda\}.$ As $R(M)$ is finite, so is the set~$B(M)$. Let $R' = R_{pre}\cup R_{suf}\cup R_{inf}$. Then
+$$
+L(M)  =   \{\,w\in\Sigma^*\mid \cent w\$\Rightarrow_{R(M)}^*\cent\$\,\}
+      =   \{\,w\in\Sigma^*\mid \exists \alpha\in B(M):\cent w\$\Rightarrow_{R'}^*\cent \alpha\$\,\},
+$$
+that is, $\cent\cdot L(M) \cdot \$ = \nabla_{R'}^*(\cent\cdot B(M)\cdot\$) \cap (\cent\cdot\Sigma^*\cdot\$),$ where $\nabla_{R'}^*(\alpha)$ denotes the \emph{set of ancestors} of $\alpha$ mod~$R'$, and $\nabla_{R'}^*(B) = \bigcup_{\alpha\in B}\nabla_{R'}^*(\alpha)$ for any set~$B$. Now we define a mixed rewriting system (see, e.g.,~\cite{Hofbauer2004301}) $P(M)=P_{pre}\cup P_{suf}\cup P_{inf}$ by taking the {\em prefix-rewriting system}\footnote{The rules of a prefix-rewriting system can only be applied to the prefix of a word.} $P_{pre}  =  \{\,x \to  y \mid (\cent x\to \cent y)\in R_{pre}\,\}$, the {\em suffix-rewriting system}\footnote{The rules of a suffix-rewriting system can only be applied to the suffix of a word.} $ P_{suf}  =  \{\,x \to  y \mid (x\$\to y\$)\in R_{suf}\,\}$, and the {\em string-rewriting system}  $P_{inf}  =  R_{inf}$. Then $L(M) = \nabla_{P(M)}^*(B(M))\cap\Sigma^*.$ As $P(M)$ only contains \emph{generalized monadic rules} (see, e.g.,~\cite{Leupold2011}), it follows that the set $\nabla_{P(M)}^*(B(M))$ is context-free, which in turn implies that $L(M)$ is a context-free language.
+
+Conversely, if $L\subseteq\Sigma^*$ is a context-free language, then there exists a context-free grammar $G=(N,\Sigma,S,P)$ for $L\cap\Sigma^{\ge 2}$ such that, for each rule $(\ell\to r)$ of $P$, we have $|\ell|=1$ and $|r|=2$. We now obtain an $\lcRA$ $M(G)=(\Sigma,N\cup\Sigma,\Phi)$ by taking
+$$\Phi = \{\,\rarule{\lambda}{r}{\ell}{\lambda}\mid (\ell\to r)\in P\,\}\,\cup\,
+         \{\,\rarule{\cent}{a}{\lambda}{\$}\mid a\in(\Sigma\cap L)\cup\{S\}\,\}.$$
+Then $M(G)$ is of type $\mathcal{R}_2$, and $L(M(G))\,\dot{=}\,L$. Thus, we have the following characterization.
+\begin{theorem}\label{PropR2}
+${\mathcal L}(\lcRAp[2]) = {\mathcal L}(\lcRA[2]) = \CFL.$
+\end{theorem}
+
+\begin{figure}
+{\small
+\[ \xymatrix@R8pt@C5pt{
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_0])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_0'])$}\ar@{=}[r] & \txt{\sf GCSL} \ar@{=}[r]
+                   & \txt{$\mbox{\sf lr-McNL}$}\ar@{=}[r] & \txt{$\mbox{\sf wr-McNL}$}\\
+                                                           &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_1'])$}\ar@{=}[u]  \\
+                                                           &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_1])$} \ar@{->}_?[u]  
+                   & \txt{\sf GACSL}\ar@{=}[l]\ar@{->}_?[uu]\\
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_2])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_2'])$}\ar@{=}[r] &
+\txt{\sf CFL}\ar@{->}[u]\ar@{=}[r] 
+& \txt{$\mbox{\sf mon-McNL}$}\ar@{=}[r] & \txt{$\mbox{\sf gen-mon-McNL}$}\\
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_3])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_3'])$}\ar@{=}[r] &
+\txt{\sf REG}\ar@{->}[u]\\
+}
+\]
+\caption{Hierarchy of language classes that are accepted by the various types of
+limited context restarting automata.
+Question marks indicate inclusions not known to be proper.}\label{Fig1}
+}
+\end{figure}
+
+Finally, let $M = (\Sigma,\Gamma,\Phi)$ be an $\lcRA[3']$, that is, for all instructions $\rarule{u}{x}{y}{v}\in \Phi$, we have $u\in\{\lambda,\cent\}$, $v=\$$, $|x|\ge 1$, $|y|\le 1$, and $g(x)>g(y)$ for a fixed weight function~$g$. Hence, the corresponding string-rewriting system $R(M)$ can be split into two disjoint subsystems:
+$$\begin{array}{llcll}
+{\rm (a)} & R_{bif} & = & \{\,\cent x\$ \to \cent y\$ \mid \rarule{\cent}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{bifix rules} of }R(M),\\
+{\rm (b)} & R_{suf}& = & \{\,x\$ \to y\$ \mid \rarule{\lambda}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{suffix rules} of }R(M).\\
+\end{array}$$
+As above, the set $B(M) = \{\,\alpha\in\Gamma^*\mid \cent \alpha\$\in {\rm dom}(R_{bif}) \mbox{ and } \cent \alpha\$\Rightarrow_{R(M)}^* \cent \$\,\}\,\cup\,\{\lambda\}$ is finite, and
+$$
+L(M)  =  \{\,w\in\Sigma^*\mid \cent w\$\Rightarrow_{R(M)}^*\cent\$\,\}
+      =  \{\,w\in\Sigma^*\mid \exists \alpha\in B(M):\cent w\$\Rightarrow_{R_{suf}}^* \cent\alpha\$\,\},
+$$
+that is, $\cent\cdot L(M) \cdot \$ = \nabla_{R_{suf}}^*(\cent\cdot B(M)\cdot\$) \cap (\cent\cdot\Sigma^*\cdot\$).$ For the suffix-rewriting system $P(M) = \{\,y\to x\mid (x\$\to y\$)\in R_{suf}\,\}$, we obtain $L(M) = \Delta_{P(M)}^*(B(M))\cap\Sigma^*.$ As $B(M)$ is finite, and, hence, regular, it follows that the set of descendants $\Delta_{P(M)}^*(B(M))$ of this set with respect to the suffix rewriting system $P(M)$ is regular~\cite{Buc64}, which in turn implies that $L(M)$ is regular.
+
+Conversely, if $L\subseteq\Sigma^*$ is a regular language, then there exists a regular grammar $G=(N,\Sigma,S,P)$ for $L\cap\Sigma^{\ge 2}$ such that, for each rule $(\ell\to r)$ of $P$, we have $\ell\in N$ and $r\in \Sigma\cdot N \cup \Sigma^2$. We now obtain an $\lcRA$ $M(G)=(\Sigma,N\cup\Sigma,\Phi)$ by taking
+$$\Phi = \{\,\rarule{\lambda}{r}{\ell}{\$}\mid (\ell\to r)\in P\,\}\,\cup\,
+         \{\,\rarule{\cent}{a}{\lambda}{\$}\mid a\in(L\cap\Sigma)\cup\{S\}\,\}.$$
+Then $M(G)$ is of type $\mathcal{R}_3$, and $L(M(G))\,\dot{=}\,L$. Thus, we have the following characterization.
+\begin{theorem}\label{PropR3}
+${\mathcal L}(\lcRAp[3]) = {\mathcal L}(\lcRA[3]) = \REG.$
+\end{theorem}
+
+The results on the various $\lcRA$ are summarized by the diagram in Figure~\ref{Fig1}.
+
 \subsection{Confluent Restricted Types}
+
+As defined in Definition~\ref{DefLCRA}, an $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is a nondeterministic device. A word $w\in\Sigma^*$ belongs to the language $L(M)$ accepted by $M$, if and only if there exists a computation of $M$ that transforms the initial configuration with tape content $\cent w\$$ into the configuration with tape content~$\cent\$$. In general, there will be many different computations of $M$ that start from the configuration with tape content~$\cent w\$$, and only some of them will derive the tape content~$\cent \$$. As this phenomenon complicates the problem of deciding membership in~$L(M)$, we are interested in $\lcRA$ for which all computations from $\cent w\$$ lead to $\cent\$$, if $w\in L(M)$. Actually, as the reduction relation $\vdash_M$ corresponds to the single-step reduction relation $\Rightarrow_{R(M)}$ that is induced by the string-rewriting system $R(M)$ on the set of bordered words $\cent\cdot\Gamma^*\cdot \$$, this would lead to considering $\lcRA$ $M$ for which the string-rewriting system $R(M)$ is \emph{confluent on the congruence class} $[\cent\$]_{R(M)}$. Unfortunately, it is undecidable in general whether a finite string-rewriting system is confluent on a given congruence class, even if the given finite system only contains length-reducing rules~\cite{otto27}. Therefore, we turn to $\lcRA$ that satisfy an even stronger restriction than confluence on a particular congruence class.
+%
+\begin{definition}\label{DefConf}
+An $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is called \emph{confluent} if the corresponding string-rewriting system $R(M)$ is confluent.
+\end{definition}
+
+As $R(M)$ is a finite and terminating string-rewriting system for each $\lcRA$, confluence is a decidable property of $\lcRA$ (see Proposition~\ref{PropCon} and the subsequent paragraph). We illustrate the above definition by a simple example.
+
+\begin{example}\label{ExConLcR}
+ Let $\Sigma=\{a\}$, let $\Gamma = \{a,F\}$, and let 
+$\Phi=\{\rarule{\cent}{aaaa}{aaF}{\lambda},$ $\rarule{\lambda}{Faa}{aF}{\lambda},
+        \rarule{\lambda}{F}{\lambda}{\$},\rarule{\cent}{aa}{\lambda}{\$},\rarule{\cent}{a}{\lambda}{\$}\}.$ Then $M=(\Sigma,\Gamma,\Phi)$ is an $\lcRA$ of type $\mathcal{R}_0$ that accepts the language $L_{\rm expo}$ (see Example \ref{ExMcNL}), and it is easily checked that $M$ is confluent.
+\end{example}
+
+We will use the prefix {\sf con-} to denote types of confluent $\lcRA$. Further, for each type $\mathcal{R}\in\{\,\mathcal{R}_i',\mathcal{R}_i\mid i\in\{0,1,2,3\}\,\}$, {\sf lc-RA$[\mbox{\sf con-}\mathcal{R}]$} will denote the class of $\lcRA$ of type $\mathcal{R}$ that are confluent.
+
+In the following we study the expressive power of the various types of confluent $\lcRA$. As in the previous section we consider the various types in turn, from the most general one to the most restricted one.
+
+If $M=(\Sigma,\Gamma,\Phi)$ is an $\conlcRA[0']$, then $S(M) = R(M) \cup  \{\cent\$\to Y\}$ is a finite weight-reducing string-rewriting system that is confluent, and $L(M)$ is simply the McNaughton language that is specified by $(S(M),\cent,\$,Y)$. Thus, $L(M)$ is a \emph{Church-Rosser language}~\cite{MNO88}. On the other hand, if $L\subseteq\Sigma^*$ is a Church-Rosser language, then it is accepted by a length-reducing deterministic two-pushdown automaton~\cite{N2005}. Following the proof of Theorem~\ref{PropR0}, a confluent $\lcRA$ of type $\mathcal{R}_0$ can be constructed for~$L$. Hence, we obtain the following characterization.
+%
+\begin{theorem}\label{PropConR0}
+${\mathcal L}(\conlcRA[0']) = {\mathcal L}(\conlcRA[0]) = \CRL.$
+\end{theorem}
+
+In~\cite{Woi03} Woinowski introduced a normal form for presentations of Church-Rosser languages, called \emph{context-splittable Church-Rosser language systems}. Such a presentation is of the form $(S,\cent,\$,Y)$, where $S$ is a finite, weight-reducing, and confluent string-rewriting system that consists of rules of the form $(uxv\to uyv)$, where $u,v\in\Gamma^*$, $x\in\Gamma^+$, and $|y|\le 1$, and rules of the form $(\cent x\$\to Y)$, where $x\in\Gamma^+$. As each Church-Rosser language admits a presentation of this form~\cite{Woi03}, and as a presentation of this form can immediately be translated into an $\lcRA$ of type $\mbox{\sf con-}\mathcal{R}_1'$, this gives the following characterization.
+
+\begin{theorem}\label{PropConR1prim}
+${\mathcal L}(\conlcRA[1']) = \CRL.$
+\end{theorem}
+
+For the class of languages that are accepted by confluent $\lcRA$ of type~$\mathcal{R}_1$,
+we have no characterization result yet. On the one hand, these automata can only accept (certain) Church-Rosser languages, and hence, they do not accept all context-free languages. On the other hand, the language  $L_{\rm expo5} = \{\,a^{5^n}\mid n\ge 0\,\}$ is accepted by an $\conlcRA[1]$, as shown in~\cite{OCM12}. As this language is not context-free, we can at least conclude the following.
+%
+\begin{corollary}\label{CorConR1}
+The language class ${\mathcal L}(\conlcRA[1])$ is incomparable to the class $\CFL$ with respect to inclusion.
+\end{corollary}
+
+It remains open whether $\lcRA$ of type $\mbox{\sf con-}\mathcal{R}_1$ accept all Church-Rosser languages, in fact, it is even open whether they accept at least all deterministic context-free languages.
+
+In the following we present the results concerning the confluent $\lcRA$ of type $\mathcal{R}_2'$ and $\mathcal{R}_2$. We do not give proofs, since these proofs are very complicated and technical. The interested reader is referred to \cite{OCM13}.
+
+\begin{theorem}\label{congenmonMcNL}
+$\mathcal{L}(\conlcRA[2']) = \mbox{\sf con-gen-mon-McNL}$.
+\end{theorem}
+%
+\begin{theorem}\label{conmonMcNL}
+$\mathcal{L}(\conlcRA[2]) \subseteq \mbox{\sf con-mon-McNL}$.
+\end{theorem}
+
+It currently remains open whether the converse of Theorem~\ref{conmonMcNL} holds.
+
+Finally, we turn to the confluent $\lcRA$ of types  $\mathcal{R}_3'$ and $\mathcal{R}_3$. If $M$ is an $\conlcRA[3']$, then $L(M)$ is a regular language by Theorem~\ref{PropR3}. Conversely, if $L\subseteq\Sigma^*$ is a regular language, then there exists a $\DFA$ $A=(Q,\Sigma,q_0,F,\delta)$ that accepts~$L^R$. We define an $\lcRA$ $M=(\Sigma,Q\cup\Sigma,\Phi)$ as follows, where $a,b\in\Sigma$ and $q,q'\in Q$:
+$$\begin{array}{ccl}
+\Phi & = & \{\,\rarule{\cent}{ab}{q}{\lambda}  \mid  \delta(q_0,ab)=q\,\}
+      \,  \cup \,  \{\,\rarule{\cent}{qa}{q'}{\lambda}  \mid  \delta(q,a)=q'\,\} \,\cup \\
+     &   & \{\,\rarule{\cent}{q}{\lambda}{\$}  \mid  q\in F\,\}
+      \, \cup  \, \{\,\rarule{\cent}{a}{\lambda}{\$}  \mid a\in \Sigma\cap L^R\,\}.
+\end{array}$$
+It is easily seen that $L(M)\,\dot{=}\,L^R$, and that the string-rewriting system $R(M)$ is confluent. By taking $M'=(\Sigma,Q\cup\Sigma,\Phi')$, where
+$\Phi' = \{\,\rarule{\lambda}{u^R}{v^R}{\$} \mid \rarule{\cent}{u}{v}{\lambda}\in \Phi\,\} 
+         \,\cup
+         \{\,\rarule{\cent}{u^R}{v^R}{\$} \mid \rarule{\cent}{u}{v}{\$}\in \Phi\,\}$,
+we obtain a confluent $\lcRA$ of type $\mathcal{R}_3$ that accepts the language~$L$. Thus, we have the following characterization.
+%
+\begin{theorem}\label{PropConR3}
+${\mathcal L}(\conlcRA[3']) = {\mathcal L}(\conlcRA[3]) = \REG.$
+\end{theorem}
+
+The diagram in Figure~\ref{Fig2} summarizes our results on confluent $\lcRA$.
+
+\begin{figure}
+{\small
+\[ \xymatrix@R8pt@C15pt{
+                              &                      &                   & \txt{\sf GCSL}\\
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_0])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_0'])$}\ar@{=}[r] &
+\txt{\sf CRL}\ar@{->}[ur] & \txt{\sf CFL}\ar@{->}[u]\\
+       &  \txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_1'])$}\ar@{=}[u] &
+\txt{\sf DCFL}\ar@{->}[u]\ar@{->}[ur] \\
+     \txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_1])$} \ar@{->}_?[ur]  &  &
+\txt{\sf symDCFL}\ar@{->}[u]\\
+      & \txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_2'])$}\ar@{->}[ur]\ar@{->}[uu]
+& & \txt{\sf LIN}\ar@{->}[uuu]\\
+             & \txt{$\mbox{\sf con-gen-mon-McNL}$}\ar@{=}[u]\\
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_2])$}\ar@{->}_?[r]\ar@{->}[uuu]&
+                  \txt{$\mbox{\sf con-mon-McNL}$}\ar@{->}_?[u]  \\
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_3])$}\ar@{=}[r]\ar@{->}[u] &
+\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_3'])$}\ar@{=}[r] & \txt{\sf REG}\ar@{->}[uuuu]\ar@{->}[uuur]\\
+}
+\]
+\caption{Hierarchy of language classes that are accepted by the various types of confluent limited context restarting automata. Question marks indicate inclusions not known to be proper.}\label{Fig2}
+}
+\end{figure}

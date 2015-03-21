@@ -5,17 +5,33 @@
 
 2015-01-01
 
-[ ] Resolve all TODOs in the text.
-[ ] Add \cite{} references to Theorems.
-[ ] Unify ending symbol in definitions etc.
-[ ] Check old reviews. Update i.e., etc.
-[ ] Check missing references \ref{} and citations \cite{}.
-[ ] Add index.
-[ ] Add list of tables / figures etc.
+[ ] TODO: Resolve all TODOs in the text.
+[ ] TODO: Add \cite{} references to Theorems.
+[ ] TODO: Unify ending symbol in definitions etc.
+[ ] TODO: Check old reviews. Update i.e., etc.
+[ ] TODO: Check missing references \ref{} and citations \cite{}.
+[ ] TODO: Add index.
+[ ] TODO: Add list of tables / figures etc.
 
-[ ] Make a technical report from the rejected FI publication.
+[x] TODO: Make a technical report from the rejected FI publication.
 
 2015-01-17
 
-[ ] Update reference labels!
-[ ] Update the reference concerning the decidability of the lambda-confulence.
+[ ] TODO: Update reference labels!
+[ ] TODO: Update the reference concerning the decidability of the lambda-confulence.
+
+2015-02-15
+
+[ ] TODO: Move images to img/ folder
+
+2015-03-20
+
+[ ] TODO: Unify notation for string-rewriting systems.
+[ ] TODO: Replace \vdash_M^c with \vdash_M.
+
+2015-03-21
+
+[ ] TODO: Clean the theoretical background (e.g. remove regular expresions, add TPDAs, etc.).
+[ ] TODO: Write an introduction to all Sections.
+[ ] TODO: Check and fine-tune the bibliography.
+[ ] TODO: Add references to definitions when necessary.

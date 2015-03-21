@@ -36,14 +36,18 @@
 
 % insert here the call for the packages your document requires
 \usepackage{amsthm}
-\usepackage{amssymb, amsmath}
+\usepackage{amssymb, amsmath, amsfonts}
 \usepackage{setspace}
 \usepackage{xspace}
 \usepackage{wasysym}
 \usepackage{shuffle}
+\usepackage{ifthen,enumerate}
+\usepackage{latexsym}
+\usepackage{oldgerm}
+\usepackage[all]{xy}
+\usepackage{xspace}
 
 \usepackage{index}
-\usepackage{enumerate}
 
 \usepackage[square,sort,comma,numbers]{natbib}
 %\usepackage{natbib}
@@ -75,6 +79,9 @@
 
 \input{commands}
 \input{environment}
+
+\newtheorem{fact}[definition]{Fact}
+\newtheorem{nfact}[definition]{Fact}
 
 %%% Drobné úpravy stylu
 

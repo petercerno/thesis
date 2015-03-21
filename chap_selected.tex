@@ -208,8 +208,7 @@ $\begin{array}[t]{crcccl}
 \end{array}$
 \end{theorem}
 
-We refer the interested reader 
-to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
+Here $\GCSL$ is the class of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and $\CRL$ is the class of \emph{Church-Rosser languages} \cite{MNO88}. $\REG$ and $\CFL$ denote the classes of regular and context-free languages, $\symDCFL = \DCFL\cap\DCFL^R$, that is, a language $L$ belongs to \symDCFL, if both, $L$ and $L^R$, are deterministic context-free. It is still open whether the second inclusion in (d) is proper. In fact, it is shown in~\cite{Leupold2011} that the families {\sf con-mon-McNL} and {\sf con-gen-mon-McNL} coincide, if and only if the former is closed under inverse strictly alphabetic morphisms. We refer the interested reader to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
 
 \subsection{Delimited String-Rewriting Systems}
 \label{section:delimited-string-rewriting-systems}
@@ -338,7 +337,7 @@ We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a generative device generating 
 \end{enumerate}
 \end{remark}
 
-\begin{definition}
+\begin{definition}\label{definition:crs-types}
 Let  $M = (\Sigma, \Gamma, \Phi)$ be a context rewriting system. We say that $M$ is:
 \begin{enumerate}
 \item \emph{length-reducing}, if for each instruction $\phi = (x, z \to t, y) \in \Phi: |z| > |t|$.
@@ -476,7 +475,7 @@ A \emph{subword-clearing restarting automaton} \cite{C12} (\emph{$\sclRA$} for s
 \end{definition}
 
 \begin{remark}\label{remark:lambda}
-Speaking about a $\clRA$ $M$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$ $M$, respectively) we use ``automata terminology,'' e.g., we say that $M$ \emph{accepts} a word $w$ if $w \in L(M)$. By definition, each $\clRA$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$) accepts $\lambda$. If we say that a $\clRA$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$) $M$ \emph{recognizes} (or \emph{accepts}) a language $L$, we always mean that $L(M) = L \cup \{\lambda\}$. This implicit acceptance of the empty word can be avoided by a slight modification of context rewriting systems, but in principle, we would not get a more powerful model. We simply ignore the empty word in this setting.
+Speaking about a $\clRA$ $M$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$ $M$, respectively) we use ``automata terminology,'' e.g., we say that $M$ \emph{accepts} a word $w$ if $w \in L(M)$. By definition, each $\clRA$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$) accepts $\lambda$. In order to overcome this problem, we will consider equality of languages only up to the empty word, that is, we will say that two languages $L$ and $L'$ on $\Sigma$ are equal, denoted as $L\, \dot{=}\, L'$, if $L\cap \Sigma^+ = L'\cap\Sigma^+$ holds. In ohter words, if we say that a $\clRA$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$) $M$ \emph{recognizes} (or \emph{accepts}) a language $L$, we always mean that $L(M) = L \cup \{\lambda\}$. We simply ignore the empty word in this setting.
 \end{remark}
 
 Clearing restarting automata are studied in \cite{CM10}. In this thesis they play a role of the most restricted model and we will use them to prove some lower bounds on the complexity of learning. Although clearing restarting automata are very restricted, they can recognize all regular languages, some context-free languages and even some non-context-free languages. However, there are some context-free languages that are outside the class of languages accepted by clearing restarting automata. For instance, the language $L = \{a^n c b^n \mid n \ge 0\}$ is not recognized by any clearing restarting automaton. On the other hand, it can be easily shown that this language is recognized by the subword-clearing restarting automaton $M = (\{a, b, c\}, \Phi)$ with $\Phi = \{(a, acb \to c, b), (\cent, acb \to \lambda, \$)\}$. In general, however, not all context-free languages can be recognized by subword-clearing restarting automata \cite{C13}. Interestingly, in \cite{CM11} it has been shown that $\CFL \subseteq \calL{\DclRA}$, thus only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages. 
