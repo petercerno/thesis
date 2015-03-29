@@ -36,8 +36,7 @@ The \index{transition!relation}transition relation describes five different type
 \begin{enumerate}
 \item A \emph{move-right step} is of the form \index{$\MVR$}$(q', \MVR) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$, $u \neq \$$. If $M$ is in state $q$ and sees the string $u$ in its read/write window, then this move-right step causes $M$ to shift the read/write window one position to the right and to enter state $q'$. However, if the content $u$ of the read/write window is only the symbol $\$$, then no shift to the right is possible.
 \item A \index{transition step!move-left}\emph{move-left step} is of the form \index{$\MVL$}$(q', \MVL) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$ does not begin with the symbol $\cent$. It causes $M$ to shift the \index{read/write window}read/write window one position to the left and to enter state $q'$. This, however, is only possible if the window is not already at the left end of the tape.
-\item A \index{transition step!rewrite}\emph{rewrite step} is of the form $(q', v) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$, $u \neq \$$, and $v \in \mathfrak{PC}^{\le (k-1)}$ such that $|v| < |u|$. It causes $M$ to replace the content of $u$ of the \index{read/write window}read/write window by the string $v$, thereby shortening the tape, and to enter state 
-$q'$. Further, the \index{read/write window}read/write window is placed immediately to the right of the string $v$. However, some additional restrictions apply in that the border \index{marker}markers  $\cent$ and $\$$ must not disappear from the tape nor that new occurrences of these markers are created. Further, the \index{read/write window}read/write window must not move across the right border \index{marker}marker $\$$, that is, if the string $u$ ends in $\$$, then so does the string $v$, and after performing the rewrite operation, the \index{read/write window}read/write window is placed on the $\$$-symbol.
+\item A \index{transition step!rewrite}\emph{rewrite step} is of the form $(q', v) \in \delta(q, u)$, where $q, q' \in Q$ and $u \in \mathfrak{PC}^{(k)}$, $u \neq \$$, and $v \in \mathfrak{PC}^{\le (k-1)}$ such that $|v| < |u|$. It causes $M$ to replace the content of $u$ of the \index{read/write window}read/write window by the string $v$, thereby shortening the tape, and to enter state $q'$. Further, the \index{read/write window}read/write window is placed immediately to the right of the string $v$. However, some additional restrictions apply in that the border \index{marker}markers  $\cent$ and $\$$ must not disappear from the tape nor that new occurrences of these markers are created. Further, the \index{read/write window}read/write window must not move across the right border \index{marker}marker $\$$, that is, if the string $u$ ends in $\$$, then so does the string $v$, and after performing the rewrite operation, the \index{read/write window}read/write window is placed on the $\$$-symbol.
 \item A \index{transition step!restart}\emph{restart step} is of the form \index{$\Restart$}$\Restart \in \delta(q, u)$, where $q \in Q$ and $u \in \mathfrak{PC}^{(k)}$. It causes $M$ to place its \index{read/write window}read/write window over the left end of the tape, so that the first symbol it sees is the left border \index{marker}marker $\cent$, and to reenter the \index{state!initial}initial state $q_0$.
 \item An \index{transition step!accept}\emph{accept step} is of the form \index{$\Accept$}$\Accept \in \delta(q, u)$, where $q \in Q$ and $u \in \mathfrak{PC}^{(k)}$. It causes $M$ to halt and accept.
 \end{enumerate}
@@ -193,7 +192,7 @@ A language $L\subseteq \Sigma^*$ is called a \emph{McNaughton language}, if ther
 We illustrate this definition by a simple example.
 
 \begin{example}\label{ExMcNL}
-Let $\Sigma=\{a\}$, let $\Gamma=\{a,\cent,\$,F,Y\}$, and let $R$ be the following finite and length-reducing string-rewriting system on~$\Gamma$: $$R=\{\cent aaaa\to \cent aaF, Faa\to aF, F\$\to \$, \cent aa\$ \to Y, \cent a\$\to Y\}.$$ This system does not have any critical pairs, and hence, it is confluent. Now, for all $m\in \N$, $\cent a^m\$\rightarrow_R^* Y\mbox{ if and only if } m=2^n\mbox{ for some }n\ge 0,$ which implies that the McNaughton language $L(R,\cent,\$,Y)$ is the language $L_{\rm expo} = \{\,a^{2^n}\mid n\in \N\,\}.$
+Let $\Sigma=\{a\}$, let $\Gamma=\{a,\cent,\$,F,Y\}$, and let $R$ be the following finite and length-reducing string-rewriting system on~$\Gamma$: $$R=\{\cent aaaa\to \cent aaF, Faa\to aF, F\$\to \$, \cent aa\$ \to Y, \cent a\$\to Y\}.$$ This system does not have any critical pairs, and hence, it is confluent. Now, for all $m\in \N$, $\cent a^m\$\rightarrow_R^* Y\textup{ if and only if } m=2^n\textup{ for some }n\ge 0,$ which implies that the McNaughton language $L(R,\cent,\$,Y)$ is the language $L_{\rm expo} = \{\,a^{2^n}\mid n\in \N\,\}.$
 \end{example}
 
 By placing restrictions on the finite string-rewriting systems used we obtain certain families of McNaughton languages. A McNaughton language is called \emph{weight-reducing} (\emph{length-reducing}), if it is defined using a finite string-rewriting system that is weight-reducing (length-reducing). The resulting class of languages is denoted by~\wrMcNL\ (\lrMcNL). A McNaughton language is called (\emph{generalized}) \emph{monadic}, if it is defined using a finite string-rewriting system that is (generalized) monadic. The resulting language classes are denoted by~{\sf gen-mon-McNL} and {\sf mon-McNL}. By requiring, in addition, that the string-rewriting system is confluent, we obtain the McNaughton families \conwrMcNL, \conlrMcNL, {\sf con-gen-mon-McNL}, and {\sf con-mon-McNL}. Thus, Example~\ref{ExMcNL} shows that $L_{\rm expo}\in \conlrMcNL$. Concerning these families the following results are known.
@@ -202,9 +201,9 @@ By placing restrictions on the finite string-rewriting systems used we obtain ce
 $\begin{array}[t]{crcccl}
 {\rm (a)} & \GCSL & = & \wrMcNL & = & \lrMcNL.\\
 {\rm (b)} & \CRL  & = & \conwrMcNL & = & \conlrMcNL.\\
-{\rm (c)} & \CFL  & = & \mbox{\sf gen-mon-McNL} & = & \mbox{\sf mon-McNL}.\\
-{\rm (d)} & \REG  & \subsetneq & \mbox{\sf con-mon-McNL} & \subseteq & 
-\mbox{\sf con-gen-mon-McNL}\; \subsetneq\; \symDCFL.
+{\rm (c)} & \CFL  & = & \textup{\sf gen-mon-McNL} & = & \textup{\sf mon-McNL}.\\
+{\rm (d)} & \REG  & \subsetneq & \textup{\sf con-mon-McNL} & \subseteq & 
+\textup{\sf con-gen-mon-McNL}\; \subsetneq\; \symDCFL.
 \end{array}$
 \end{theorem}
 
@@ -250,7 +249,7 @@ $$\cent aa \underline{aabb} bb \$ \vdash
 
 Learning Algorithm for Rewriting Systems (LARS) introduced in \cite{Eyraud2007} generates the possible rules among those that can be applied over the positive samples $S_+$, tries using them and keeps them if they do not create inconsistency (using the negative samples $S_-$ for that). Algorithm LARS calls the function $\NewRule$, which generates the next possible rule to be checked.
 
-For this, one should choose \emph{useful} rules, i.e. those that can be applied on at least one string from $S_+$. One might also consider useful a rule that allows us to diminish the size of the set $S_+$: a rule which, when added, has the property that two different strings rewrite into an identical string. The goal of usefulness is to avoid an exponential explosion in the number of rules to be checked. The function $\Consistent$ checks that by adding the new rule to the system, one does not rewrite a positive example and a negative example into a same string.
+For this, one should choose \emph{useful} rules, i.\,e.\ those that can be applied on at least one string from $S_+$. One might also consider useful a rule that allows us to diminish the size of the set $S_+$: a rule which, when added, has the property that two different strings rewrite into an identical string. The goal of usefulness is to avoid an exponential explosion in the number of rules to be checked. The function $\Consistent$ checks that by adding the new rule to the system, one does not rewrite a positive example and a negative example into a same string.
 
 
 \begin{algorithm}
@@ -299,7 +298,7 @@ If $M = (\Sigma, \Gamma, \Phi)$ is a context rewriting system, then $M_{\sf left
 
 A context rewriting system $M = (\Sigma, \Gamma, \Phi)$ is called \emph{simplified} if for every $\phi = (x, z \to t, y) \in \Phi: z \not\vdash_{\Phi - \{\phi\}}^* t$ in the context $(x, y)$.
 
-The \emph{language} associated with $M$ is defined as $L(M) = \{w \in \Sigma^* \mid w \vdash_M^* \lambda \}$, where $\vdash_M^*$ is the reflexive and transitive closure of $\vdash_M$. Note that, by definition, $\lambda \in L(M)$. \hfill$\Diamond$
+The \emph{language} associated with $M$ is defined as $L(M) = \{w \in \Sigma^* \mid w \vdash_M^* \lambda \}$, where $\vdash_M^*$ is the reflexive and transitive closure of $\vdash_M$. Note that, by definition, $\lambda \in L(M)$.
 \end{definition}
 
 \begin{example}\label{example:a^n_b^n}
@@ -328,12 +327,12 @@ Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$-system. A \emph{dual context rewritin
 \end{definition}
 
 \begin{remark}\label{remark:approach}
-Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$-system and $N = M^D$ be a dual $\CRS$-system to the $\CRS$-system $M$. Let $L$ be a language of all words that can be ``generated'' from the empty word $\lambda$ by using the dual rewriting relation $\dashv_M$, i.e. $L = \{w \in \Sigma^* \mid \lambda \dashv_M^* w\}$. Obviously, $L(M) = L$. This reasoning suggests that we can look at context rewriting systems from two points of view:
+Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$-system and $N = M^D$ be a dual $\CRS$-system to the $\CRS$-system $M$. Let $L$ be a language of all words that can be ``generated'' from the empty word $\lambda$ by using the dual rewriting relation $\dashv_M$, i.\,e.\ $L = \{w \in \Sigma^* \mid \lambda \dashv_M^* w\}$. Obviously, $L(M) = L$. This reasoning suggests that we can look at context rewriting systems from two points of view:
 \begin{enumerate}
 \item
-We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a system that recognizes the language $L(M)$ by using \emph{reductions}, i.e. $L(M) = \{ w \in \Sigma^* \mid w \vdash^*_M \lambda \}$, where $\vdash_M$ is the rewriting relation of $M$, called the \emph{reduction relation}.
+We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a system that recognizes the language $L(M)$ by using \emph{reductions}, i.\,e.\ $L(M) = \{ w \in \Sigma^* \mid w \vdash^*_M \lambda \}$, where $\vdash_M$ is the rewriting relation of $M$, called the \emph{reduction relation}.
 \item
-We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a generative device generating the language $L(M)$ by using \emph{productions}, i.e. $L(M) = \{ w \in \Sigma^* \mid \lambda \dashv^*_M w \}$, where $\dashv_M \;= \; (\vdash_M)^D$ is the rewriting relation of $N = M^D$, called the \emph{production relation}.
+We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a generative device generating the language $L(M)$ by using \emph{productions}, i.\,e.\ $L(M) = \{ w \in \Sigma^* \mid \lambda \dashv^*_M w \}$, where $\dashv_M \;= \; (\vdash_M)^D$ is the rewriting relation of $N = M^D$, called the \emph{production relation}.
 \end{enumerate}
 \end{remark}
 
@@ -350,7 +349,6 @@ Let  $M = (\Sigma, \Gamma, \Phi)$ be a context rewriting system. We say that $M$
 
 %Note that length-reducing context rewriting systems are only a special case of weight-reducing context rewriting systems. To see this just consider a weight function: $f(a) := 1$, for all $a \in \Gamma$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 All context rewriting systems have the following basic property.
@@ -399,7 +397,6 @@ $\CRS$ $M$ to satisfy:
 \end{enumerate}
 \end{enumerate}
 For each combination of the above restrictions we get a different class of context rewriting systems $\calM$ with possibly different properties and expressiveness. By $\calL{\calM}$ we denote the corresponding class of languages, i.\,e., $\calL{\calM} = \{L(M) \mid M \in \calM\}$. 
-\hfill$\Diamond$
 \end{definition}
 
 \begin{theorem}[Context Extension Theorem \cite{CM10}]\label{theorem:context_extension}
@@ -416,7 +413,7 @@ It is easy to see that $u \underline{z} v \vdash^{(\phi)} utv$ if and only if $u
 \end{proof}
 
 \begin{remark}
-Based on the above result, we can allow contexts of any length up to $k$, i.e. we can use:\\
+Based on the above result, we can allow contexts of any length up to $k$, i.\,e.\ we can use:\\
 \indent $LC_{\le k} = \Gamma^{\le k} \cup \cent \cdot \Gamma^{\le k-1} = \bigcup_{i \le k} LC_i$ instead of $LC_k$ and\\
 \indent $RC_{\le k} = \Gamma^{\le k} \cup \Gamma^{\le k-1} \cdot \$ = \bigcup_{i \le k} RC_i$ instead of $RC_k$.
 \end{remark}
@@ -433,7 +430,6 @@ $\lconcalM$ denotes the class of all context rewriting systems $M \in \calM$ suc
 \item\label{restriction:left}
 $\leftcalM$ denotes the class $\{M_{\sf left} \mid M \in \calM\}$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 \begin{lemma}\label{lemma:lambda}
@@ -452,7 +448,6 @@ Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definit
 \item \emph{Minimal set of instructions}, if for every $N = (\Sigma, \Gamma, \Psi) \in \calM$, $\Psi \subset \Phi \Rightarrow L(N) \neq L(M)$.
 \item \emph{Minimal width}, if for every $N = (\Sigma, \Gamma, \Psi) \in \calM$, $|N| < |M| \Rightarrow L(N) \neq L(M)$.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 By using the framework of context rewriting systems we can define many interesting classes that have been studied intensively in several papers. In the following, we discuss \emph{clearing}, \emph{$\Delta$-clearing}, \emph{subword-clearing} and \emph{limited-context restarting automata}.
@@ -469,25 +464,24 @@ A \emph{subword-clearing restarting automaton} \cite{C12} (\emph{$\sclRA$} for s
 
 \item\label{definition:dxclra} A \emph{$\Delta^*$-clearing restarting automaton} \cite{CM10} (\emph{$\DXclRA$} for short) is a generalization of $\DclRA$; it is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where $\Gamma = \Sigma \cup \{\Delta\}$, $\Delta \notin \Sigma$, and for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Gamma^+$ and $t \in \{\lambda, \Delta, \ldots, \Delta^{|z|}\}$.
 
-\item \label{definition:lcra} A \emph{limited-context restarting automaton} \cite{B10Diploma, B11, OCM13} (\emph{$\lcRA$} for short) of type $\mathcal{R}_0$ is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where every instruction $\phi = (x, z \to t, y) \in \Phi$ is length-reducing. For $\lcRA$ of type $\mathcal{R}_1$ we require, in addition, that $|t| \le 1$, and for $\lcRA$ of type $\mathcal{R}_2$ we require, in addition, that $|t| \le 1$, $x \in \{\cent, \lambda\}$, and $y \in \{\$, \lambda\}$.
+\item \label{definition:lcra} A \emph{limited-context restarting automaton} \cite{B10Diploma, B11, OCM13} (\emph{$\lcRA$} for short) of type $\mathcal{R}_0'$ is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where every instruction $\phi = (x, z \to t, y) \in \Phi$ is weight-reducing. For $\lcRA$ of type $\mathcal{R}_1'$ we require, in addition, that $|t| \le 1$, for $\lcRA$ of type $\mathcal{R}_2'$ we require, in addition, that $x \in \{\cent, \lambda\}$, and $y \in \{\$, \lambda\}$, and, finally, for $\lcRA$ of type $\mathcal{R}_2'$ we require, in addition, that $y = \$$. We say that an $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is of type $\mathcal{R}_i$, for $i \in \{0, 1, 2, 3\}$, if $M$ is of type $\mathcal{R}_i'$ and $\Phi$ only contains length-reducing instructions.
 \end{enumerate}
-\hfill$\Diamond$
 \end{definition}
 
 \begin{remark}\label{remark:lambda}
 Speaking about a $\clRA$ $M$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$ $M$, respectively) we use ``automata terminology,'' e.g., we say that $M$ \emph{accepts} a word $w$ if $w \in L(M)$. By definition, each $\clRA$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$) accepts $\lambda$. In order to overcome this problem, we will consider equality of languages only up to the empty word, that is, we will say that two languages $L$ and $L'$ on $\Sigma$ are equal, denoted as $L\, \dot{=}\, L'$, if $L\cap \Sigma^+ = L'\cap\Sigma^+$ holds. In ohter words, if we say that a $\clRA$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$) $M$ \emph{recognizes} (or \emph{accepts}) a language $L$, we always mean that $L(M) = L \cup \{\lambda\}$. We simply ignore the empty word in this setting.
 \end{remark}
 
-Clearing restarting automata are studied in \cite{CM10}. In this thesis they play a role of the most restricted model and we will use them to prove some lower bounds on the complexity of learning. Although clearing restarting automata are very restricted, they can recognize all regular languages, some context-free languages and even some non-context-free languages. However, there are some context-free languages that are outside the class of languages accepted by clearing restarting automata. For instance, the language $L = \{a^n c b^n \mid n \ge 0\}$ is not recognized by any clearing restarting automaton. On the other hand, it can be easily shown that this language is recognized by the subword-clearing restarting automaton $M = (\{a, b, c\}, \Phi)$ with $\Phi = \{(a, acb \to c, b), (\cent, acb \to \lambda, \$)\}$. In general, however, not all context-free languages can be recognized by subword-clearing restarting automata \cite{C13}. Interestingly, in \cite{CM11} it has been shown that $\CFL \subseteq \calL{\DclRA}$, thus only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages. 
+Clearing restarting automata are studied in \cite{CM10} (Section \ref{section:clra}). In this thesis they play a role of the most restricted model and we will use them to prove some lower bounds on the complexity of learning. Although clearing restarting automata are very restricted, they can recognize all regular languages, some context-free languages and even some non-context-free languages. However, there are some context-free languages that are outside the class of languages accepted by clearing restarting automata. For instance, the language $L = \{a^n c b^n \mid n \ge 0\}$ is not recognized by any clearing restarting automaton. On the other hand, it can be easily shown that this language is recognized by the subword-clearing restarting automaton $M = (\{a, b, c\}, \Phi)$ with $\Phi = \{(a, acb \to c, b), (\cent, acb \to \lambda, \$)\}$. In general, not all context-free languages can be recognized by subword-clearing restarting automata \cite{C13}. Both clearing and subword-clearing restarting automata do not use auxiliary symbols. In Section \ref{section:inference} we provide a learning framework for inferring such models from data.
 
-Obviously, limited-context restarting automaton ($\lcRA$) of type $\mathcal{R}_1$ is a proper extension of the clearing restarting automaton, while $\lcRA$ of type $\mathcal{R}_2$ is incomparable to the clearing restarting automaton. In \cite{OCM13} limited context restarting automata and their confluent versions are put into the context of \emph{McNaughton families of languages} \cite{Beaudry2003}, relating the classes of languages accepted by these automata in particular to the class $\GCSL$ of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and to the class $\CRL$ of \emph{Church-Rosser languages} \cite{MNO88}.
+If we allow auxiliary symbols then, interestingly, only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages (\cite{CM11}). In Section \ref{section:dxclra} we prove this fact by showing that $\CFL \subseteq \calL{\DclRA}$. Allowing auxiliary symbols also gives rise to a broad family of limited-context restarting automata studied in Section \ref{section:lcra}. Limited context restarting automaton ($\lcRA$) of type $\mathcal{R}_1$ is a proper extension of the clearing restarting automaton, while $\lcRA$ of type $\mathcal{R}_2$ is incomparable to the clearing restarting automaton. In \cite{OCM13} limited context restarting automata and their confluent versions are put into the context of \emph{McNaughton families of languages} \cite{Beaudry2003}, relating the classes of languages accepted by these automata in particular to the class $\GCSL$ of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and to the class $\CRL$ of \emph{Church-Rosser languages} \cite{MNO88}.
 
-The decidability of $\lambda$-confluence for clearing restarting automata and limited-context restarting automata is studied in \cite{OM13}. It turns out that $\lambda$-confluence is not even recursively enumerable for clearing restarting automata and that it is decidable in double exponential time for limited-context restarting automata of type $\mathcal{R}_2$. Although the undecidability of $\lambda$-confluence for clearing restarting automata might seem prohibitive for learning $\lambda$-confluent $\CRS$, we will see that we do not need to verify $\lambda$-confluence at all. Interestingly, \emph{confluence} is decidable for all limited-context restarting automata of type $\mathcal{R}_0$. 
+The decidability of $\lambda$-confluence for clearing restarting automata and limited-context restarting automata is studied in \cite{OM13}. It turns out that $\lambda$-confluence is not even recursively enumerable for clearing restarting automata and that it is decidable in double exponential time for limited-context restarting automata of type $\mathcal{R}_2$. Although the undecidability of $\lambda$-confluence for clearing restarting automata might seem prohibitive for learning $\lambda$-confluent $\CRS$, we will see that we do not need to verify $\lambda$-confluence at all. Interestingly, \emph{confluence} is decidable for all limited-context restarting automata of type $\mathcal{R}_0'$. 
 
 \section{Other Models}
 \label{section:other-models}
 
-In this Section we cover some related models.
+In this Section we cover some other related models, in particular, Marcus' contextual grammars and pure grammars.
 
 Marcus' contextual grammars (described in Section \ref{section:marcus-contextual-grammars}) are based on adjoining (inserting) pairs of strings/contexts into a word according to a selection procedure. The selection procedure controls which strings (contexts) can be inserted in which places of a string. As the selection procedure can be of arbitrary complexity \cite{Pa98}, many language classes generated by contextual grammars are of high complexity and without practical applications.
 

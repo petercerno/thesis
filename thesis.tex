@@ -313,13 +313,18 @@ string-rewriting systems.
 \addcontentsline{toc}{chapter}{\bibname}
 
 %%% Obrazky v disertační práci, existují-li.
-\chapwithtoc{List of Figures}
+%\chapwithtoc{List of Figures}
+\listoffigures\addcontentsline{toc}{chapter}{\listfigurename}
 
 %%% Tabulky v disertační práci, existují-li.
-\chapwithtoc{List of Tables}
+%\chapwithtoc{List of Tables}
+\listoftables\addcontentsline{toc}{chapter}{\listtablename}
 
 %%% Použité zkratky v disertační práci, existují-li, včetně jejich vysvětlení.
-\chapwithtoc{List of Abbreviations}
+\include{abbreviations}
+
+%%% Použité symboly v disertační práci, existují-li, včetně jejich vysvětlení.
+\include{symbols}
 
 %%% Přílohy k disertační práci, existují-li (různé dodatky jako výpisy programů,
 %%% diagramy apod.). Každá příloha musí být alespoň jednou odkazována z vlastního

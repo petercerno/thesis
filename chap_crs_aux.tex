@@ -1,8 +1,8 @@
 \chapter{Context Rewriting Systems With Auxiliary Symbols}\label{chapter:crs_aux}
 
-TODO(petercerno): Write an introduction.
+In this chapter we study context rewriting systems ($\CRS$) with auxiliary symbols (see Section \ref{section:context-rewriting-systems} for definition). Interestingly, only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages (\cite{CM11}). In Section \ref{section:dxclra} we prove this fact by showing that $\CFL \subseteq \calL{\DclRA}$. Allowing auxiliary symbols also gives rise to a broad family of limited-context restarting automata (\cite{B11,OCM13}). In Section \ref{section:lcra} limited context restarting automata and their confluent versions are put into the context of \emph{McNaughton families of languages} \cite{Beaudry2003}, relating the classes of languages accepted by these automata in particular to the class $\GCSL$ of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and to the class $\CRL$ of \emph{Church-Rosser languages} \cite{MNO88}.
 
-\section{$\Delta$-Clearing Restarting Automata}
+\section{$\Delta$-Clearing Restarting Automata}\label{section:dxclra}
 
 In \cite{CM10} there were introduced two extended versions of clearing restarting automata -- the so-called $\Delta$-clearing restarting automata and $\Delta^*$-clearing restarting automata. Both of them can use a single auxiliary symbol $\Delta$ only. A $\Delta$-clearing restarting automaton can leave a mark -- a symbol $\Delta$ -- at the place of deleting besides rewriting into the empty word $\lambda$. A $\Delta^*$-clearing restarting automaton can rewrite a subword $w$ into $\Delta^k$ where $k$ is bounded from above by the length of $w$. In what follows we first repeat a result from \cite{CM10} that shows that $\Delta^*$-clearing restarting automata are powerful enough to recognize  all context-free languages. Then we prove that it is possible transform a $\Delta^*$-clearing restarting automaton recognizing a  context-free language into a $\Delta$-clearing restarting automaton recognizing the same language \cite{CM11}.
 
@@ -62,7 +62,7 @@ Let $T$ be a rooted binary tree with a root node $r$, such that each leaf node $
 \begin{proof}
 If $w(r) \le c$ then there is nothing to prove and the lemma obviously holds. If $w(r) > c$ then we inductively define a path $v_1 v_2 \ldots v_k$ in the tree $T$, such that $k > 1$, $v_1, v_2, \ldots, v_{k - 1}$ are internal nodes and $v_k$ is a leaf node. First, we define $v_1 = r$. The node $v_1$ cannot be a leaf node, since $w(v_1) = w(r) > c \ge U$. Let us suppose that we have defined the nodes $v_1, v_2, \ldots, v_i$. If $v_i$ is a leaf node, then $k = i$ and the path is completed. Otherwise, $v_i$ is not a leaf node and it has two children (the tree is binary) $v_{\rm l}$ and $v_{\rm r}$. Then we define $v_{i+1}$ to be a child with weight at least half of the weight of $v_i$. More precisely, if $w(v_{\rm l}) > w(v_{\rm r})$, then $v_{i+1} = v_{\rm l}$, otherwise $v_{i+1} = v_{\rm r}$.
 
-Observe, that $w(v_1) \ge w(v_2) \ge \ldots \ge w(v_k)$ and $w(v_k) \le U \le c$. Let $j \in \{1, 2, \ldots, k-1\}$ be the largest index such that $w(v_j) > c$. We claim that $w(v_j) \le 2c$. Obviously, $j<k$ and $v_j$ has two children $v_{\rm l}$ and $v_{\rm r}$. Without loss of generality we can suppose that $w_{j+1} = v_{\rm l}$, i.e. $w(v_{\rm l}) \ge w(v_{\rm r})$. By the choice of $j$ we have $w(v_{j+1}) = w(v_{\rm l}) \le c$, i.e. $w(v_j) = w(v_{\rm l}) + w(v_{\rm r}) \le 2w(v_{\rm l}) \le 2c$.
+Observe, that $w(v_1) \ge w(v_2) \ge \ldots \ge w(v_k)$ and $w(v_k) \le U \le c$. Let $j \in \{1, 2, \ldots, k-1\}$ be the largest index such that $w(v_j) > c$. We claim that $w(v_j) \le 2c$. Obviously, $j<k$ and $v_j$ has two children $v_{\rm l}$ and $v_{\rm r}$. Without loss of generality we can suppose that $w_{j+1} = v_{\rm l}$, i.\,e.\ $w(v_{\rm l}) \ge w(v_{\rm r})$. By the choice of $j$ we have $w(v_{j+1}) = w(v_{\rm l}) \le c$, i.\,e.\ $w(v_j) = w(v_{\rm l}) + w(v_{\rm r}) \le 2w(v_{\rm l}) \le 2c$.
 \end{proof}
 
 Now we apply Tree Lemma \ref{lemma:dxclra_tree} to our context-free grammar $G'$. Consider any word $w \in L(G')$ and any derivation tree $T$ corresponding to this word $w$. The nonterminals in the derivation tree $T$ represent internal nodes and the terminal words derived from nonterminals in the derivation tree $T$ represent leaf nodes. Let $r$ be the root of $T$ labeled by the initial nonterminal $S$. If we define the weight of the leaf nodes as the length of the words represented by these leaf nodes we obtain a binary tree with an upper limit  $U = m + 2$ for the weight of leaf nodes, where $m$ is the number of nonterminals in $G'$ (the largest terminal word is $a \Delta^m b$, where $a, b \in \Sigma$). Let us take $c = U = m + 2$. By Tree Lemma \ref{lemma:dxclra_tree} either $w(r) \le c$, or there is an internal node $v$ such that $c < w(v) \le 2c$. In other words, either $|w| \le c$, or there exists a derivation $S \Rightarrow_{G'}^* x N_i y \Rightarrow_{G'}^* xzy$ such that $w = xzy$ and $c < |z| \le 2c$. Thus we have shown the following corollary.
@@ -96,19 +96,19 @@ $L_C(M) \subseteq L(G') \cup \{ \lambda \}$\;.
 \begin{proof}
 (By induction on the number of reduction steps)
 
-Suppose $w \in L_C(M)$ and $w = w_n \vdash_M w_{n-1} \vdash_M \ldots \vdash_M w_1 \vdash_M \lambda$. For each $i = 1, 2, \ldots n$, let us prove that $w_i \in L(G') \cup \{ \lambda \}$. $w_1 \vdash_M \lambda$ implies that there is the instruction $(\cent, w_1 \to \lambda, \$)$  in $\Phi_1$, and thus $w_1 \in L(G')$ according to the definition of $\Phi_1$. Suppose that $w_j \in L(G')$ and in the reduction $w_{j+1} \vdash_M w_j$ we have used the instruction $\phi = (z_1, \underline{z_2 \ldots z_{s-1}} \to \Delta^i, z_s) \in \Phi_2$, i.e. $w_{j+1} = x z_1 \underline{z_2 \ldots z_{s-1}} z_s y \vdash_M x z_1 \Delta^i z_s y = w_j$. We have $w_j \in L(G')$, therefore $S \Rightarrow_{G'}^* x z_1 \Delta^i z_s y$. The sequence of letters $z_1 \Delta^i z_s$ in our derivation could have been created only by using the production rule $N_i \to z_1 \Delta^i z_s$ (because $z_1, z_s \in \Sigma$). Therefore, there exists a derivation $S \Rightarrow_{G'}^* x N_i y \Rightarrow_{G'} x z_1 \Delta^i z_s y$ in $G'$. From the definition of $\phi \in \Phi_2$ we also have $N_i \Rightarrow_{G'}^* z_1 z_2 \ldots z_{s-1} z_s$, where $c < s = |z| \le 2c$. Thus in $G'$ there exists a derivation $S \Rightarrow_{G'}^* x N_i y \Rightarrow_{G'}^* x z_1 z_2 \ldots z_{s-1} z_s y = w_{j+1}$, which implies that $w_{j+1} \in L(G')$.
+Suppose $w \in L_C(M)$ and $w = w_n \vdash_M w_{n-1} \vdash_M \ldots \vdash_M w_1 \vdash_M \lambda$. For each $i = 1, 2, \ldots n$, let us prove that $w_i \in L(G') \cup \{ \lambda \}$. $w_1 \vdash_M \lambda$ implies that there is the instruction $(\cent, w_1 \to \lambda, \$)$  in $\Phi_1$, and thus $w_1 \in L(G')$ according to the definition of $\Phi_1$. Suppose that $w_j \in L(G')$ and in the reduction $w_{j+1} \vdash_M w_j$ we have used the instruction $\phi = (z_1, \underline{z_2 \ldots z_{s-1}} \to \Delta^i, z_s) \in \Phi_2$, i.\,e.\ $w_{j+1} = x z_1 \underline{z_2 \ldots z_{s-1}} z_s y \vdash_M x z_1 \Delta^i z_s y = w_j$. We have $w_j \in L(G')$, therefore $S \Rightarrow_{G'}^* x z_1 \Delta^i z_s y$. The sequence of letters $z_1 \Delta^i z_s$ in our derivation could have been created only by using the production rule $N_i \to z_1 \Delta^i z_s$ (because $z_1, z_s \in \Sigma$). Therefore, there exists a derivation $S \Rightarrow_{G'}^* x N_i y \Rightarrow_{G'} x z_1 \Delta^i z_s y$ in $G'$. From the definition of $\phi \in \Phi_2$ we also have $N_i \Rightarrow_{G'}^* z_1 z_2 \ldots z_{s-1} z_s$, where $c < s = |z| \le 2c$. Thus in $G'$ there exists a derivation $S \Rightarrow_{G'}^* x N_i y \Rightarrow_{G'}^* x z_1 z_2 \ldots z_{s-1} z_s y = w_{j+1}$, which implies that $w_{j+1} \in L(G')$.
 \end{proof}
 
 This completes the proof of Theorem \ref{theorem:CFLsubseteqDXclRA}.
 \end{proof}
 
-We have shown that $\kDXclRA[1]$ are able to recognize all context-free languages (containing the empty word $\lambda$ -- see Remark \ref{remark:lambda}). This result opens an interesting question whether it is possible to transform every $\DXclRA$ into an equivalent $\DclRA$. If we are interested only in the problem whether $\DclRA$ can recognize all context-free languages, then we do not need to do this transformation to all $\DXclRA$. We just need to do this transformation to such $\DXclRA$ which were obtained from a context-free grammar, as was shown above. Moreover, the aforementioned construction can be generalized, i.e. we can put some extra restrictions on the instructions of the resulting $\DXclRA$. We can generalize the construction of the grammar $G'$ and the corresponding $\DXclRA$ $M$ in the following four ways:
+We have shown that $\kDXclRA[1]$ are able to recognize all context-free languages (containing the empty word $\lambda$ -- see Remark \ref{remark:lambda}). This result opens an interesting question whether it is possible to transform every $\DXclRA$ into an equivalent $\DclRA$. If we are interested only in the problem whether $\DclRA$ can recognize all context-free languages, then we do not need to do this transformation to all $\DXclRA$. We just need to do this transformation to such $\DXclRA$ which were obtained from a context-free grammar, as was shown above. Moreover, the aforementioned construction can be generalized, i.\,e.\ we can put some extra restrictions on the instructions of the resulting $\DXclRA$. We can generalize the construction of the grammar $G'$ and the corresponding $\DXclRA$ $M$ in the following four ways:
 
 \begin{enumerate}
-\item\label{request:m_0} We can choose a minimal length $m_0 \ge 1$ of codes for nonterminals, i.e. we code $N_i$ by using at least $m_0$ consecutive letters $\Delta$.
-\item\label{request:m_1} We can choose a minimal length $m_1 \ge 1$ of shortening for each reduction, i.e. for each instruction $(x, u \to \Delta^r, y)$ such that $r \ge 1$, we can guarantee that $|u| - |\Delta^r| \ge m_1$.
-\item\label{request:m_2} We can choose a number of codes $m_2 \ge 1$ representing one nonterminal, i.e. we can encode $N_i$ by using $m_0 + m_2 (i - 1) + j - 1$ consecutive letters $\Delta$, for all $j \in \{1, 2, \ldots m_2\}$.
-\item\label{request:k} We can choose a length $k \ge 1$ of the separator, i.e. instead of one letter we use $k$ consecutive arbitrary letters from $\Sigma$ as a separator.
+\item\label{request:m_0} We can choose a minimal length $m_0 \ge 1$ of codes for nonterminals, i.\,e.\ we code $N_i$ by using at least $m_0$ consecutive letters $\Delta$.
+\item\label{request:m_1} We can choose a minimal length $m_1 \ge 1$ of shortening for each reduction, i.\,e.\ for each instruction $(x, u \to \Delta^r, y)$ such that $r \ge 1$, we can guarantee that $|u| - |\Delta^r| \ge m_1$.
+\item\label{request:m_2} We can choose a number of codes $m_2 \ge 1$ representing one nonterminal, i.\,e.\ we can encode $N_i$ by using $m_0 + m_2 (i - 1) + j - 1$ consecutive letters $\Delta$, for all $j \in \{1, 2, \ldots m_2\}$.
+\item\label{request:k} We can choose a length $k \ge 1$ of the separator, i.\,e.\ instead of one letter we use $k$ consecutive arbitrary letters from $\Sigma$ as a separator.
 \end{enumerate}
 
 Suppose that we have chosen $m_0$, $m_1$, $m_2$ and $k$, and let $L$ be a context-free language. Let $G = (V_N, V_T, S, P)$ be a context-free grammar in Chomsky normal form generating the language $L(G) = L \setminus \{\lambda\}$, $V_N = \{N_1, \ldots, N_m\}$, $S = N_1$ and $\Delta \not\in V_N \cup V_T$. Let $G' = (V_N, V_T', S, P')$ be a grammar obtained from $G$ by adding a new terminal symbol $\Delta$ to $V_T$ and adding new productions $N_i \to x \Delta^{m_0 + m_2 (i - 1) + j - 1} y$ to $P$, for all $1 \le i \le m$, $1 \le j \le m_2$, and all $x, y \in (V_T)^k$. Let $\Sigma = V_T$ and $\Gamma = \Sigma \cup \{ \Delta \} = V_T'$. We can effectively construct a $\kDXclRA[k]$ $M$ with the above properties such that $L_C(M) = L(G') \cup \{ \lambda \}$. This again implies that $L(M) = L_C(M) \cap \Sigma^* = L(G) \cup \{ \lambda \}$.
@@ -125,10 +125,9 @@ Let $\Phi_2$ be the set of all such instructions. (Observe again that $x, y \in 
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=1.0]{instruction_phi.eps}
-\caption[The illustration of the instruction
-$\phi = (x, u \to \Delta^{m_0 + m_2 (i - 1) + j - 1}, y)$.]
-{The illustration of the instruction
-$\phi = (x, u \to \Delta^{m_0 + m_2 (i - 1) + j - 1}, y)$.}
+\caption[The illustration of the instruction $\phi$.]
+%$\phi = (x, u \to \Delta^{m_0 + m_2 (i - 1) + j - 1}, y)$.]
+{The illustration of the instruction $\phi = (x, u \to \Delta^{m_0 + m_2 (i - 1) + j - 1}, y)$.}
 \label{figure:instruction_phi}
 \end{figure}
 
@@ -141,10 +140,10 @@ For each $t \ge 1$, we can set the parameters $m_1$ and $k$ in such a way, that 
 \end{lemma}
 
 \begin{proof}
-Set $k := t$ and $m_1 := 2 t + m_2 m - 1$. Consider any instruction $(x, u \to \Delta^r, y) \in \Phi_2$. If $u \in \Sigma^*$ then $v := u$ and we obtain $|v| = |u| > m_1 > t$. Suppose that there are some letters $\Delta$ in $u$. If we can find two consecutive continuous sequences of letters $\Delta$ in $u$, then at least $k$ letters from $\Sigma$ separate these two sequences. We can set $v$ to be this separator. Suppose that there is only one continuous sequence of letters $\Delta$, i.e. $u = w_1 \Delta^s w_2$ for some $w_1, w_2 \in \Sigma^*$. We know that $|w_1| + s + |w_2| - r \ge m_1$. On the other hand, $|w_1| + s + |w_2| - r \le |w_1| + |w_2| + m_2 m - 1$, since $m_0 \le r, s \le m_0 + m_2 m - 1$. Accordingly, $|w_1| + |w_2| + m_2 m - 1 \ge m_1$. The longer of the words $w_1$, $w_2$ has the length at least $\frac{1}{2}(m_1 - m_2 m + 1) = t$.
+Set $k := t$ and $m_1 := 2 t + m_2 m - 1$. Consider any instruction $(x, u \to \Delta^r, y) \in \Phi_2$. If $u \in \Sigma^*$ then $v := u$ and we obtain $|v| = |u| > m_1 > t$. Suppose that there are some letters $\Delta$ in $u$. If we can find two consecutive continuous sequences of letters $\Delta$ in $u$, then at least $k$ letters from $\Sigma$ separate these two sequences. We can set $v$ to be this separator. Suppose that there is only one continuous sequence of letters $\Delta$, i.\,e.\ $u = w_1 \Delta^s w_2$ for some $w_1, w_2 \in \Sigma^*$. We know that $|w_1| + s + |w_2| - r \ge m_1$. On the other hand, $|w_1| + s + |w_2| - r \le |w_1| + |w_2| + m_2 m - 1$, since $m_0 \le r, s \le m_0 + m_2 m - 1$. Accordingly, $|w_1| + |w_2| + m_2 m - 1 \ge m_1$. The longer of the words $w_1$, $w_2$ has the length at least $\frac{1}{2}(m_1 - m_2 m + 1) = t$.
 \end{proof}
 
-In the following, we outline the basic idea behind the transformation of a $\DXclRA$ $M$ obtained from the previous construction into an equivalent $\DclRA$ $N$. First suppose that we do this transformation in a trivial way, i.e. we transform each instruction $\phi = (x, u \to \Delta^r, y)$ of $M$, where $r > 1$ and $u = u_1 \ldots u_s$, into the following set of so-called \emph{partial instructions}:
+In the following, we outline the basic idea behind the transformation of a $\DXclRA$ $M$ obtained from the previous construction into an equivalent $\DclRA$ $N$. First suppose that we do this transformation in a trivial way, i.\,e.\ we transform each instruction $\phi = (x, u \to \Delta^r, y)$ of $M$, where $r > 1$ and $u = u_1 \ldots u_s$, into the following set of so-called \emph{partial instructions}:
 $$
 \begin{array}{ll}
 \phi_1 & = (x, \underline{u_1} \to \Delta, u_2 u_3 \ldots u_s y),\\
@@ -170,7 +169,7 @@ Let $\Sigma$ be an input alphabet not containing the sentinels $\cent$ and $\$$.
 \Input{Word $u \in \Sigma^*$.}
 \nonl Let $w \leftarrow \cent \cdot u \cdot \$$.\;
 \nonl \While{\textbf{true}}{
-Ask the querier $Q$ to choose a subword $x$ of $w$, i.e. $w = w_1 x w_2$.\;
+Ask the querier $Q$ to choose a subword $x$ of $w$, i.\,e.\ $w = w_1 x w_2$.\;
 If the solver $S$ accepts $x$ then \textbf{Accept} and \textbf{Halt}.\;
 If the solver $S$ answers $y$ on the input $x$ then $w \leftarrow w_1 y w_2$.\;}
 \end{algorithm}
@@ -453,11 +452,11 @@ bb\underline{babba}? & bb\underline{babbb}? &
 \label{table:dxclra_verify2}
 \end{table}
 
-Note that $T$ can be shortly described as $T = \{ (xx, y, y?) \mid x, y \in \Sigma \} \cup \{ (xy, x, ??) \mid x \neq y; x, y \in \Sigma \}$,  where the symbol $?$ is a placeholder for an arbitrary letter from $\Sigma$. We can avoid using the symbol $?$ completely by writing $T = \{ (xx, y, y) \mid x, y \in \Sigma \} \cup \{ (xy, x, \lambda) \mid x \neq y; x, y \in \Sigma \}$. In other words, we allow using triples $(l, z, r)$, where $|l| < K$ or $|r| < K$ (or both). This is not a problem since we can easily extend the left context (right context, respectively) to be from $\Sigma^K$ by adding (all possible combinations of) ``dummy'' letters from $\Sigma$ to the left of the left context $l$ (to the right of the right context $r$, respectively). The reason why $T$ satisfies the condition \ref{theorem:dxclra_coding_2:b} is as follows. Consider a sufficiently long word $w \in \Sigma^*$. There are only two cases: either each (internal) letter in $w$ is doubled, i.e. each (internal) letter $x$ in $w$ has a neighbor $x$, or there exists an (internal) letter $x$ in $w$ which does not have a neighbor $x$. In the first case the pattern $xxyy$ will occur, and in the second case the pattern $xyx$, where $x \neq y$, will occur.
+Note that $T$ can be shortly described as $T = \{ (xx, y, y?) \mid x, y \in \Sigma \} \cup \{ (xy, x, ??) \mid x \neq y; x, y \in \Sigma \}$,  where the symbol $?$ is a placeholder for an arbitrary letter from $\Sigma$. We can avoid using the symbol $?$ completely by writing $T = \{ (xx, y, y) \mid x, y \in \Sigma \} \cup \{ (xy, x, \lambda) \mid x \neq y; x, y \in \Sigma \}$. In other words, we allow using triples $(l, z, r)$, where $|l| < K$ or $|r| < K$ (or both). This is not a problem since we can easily extend the left context (right context, respectively) to be from $\Sigma^K$ by adding (all possible combinations of) ``dummy'' letters from $\Sigma$ to the left of the left context $l$ (to the right of the right context $r$, respectively). The reason why $T$ satisfies the condition \ref{theorem:dxclra_coding_2:b} is as follows. Consider a sufficiently long word $w \in \Sigma^*$. There are only two cases: either each (internal) letter in $w$ is doubled, i.\,e.\ each (internal) letter $x$ in $w$ has a neighbor $x$, or there exists an (internal) letter $x$ in $w$ which does not have a neighbor $x$. In the first case the pattern $xxyy$ will occur, and in the second case the pattern $xyx$, where $x \neq y$, will occur.
 
-The proof of the induction step was provided by a Russian mathematician Ilya Bogdanov on the following website: \url{http://mathoverflow.net/questions/76326/can-you-hide-a-letter-without-losing-information}. Let us assume that we know the positive integers $B'$, $K'$, and the table $T'$ of triples for some alphabet $\Sigma'$. Our goal is to find the positive integers $B$, $K$, and the table $T$ of triples (satisfying both conditions  \ref{theorem:dxclra_coding_2:a}, \ref{theorem:dxclra_coding_2:b}) for the extended alphabet $\Sigma = \Sigma' \cup \{x\}$, where $x \notin \Sigma'$. Let us assume that $K' \ge 2|\Sigma'|$. We claim that we can set $K = B'$. For convenience, we say that we \emph{catch} the word $w \in \Sigma^*$ if there exists at least one $(x, z, y) \in T$ such that $xzy$ is a subword of $w$ (i.e. the condition \ref{theorem:dxclra_coding_2:b} holds for the word $w$). Our goal is to catch all long enough words (i.e. all words from $\Sigma^B$ for some positive integer $B$). First, let us reuse all triples from $T'$, except that we need to prolong their contexts to the length $K$. By using the triples from $T'$ we can catch every word $w \in \Sigma^*$ that contains a subword $w'$ over $\Sigma'$ of  length at least $B'$ (where this subword stands at least $K$ letters from the beginning of the word $w$ to leave enough room for the prolonged contexts). Second, we need to catch also all other words. These words contain subwords of the form $xw'x$, where $0 \le |w'| < B'$ and $w'$ does not contain $x$ (again we consider only subwords $xw'x$ standing at least $K$ letters from the beginning). Let $xw'x$ be any such subword with the maximal possible length. We distinguish three cases: (1) $|w'|$ is at least $2 |\Sigma'|$, (2) $|w'|$ is at least $|\Sigma'|$, but less than  $2 |\Sigma'|$, and (3) $|w'|$ is less then $|\Sigma'|$.
+The proof of the induction step was provided by a Russian mathematician Ilya Bogdanov on the following website: \url{http://mathoverflow.net/questions/76326/can-you-hide-a-letter-without-losing-information}. Let us assume that we know the positive integers $B'$, $K'$, and the table $T'$ of triples for some alphabet $\Sigma'$. Our goal is to find the positive integers $B$, $K$, and the table $T$ of triples (satisfying both conditions  \ref{theorem:dxclra_coding_2:a}, \ref{theorem:dxclra_coding_2:b}) for the extended alphabet $\Sigma = \Sigma' \cup \{x\}$, where $x \notin \Sigma'$. Let us assume that $K' \ge 2|\Sigma'|$. We claim that we can set $K = B'$. For convenience, we say that we \emph{catch} the word $w \in \Sigma^*$ if there exists at least one $(x, z, y) \in T$ such that $xzy$ is a subword of $w$ (i.\,e.\ the condition \ref{theorem:dxclra_coding_2:b} holds for the word $w$). Our goal is to catch all long enough words (i.\,e.\ all words from $\Sigma^B$ for some positive integer $B$). First, let us reuse all triples from $T'$, except that we need to prolong their contexts to the length $K$. By using the triples from $T'$ we can catch every word $w \in \Sigma^*$ that contains a subword $w'$ over $\Sigma'$ of  length at least $B'$ (where this subword stands at least $K$ letters from the beginning of the word $w$ to leave enough room for the prolonged contexts). Second, we need to catch also all other words. These words contain subwords of the form $xw'x$, where $0 \le |w'| < B'$ and $w'$ does not contain $x$ (again we consider only subwords $xw'x$ standing at least $K$ letters from the beginning). Let $xw'x$ be any such subword with the maximal possible length. We distinguish three cases: (1) $|w'|$ is at least $2 |\Sigma'|$, (2) $|w'|$ is at least $|\Sigma'|$, but less than  $2 |\Sigma'|$, and (3) $|w'|$ is less then $|\Sigma'|$.
 \begin{enumerate}
-\item[(1)] In case $|w'| \ge 2 |\Sigma'|$ we can reuse the idea of Coding 1 (see Theorem \ref{theorem:dxclra_coding_1}). Let us assign to every $a \in \Sigma'$ some value $\nu(a) \in \{1, \ldots, |\Sigma'|\}$ bijectively, and define $\nu^*(w_1 \ldots w_n) = \sum_{i = 1}^{n} \nu(w_i) \mod |\Sigma'|$. Let us add to $T$ all triples of the form $(xu, a, vx)$, where $u, v$ are words over $\Sigma'$, $a \in \Sigma'$, $0 \le |u| < |\Sigma'|$, $|\Sigma'| \le |v| < B'$, $2|\Sigma'| \le |uav| < B'$, and $\nu^*(uav) = |u|$. Now if we have any subword $xw'x$ with $|w'| \ge 2 |\Sigma'|$, then we set $u$ to be the prefix of $w'$ of length $\nu^*(w')$, $a$ to be the next letter of $w'$, and $v$ to be the remaining suffix of $w'$. It is easy to see that $\nu^*(uav) = \nu^*(w') = |u|$, i.e. our word $w$ is caught by a triple $(xu, a, vx) \in T$. Since $a$ is determined uniquely by $u$ and $v$, these triples satisfy the condition \ref{theorem:dxclra_coding_2:a}.
+\item[(1)] In case $|w'| \ge 2 |\Sigma'|$ we can reuse the idea of Coding 1 (see Theorem \ref{theorem:dxclra_coding_1}). Let us assign to every $a \in \Sigma'$ some value $\nu(a) \in \{1, \ldots, |\Sigma'|\}$ bijectively, and define $\nu^*(w_1 \ldots w_n) = \sum_{i = 1}^{n} \nu(w_i) \mod |\Sigma'|$. Let us add to $T$ all triples of the form $(xu, a, vx)$, where $u, v$ are words over $\Sigma'$, $a \in \Sigma'$, $0 \le |u| < |\Sigma'|$, $|\Sigma'| \le |v| < B'$, $2|\Sigma'| \le |uav| < B'$, and $\nu^*(uav) = |u|$. Now if we have any subword $xw'x$ with $|w'| \ge 2 |\Sigma'|$, then we set $u$ to be the prefix of $w'$ of length $\nu^*(w')$, $a$ to be the next letter of $w'$, and $v$ to be the remaining suffix of $w'$. It is easy to see that $\nu^*(uav) = \nu^*(w') = |u|$, i.\,e.\ our word $w$ is caught by a triple $(xu, a, vx) \in T$. Since $a$ is determined uniquely by $u$ and $v$, these triples satisfy the condition \ref{theorem:dxclra_coding_2:a}.
 \item[(2)] In case $|\Sigma'| \le |w'| < 2 |\Sigma'|$ we use the triples of the form $(xu, x, \lambda)$, where $u$ is over $\Sigma'$ and $|\Sigma'| \le |u| < 2 |\Sigma'|$. Note that these triples do not interfere with the triples from (1), because here $|\Sigma'| \le |u|$.
 \item[(3)] Finally, if $|w'| < |\Sigma'|$ we use the triples of the form $(xu, x, vx)$, where $u, v$ are words over $\Sigma'$, and $0 \le |u|, |v| < |\Sigma'|$. These triples do not interfere with the triples from (1), because here we have $|v| < |\Sigma'|$. They do not interfere with the triples from (2), because here we have $|u| < |\Sigma'|$.
 \end{enumerate}
@@ -564,7 +563,7 @@ Step \ref{algorithm:dxclra_solver:step_1} is clear. Fixed points are exactly def
 
 Step \ref{algorithm:dxclra_solver:step_4} is important in the first phase of the algorithm, in which we distribute the fixed points of the type $\mathbf{u} \Delta \mathbf{v} \Delta$ throughout the whole input tape. As we have already mentioned, we create these fixed points by marking two consecutive groups by the symbols $\Delta$. Therefore, it is necessary to split Step \ref{algorithm:dxclra_solver:step_4} into two smaller steps -- each step for marking one group. If it is not necessary to create another fixed point of the type $\mathbf{u} \Delta \mathbf{v} \Delta$, we continue with Step \ref{algorithm:dxclra_solver:step_5}.
 
-Step \ref{algorithm:dxclra_solver:step_6} covers the instructions from $\Phi_1$ of the automaton $M$. This Step can be executed only if we see the whole input tape (i.e. $z_0 = \cent$ and $o_d$ ends with the symbol $\$$). This is the only case in which the solver can accept the input word.
+Step \ref{algorithm:dxclra_solver:step_6} covers the instructions from $\Phi_1$ of the automaton $M$. This Step can be executed only if we see the whole input tape (i.\,e.\ $z_0 = \cent$ and $o_d$ ends with the symbol $\$$). This is the only case in which the solver can accept the input word.
 
 The most interesting steps are Steps \ref{algorithm:dxclra_solver:step_7} and \ref{algorithm:dxclra_solver:step_8}. In Step \ref{algorithm:dxclra_solver:step_7} we first choose nondeterministically the instruction $\phi$ from $\Phi_2$, which can be applied to the word $\bar{u}$. Since it is not possible for the solver $S$ to execute this instruction in a single step, we need to choose a working area $o_{\gamma}$ in which we will unfold the whole process of executing this instruction $\phi$ into many individual steps. The conditions in Step \ref{algorithm:dxclra_solver:step_7} will guarantee that the neighboring areas with the area $o_{\gamma}$ will be empty (if they exist). The reason for this is that we do not want to unintentionally invalidate some other fixed points in Step \ref{algorithm:dxclra_solver:step_8}. It is also possible that there already exists a reserved working area $o_{\gamma}$ in the input word $w$. In that case we only continue in the process of executing the instruction encoded in this reserved working area. Step \ref{algorithm:dxclra_solver:step_8} is described in detail in the following Section \ref{section:dxclra_instruction}.
 
@@ -597,9 +596,9 @@ Algorithm \ref{algorithm:dxclra_instruction} describes the execution of the inst
 \DontPrintSemicolon
 \LinesNumbered
 \Input{Word $w \in \{\lambda, \cent\} \cdot \Gamma^* \cdot \{\lambda, \$\}$, working area $o_{\gamma}$, [instruction $\phi$].}
-\nonl From the following steps execute the first step, which has not been executed yet and $\textbf{Halt}$. If you encounter a conflicting step, i.e. a step which is either not possible to execute or which does not correspond to the information encoded in the working area $o_{\gamma}$, then $\textbf{Reject}$.\;
+\nonl From the following steps execute the first step, which has not been executed yet and $\textbf{Halt}$. If you encounter a conflicting step, i.\,e.\ a step which is either not possible to execute or which does not correspond to the information encoded in the working area $o_{\gamma}$, then $\textbf{Reject}$.\;
 Mark the unit $D_2$. The corresponding $\Delta$ is called the {\em reference point}.\label{algorithm:dxclra_instruction_step_1}\;
-\nonl Let $\textsf{left}$ be the position of the first letter of $u$ relative to the reference point, $\textsf{right}$ be the position of the last letter of $u$ relative to the reference point. Compute $j$ and $s = m_0 + m_2 (i - 1) + (j - 1)$. If the instruction $\phi$ is not provided at the input, compute these values from the information encoded in the corresponding units. If it is not possible, i.e. the units $D_{\lambda}$, $D_{\rho}$, $D_{\sigma}$, $D_{\delta}$ have not been marked yet, $\textbf{Reject}$.\;
+\nonl Let $\textsf{left}$ be the position of the first letter of $u$ relative to the reference point, $\textsf{right}$ be the position of the last letter of $u$ relative to the reference point. Compute $j$ and $s = m_0 + m_2 (i - 1) + (j - 1)$. If the instruction $\phi$ is not provided at the input, compute these values from the information encoded in the corresponding units. If it is not possible, i.\,e.\ the units $D_{\lambda}$, $D_{\rho}$, $D_{\sigma}$, $D_{\delta}$ have not been marked yet, $\textbf{Reject}$.\;
 Encode $\textsf{left}$ into the units $D_{\lambda_1}, \ldots, D_{\lambda_2}$. Mark the unit $D_{\lambda}$.\label{algorithm:dxclra_instruction_step_2}\;
 Encode $\textsf{right}$ into the units $D_{\rho_1}, \ldots, D_{\rho_2}$. Mark the unit  $D_{\rho}$.\label{algorithm:dxclra_instruction_step_3}\;
 Encode $s$ into the units $D_{\sigma_1}, \ldots, D_{\sigma_2}$. Mark the unit $D_{\sigma}$.\label{algorithm:dxclra_instruction_step_4}\;
@@ -613,9 +612,9 @@ Algorithm \ref{algorithm:dxclra_instruction} is designed in such a way, that at 
 
 The reference point not only reserves the working area $o_{\gamma}$ (the units $D_1$ and $D_3$ must remain empty), but it also exactly defines the relative positions of the first and the last letter of the word $u$. The number $\textsf{left}$ is defined as the number of letters of the shortest prefix of $u$ containing the reference point. By analogy, the number $\textsf{right}$ is defined as the number of letters of the shortest suffix of $u$ containing the reference point.
 
-Steps \ref{algorithm:dxclra_instruction_step_1} to \ref{algorithm:dxclra_instruction_step_5} are nondestructive, i.e. we are able to recover all symbols $\Delta$ created by these steps. However, when we start creating the continuous segment $\Delta^r$ (with holes) we lose the ability to recover all symbols $\Delta$ in the working area $o_{\gamma}$. Therefore, as we start creating this segment, the information specifying how to complete the execution of the instruction $\phi$ must already be completely encoded in the working area $o_{\gamma}$. We use the standard binary representation for numbers and we always encode the bits from the least significant bit to the most significant bit in a direction from left to right. For all numbers $\textsf{left}$, $\textsf{right}$, and $r$ we use a fixed number of bits. Therefore, it is easy to recognize the markings in the units $D_{\lambda}$, $D_{\rho}$, $D_{\sigma}$ and $D_{\delta}$.
+Steps \ref{algorithm:dxclra_instruction_step_1} to \ref{algorithm:dxclra_instruction_step_5} are nondestructive, i.\,e.\ we are able to recover all symbols $\Delta$ created by these steps. However, when we start creating the continuous segment $\Delta^r$ (with holes) we lose the ability to recover all symbols $\Delta$ in the working area $o_{\gamma}$. Therefore, as we start creating this segment, the information specifying how to complete the execution of the instruction $\phi$ must already be completely encoded in the working area $o_{\gamma}$. We use the standard binary representation for numbers and we always encode the bits from the least significant bit to the most significant bit in a direction from left to right. For all numbers $\textsf{left}$, $\textsf{right}$, and $r$ we use a fixed number of bits. Therefore, it is easy to recognize the markings in the units $D_{\lambda}$, $D_{\rho}$, $D_{\sigma}$ and $D_{\delta}$.
 
-If the unit $D_{\delta}$ is marked then we are in the phase of creating the segment $\Delta^r$ (with holes), i.e. Step \ref{algorithm:dxclra_instruction_step_6}. We build this segment step by step from left to right by replacing the letters in the subword $D_{\delta_1}, \ldots, D_{\delta_2}$ by the symbol $\Delta$. After completing this segment we move to the next Step \ref{algorithm:dxclra_instruction_step_7}. Note that before we execute Step \ref{algorithm:dxclra_instruction_step_7} the newly created segment $\Delta^r$ (with holes) is not a valid fixed point, since this segment is placed between two marked units (the reference point and the marked unit  $D_{\delta}$). After executing Step \ref{algorithm:dxclra_instruction_step_7} this segment becomes a valid fixed point. This is because we clear the marked unit $D_{\delta}$ and all the areas neighboring with the working area $o_{\gamma}$ are empty (if they exist). Therefore, we need to choose the parameter $j$ in such a way, that the newly defined groups of length $B$, defined by the newly created fixed point of the type $\Delta^r$ (with holes), are exactly the same groups as the original groups before executing Step \ref{algorithm:dxclra_instruction_step_7}. In Step \ref{algorithm:dxclra_instruction_step_8} this problem does not arise, because the groups of length $B$  are always defined relatively to the right of a fixed point.
+If the unit $D_{\delta}$ is marked then we are in the phase of creating the segment $\Delta^r$ (with holes), i.\,e.\ Step \ref{algorithm:dxclra_instruction_step_6}. We build this segment step by step from left to right by replacing the letters in the subword $D_{\delta_1}, \ldots, D_{\delta_2}$ by the symbol $\Delta$. After completing this segment we move to the next Step \ref{algorithm:dxclra_instruction_step_7}. Note that before we execute Step \ref{algorithm:dxclra_instruction_step_7} the newly created segment $\Delta^r$ (with holes) is not a valid fixed point, since this segment is placed between two marked units (the reference point and the marked unit  $D_{\delta}$). After executing Step \ref{algorithm:dxclra_instruction_step_7} this segment becomes a valid fixed point. This is because we clear the marked unit $D_{\delta}$ and all the areas neighboring with the working area $o_{\gamma}$ are empty (if they exist). Therefore, we need to choose the parameter $j$ in such a way, that the newly defined groups of length $B$, defined by the newly created fixed point of the type $\Delta^r$ (with holes), are exactly the same groups as the original groups before executing Step \ref{algorithm:dxclra_instruction_step_7}. In Step \ref{algorithm:dxclra_instruction_step_8} this problem does not arise, because the groups of length $B$  are always defined relatively to the right of a fixed point.
 
 We conclude this section by mentioning one specific problem concerning Step \ref{algorithm:dxclra_instruction_step_7} and Step \ref{algorithm:dxclra_instruction_step_8}. The problem is, that the position $\textsf{left}$ ($\textsf{right}$, respectively) can cross the fixed point of the type $\mathbf{u} \Delta \mathbf{v} \Delta$ (see Figure \ref{figure:delete_issue}).
 
@@ -641,7 +640,7 @@ Each group is $B = |\Sigma|$ letters long (since we use Coding 1) and each unit 
 
 The following computations will involve the parameter $h$, which represents the number of units necessary to allow the execution of Algorithm \ref{algorithm:dxclra_instruction}.
 
-The numbers $\textsf{left}$ and $\textsf{right}$ are bounded above by the width of the instruction $\phi$, i.e. by the constant $2c$, where $c = U + m_1 - 1$ and $U = m_0 + m_2 m - 1 + 2k$. Therefore, to encode such a number we need at most $\lceil \log_2(2c) \rceil$ units. The number $r$ is bounded above by $m_0 + m_2 m$. Observe that this upper bound depends neither on $m_1$, nor on $k$. To encode $r$ we need at most $\lceil \log_2(m_0 + m_2 m) \rceil$ units. Finally, to create the segment $\Delta^r$ (with holes) we need at most $r$ letters, i.e. at most $\lceil \frac{m_0 + m_2 m}{3 B} \rceil$ units. Therefore, we need at most
+The numbers $\textsf{left}$ and $\textsf{right}$ are bounded above by the width of the instruction $\phi$, i.\,e.\ by the constant $2c$, where $c = U + m_1 - 1$ and $U = m_0 + m_2 m - 1 + 2k$. Therefore, to encode such a number we need at most $\lceil \log_2(2c) \rceil$ units. The number $r$ is bounded above by $m_0 + m_2 m$. Observe that this upper bound depends neither on $m_1$, nor on $k$. To encode $r$ we need at most $\lceil \log_2(m_0 + m_2 m) \rceil$ units. Finally, to create the segment $\Delta^r$ (with holes) we need at most $r$ letters, i.\,e.\ at most $\lceil \frac{m_0 + m_2 m}{3 B} \rceil$ units. Therefore, we need at most
 $$h = O(m_0 + m_2 m + \log(m_1 + 2k)).$$
 
 By Lemma \ref{lemma:dxclra_t} $m_1, k = \Theta(t)$. Therefore, for any real $\alpha > 0$, there exists a big enough $t$ such that $\alpha t$ is bigger than $h$. By using this technique we can guarantee, for any instruction $\phi = (x, u \to \Delta^r, y)$, a big enough subword $v \in \Sigma^{\ge t}$ of the word $u$. This subword $v$ will guarantee us the existence of a long enough working area $o_{\gamma}$ inside this subword $v$. In our case it is not sufficient only to say that $v \in \Sigma^{\ge t}$ is long enough, because in our algorithm this subword can be interrupted by fixed points of the type $\mathbf{u} \Delta \mathbf{v} \Delta$. The fact that $v \in \Sigma^*$ only means that we are able to recover the symbols $\Delta$ of these fixed points. However, if $v$ is long enough then there will be many of these fixed points and therefore also many of the corresponding working areas. Therefore, it will always be possible to choose one such area $o_{\gamma}$ with empty neighbors.
@@ -656,9 +655,9 @@ Finally, the constant $K$ of the querier must be long enough to enable us to see
 
 \subsection{Length-Reducing Algorithm}\label{section:dxclra_length-reducing}
 
-In is not difficult to modify Algorithms \ref{algorithm:dxclra_solver} and \ref{algorithm:dxclra_instruction} in order to work with the length-reducing version of Coding 1 (see Section \ref{section:dxclra_coding}). We only need to redefine the length of the word $| \cdot |$ to a weighted sum of its letters, where the letters from $\Sigma$ have the weight $1$ and the symbol $\Delta$ has the weight equal to $\kappa + 1$, where $\kappa$ is the reduction factor from $\kappa$-Reducing Coding 1 Theorem \ref{theorem:dxclra_k_reducing_coding_1}. Moreover, in order to create the segment $\Delta^r$ (with holes) we need now $(\kappa + 1)$ times more letters, i.e. (at most) $(\kappa + 1) (m_0 + m_2 m)$ letters. When we create the segment $\Delta^r$ (with holes) we always rewrite $\kappa + 1$ consecutive letters from $\Sigma$ to one symbol $\Delta$. It is easy to see that the constant $\kappa$ can be easily incorporated into the previous consideration in Section \ref{section:dxclra_parameters}.
+In is not difficult to modify Algorithms \ref{algorithm:dxclra_solver} and \ref{algorithm:dxclra_instruction} in order to work with the length-reducing version of Coding 1 (see Section \ref{section:dxclra_coding}). We only need to redefine the length of the word $| \cdot |$ to a weighted sum of its letters, where the letters from $\Sigma$ have the weight $1$ and the symbol $\Delta$ has the weight equal to $\kappa + 1$, where $\kappa$ is the reduction factor from $\kappa$-Reducing Coding 1 Theorem \ref{theorem:dxclra_k_reducing_coding_1}. Moreover, in order to create the segment $\Delta^r$ (with holes) we need now $(\kappa + 1)$ times more letters, i.\,e.\ (at most) $(\kappa + 1) (m_0 + m_2 m)$ letters. When we create the segment $\Delta^r$ (with holes) we always rewrite $\kappa + 1$ consecutive letters from $\Sigma$ to one symbol $\Delta$. It is easy to see that the constant $\kappa$ can be easily incorporated into the previous consideration in Section \ref{section:dxclra_parameters}.
 
-\section{Limited Context Restarting Automata}
+\section{Limited Context Restarting Automata}\label{section:lcra}
 
 This section is covered by \cite{OCM13}.
 
@@ -703,7 +702,7 @@ $$\begin{array}{c}
 \cent w\$\Rightarrow_{R(M)}\cent z\$
 \text{ iff }\\
 \exists \alpha,\beta\in(\Gamma\cup\{\cent,\$\})^*\,\exists (\ell\to r)\in R(M):
-   \cent w\$ = \alpha \ell\beta \mbox{ and } \cent z\$ = \alpha r\beta.
+   \cent w\$ = \alpha \ell\beta \textup{ and } \cent z\$ = \alpha r\beta.
 \end{array}$$
 Thus, for all $w,z\in\Gamma^*$, we have $\cent w\$ \Rightarrow_{R(M)}\cent z\$$ iff $w \vdash_M z$ holds. Accordingly, we see that
 $$L(M) = \{\,w\in\Sigma^*\mid w\vdash_M^*\lambda\,\}
@@ -721,7 +720,7 @@ ${\mathcal L}(\lcRAp[0]) = {\mathcal L}(\lcRA[0]) =  \GCSL.$
 \begin{proof}
 Because of the above observation, it suffices to show that each growing context-sensitive language is accepted by some $\lcRA$ of type~$\mathcal{R}_0$. Hence, assume that $L\subseteq\Sigma^*$ is growing context-sensitive. We construct an $\lcRA[0]$ $M$ for~$L$. As $L$ is growing context-sensitive, there exists a length-reducing two-pushdown automaton (\TPDA, for short, see, e.g.,~\cite{Buntrock19981}) $T = (Q,\Sigma,\Gamma,\delta,$ $q_0,\bot,\lambda,\lambda,\{q_f\})$ that accepts~$L$. Here $\Gamma$ is the tape alphabet of $T$ that includes the input alphabet $\Sigma$ as well as the special bottom marker~$\bot$ for the pushdowns. Thus, for all $w\in\Sigma^*$, $w\in L$ if and only if $T$ accepts starting from the initial configuration $\bot q_0w\bot$, that is, if and only if $\bot q_0 w\bot\vdash_T^* q_f$ holds (see \cite{N2005} Lemma 3.4 and Lemma 4.1). Actually, we may even assume without loss of generality that the initial step of a computation of $T$ that starts from an initial configuration of the form $\bot q_0w\bot$ reduces the overall length of the configuration by at least two, and that $T$ never enters its initial state $q_0$ during a computation.
 
-Let $\overline{\Gamma}=\{\,\overline{a} \mid a\in  \Gamma\,\}$ be a new alphabet in one-to-one correspondence to $\Gamma$ such that $Q$, $\Gamma$, and $\overline{\Gamma}$ are pairwise disjoint, let $\overline{\phantom{a}}:\Gamma^*\to {\overline{\Gamma}}^*$ denote the corresponding isomorphism that is induced by $a\mapsto\overline{a}$ ($a\in\Gamma$), and let $\Delta = Q\cup\Gamma \cup \overline{\Gamma}$. In analogy to the proof of \cite{N2005} Lemma 4.1, we can construct a finite length-reducing string-rewriting system $R$ on $\Delta$ such that, for all $w\in\Sigma^*$, $w\in L \mbox{ iff }  \overline{\bot}q_0w\bot \Rightarrow_R^*q_f.$ Here the final state $q_f$ is introduced by specific rules of the form $\overline{\bot} \overline{u} qv\bot \to q_f$. Now from~$R$ we obtain an $\lcRA$ $M = (\Sigma,\Delta,\Phi)$ by taking
+Let $\overline{\Gamma}=\{\,\overline{a} \mid a\in  \Gamma\,\}$ be a new alphabet in one-to-one correspondence to $\Gamma$ such that $Q$, $\Gamma$, and $\overline{\Gamma}$ are pairwise disjoint, let $\overline{\phantom{a}}:\Gamma^*\to {\overline{\Gamma}}^*$ denote the corresponding isomorphism that is induced by $a\mapsto\overline{a}$ ($a\in\Gamma$), and let $\Delta = Q\cup\Gamma \cup \overline{\Gamma}$. In analogy to the proof of \cite{N2005} Lemma 4.1, we can construct a finite length-reducing string-rewriting system $R$ on $\Delta$ such that, for all $w\in\Sigma^*$, $w\in L \textup{ iff }  \overline{\bot}q_0w\bot \Rightarrow_R^*q_f.$ Here the final state $q_f$ is introduced by specific rules of the form $\overline{\bot} \overline{u} qv\bot \to q_f$. Now from~$R$ we obtain an $\lcRA$ $M = (\Sigma,\Delta,\Phi)$ by taking
 $$\begin{array}{lcl}
 \Phi  & = &\{\,(\lambda, \ell\to r, \lambda)\mid (\ell\to r)\in R,|\ell|_{\overline{\bot}}=|\ell|_\bot=0\,\}\;\cup\\
       &   &\{\,(\cent, u\to v, \lambda)\mid (\overline{\bot}u\to \overline{\bot}v)\in R, |u|_\bot = 0 =|u|_{q_0}\, \}\;\cup\\
@@ -781,12 +780,12 @@ It is known that the class {\sf GACSL} properly contains the class $\CFL$ of con
 
 Let $M = (\Sigma,\Gamma,\Phi)$ be an \lcRA[2']. Then, for each instruction $\rarule{u}{x}{y}{v}\in \Phi$, we have $u\in\{\lambda,\cent\}$, $v\in\{\lambda,\$\}$, $|x|\ge 1$, $|y|\le 1$, and $g(x)>g(y)$ for a fixed weight function~$g$. Hence, the corresponding string-rewriting system $R(M)$ can be split into four disjoint subsystems:
 $$\begin{array}{llcll}
-{\rm (a)} & R_{bif} & = & \{\,\cent x\$ \to \cent y\$ \mid \rarule{\cent}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{bifix rules} of }R(M),\\
-{\rm (b)} & R_{pre}& = & \{\,\cent x \to \cent y \mid \rarule{\cent}{x}{y}{\lambda}\in \Phi\,\}, & \mbox{the \emph{prefix rules} of }R(M),\\
-{\rm (c)} & R_{suf}& = & \{\,x\$ \to y\$ \mid \rarule{\lambda}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{suffix rules} of }R(M),\\
-{\rm (d)} & R_{inf}& = & \{\,x \to y \mid \rarule{\lambda}{x}{y}{\lambda}\in \Phi\,\}, & \mbox{the \emph{infix rules} of }R(M).\\
+{\rm (a)} & R_{bif} & = & \{\,\cent x\$ \to \cent y\$ \mid \rarule{\cent}{x}{y}{\$}\in \Phi\,\}, & \textup{the \emph{bifix rules} of }R(M),\\
+{\rm (b)} & R_{pre}& = & \{\,\cent x \to \cent y \mid \rarule{\cent}{x}{y}{\lambda}\in \Phi\,\}, & \textup{the \emph{prefix rules} of }R(M),\\
+{\rm (c)} & R_{suf}& = & \{\,x\$ \to y\$ \mid \rarule{\lambda}{x}{y}{\$}\in \Phi\,\}, & \textup{the \emph{suffix rules} of }R(M),\\
+{\rm (d)} & R_{inf}& = & \{\,x \to y \mid \rarule{\lambda}{x}{y}{\lambda}\in \Phi\,\}, & \textup{the \emph{infix rules} of }R(M).\\
 \end{array}$$
-Let $B(M) = \{\,\alpha\in\Gamma^*\mid \cent \alpha\$\in {\rm dom}(R_{bif}) \mbox{ and }
+Let $B(M) = \{\,\alpha\in\Gamma^*\mid \cent \alpha\$\in {\rm dom}(R_{bif}) \textup{ and }
 \cent \alpha\$\Rightarrow_{R(M)}^* \cent \$\,\}\,\cup\,\{\lambda\}.$ As $R(M)$ is finite, so is the set~$B(M)$. Let $R' = R_{pre}\cup R_{suf}\cup R_{inf}$. Then
 $$
 L(M)  =   \{\,w\in\Sigma^*\mid \cent w\$\Rightarrow_{R(M)}^*\cent\$\,\}
@@ -805,20 +804,20 @@ ${\mathcal L}(\lcRAp[2]) = {\mathcal L}(\lcRA[2]) = \CFL.$
 \begin{figure}
 {\small
 \[ \xymatrix@R8pt@C5pt{
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_0])$}\ar@{=}[r] &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_0'])$}\ar@{=}[r] & \txt{\sf GCSL} \ar@{=}[r]
-                   & \txt{$\mbox{\sf lr-McNL}$}\ar@{=}[r] & \txt{$\mbox{\sf wr-McNL}$}\\
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_0])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_0'])$}\ar@{=}[r] & \txt{\sf GCSL} \ar@{=}[r]
+                   & \txt{$\textup{\sf lr-McNL}$}\ar@{=}[r] & \txt{$\textup{\sf wr-McNL}$}\\
                                                            &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_1'])$}\ar@{=}[u]  \\
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_1'])$}\ar@{=}[u]  \\
                                                            &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_1])$} \ar@{->}_?[u]  
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_1])$} \ar@{->}_?[u]  
                    & \txt{\sf GACSL}\ar@{=}[l]\ar@{->}_?[uu]\\
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_2])$}\ar@{=}[r] &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_2'])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_2])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_2'])$}\ar@{=}[r] &
 \txt{\sf CFL}\ar@{->}[u]\ar@{=}[r] 
-& \txt{$\mbox{\sf mon-McNL}$}\ar@{=}[r] & \txt{$\mbox{\sf gen-mon-McNL}$}\\
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_3])$}\ar@{=}[r] &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[{\mathcal R}_3'])$}\ar@{=}[r] &
+& \txt{$\textup{\sf mon-McNL}$}\ar@{=}[r] & \txt{$\textup{\sf gen-mon-McNL}$}\\
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_3])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[{\mathcal R}_3'])$}\ar@{=}[r] &
 \txt{\sf REG}\ar@{->}[u]\\
 }
 \]
@@ -830,10 +829,10 @@ Question marks indicate inclusions not known to be proper.}\label{Fig1}
 
 Finally, let $M = (\Sigma,\Gamma,\Phi)$ be an $\lcRA[3']$, that is, for all instructions $\rarule{u}{x}{y}{v}\in \Phi$, we have $u\in\{\lambda,\cent\}$, $v=\$$, $|x|\ge 1$, $|y|\le 1$, and $g(x)>g(y)$ for a fixed weight function~$g$. Hence, the corresponding string-rewriting system $R(M)$ can be split into two disjoint subsystems:
 $$\begin{array}{llcll}
-{\rm (a)} & R_{bif} & = & \{\,\cent x\$ \to \cent y\$ \mid \rarule{\cent}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{bifix rules} of }R(M),\\
-{\rm (b)} & R_{suf}& = & \{\,x\$ \to y\$ \mid \rarule{\lambda}{x}{y}{\$}\in \Phi\,\}, & \mbox{the \emph{suffix rules} of }R(M).\\
+{\rm (a)} & R_{bif} & = & \{\,\cent x\$ \to \cent y\$ \mid \rarule{\cent}{x}{y}{\$}\in \Phi\,\}, & \textup{the \emph{bifix rules} of }R(M),\\
+{\rm (b)} & R_{suf}& = & \{\,x\$ \to y\$ \mid \rarule{\lambda}{x}{y}{\$}\in \Phi\,\}, & \textup{the \emph{suffix rules} of }R(M).\\
 \end{array}$$
-As above, the set $B(M) = \{\,\alpha\in\Gamma^*\mid \cent \alpha\$\in {\rm dom}(R_{bif}) \mbox{ and } \cent \alpha\$\Rightarrow_{R(M)}^* \cent \$\,\}\,\cup\,\{\lambda\}$ is finite, and
+As above, the set $B(M) = \{\,\alpha\in\Gamma^*\mid \cent \alpha\$\in {\rm dom}(R_{bif}) \textup{ and } \cent \alpha\$\Rightarrow_{R(M)}^* \cent \$\,\}\,\cup\,\{\lambda\}$ is finite, and
 $$
 L(M)  =  \{\,w\in\Sigma^*\mid \cent w\$\Rightarrow_{R(M)}^*\cent\$\,\}
       =  \{\,w\in\Sigma^*\mid \exists \alpha\in B(M):\cent w\$\Rightarrow_{R_{suf}}^* \cent\alpha\$\,\},
@@ -866,7 +865,7 @@ $\Phi=\{\rarule{\cent}{aaaa}{aaF}{\lambda},$ $\rarule{\lambda}{Faa}{aF}{\lambda}
         \rarule{\lambda}{F}{\lambda}{\$},\rarule{\cent}{aa}{\lambda}{\$},\rarule{\cent}{a}{\lambda}{\$}\}.$ Then $M=(\Sigma,\Gamma,\Phi)$ is an $\lcRA$ of type $\mathcal{R}_0$ that accepts the language $L_{\rm expo}$ (see Example \ref{ExMcNL}), and it is easily checked that $M$ is confluent.
 \end{example}
 
-We will use the prefix {\sf con-} to denote types of confluent $\lcRA$. Further, for each type $\mathcal{R}\in\{\,\mathcal{R}_i',\mathcal{R}_i\mid i\in\{0,1,2,3\}\,\}$, {\sf lc-RA$[\mbox{\sf con-}\mathcal{R}]$} will denote the class of $\lcRA$ of type $\mathcal{R}$ that are confluent.
+We will use the prefix {\sf con-} to denote types of confluent $\lcRA$. Further, for each type $\mathcal{R}\in\{\,\mathcal{R}_i',\mathcal{R}_i\mid i\in\{0,1,2,3\}\,\}$, {\sf lc-RA$[\textup{\sf con-}\mathcal{R}]$} will denote the class of $\lcRA$ of type $\mathcal{R}$ that are confluent.
 
 In the following we study the expressive power of the various types of confluent $\lcRA$. As in the previous section we consider the various types in turn, from the most general one to the most restricted one.
 
@@ -876,7 +875,7 @@ If $M=(\Sigma,\Gamma,\Phi)$ is an $\conlcRA[0']$, then $S(M) = R(M) \cup  \{\cen
 ${\mathcal L}(\conlcRA[0']) = {\mathcal L}(\conlcRA[0]) = \CRL.$
 \end{theorem}
 
-In~\cite{Woi03} Woinowski introduced a normal form for presentations of Church-Rosser languages, called \emph{context-splittable Church-Rosser language systems}. Such a presentation is of the form $(S,\cent,\$,Y)$, where $S$ is a finite, weight-reducing, and confluent string-rewriting system that consists of rules of the form $(uxv\to uyv)$, where $u,v\in\Gamma^*$, $x\in\Gamma^+$, and $|y|\le 1$, and rules of the form $(\cent x\$\to Y)$, where $x\in\Gamma^+$. As each Church-Rosser language admits a presentation of this form~\cite{Woi03}, and as a presentation of this form can immediately be translated into an $\lcRA$ of type $\mbox{\sf con-}\mathcal{R}_1'$, this gives the following characterization.
+In~\cite{Woi03} Woinowski introduced a normal form for presentations of Church-Rosser languages, called \emph{context-splittable Church-Rosser language systems}. Such a presentation is of the form $(S,\cent,\$,Y)$, where $S$ is a finite, weight-reducing, and confluent string-rewriting system that consists of rules of the form $(uxv\to uyv)$, where $u,v\in\Gamma^*$, $x\in\Gamma^+$, and $|y|\le 1$, and rules of the form $(\cent x\$\to Y)$, where $x\in\Gamma^+$. As each Church-Rosser language admits a presentation of this form~\cite{Woi03}, and as a presentation of this form can immediately be translated into an $\lcRA$ of type $\textup{\sf con-}\mathcal{R}_1'$, this gives the following characterization.
 
 \begin{theorem}\label{PropConR1prim}
 ${\mathcal L}(\conlcRA[1']) = \CRL.$
@@ -889,16 +888,16 @@ we have no characterization result yet. On the one hand, these automata can only
 The language class ${\mathcal L}(\conlcRA[1])$ is incomparable to the class $\CFL$ with respect to inclusion.
 \end{corollary}
 
-It remains open whether $\lcRA$ of type $\mbox{\sf con-}\mathcal{R}_1$ accept all Church-Rosser languages, in fact, it is even open whether they accept at least all deterministic context-free languages.
+It remains open whether $\lcRA$ of type $\textup{\sf con-}\mathcal{R}_1$ accept all Church-Rosser languages, in fact, it is even open whether they accept at least all deterministic context-free languages.
 
 In the following we present the results concerning the confluent $\lcRA$ of type $\mathcal{R}_2'$ and $\mathcal{R}_2$. We do not give proofs, since these proofs are very complicated and technical. The interested reader is referred to \cite{OCM13}.
 
 \begin{theorem}\label{congenmonMcNL}
-$\mathcal{L}(\conlcRA[2']) = \mbox{\sf con-gen-mon-McNL}$.
+$\mathcal{L}(\conlcRA[2']) = \textup{\sf con-gen-mon-McNL}$.
 \end{theorem}
 %
 \begin{theorem}\label{conmonMcNL}
-$\mathcal{L}(\conlcRA[2]) \subseteq \mbox{\sf con-mon-McNL}$.
+$\mathcal{L}(\conlcRA[2]) \subseteq \textup{\sf con-mon-McNL}$.
 \end{theorem}
 
 It currently remains open whether the converse of Theorem~\ref{conmonMcNL} holds.
@@ -926,20 +925,20 @@ The diagram in Figure~\ref{Fig2} summarizes our results on confluent $\lcRA$.
 {\small
 \[ \xymatrix@R8pt@C15pt{
                               &                      &                   & \txt{\sf GCSL}\\
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_0])$}\ar@{=}[r] &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_0'])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_0])$}\ar@{=}[r] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_0'])$}\ar@{=}[r] &
 \txt{\sf CRL}\ar@{->}[ur] & \txt{\sf CFL}\ar@{->}[u]\\
-       &  \txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_1'])$}\ar@{=}[u] &
+       &  \txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_1'])$}\ar@{=}[u] &
 \txt{\sf DCFL}\ar@{->}[u]\ar@{->}[ur] \\
-     \txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_1])$} \ar@{->}_?[ur]  &  &
+     \txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_1])$} \ar@{->}_?[ur]  &  &
 \txt{\sf symDCFL}\ar@{->}[u]\\
-      & \txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_2'])$}\ar@{->}[ur]\ar@{->}[uu]
+      & \txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_2'])$}\ar@{->}[ur]\ar@{->}[uu]
 & & \txt{\sf LIN}\ar@{->}[uuu]\\
-             & \txt{$\mbox{\sf con-gen-mon-McNL}$}\ar@{=}[u]\\
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_2])$}\ar@{->}_?[r]\ar@{->}[uuu]&
-                  \txt{$\mbox{\sf con-mon-McNL}$}\ar@{->}_?[u]  \\
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_3])$}\ar@{=}[r]\ar@{->}[u] &
-\txt{${\mathcal L}(\mbox{\sf lc-RA}[\mbox{\sf con-{$\mathcal R$}}_3'])$}\ar@{=}[r] & \txt{\sf REG}\ar@{->}[uuuu]\ar@{->}[uuur]\\
+             & \txt{$\textup{\sf con-gen-mon-McNL}$}\ar@{=}[u]\\
+\txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_2])$}\ar@{->}_?[r]\ar@{->}[uuu]&
+                  \txt{$\textup{\sf con-mon-McNL}$}\ar@{->}_?[u]  \\
+\txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_3])$}\ar@{=}[r]\ar@{->}[u] &
+\txt{${\mathcal L}(\textup{\sf lc-RA}[\textup{\sf con-{$\mathcal R$}}_3'])$}\ar@{=}[r] & \txt{\sf REG}\ar@{->}[uuuu]\ar@{->}[uuur]\\
 }
 \]
 \caption{Hierarchy of language classes that are accepted by the various types of confluent limited context restarting automata. Question marks indicate inclusions not known to be proper.}\label{Fig2}

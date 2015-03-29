@@ -1,17 +1,17 @@
 2014-05-16
 
-[ ] TODO: Replace "i.e." by "i.\,e.\ "
-[ ] TODO: Replace \mbox (\makebox) by \textup.
+[x] TODO: Replace "i.e." by "i.\,e.\ "
+[x] TODO: Replace \mbox (\makebox) by \textup.
 
 2015-01-01
 
-[ ] TODO: Resolve all TODOs in the text.
+[x] TODO: Resolve all TODOs in the text.
 [ ] TODO: Add \cite{} references to Theorems.
 [ ] TODO: Unify ending symbol in definitions etc.
 [ ] TODO: Check old reviews. Update i.e., etc.
 [ ] TODO: Check missing references \ref{} and citations \cite{}.
 [ ] TODO: Add index.
-[ ] TODO: Add list of tables / figures etc.
+[x] TODO: Add list of tables / figures.
 
 [x] TODO: Make a technical report from the rejected FI publication.
 
@@ -35,3 +35,8 @@
 [ ] TODO: Write an introduction to all Sections.
 [ ] TODO: Check and fine-tune the bibliography.
 [ ] TODO: Add references to definitions when necessary.
+
+2015-03-28
+
+[ ] TODO: Add list of abbreviations, list of symbols.
+[ ] TODO: Write Conclusion.

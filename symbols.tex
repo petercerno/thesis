@@ -1,0 +1,222 @@
+\chapwithtoc{List of Symbols}
+
+\noindent{\bf Standard mathematical symbols}.
+
+\begin{enumerate}[]
+\item $\subsetfin$: TODO(petercerno)
+\end{enumerate}
+
+\noindent{\bf Words and languages} (see Section \ref{section:words-and-languages}).
+
+\begin{enumerate}[]
+\item $\Pref_k(u)$: prefix of length $k$ of the word $u$.
+\item $\Suff_k(u)$: suffix of length $k$ of the word $u$.
+\item $\Int_k(u)$: interior words of length $k$ that occur in $u$.
+\end{enumerate}
+
+\noindent{\bf Context-free languages} (see Sections \ref{section:context-free-languages}).
+
+\noindent{\em Pushdown machines} (see Sections \ref{subsection:pushdown-machines}).
+
+\begin{enumerate}[]
+\item $\pdm$: pushdown machine.
+\item $\pda$: pushdown automaton.
+\item $\dpda$: deterministic pushdown automaton.
+\end{enumerate}
+
+\noindent{\bf Computational complexity theory}
+
+\begin{enumerate}[]
+\item $\SAT$: boolean satisfiability problem.
+\item $\NP$: set of all decision problems solvable in nondeterministic polynomial time.
+\end{enumerate}
+
+\noindent{\bf Restarting automata} (see Section \ref{section:restarting-automata}).
+
+\begin{enumerate}[]
+\item $\MVR$: move-right step causes a restarting automaton to shift the read/write window one position to the right and to enter a new state. However, if the content of the read/write window is only the symbol $\$$, then no shift to the right is possible.
+\item $\MVL$: move-left step causes a restarting automaton to shift the read/write window one position to the left and to enter a new state. However, if the content of the read/write window is only the symbol $\cent$, then no shift to the left is possible.
+\item $\Rewrite$: rewrite step causes a restarting automaton to replace the content of the read/write window by a new shorter string, thereby shortening the tape, and to enter state a new state. Further, the read/write window is placed immediately to the right of the new string. However, some additional restrictions apply in that the border markers $\cent$ and $\$$ must not disappear from the tape nor that new occurrences of these markers are created. Further, the read/write window must not move across the right border marker $\$$, that is, if the original string ends in $\$$, then so does the new string, and after performing the rewrite operation, the read/write window is placed on the $\$$-symbol.
+\item $\Restart$: restart step causes a restarting automaton to place its read/write window over the left end of the tape, so that the first symbol it sees is the left border marker $\cent$, and to reenter the initial state $q_0$.
+\item $\Accept$: accept step causes a restarting automaton to halt and accept.
+\item $\RLWW$-automaton: is the most general restarting automaton. Each cycle of each computation of an $\RLWW$-automaton $M$ consists of three phases: first $M$ scans its tape performing $\MVR$- and $\MVL$-instructions, then it executes a $\Rewrite$ step, and finally it scans its tape again performing $\MVR$- and $\MVL$-instructions.
+\item $\RLW$-automaton: is an $\RLWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
+\item $\RL$-automaton: is an $\RLW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
+\item $\RRWW$-automaton: is an $\RLWW$-automaton that does not use any $\MVL$-steps. Thus, in each cycle an $\RRWW$-automaton can scan its tape only once from left to right.
+\item $\RRW$-automaton: is an $\RRWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
+\item $\RR$-automaton: is an $\RRW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
+\item $\RWW$-automaton: is an $\RRWW$-automaton such that it makes restart immediately after performing a $\Rewrite$ operation. In particular, this means that it cannot perform a rewrite step during the tail of a computation.
+\item $\RW$-automaton: is an $\RWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
+\item $\R$-automaton: is an $\RW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
+\item $\Rr$-automaton: 
+\item $\RrW$-automaton: 
+\item $\RrWW$-automaton: 
+\item $\sRRWW$-automaton: 
+\item $\monPrefix$: 
+\item $\monX$: 
+\item $\monR$-automaton: 
+\item $\monRW$-automaton: 
+\item $\monRR$-automaton: 
+\item $\monRL$-automaton: 
+\item $\monRRW$-automaton: 
+\item $\monRLW$-automaton: 
+\item $\monRWW$-automaton: 
+\item $\monRRWW$-automaton: 
+\item $\monRLWW$-automaton: 
+\item $\detPrefix$: 
+\item $\detR$-automaton: 
+\item $\detRW$-automaton: 
+\item $\detRWW$-automaton: 
+\item $\detRR$-automaton: 
+\item $\detRL$-automaton: 
+\item $\detRRW$-automaton: 
+\item $\detRLW$-automaton: 
+\item $\detRRWW$-automaton: 
+\item $\detRLWW$-automaton: 
+\item $\detmonX$: 
+\item $\detmonR$-automaton: 
+\item $\detmonRW$-automaton: 
+\item $\detmonRR$-automaton: 
+\item $\detmonRL$-automaton: 
+\item $\detmonRRW$-automaton: 
+\item $\detmonRLW$-automaton: 
+\item $\detmonRRWW$-automaton: 
+\item $\detmonRLWW$-automaton: 
+\end{enumerate}
+
+\noindent{\bf String-rewriting systems} (see Section \ref{section:string-rewriting-systems}).
+
+\begin{enumerate}[]
+\item $\IRR(R)$: set of all irreducible strings a modulo string-rewriting system $R$.
+\item $\dom(R)$: domain of a string-rewriting system $R$.
+\item $\rng(R)$: range of a string-rewriting system $R$.
+\end{enumerate}
+
+\noindent{\bf Context rewriting systems and derived models} (see Section \ref{section:context-rewriting-systems} and Definitions \ref{definition:restrictions} and \ref{definition:derived-classes}).
+
+\begin{enumerate}[]
+\item $\CRS$: context rewriting system.
+\item $\kCRS$: context rewriting system with length of contexts equal to $k$.
+\item $\clRA$: clearing restarting automaton.
+\item $\kclRA$: clearing restarting automaton with length of contexts equal to $k$.
+\item $\zlclRA$: clearing restarting automaton with empty contexts and maximal width of instructions equal to $l$.
+\item $\klclRA$: clearing restarting automaton with length of contexts equal to $k$ and maximal width of instructions equal to $l$.
+\item $\sclRA$: subword-clearing restarting automaton.
+\item $\DclRA$: $\Delta$-clearing restarting automaton.
+\item $\kDclRA$: $\Delta$-clearing restarting automaton with length of contexts equal to $k$.
+\item $\DXclRA$: $\Delta^*$-clearing restarting automaton.
+\item $\kDXclRA$: $\Delta^*$-clearing restarting automaton with length of contexts equal to $k$. 
+\end{enumerate}
+
+$\classP$
+$\classNP$
+$\classPSPACE$
+
+$\Fin$
+$\Reg$
+$\ALD$
+$\CFL$
+$\DCFL$
+$\symDCFL$
+$\Lin$
+$\Ocl$
+$\LL$
+$\LR$
+$\CSL$
+$\DCSL$
+$\GCSL$
+$\RE$
+$\REG$
+$\FA$
+$\DFA$
+$\NFA$
+$\NNFA$
+$\TNFA$
+$\AFA$
+$\LBA$
+$\ATM$
+$\ICGB$
+$\PDA$
+$\DPDA$
+
+$\TPDA$
+$\sTPDA$
+$\NAT$
+
+$\CSG$
+$\GCSG$
+$\CRL$
+$\LIN$
+$\DLIN$
+$\coCFL$
+$\CG$
+$\RST$
+$\RS$
+$\cL$
+$\N$
+$\bin$
+$\dist{X}$
+$\REDUCE$
+$\nf$
+$\range$
+
+$\TC$
+$\ECC$
+$\ICC$
+$\EC$
+$\IC$
+
+$\PCF$
+$\PLI$
+
+$\CR$
+
+$\calLL$
+$\calL$
+$\calM$
+$\calA$
+$\kcalM$
+$\klcalM$
+$\kllcalM$
+$\llcalM$
+$\concalM$
+$\lconcalM$
+$\leftcalM$
+$\calQ$
+$\calS$
+
+$\size$
+$\wave$
+
+$\SYMBOL$
+$\McNL$
+$\wrMcNL$
+$\lrMcNL$
+$\conMcNL$
+$\conwrMcNL$
+$\conlrMcNL$
+$\spMcNL$
+$\monMcNL$
+$\conspMcNL$
+$\conmonMcNL$
+$\noninMcNL$
+$\nonwMcNL$
+$\connoninMcNL$
+$\connonwMcNL$
+
+$\SRS$
+$\DSRS$
+
+$\Apply$
+$\NewRule$
+$\Consistent$
+%
+$\lcRA[i]$
+$\lcRAp[i]$
+$\conlcRA[i]$
+$\conlcRAp[i]$
+$\leftsentinel$
+$\rightsentinel$
+%
+%$\RESTART$
+%$\REWRITE$
