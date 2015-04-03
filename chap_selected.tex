@@ -181,9 +181,10 @@ A terminating string-rewriting system is confluent if and only if, for each crit
 
 If $R$ is finite, then it has only finitely many critical pairs, which can be computed. Hence, it follows immediately that confluence is decidable for finite terminating string-rewriting systems.
 
-String-rewriting systems play a central part in the definition of the so called \emph{Church-Rosser languages}. A language $L \subseteq \Sigma^*$ is called a \emph{Church-Rosser language}, if it consists of those strings $w \in \Sigma^*$ that, placed within the context $t_1 w t_2$ of certain auxiliary strings $t_1$ and $t_2$, reduce to a certain ``accepting'' symbol with respect to a finite, length-reducing and confluent string-rewriting system. Apart from the final symbol and the symbols occurring in the contexts $t_1$ and $t_2$, also other non-terminal symbols are allowed in this definition. Although the rewriting process with respect to the string-rewriting system considered is inherently non-deterministic, the confluence of the system ensures that each reduction sequence will lead to the same result.
+String-rewriting systems play a central part in the definition of the so called \emph{Church-Rosser languages} ($\CRL$). A language $L \subseteq \Sigma^*$ is called a \emph{Church-Rosser language}, if it consists of those strings $w \in \Sigma^*$ that, placed within the context $t_1 w t_2$ of certain auxiliary strings $t_1$ and $t_2$, reduce to a certain ``accepting'' symbol with respect to a finite, length-reducing and confluent string-rewriting system. Apart from the final symbol and the symbols occurring in the contexts $t_1$ and $t_2$, also other non-terminal symbols are allowed in this definition. Although the rewriting process with respect to the string-rewriting system considered is inherently non-deterministic, the confluence of the system ensures that each reduction sequence will lead to the same result.
 
 \subsection{McNaughton Families of Languages}
+\label{subsection:mcnaughton-families}
 
 The natural generalization of Church-Rosser languages led to the development of the broad concept of the so-called \emph{McNaughton families} \cite{Beaudry2003}.
 
@@ -202,12 +203,12 @@ $\begin{array}[t]{crcccl}
 {\rm (a)} & \GCSL & = & \wrMcNL & = & \lrMcNL.\\
 {\rm (b)} & \CRL  & = & \conwrMcNL & = & \conlrMcNL.\\
 {\rm (c)} & \CFL  & = & \textup{\sf gen-mon-McNL} & = & \textup{\sf mon-McNL}.\\
-{\rm (d)} & \REG  & \subsetneq & \textup{\sf con-mon-McNL} & \subseteq & 
+{\rm (d)} & \Reg  & \subsetneq & \textup{\sf con-mon-McNL} & \subseteq & 
 \textup{\sf con-gen-mon-McNL}\; \subsetneq\; \symDCFL.
 \end{array}$
 \end{theorem}
 
-Here $\GCSL$ is the class of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and $\CRL$ is the class of \emph{Church-Rosser languages} \cite{MNO88}. $\REG$ and $\CFL$ denote the classes of regular and context-free languages, $\symDCFL = \DCFL\cap\DCFL^R$, that is, a language $L$ belongs to \symDCFL, if both, $L$ and $L^R$, are deterministic context-free. It is still open whether the second inclusion in (d) is proper. In fact, it is shown in~\cite{Leupold2011} that the families {\sf con-mon-McNL} and {\sf con-gen-mon-McNL} coincide, if and only if the former is closed under inverse strictly alphabetic morphisms. We refer the interested reader to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
+Here $\GCSL$ is the class of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and $\CRL$ is the class of \emph{Church-Rosser languages} \cite{MNO88}. $\Reg$ and $\CFL$ denote the classes of regular and context-free languages, $\symDCFL = \DCFL\cap\DCFL^R$, that is, a language $L$ belongs to \symDCFL, if both, $L$ and $L^R$, are deterministic context-free. It is still open whether the second inclusion in (d) is proper. In fact, it is shown in~\cite{Leupold2011} that the families {\sf con-mon-McNL} and {\sf con-gen-mon-McNL} coincide, if and only if the former is closed under inverse strictly alphabetic morphisms. We refer the interested reader to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
 
 \subsection{Delimited String-Rewriting Systems}
 \label{section:delimited-string-rewriting-systems}

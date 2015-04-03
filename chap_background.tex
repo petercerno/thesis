@@ -516,13 +516,13 @@ The following \emph{Workspace Theorem} is a powerful tool in showing languages t
 If $G$ is a type $0$ grammar and if there is a nonnegative integer $k$ such that $$WS_G(w) \le k |w| \text{ for all nonempty words } w \in L(G),$$ then $L(G)$ is a context-sensitive language.
 \end{theorem}
 
-The family of context-sensitive languages can also be characterized in terms of so-called \index{linear bounded automaton}\emph{linear bounded automata}. Linear bounded automata are a special type of Turing machines, which are closely related to a certain class of Turing space complexity, $NSPACE(n)$. More precisely, a linear bounded automaton \index{$\LBA$}($\LBA$) is a nondeterministic Turing machine of space complexity $S(n) = n$.
+The family of context-sensitive languages can also be characterized in terms of so-called \index{linear bounded automaton}\emph{linear bounded automata}. Linear bounded automata are a special type of Turing machines, which are closely related to a certain class of Turing space complexity, $\classNSPACE(n)$. More precisely, a linear bounded automaton \index{$\LBA$}($\LBA$) is a nondeterministic Turing machine of space complexity $S(n) = n$.
 
 \begin{theorem}
-The family $\mathcal{L}_1 = \CSL$ is equal to the family of languages accepted by linear bounded automata, i.\,e.\ $$\CSL = NSPACE(n).$$
+The family $\mathcal{L}_1 = \CSL$ is equal to the family of languages accepted by linear bounded automata, i.\,e.\ $$\CSL = \classNSPACE(n).$$
 \end{theorem}
 
-It is not known whether the inclusion $DSPACE(n) \subseteq NSPACE(n)$ is strict or not.
+However, it is not known whether the inclusion $\classDSPACE(n) \subseteq \classNSPACE(n)$ is strict or not.
 
 It can be shown, that there exist \index{language!context-sensitive}context-sensitive languages for which the membership problem is $\classPSPACE$-complete. Thus, in their full generality these languages are too powerful for practical applications. On the other hand, \index{language!context-free}context-free languages are not powerful enough to completely describe all the syntactical aspects of a programming language like \index{Pascal}Pascal, since some of them are inherently context dependent. There are various alternatives to define classes of languages that are strictly in between \index{$\CFL$}$\CFL$ and \index{$\CSL$}$\CSL$. One approach is based on making the \index{grammar!context-free}context-free grammars more powerful by adding certain attributes that must be evaluated in order to decide whether a sentence derived from that grammar is considered to be `valid'. Another approach is based on restricting the power of \index{grammar!context-sensitive}context-sensitive grammars.
 

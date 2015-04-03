@@ -1,46 +1,65 @@
+\newcommand{\N}{\mathbb{N}}
 \newcommand{\subsetfin}{\subset_{fin}}
 
 \newcommand{\Pref}{\textup{\sf Pref\/}}
 \newcommand{\Suff}{\textup{\sf Suff\/}}
 \newcommand{\Int}{\textup{\sf Int\/}}
+\newcommand{\Fin}{\textup{\sf Fin}}
+
+\newcommand{\Reg}{\textup{\sf Reg}}
+
+\newcommand{\FA}{\textup{\sf FA}}
+\newcommand{\DFA}{\textup{\sf DFA}}
+\newcommand{\NFA}{\textup{\sf NFA}}
+\newcommand{\NNFA}{\textup{\sf NNFA}}
+
+\newcommand{\CFL}{\textup{\sf CFL}}
 
 \newcommand{\pdm}{\textup{\sf pdm}}
 \newcommand{\pda}{\textup{\sf pda}}
 \newcommand{\dpda}{\textup{\sf dpda}}
+\newcommand{\DCFL}{\textup{\sf DCFL}}
+\newcommand{\symDCFL}{\textup{\sf symDCFL}}
+
+% TODO(petercerno): Define!
+\newcommand{\TPDA}{\textup{\sf TPDA}}
+
+\newcommand{\Lin}{\textup{\sf Lin}}
+\newcommand{\Ocl}{\textup{\sf Ocl}}
+\newcommand{\LL}{\textup{\sf LL}}
+\newcommand{\LR}{\textup{\sf LR}}
+
+\newcommand{\RE}{\textup{\sf RE}}
+\newcommand{\CSL}{\textup{\sf CSL}}
+
+\newcommand{\LBA}{\textup{\sf LBA}}
+\newcommand{\DCSL}{\textup{\sf DCSL}}
+\newcommand{\GCSL}{\textup{\sf GCSL}}
 
 \newcommand{\SAT}{\textup{\sf SAT}\xspace}
-\newcommand{\NP}{\textup{\sf NP}}
+\newcommand{\classP}{\textup{\sf P}}
+\newcommand{\classNP}{\textup{\sf NP}}
+\newcommand{\classDSPACE}{\textup{\sf DSPACE}}
+\newcommand{\classNSPACE}{\textup{\sf NSPACE}}
+\newcommand{\classPSPACE}{\textup{\sf PSPACE}}
 
-\newcommand{\IRR}{\textup{\sf IRR}\xspace}
-\newcommand{\dom}{\textup{\sf dom}\xspace}
-\newcommand{\rng}{\textup{\sf rng}\xspace}
+\newcommand{\MVR}{\textup{\sf MVR}}
+\newcommand{\MVL}{\textup{\sf MVL}}
 
-\newcommand{\clRA}{\textup{\sf cl-RA\/}}
-\newcommand{\kclRA}[1][k]{\textup{\sf $#1$-\clRA}}
-\newcommand{\zlclRA}{\textup{\sf $(0,l)$-\clRA}}
-\newcommand{\klclRA}{\textup{\sf $(k,l)$-\clRA}}
-\newcommand{\sclRA}{\textup{\sf scl-RA\xspace}}
-\newcommand{\CRS}{\textup{\sf CRS\/}}
-\newcommand{\kCRS}[1][k]{\textup{\sf $#1$-\CRS}}
-\newcommand{\DclRA}{\textup{\sf $\Delta$cl-RA\/}}
-\newcommand{\kDclRA}[1][k]{\textup{\sf $#1$-\DclRA}}
-\newcommand{\DXclRA}{\textup{\sf $\Delta^*$cl-RA\/}}
-\newcommand{\kDXclRA}[1][k]{\textup{\sf $#1$-\DXclRA}}
+\newcommand{\Restart}{\textup{\sf Restart}}
+\newcommand{\Rewrite}{\textup{\sf Rewrite}}
+\newcommand{\Accept}{\textup{\sf Accept}}
 
 \newcommand{\X}{\textup{\sf X}}
 \newcommand{\R}{\textup{\sf R}}
 \newcommand{\RW}{\textup{\sf RW}}
 \newcommand{\RWW}{\textup{\sf RWW}}
 \newcommand{\RR}{\textup{\sf RR}}
-\newcommand{\Rr}{\textup{\sf R(R)}}
 \newcommand{\RL}{\textup{\sf RL}}
 \newcommand{\RRW}{\textup{\sf RRW}}
-\newcommand{\RrW}{\textup{\sf R(R)W}}
 \newcommand{\RLW}{\textup{\sf RLW}}
 \newcommand{\RRWW}{\textup{\sf RRWW}}
-\newcommand{\RrWW}{\textup{\sf R(R)WW}}
 \newcommand{\RLWW}{\textup{\sf RLWW}}
-\newcommand{\sRRWW}{\textup{\sf sRRWW}}
 
 \newcommand{\monPrefix}{\textup{\sf mon-}}
 \newcommand{\monX}{\textup{\sf mon-X}}
@@ -73,74 +92,23 @@
 \newcommand{\detmonRRWW}{\textup{\sf det-mon-RRWW}}
 \newcommand{\detmonRLWW}{\textup{\sf det-mon-RLWW}}
 
-\newcommand{\MVR}{\textup{\sf MVR}}
-\newcommand{\MVL}{\textup{\sf MVL}}
+\newcommand{\IRR}{\textup{\sf IRR}\xspace}
+\newcommand{\dom}{\textup{\sf dom}\xspace}
+\newcommand{\rng}{\textup{\sf rng}\xspace}
 
-\newcommand{\Restart}{\textup{\sf Restart}}
-\newcommand{\Rewrite}{\textup{\sf Rewrite}}
-\newcommand{\Accept}{\textup{\sf Accept}}
-
-\newcommand{\classP}{\textup{\sf P}}
-\newcommand{\classNP}{\textup{\sf NP}}
-\newcommand{\classPSPACE}{\textup{\sf PSPACE}}
-
-\newcommand{\Fin}{\textup{\sf Fin}}
-\newcommand{\Reg}{\textup{\sf Reg}}
-\newcommand{\ALD}{\textup{\sf ALD}}
-\newcommand{\CFL}{\textup{\sf CFL}}
-\newcommand{\DCFL}{\textup{\sf DCFL}}
-\newcommand{\symDCFL}{\textup{\sf symDCFL}}
-\newcommand{\Lin}{\textup{\sf Lin}}
-\newcommand{\Ocl}{\textup{\sf Ocl}}
-\newcommand{\LL}{\textup{\sf LL}}
-\newcommand{\LR}{\textup{\sf LR}}
-\newcommand{\CSL}{\textup{\sf CSL}}
-\newcommand{\DCSL}{\textup{\sf DCSL}}
-\newcommand{\GCSL}{\textup{\sf GCSL}}
-\newcommand{\RE}{\textup{\sf RE}}
-\newcommand{\REG}{\textup{\sf REG}}
-\newcommand{\FA}{\textup{\sf FA}}
-\newcommand{\DFA}{\textup{\sf DFA}}
-\newcommand{\NFA}{\textup{\sf NFA}}
-\newcommand{\NNFA}{\textup{\sf NNFA}}
-\newcommand{\TNFA}{\textup{\sf 2NFA}}
-\newcommand{\AFA}{\textup{\sf AFA}}
-\newcommand{\LBA}{\textup{\sf LBA}}
-\newcommand{\ATM}{\textup{\sf ATM}}
-\newcommand{\ICGB}{\textup{\sf ICGBC}}
-\newcommand{\PDA}{\textup{\sf PDA}}
-\newcommand{\DPDA}{\textup{\sf DPDA}}
-
-\newcommand{\TPDA}{\textup{\sf TPDA}}
-\newcommand{\sTPDA}{\textup{\sf sTPDA}}
-\newcommand{\NAT}{{\mathbb N}}
-
-\newcommand{\CSG}{\textup{\sf CSG}}
-\newcommand{\GCSG}{\textup{\sf GCSG}}
 \newcommand{\CRL}{\textup{\sf CRL}}
-\newcommand{\LIN}{\textup{\sf LIN}}
-\newcommand{\DLIN}{\textup{\sf DLIN}}
-\newcommand{\cf}{context-free}
-\newcommand{\cs}{context-sensitive}
-\newcommand{\gcs}{growing context-sensitive}
-\newcommand{\cfg}{\cf\ grammar}
-\newcommand{\csg}{\cs\ grammar}
-\newcommand{\gcsg}{growing context-sensitive grammar}
-\newcommand{\cfl}{\cf\ language}
-\newcommand{\csl}{\cs\ language}
-\newcommand{\gcsl}{growing context-sensitive language}
-\newcommand{\crl}{Church-Rosser language}
-\newcommand{\coCFL}{\textup{\sf co-CFL}}
-\newcommand{\CG}{\textup{\sf CG}}
-\newcommand{\RST}{\textup{\sf RST}}
-\newcommand{\RS}{\textup{\sf RS}}
-\newcommand{\cL}{{\cal L}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\bin}{\rm bin}
-\newcommand{\dist}[1]{{\textup{\rm dist}(#1)}}
-\newcommand{\REDUCE}{\textup{\sf REDUCE}}
-\newcommand\nf{\textup{\rm nf}}
-\newcommand\range{\textup{\rm range}}
+
+\newcommand{\clRA}{\textup{\sf cl-RA\/}}
+\newcommand{\kclRA}[1][k]{\textup{\sf $#1$-\clRA}}
+\newcommand{\zlclRA}{\textup{\sf $(0,l)$-\clRA}}
+\newcommand{\klclRA}{\textup{\sf $(k,l)$-\clRA}}
+\newcommand{\sclRA}{\textup{\sf scl-RA\xspace}}
+\newcommand{\CRS}{\textup{\sf CRS\/}}
+\newcommand{\kCRS}[1][k]{\textup{\sf $#1$-\CRS}}
+\newcommand{\DclRA}{\textup{\sf $\Delta$cl-RA\/}}
+\newcommand{\kDclRA}[1][k]{\textup{\sf $#1$-\DclRA}}
+\newcommand{\DXclRA}{\textup{\sf $\Delta^*$cl-RA\/}}
+\newcommand{\kDXclRA}[1][k]{\textup{\sf $#1$-\DXclRA}}
 
 \newcommand{\TC}{\textup{\sf TC}}
 \newcommand{\ECC}{\textup{\sf ECC}}
@@ -151,7 +119,7 @@
 \newcommand{\PCF}{\textup{\sf PCF}}
 \newcommand{\PLI}{\textup{\sf PLI}}
 
-\newcommand{\CR}{\textup{\sf CR}}
+% TODO(petercerno):
 
 \newcommand{\calLL}{\textup{\sf $\mathcal{L}$\xspace}}
 \newcommand{\calL}[1]{{\cal L}(#1)}

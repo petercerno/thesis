@@ -36,7 +36,7 @@ In Section \ref{2clRA-non-CFL} we prove that there exists a $\kclRA[2]$ recogniz
 
 In Section \ref{3clRA-non-CFL} we construct a $\kclRA[3]$ $M = (\Sigma, \Phi)$ on a two-letter alphabet $\Sigma = \{a, b\}$ such that $L(M)$ is a non-context-free language. The idea of this automaton is based on the idea of sending a signal through the ether. As you can see this result improves the result from Section \ref{4clRA-non-CFL}. In spite of this fact, we have decided to include Section \ref{4clRA-non-CFL}, since we present there some basic ideas, which are then reused in other subsections in a more complex form.
 
-In Section \ref{clra_membership} we prove that the membership problem for $\clRA$ is $\NP$-complete. Finally, in Section \ref{clra_extensions} we discuss some extensions of $\clRA$.
+In Section \ref{clra_membership} we prove that the membership problem for $\clRA$ is $\classNP$-complete. Finally, in Section \ref{clra_extensions} we discuss some extensions of $\clRA$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{$\clRA$ and Regular Languages}
@@ -808,10 +808,10 @@ with the class of context-free languages.
 
 \subsection{Membership Problem for $\clRA$}\label{clra_membership}
 
-In this section we study the membership problem for clearing restarting automata. Although, in general, it is $\NP$-complete to decide whether $w \in L(M)$ for $\clRA$ $M = (\Sigma, \Phi)$, it is possible to decide whether $w \in L(M)$ in polynomial time if $M \in \kclRA[1]$. The membership problem for $\clRA$ is clearly in $\NP$ since $w \in L(M) \Leftrightarrow \exists n \le |w|, w_1, \ldots, w_n \in \Sigma^{\le |w|}, \phi_1, \ldots, \phi_n \in \Phi: w = w_1 \vdash_M^{(\phi_1)} w_2 \ldots w_n \vdash_M^{(\phi_n)} \lambda$. We prove the $\NP$-hardness by reducing from $3$-$\SAT$.
+In this section we study the membership problem for clearing restarting automata. Although, in general, it is $\classNP$-complete to decide whether $w \in L(M)$ for $\clRA$ $M = (\Sigma, \Phi)$, it is possible to decide whether $w \in L(M)$ in polynomial time if $M \in \kclRA[1]$. The membership problem for $\clRA$ is clearly in $\classNP$ since $w \in L(M) \Leftrightarrow \exists n \le |w|, w_1, \ldots, w_n \in \Sigma^{\le |w|}, \phi_1, \ldots, \phi_n \in \Phi: w = w_1 \vdash_M^{(\phi_1)} w_2 \ldots w_n \vdash_M^{(\phi_n)} \lambda$. We prove the $\classNP$-hardness by reducing from $3$-$\SAT$.
 
 \begin{theorem}\label{theorem:clra_membership}
-The membership problem for $\clRA$ is $\NP$-complete. It is decidable in polynomial time for $\kclRA[1]$.
+The membership problem for $\clRA$ is $\classNP$-complete. It is decidable in polynomial time for $\kclRA[1]$.
 \end{theorem}
 
 \begin{proof}
@@ -1205,10 +1205,10 @@ Additionally, every $M_i$ is confluent, as there is always only one accepting co
 
 The above example clearly shows that sometimes we need to consider an exponentially large set (i.\,e.\ a set that has an exponentially large binary representation) of positive samples $S^+$ in order to obtain all instructions of the target model. The argument is based on the use of the function $\mathsf{StrongAssumptions}$ (from Example \ref{example:assumptions}) combined with the class of confluent clearing restarting automata. This naturally gives rise to an open question, whether this phenomenon also applies to other functions and other classes of restricted context rewriting systems.
 
-As you can see, our auxiliary inference procedure (Algorithm \ref{algorithm:lambda-learning}) is relatively simple and straightforward, and, in addition, it sometimes fails to return a consistent model with the given input sample. This naturally leads to the question of whether one can design a more sophisticated algorithm that can, for instance, always return a model with the restricted maximal width that is consistent with the given set of positive and negative samples. It turns out that there is little hope in finding such algorithm, because the task of finding a clearing restarting automaton consistent with a given set of positive and negative samples is $\NP$-hard, provided there is an upper bound on the width of its instructions.
+As you can see, our auxiliary inference procedure (Algorithm \ref{algorithm:lambda-learning}) is relatively simple and straightforward, and, in addition, it sometimes fails to return a consistent model with the given input sample. This naturally leads to the question of whether one can design a more sophisticated algorithm that can, for instance, always return a model with the restricted maximal width that is consistent with the given set of positive and negative samples. It turns out that there is little hope in finding such algorithm, because the task of finding a clearing restarting automaton consistent with a given set of positive and negative samples is $\classNP$-hard, provided there is an upper bound on the width of its instructions.
 
 \begin{theorem}[\cite{C12}]\label{theorem:0clrainference}
-Let $l \ge 2$ be a fixed integer. It is $\NP$-complete to decide whether there exists a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with a given sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$.
+Let $l \ge 2$ be a fixed integer. It is $\classNP$-complete to decide whether there exists a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with a given sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$.
 \end{theorem}
 
 \begin{proof}
@@ -1222,14 +1222,14 @@ Suppose that $\psi$ is satisfiable, i.\,e.\ there exists an assignment $v: \Omeg
 ($\Leftarrow$)
 Now suppose that there exists a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with $S^+$ and $S^-$. We will show that $\psi$ is satisfiable, i.\,e.\ we will construct an assignment $v: \Omega \to \{0, 1\}$ such that $v^*(C_i) = 1$ for all $i \in \{1, 2, \ldots, n\}$. First observe, that for each $a \in \Omega$: either $(\lambda, a, \lambda) \in \Phi$, or $(\lambda, \overline{a}, \lambda) \in \Phi$. Consider the positive sample $w_0^+ = (a \overline{a})^l \in S^+$. We know that $(a \overline{a})^l \vdash_M^* \lambda$. Let $\phi \in \Phi$ be the first instruction used in any such accepting computation. The instruction $\phi$ is of the form $(\lambda, z, \lambda)$, where $z$ is a subword of the word $(a \overline{a})^l$. However, the only allowed options here are $\phi \in \{ (\lambda, a, \lambda), (\lambda, \overline{a}, \lambda) \}$, because if $|z| > 1$, then we would immediately get that $|z|_a \ge 1$, $|z|_{\overline{a}} \ge 1$, and thus also $z \in S^-$, which is a contradiction to $z \vdash^{(\phi)} \lambda$. Moreover, both instructions $(\lambda, a, \lambda)$ and $(\lambda, \overline{a}, \lambda)$ cannot be in $\Phi$ simultaneously, because it would mean that $a \overline{a} \vdash_M^* \lambda$, where $a \overline{a} \in S^-$. Now, for each $a \in \Omega$ let $v(a) = 1 \text{ if } (\lambda, a, \lambda) \in \Phi$, and let $v(a) = 0 \text{ if } (\lambda, \overline{a}, \lambda) \in \Phi$. For each clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$ we have a negative sample $w_{C_i}^- = \overline{\ell_{i,1}}\ \overline{\ell_{i,2}}\ \overline{\ell_{i,3}} \in S^-$. Therefore, $\overline{\ell_{i,1}} \not\vdash_M \lambda$ or $\overline{\ell_{i,2}} \not\vdash_M \lambda$ or $\overline{\ell_{i,3}} \not\vdash_M \lambda$, which is equivalent to $v(\ell_{i,1}) = 1$ or $v(\ell_{i,2}) = 1$ or $v(\ell_{i,3}) = 1$. This means that $\psi$ is satisfiable.
 
-It remains to be shown that the task of finding a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with the given input set of positive and negative samples ($S^+$, $S^-$) is in $\NP$. According to Theorem \ref{theorem:clra_membership} the membership problem for $\kclRA[1]$ (and therefore also for $\kclRA[0]$) is decidable in polynomial time. The next question is, how many instructions do we need? It turns out that the number of instructions can be bounded from above by $\size(S^+) = \sum_{w \in S^+} |w|$, because for every positive sample $w_+ \in S^+$ the accepting computation $w_+ \vdash_M^* \lambda$ uses at most $|w_+|$ many instructions. Therefore, we can first nondeterministically guess the set of instructions, and then verify in a polynomial time the consistency with the given input set of positive and negative samples.
+It remains to be shown that the task of finding a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with the given input set of positive and negative samples ($S^+$, $S^-$) is in $\classNP$. According to Theorem \ref{theorem:clra_membership} the membership problem for $\kclRA[1]$ (and therefore also for $\kclRA[0]$) is decidable in polynomial time. The next question is, how many instructions do we need? It turns out that the number of instructions can be bounded from above by $\size(S^+) = \sum_{w \in S^+} |w|$, because for every positive sample $w_+ \in S^+$ the accepting computation $w_+ \vdash_M^* \lambda$ uses at most $|w_+|$ many instructions. Therefore, we can first nondeterministically guess the set of instructions, and then verify in a polynomial time the consistency with the given input set of positive and negative samples.
 \end{proof}
 
 In the following, we prove a more general Theorem \ref{theorem:kclrainference}.
 
 \begin{theorem}\label{theorem:kclrainference}
 Let $k \ge 1 $ and $l \ge 4k + 4$ be fixed integers.
-It is $\NP$-hard to decide whether there exists a $\klclRA$ $M = (\Sigma, \Phi)$ consistent with a given sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$.
+It is $\classNP$-hard to decide whether there exists a $\klclRA$ $M = (\Sigma, \Phi)$ consistent with a given sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$.
 \end{theorem}
 
 \begin{proof}
