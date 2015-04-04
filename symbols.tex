@@ -5,6 +5,12 @@
 \begin{enumerate}[]
 \item $\N$: set of (positive) natural numbers.
 \item $\subsetfin$: TODO(petercerno)
+\item $\cent$: left sentinel.
+\item $\$$: right sentinel.
+\item $\calLL$: set of languages.
+\item $\calL{\calM}$: set of languages accepted (recognized, generated, etc.) by the set of models (automata, grammars, etc.) $\calM$.
+\item $\calM$: set of models (automata, grammars, etc.).
+\item $\calA$: denotes an algorithm.
 \end{enumerate}
 
 \noindent{\bf Words and languages} (see Section \ref{section:words-and-languages}).
@@ -111,22 +117,53 @@
 \noindent{\bf String-rewriting systems} (see Section \ref{section:string-rewriting-systems}).
 
 \begin{enumerate}[]
-\item $\IRR(R)$: set of all irreducible strings a modulo string-rewriting system $R$.
+\item $\SRS$: string-rewriting system.
+\item $\IRR(R)$: set of all irreducible strings modulo a string-rewriting system $R$.
 \item $\dom(R)$: domain of a string-rewriting system $R$.
 \item $\rng(R)$: range of a string-rewriting system $R$.
 \item $\CRL$: Church-Rosser languages.
 \end{enumerate}
 
-%\noindent{\em McNaughton Families of Languages} (see Section \ref{subsection:mcnaughton-families}).
+\noindent{\em McNaughton Families of Languages} (see Section \ref{subsection:mcnaughton-families}).
 
-%\begin{enumerate}[]
-%\end{enumerate}
+\begin{enumerate}[]
+\item $\McNL$: McNaughton languages (defined by finite string-rewriting systems).
+\item $\wrMcNL$: McNaughton languages defined by finite weight-reducing string-rewriting systems.
+\item $\lrMcNL$: McNaughton languages defined by finite length-reducing string-rewriting systems.
+\item $\monMcNL$: McNaughton languages defined by finite monadic string-rewriting systems.
+\item $\genmonMcNL$: McNaughton languages defined by finite generalized monadic string-rewriting systems.
+\item $\conMcNL$: McNaughton languages defined by finite confluent string-rewriting systems.
+\item $\conwrMcNL$: McNaughton languages defined by finite confluent weight-reducing string-rewriting systems.
+\item $\conlrMcNL$: McNaughton languages defined by finite confluent length-reducing string-rewriting systems.
+\item $\conmonMcNL$: McNaughton languages defined by finite confluent monadic string-rewriting systems.
+\item $\congenmonMcNL$: McNaughton languages defined by finite confluent generalized monadic string-rewriting systems.
+\end{enumerate}
+
+\noindent{\em Delimited String-Rewriting Systems} (see Section \ref{section:delimited-string-rewriting-systems}).
+
+\begin{enumerate}[]
+\item $\DSRS$ delimited string-rewriting system.
+\item $\Apply_{\mathcal{R}}(w)$: string obtained by applying different rules in $\DSRS$ $\mathcal{R}$ until no more rules can be applied.
+\item $\NewRule$: generates the next possible rule to be checked.
+\item $\Consistent$: checks that by adding a new rule to the system, one does not rewrite a positive example and a negative example into the same string.
+\end{enumerate}
 
 \noindent{\bf Context rewriting systems and derived models} (see Section \ref{section:context-rewriting-systems} and Definitions \ref{definition:restrictions} and \ref{definition:derived-classes}).
 
 \begin{enumerate}[]
 \item $\CRS$: context rewriting system.
 \item $\kCRS$: context rewriting system with length of contexts equal to $k$.
+\item $LC_{\cdot}$, $LC_k$: set of left contexts.
+\item $RC_{\cdot}$, $RC_k$: set of right contexts.
+\item $|M|$: width of the $\CRS$ $M$.
+\item $\size(M)$: size of the $\CRS$ $M$.
+\item $M_{\sf left}$: $\CRS$ $M$ with left-most rewriting relation $\vdash^{\sf left}_M$.
+\item $\kcalM$: set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has length of contexts equal to $k$.
+\item $\llcalM$: set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has width at most $l$.
+\item $\klcalM$: set of all $\CRS$ $M \in \kcalM$ such that every instruction $\phi$ of $M$ has width at most $l$.
+\item $\concalM$: set of all $\CRS$s $M \in \calM$ such that $M$ is confluent.
+\item $\lconcalM$: set of all $\CRS$s $M \in \calM$ such that $M$ is $\lambda$-confluent.
+\item $\leftcalM$: set $\{M_{\sf left} \mid M \in \calM\}$.
 \item $\clRA$: clearing restarting automaton.
 \item $\kclRA$: clearing restarting automaton with length of contexts equal to $k$.
 \item $\zlclRA$: clearing restarting automaton with empty contexts and maximal width of instructions equal to $l$.
@@ -157,51 +194,24 @@
 \item $\PLI$: pure length increasing grammars (languages).
 \end{enumerate}
 
-% TODO(petercerno):
+\noindent{\bf $\Delta$-Clearing Restarting Automata} (see Section \ref{section:dxclra}).
 
-$\calLL$
-$\calL$
-$\calM$
-$\calA$
-$\kcalM$
-$\klcalM$
-$\kllcalM$
-$\llcalM$
-$\concalM$
-$\lconcalM$
-$\leftcalM$
-$\calQ$
-$\calS$
+\noindent{\em Algorithmic Viewpoint} (see Section \ref{section:dxclra_viewpoint}).
 
-$\size$
-$\wave$
+\begin{enumerate}[]
+\item $(Q, S)$: protocol consisting of a querier $Q$ and a solver $S$.
+\item $L(Q, S)$ language recognized by the protocol $(Q, S)$.
+\item $\calQ$: class of queriers.
+\item $\calS$: class of solvers.
+\item $\calL{\calQ, \calS}$: class of languages recognized by the queriers $\calQ$ and solvers $\calS$.
+\end{enumerate}
 
-$\SYMBOL$
-$\McNL$
-$\wrMcNL$
-$\lrMcNL$
-$\conMcNL$
-$\conwrMcNL$
-$\conlrMcNL$
-$\spMcNL$
-$\monMcNL$
-$\conspMcNL$
-$\conmonMcNL$
-$\noninMcNL$
-$\nonwMcNL$
-$\connoninMcNL$
-$\connonwMcNL$
+\noindent{\bf Limited Context Restarting Automata} (see Section \ref{section:lcra}).
 
-$\SRS$
-$\DSRS$
-
-$\Apply$
-$\NewRule$
-$\Consistent$
-%
-$\lcRA[i]$
-$\lcRAp[i]$
-$\conlcRA[i]$
-$\conlcRAp[i]$
-$\leftsentinel$
-$\rightsentinel$
+\begin{enumerate}[]
+\item $\lcRA$: limited context restarting automaton.
+\item $\lcRA[i]$: $\lcRA$ of type~$\mathcal{R}_i'$.
+\item $\lcRAp[i]$: $\lcRA$ of type~$\mathcal{R}_i$.
+\item $\conlcRA[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i'$.
+\item $\conlcRAp[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i$.
+\end{enumerate}
