@@ -4,21 +4,33 @@
 
 \begin{enumerate}[]
 \item $\N$: set of (positive) natural numbers.
-\item $\subsetfin$: TODO(petercerno)
-\item $\cent$: left sentinel.
-\item $\$$: right sentinel.
-\item $\calLL$: set of languages.
-\item $\calL{\calM}$: set of languages accepted (recognized, generated, etc.) by the set of models (automata, grammars, etc.) $\calM$.
-\item $\calM$: set of models (automata, grammars, etc.).
-\item $\calA$: denotes an algorithm.
 \end{enumerate}
 
 \noindent{\bf Words and languages} (see Section \ref{section:words-and-languages}).
 
 \begin{enumerate}[]
+\item $a, b, c, d$: symbols usually reserved for letters.
+\item $u, v, w, x, y, z$: symbols usually reserved for words.
+\item $L, L_1, L_2$: symbols usually reserved for languages.
+\item $\lambda$: the empty word.
+\item $|w|$: length of the word $w$.
+\item $|w|_a$: number of occurences of the letter $a$ in the word $w$.
+\item $u \cdot v$ (or $uv$): catenation (or concatenation) of the words $u$ and $v$.
+\item $w^i$: is defined as follows: $w^0 = \lambda$, $w^{i+1} = w^i \cdot w$.
+\item $w^R$: reversal (mirror image) of $w$.
 \item $\Pref_k(u)$: prefix of length $k$ of the word $u$.
 \item $\Suff_k(u)$: suffix of length $k$ of the word $u$.
 \item $\Int_k(u)$: interior words of length $k$ that occur in $u$.
+\item $\Sigma$: usually an input alphabet.
+\item $\Gamma$: usually a working alphabet (with auxiliary symbols / non-terminals).
+\item $\Sigma^*$: set of all words over $\Sigma$.
+\item $\Sigma^+$: set of all nonempty words over $\Sigma$.
+\item $\Sigma^k$: set of all words over $\Sigma$ of length $k$.
+\item $\Sigma^{\le k}$: set of all words over $\Sigma$ of length at most $k$.
+\item $\calLL$: set of languages.
+\item $\calM$: set of models (automata, grammars, etc.).
+\item $\calL{\calM}$: set of languages accepted (recognized, generated, etc.) by the set of models (automata, grammars, etc.) $\calM$.
+\item $\calA$: symbol denoting an algorithm.
 \item $\Fin$: finite languages.
 \end{enumerate}
 
@@ -96,6 +108,8 @@
 \noindent{\bf Restarting automata} (see Section \ref{section:restarting-automata}).
 
 \begin{enumerate}[]
+\item $\cent$: left sentinel.
+\item $\$$: right sentinel.
 \item $\MVR$: move-right step causes a restarting automaton to shift the read/write window one position to the right and to enter a new state.
 \item $\MVL$: move-left step causes a restarting automaton to shift the read/write window one position to the left and to enter a new state.
 \item $\Rewrite$: rewrite step causes a restarting automaton to replace the content of the read/write window by a new shorter string, thereby shortening the tape, and to enter state a new state. Further, the read/write window is placed immediately to the right of the new string.
@@ -153,6 +167,8 @@
 \begin{enumerate}[]
 \item $\CRS$: context rewriting system.
 \item $\kCRS$: context rewriting system with length of contexts equal to $k$.
+\item $M$: usually denotes a context rewriting system.
+\item $\calM$: usually denotes a set (class) of context rewriting systems.
 \item $LC_{\cdot}$, $LC_k$: set of left contexts.
 \item $RC_{\cdot}$, $RC_k$: set of right contexts.
 \item $|M|$: width of the $\CRS$ $M$.
@@ -210,8 +226,8 @@
 
 \begin{enumerate}[]
 \item $\lcRA$: limited context restarting automaton.
-\item $\lcRA[i]$: $\lcRA$ of type~$\mathcal{R}_i'$.
-\item $\lcRAp[i]$: $\lcRA$ of type~$\mathcal{R}_i$.
-\item $\conlcRA[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i'$.
-\item $\conlcRAp[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i$.
+\item $\lcRA[i]$: $\lcRA$ of type~$\mathcal{R}_i$.
+\item $\lcRAp[i]$: $\lcRA$ of type~$\mathcal{R}_i'$.
+\item $\conlcRA[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i$.
+\item $\conlcRAp[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i'$.
 \end{enumerate}

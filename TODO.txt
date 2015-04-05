@@ -7,7 +7,7 @@
 
 [x] TODO: Resolve all TODOs in the text.
 [ ] TODO: Add \cite{} references to Theorems.
-[ ] TODO: Unify ending symbol in definitions etc.
+[x] TODO: Unify ending symbol in definitions etc.
 [ ] TODO: Check old reviews. Update i.e., etc.
 [ ] TODO: Check missing references \ref{} and citations \cite{}.
 [ ] TODO: Add index.
@@ -18,11 +18,11 @@
 2015-01-17
 
 [ ] TODO: Update reference labels!
-[ ] TODO: Update the reference concerning the decidability of the lambda-confulence.
+[x] TODO: Update the reference concerning the decidability of the lambda-confulence.
 
 2015-02-15
 
-[ ] TODO: Move images to img/ folder
+[x] TODO: Move images to img/ folder
 
 2015-03-20
 
@@ -40,3 +40,7 @@
 
 [ ] TODO: Add list of abbreviations, list of symbols.
 [ ] TODO: Write Conclusion.
+
+2015-04-05
+
+[ ] TODO: Use a special equality symbol for the equality that does not consider the empty word.
