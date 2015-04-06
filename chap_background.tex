@@ -27,7 +27,12 @@ Observe that $u$ itself and $\lambda$ are subwords, prefixes and suffixes of $u$
 
 \index{$\Pref_k(u)$}$\Pref_k(u)$ denotes either the (nontrivial) \index{prefix}prefix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. Similarly, \index{$\Suff_k(u)$}$\Suff_k(u)$ denotes either the (nontrivial) \index{suffix}suffix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. The set of all subwords of length $k$ of $u$ that occur in $u$ in a position other than the prefix or suffix is denoted \index{$\Int_k(u)$}$\Int_k(u)$ \index{interior words}(interior words).
 
-%The \index{shuffle}\emph{shuffle} operation between words, denoted $\shuffle$, is defined recursively by $$(au \shuffle bv) = a(u \shuffle bv) \cup b(au \shuffle v),$$ and $$(u \shuffle \lambda) = (\lambda \shuffle u) = \{u\},$$ where $u, v \in \Sigma^*$ and $a, b \in \Sigma$. Obviously, $$(u \shuffle v) = \{x_1 y_1 \ldots x_n y_n \mid u = x_1 \ldots x_n, v = y_1 \ldots y_n, n \ge 1\}.$$
+%The \index{shuffle}\emph{shuffle} operation between words, denoted $\shuffle$, is defined recursively by
+%$$(au \shuffle bv) = a(u \shuffle bv) \cup b(au \shuffle v),$$
+%and
+%$$(u \shuffle \lambda) = (\lambda \shuffle u) = \{u\},$$
+%where $u, v \in \Sigma^*$ and $a, b \in \Sigma$. Obviously,
+%$$(u \shuffle v) = \{x_1 y_1 \ldots x_n y_n \mid u = x_1 \ldots x_n, v = y_1 \ldots y_n, n \ge 1\}.$$
 
 We now proceed from words to languages. Subsets, finite or infinite, of $\Sigma^*$ are referred to as (\emph{formal}) \index{language}\emph{languages} over $\Sigma$. Thus $L_1 = \{\lambda, 0, 111, 1001\}$ and $L_2 = \{0^p \mid p \ \text{is a prime}\}$ are languages over the \index{alphabet!binary}\emph{binary alphabet} $\{0, 1\}$. A \index{language!finite}finite language can always, at least in principle, be defined as $L_1$ above: by listing all of its words. Such a procedure is not possible for \index{language!infinite}infinite languages. Some finitary specification other than simple listing is needed to define an infinite language. 
 
@@ -35,13 +40,24 @@ In formal language theory in general, there are two major types of mechanisms fo
 
 Generators, on the other hand, usually generate the language using some finite set of rules. Typically they are defined in terms of grammars. One of the most famous is the classical \index{Chomsky hierarchy}\emph{Chomsky hierarchy} of grammars (and corresponding languages), which consists of \index{grammar!phrase-structure}\emph{phrase-structure}, \index{grammar!context-sensitive}\emph{context-sensitive}, \index{grammar!context-free}\emph{context-free}, and \index{grammar!regular}\emph{regular} grammars. They are also called type $0$, type $1$, type $2$, and type $3$ grammars, respectively (see Section \ref{section:context-free-languages} and \ref{section:chomsky-hierarchy}).
 
-Regarding languages as sets, we may define the \index{operation!Boolean}\emph{Boolean} operations of \index{union}\emph{union}, \index{intersection}\emph{intersection} and \index{complementation}\emph{complementation} in the usual fashion. The operation of \emph{catenation} (or \index{concatenation}\emph{concatenation}) is extended to concern languages in the natural way: $$L_1 L_2 = \{w_1 w_2 \mid w_1 \in L_1 \ \text{and} \ w_2 \in L_2\}.$$
+Regarding languages as sets, we may define the \index{operation!Boolean}\emph{Boolean} operations of \index{union}\emph{union}, \index{intersection}\emph{intersection} and \index{complementation}\emph{complementation} in the usual fashion. The operation of \emph{catenation} (or \index{concatenation}\emph{concatenation}) is extended to concern languages in the natural way:
+$$L_1 L_2 = \{w_1 w_2 \mid w_1 \in L_1 \ \text{and} \ w_2 \in L_2\}.$$
 
-The notation $L^i$ is extended to concern languages, now $L^0 = \{\lambda\}$. The \index{concatenation!closure}\emph{catenation closure} or \index{Kleene star} \emph{Kleene star} \index{Kleene plus}(\emph{Kleene plus}, respectively) of a language $L$, in symbols $L^*$ ($L^+$, respectively) is defined to be the union of all nonnegative powers of $L$ (of all positive powers of $L$, respectively). Observe that this definition is in accordance with our earlier notations $\Sigma^*$ and $\Sigma^+$ if we understand $\Sigma$ as the finite language whose words are the singleton letters. The \index{language!reversal}\emph{reversal} \index{language!mirror image}(\emph{mirror image}) of a language $L$, denoted $L^R$, is the set $$L^R = \{w^R \mid w \in L\}.$$
+The notation $L^i$ is extended to concern languages, now $L^0 = \{\lambda\}$. The \index{concatenation!closure}\emph{catenation closure} or \index{Kleene star} \emph{Kleene star} \index{Kleene plus}(\emph{Kleene plus}, respectively) of a language $L$, in symbols $L^*$ ($L^+$, respectively) is defined to be the union of all nonnegative powers of $L$ (of all positive powers of $L$, respectively). Observe that this definition is in accordance with our earlier notations $\Sigma^*$ and $\Sigma^+$ if we understand $\Sigma$ as the finite language whose words are the singleton letters. The \index{language!reversal}\emph{reversal} \index{language!mirror image}(\emph{mirror image}) of a language $L$, denoted $L^R$, is the set
+$$L^R = \{w^R \mid w \in L\}.$$
 
-For each $x \in \Sigma^*$, the \index{left-derivate}\emph{left-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set $$\delta_x(L) = x \backslash L = \{y \in \Sigma^* \mid xy \in L\},$$ and for a language $L_0 \subseteq \Sigma^*$, the \index{left-quotient}\emph{left-quotient} of $L$ by $L_0$ is the set $$L_0 \backslash L = \bigcup_{x \in L_0} x \backslash L = \{y \in \Sigma^* \mid xy \in L, x \in L_0\}.$$ Similarly, the \index{right-derivate}\emph{right-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set $$\delta^x(L) = L / x = \{y \in \Sigma^* \mid yx \in L\},$$ and the \index{right-quotient}\emph{right-quotient} of $L$ by a language $L_0 \subseteq \Sigma^*$ is $$L / L_0 = \bigcup_{x \in L_0} L / x = \{y \in \Sigma^* \mid yx \in L, x \in L_0\}.$$
+For each $x \in \Sigma^*$, the \index{left-derivate}\emph{left-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set
+$$\delta_x(L) = x \backslash L = \{y \in \Sigma^* \mid xy \in L\},$$
+and for a language $L_0 \subseteq \Sigma^*$, the \index{left-quotient}\emph{left-quotient} of $L$ by $L_0$ is the set
+$$L_0 \backslash L = \bigcup_{x \in L_0} x \backslash L = \{y \in \Sigma^* \mid xy \in L, x \in L_0\}.$$
+Similarly, the \index{right-derivate}\emph{right-derivate} of $L$ with respect to $x \in \Sigma^*$ is the set
+$$\delta^x(L) = L / x = \{y \in \Sigma^* \mid yx \in L\},$$
+and the \index{right-quotient}\emph{right-quotient} of $L$ by a language $L_0 \subseteq \Sigma^*$ is
+$$L / L_0 = \bigcup_{x \in L_0} L / x = \{y \in \Sigma^* \mid yx \in L, x \in L_0\}.$$
 
-It is clear by the above definition that $$(L_1 \backslash L) \cup (L_2 \backslash L) = (L_1 \cup L_2) \backslash L$$ for any $L_1, L_2 \subseteq \Sigma^*$. Similar equality holds for right-quotient of languages.
+It is clear by the above definition that
+$$(L_1 \backslash L) \cup (L_2 \backslash L) = (L_1 \cup L_2) \backslash L$$
+for any $L_1, L_2 \subseteq \Sigma^*$. Similar equality holds for right-quotient of languages.
 
 %Also the \index{shuffle}shuffle operation is extended in the natural to languages:
 %$$(L_1 \shuffle L_2) = \bigcup_{u \in L_1, v \in L_2}(u \shuffle v).$$
@@ -50,7 +66,8 @@ The operations of union, catenation, and Kleene star are referred as \index{oper
 
 A language $L$ over $\Sigma$ is \index{language!star-free}\emph{star-free} if $L$ can be obtained from the atomic languages $\{a\}$, where $a \in \Sigma$, by applying \index{operation!Boolean}Boolean operations (complement is taken with respect to $\Sigma^*$) and catenation finitely many times. Apparently every star-free language is regular.
 
-We say that a language $L$ is \index{language!noncounting}\emph{noncounting} if there is an integer $n$ such that, for all words $x$, $y$, $z$, $$x y^n z \in L \Leftrightarrow x y^{n+1} z \in L.$$
+We say that a language $L$ is \index{language!noncounting}\emph{noncounting} if there is an integer $n$ such that, for all words $x$, $y$, $z$,
+$$x y^n z \in L \Leftrightarrow x y^{n+1} z \in L.$$
 
 It can be proved that every star-free language is noncounting. The converse holds in the form: every regular noncounting language is star-free.
 
@@ -60,11 +77,18 @@ Let $\Sigma$ and $\Gamma$ be two finite alphabets. A mapping $h: \Sigma^* \to \G
 
 For a set $S$, let \index{$2^S$}$2^S$ (or \index{$\mathcal{P}(S)$}$\mathcal{P}(S)$) denote the \index{power set}\emph{power set} of $S$, i.\,e.\ the collection of all subsets of $S$. A mapping $\phi: \Sigma^* \to 2^{\Gamma^*}$ is  called a \index{substitution}\emph{substitution} if $\phi(\lambda) = \{\lambda\}$ and $\phi(xy) = \phi(x) \phi(y)$ for all $x, y \in \Sigma^*$.
 
-Clearly, a morphism is a special kind of substitution where each word is associated with a singleton set. Morphisms and substitutions are usually defined by specifying only the image of each letter in $\Sigma$ under the mapping. We extend the definitions of $h$ and $\phi$, respectively, to define $$h(L) = \{h(w) \mid w \in L\}$$ and $$\phi(L) = \bigcup_{w \in L}\phi(w)$$ for $L \subseteq \Sigma^*$.
+Clearly, a morphism is a special kind of substitution where each word is associated with a singleton set. Morphisms and substitutions are usually defined by specifying only the image of each letter in $\Sigma$ under the mapping. We extend the definitions of $h$ and $\phi$, respectively, to define
+$$h(L) = \{h(w) \mid w \in L\}$$
+and
+$$\phi(L) = \bigcup_{w \in L}\phi(w)$$
+for $L \subseteq \Sigma^*$.
 
 A morphism $h: \Sigma^* \to \Gamma^*$ is said to be \index{morphism!$\lambda$-free}$\lambda$-free if $h(a) \neq \lambda$ for all $a \in \Sigma$. A substitution $\phi: \Sigma^* \to 2^{\Gamma^*}$ is said to be \index{substitution!$\lambda$-free}$\lambda$-free if $\lambda \notin \phi(a)$ for all $a \in \Sigma$. And $\phi$ is called a \index{substitution!finite} \emph{finite substitution} if, for each $a \in \Sigma$, $\phi(a)$ is a finite subset of $\Gamma^*$. Similarly, $\phi$ is called a \index{substitution!regular} \emph{regular substitution} if, for each $a \in \Sigma$, $\phi(a)$ is a regular language over $\Gamma$.
 
-Let $h: \Sigma^* \to \Gamma^*$ be a morphism. The \index{morphism!inverse} \emph{inverse} of the morphism $h$ is a mapping $h^{-1}: \Gamma^* \to 2^{\Sigma^*}$ defined by, for each $y \in \Gamma^*$, $$h^{-1}(y) = \{x \in \Sigma^* \mid h(x) = y\}.$$ Similarly, for a substitution $\phi: \Sigma^* \to 2^{\Gamma^*}$, the \index{substitution!inverse}\emph{inverse} of the substitution $\phi$ is a mapping $\phi^{-1}: \Gamma^* \to 2^{\Sigma^*}$ defined by, for each $y \in \Gamma^*$, $$\phi^{-1}(y) = \{x \in \Sigma^* \mid y \in \phi(x)\}.$$
+Let $h: \Sigma^* \to \Gamma^*$ be a morphism. The \index{morphism!inverse} \emph{inverse} of the morphism $h$ is a mapping $h^{-1}: \Gamma^* \to 2^{\Sigma^*}$ defined by, for each $y \in \Gamma^*$,
+$$h^{-1}(y) = \{x \in \Sigma^* \mid h(x) = y\}.$$
+Similarly, for a substitution $\phi: \Sigma^* \to 2^{\Gamma^*}$, the \index{substitution!inverse}\emph{inverse} of the substitution $\phi$ is a mapping $\phi^{-1}: \Gamma^* \to 2^{\Sigma^*}$ defined by, for each $y \in \Gamma^*$,
+$$\phi^{-1}(y) = \{x \in \Sigma^* \mid y \in \phi(x)\}.$$
 
 \section{Regular Languages}
 \label{section:regular-languages}
@@ -102,9 +126,11 @@ A \index{configuration}\emph{configuration} of $A = (Q, \Sigma, \delta, s, F)$ i
 
 A \index{computation!step}computation step of $A$ is a \index{transition}transition from a configuration $\alpha$ to a configuration $\beta$, denoted by $\alpha \vdash_A \beta$, where $\vdash_A$ is a binary relation on the set of configurations of $A$. The relation $\vdash_A$ is defined by: for $px, qy \in Q \Sigma^*$, $px \vdash_A qy$ if $x = ay$ for some $a \in \Sigma$ and $\delta(p, a) = q$. We use $\vdash$ instead of $\vdash_A$ if there is no confusion. The transitive closure and the reflexive and transitive closure of $\vdash$ are denoted $\vdash^+$ and $\vdash^*$, respectively.
 
-The language accepted by a \index{$\DFA$}$\DFA$ $A = (Q, \Sigma, \delta, s, F)$, denoted $L(A)$, is defined as follows: $$L(A) = \{w \mid sw \vdash^* f \ \text{for some} \ f \in F\}.$$
+The language accepted by a \index{$\DFA$}$\DFA$ $A = (Q, \Sigma, \delta, s, F)$, denoted $L(A)$, is defined as follows:
+$$L(A) = \{w \mid sw \vdash^* f \ \text{for some} \ f \in F\}.$$
 
-For convenience, we define the extension of $\delta$, $\delta^*: Q \times \Sigma^* \to Q$, inductively as follows. We set $\delta^*(q, \lambda) = q$ and $\delta^*(q, xa) = \delta(\delta^*(q, x), a)$, for $q \in Q$, $a \in \Sigma$. Then we can also write: $$L(A) = \{w \mid \delta^*(s, w) = f \ \text{for some} \ f \in F\}.$$
+For convenience, we define the extension of $\delta$, $\delta^*: Q \times \Sigma^* \to Q$, inductively as follows. We set $\delta^*(q, \lambda) = q$ and $\delta^*(q, xa) = \delta(\delta^*(q, x), a)$, for $q \in Q$, $a \in \Sigma$. Then we can also write:
+$$L(A) = \{w \mid \delta^*(s, w) = f \ \text{for some} \ f \in F\}.$$
 
 \index{finite automaton!nondeterministic}Nondeterministic finite automata \index{$\NFA$}($\NFA$) are a generalization of \index{$\DFA$}$\DFA$ where, for a given state and an input symbol, the number of possible transitions can be greater than one. Formally, a \index{finite automaton!nondeterministic} \emph{nondeterministic finite automaton} $A$ is a quintuple $(Q, \Sigma, \delta, s, F)$ where $Q$, $\Sigma$, $s$, and $F$ are defined exactly the same way as for a \index{$\DFA$}$\DFA$, and $\delta: Q \times \Sigma \to 2^Q$ is the \index{transition!function}transition function.
 
@@ -116,9 +142,14 @@ A \emph{nondeterministic finite automaton with $\lambda$-transitions} \index{$\l
 
 For a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$ $A = (Q, \Sigma, \delta, s, F)$, the binary relation $\vdash_A: Q \Sigma^* \times Q \Sigma^*$ is defined by that $px \vdash_A qy$, for $p, q \in Q$ and $x, y \in \Sigma^*$, if $x = ay$ and $q \in \delta(p, a)$ or if $x = y$ and $q \in \delta(p, \lambda)$. The language accepted by $A$ is again defined in the same way as for \index{$\DFA$}$\DFA$.
 
-Let $A = (Q, \Sigma, \delta, s, F)$ be a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$. The \index{$\lambda$-closure}\emph{$\lambda$-closure} of a state $q \in Q$, denoted by $\lambda \text{-closure}(q)$, is the set of all states that are reachable from $q$ by zero or more $\lambda$-transitions, i.\,e.\ $$\lambda \text{-closure}(q) = \{q \in Q \mid q \vdash_A^* p \}.$$
+Let $A = (Q, \Sigma, \delta, s, F)$ be a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$. The \index{$\lambda$-closure}\emph{$\lambda$-closure} of a state $q \in Q$, denoted by $\lambda \text{-closure}(q)$, is the set of all states that are reachable from $q$ by zero or more $\lambda$-transitions, i.\,e.
+$$\lambda \text{-closure}(q) = \{q \in Q \mid q \vdash_A^* p \}.$$
 
-For a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$ $A = (Q, \Sigma, \delta, s, F)$ let $A' = (Q, \Sigma, \delta', s, F')$ be an \index{$\NFA$}$\NFA$, such that for each $q \in Q$ and $a \in \Sigma$, $$\delta'(p, a) = \delta(p, a) \cup \bigcup_{q \in \lambda \text{-closure}(p)}\delta(q, a)$$ and $$F' = \{ q \in Q \mid \lambda\text{-closure}(q) \cap F \neq \emptyset \}.$$ It can be easily verified that $L(A) = L(A')$.
+For a \index{$\lambda$-$\NFA$}$\lambda$-$\NFA$ $A = (Q, \Sigma, \delta, s, F)$ let $A' = (Q, \Sigma, \delta', s, F')$ be an \index{$\NFA$}$\NFA$, such that for each $q \in Q$ and $a \in \Sigma$,
+$$\delta'(p, a) = \delta(p, a) \cup \bigcup_{q \in \lambda \text{-closure}(p)}\delta(q, a)$$
+and
+$$F' = \{ q \in Q \mid \lambda\text{-closure}(q) \cap F \neq \emptyset \}.$$
+It can be easily verified that $L(A) = L(A')$.
 
 Another form of generalization of \index{$\NFA$}$\NFA$ is defined in the following.
 
@@ -189,10 +220,15 @@ The family of regular languages is closed under the following operations (we ass
 \end{enumerate}
 \end{theorem}
 
-Finally, we characterize the family of regular languages by a so-called \index{Myhill-Nerode theorem}Myhill-Nerode Theorem. Let $L \subseteq \Sigma^*$ and $x \in \Sigma^*$. The \emph{derivate} of $L$ with respect to $x$, denoted $D_x L$, is $$D_x L = x \backslash L = \{y \in \Sigma^* \mid xy \in L\}.$$
+Finally, we characterize the family of regular languages by a so-called \index{Myhill-Nerode theorem}Myhill-Nerode Theorem. Let $L \subseteq \Sigma^*$ and $x \in \Sigma^*$. The \emph{derivate} of $L$ with respect to $x$, denoted $\delta_x(L)$, is
+$$\delta_x(L) = x \backslash L = \{y \in \Sigma^* \mid xy \in L\}.$$
 
-For $L \subseteq \Sigma^*$, we define a relation $\equiv_L \subseteq \Sigma^* \times \Sigma^*$ by $$x \equiv_L y \Leftrightarrow D_x L = D_y L$$ for each pair $x, y \in \Sigma^*$. Clearly, $\equiv_L$ is an equivalence relation. It partitions $\Sigma^*$ into equivalence classes. The number of equivalence classes of $\equiv_L$ is called the \emph{index} of $\equiv_L$. 
-%We denote the equivalence class that contains $x$ by $[x]_{\equiv_L}$, i.\,e.\ $$[x]_{\equiv_L} = \{y \in \Sigma^* \mid y \equiv_L x\}.$$ Clearly, $x \equiv_L y$ if and only if $[x]_{\equiv_L} = [y]_{\equiv_L}$. We simply write $[x]$ instead of $[x]_{\equiv_L}$ if there is no confusion.
+For $L \subseteq \Sigma^*$, we define a relation $\equiv_L \subseteq \Sigma^* \times \Sigma^*$ by
+$$x \equiv_L y \Leftrightarrow \delta_x(L) = \delta_y(L)$$
+for each pair $x, y \in \Sigma^*$. Clearly, $\equiv_L$ is an equivalence relation. It partitions $\Sigma^*$ into equivalence classes. The number of equivalence classes of $\equiv_L$ is called the \emph{index} of $\equiv_L$. 
+%We denote the equivalence class that contains $x$ by $[x]_{\equiv_L}$, i.\,e.
+%$$[x]_{\equiv_L} = \{y \in \Sigma^* \mid y \equiv_L x\}.$$
+%Clearly, $x \equiv_L y$ if and only if $[x]_{\equiv_L} = [y]_{\equiv_L}$. We simply write $[x]$ instead of $[x]_{\equiv_L}$ if there is no confusion.
 The following \index{Myhill-Nerode theorem}Myhill-Nerode Theorem characterizes the family of regular languages.
 
 \begin{theorem}
@@ -224,11 +260,14 @@ A \index{grammar!context-free}\emph{context-free grammar} $G$ is a quadruple $G 
 
 Given words $u, v \in (V_N \cup V_T)^*$, we write $u \Rightarrow_G v$ whenever there exist factorizations $u = x X y$, $v = x \alpha y$, with production $(X, \alpha) \in P$. A \index{derivation}\emph{derivation} of length $k \ge 0$ from $u$ to $v$ is a sequence $(u_0, u_1, \ldots, u_k)$ of words in $(V_N \cup V_T)^*$ such that $u_{i-1} \Rightarrow_G u_i$ for $i = 1, 2, \ldots, k$, and $u = u_0, v = u_k$. If this holds, we write $u \Rightarrow^k_G v$. The existence of some derivation from $u$ to $v$ is denoted by $u \Rightarrow^*_G v$. If there is a proper derivation
 (i.\,e.\ of length $\ge 1$), we use the notation $u \Rightarrow^+_G v$. The \emph{language generated by a nonterminal $X$} in the grammar $G$ is the set
-$$L_G(X) = \{w \in V_T^* \mid X \Rightarrow^*_G w\}.$$ The \emph{language generated by the grammar $G$} is $L_G(S)$ and is denoted, for short, $L_G$ or $L(G)$.
+$$L_G(X) = \{w \in V_T^* \mid X \Rightarrow^*_G w\}.$$
+The \emph{language generated by the grammar $G$} is $L_G(S)$ and is denoted, for short, $L_G$ or $L(G)$.
 
 A language $L$ is called \index{language!context-free}\emph{context-free} if it is the language generated by some context-free grammar. Two grammars $G$ and $G'$ are \emph{equivalent} if they generate the same language, i.\,e.\ if $L(G) = L(G')$.
 
-More generally, if $x \in (V_N \cup V_T)^*$, we set $$L_G(x) = \{w \in V_T^* \mid x \Rightarrow^*_G w\}.$$ Context-freeness easily implies that $L_G(xy) = L_G(x) L_G(y)$.
+More generally, if $x \in (V_N \cup V_T)^*$, we set
+$$L_G(x) = \{w \in V_T^* \mid x \Rightarrow^*_G w\}.$$
+Context-freeness easily implies that $L_G(xy) = L_G(x) L_G(y)$.
 
 Consider a derivation $u = u_0 \Rightarrow_G u_1 \Rightarrow_G \ldots \Rightarrow_G u_k = v$, with $u, v \in (V_N \cup V_T)^*$. Then there exist productions $p_i = (X_i, \alpha_i)$ and words $x_i$, $y_i$ such that $u_i = x_i X_i y_i$ and $u_{i+1} = x_i \alpha_i y_i$ for $i = 0, 1, \ldots, k-1$. The derivation is \index{derivation!leftmost}\emph{leftmost} if $|x_i| \le |x_{i+1}|$ for $i = 0, 1, \ldots k-2$, and \index{derivation!rightmost}\emph{rightmost} if, symmetrically, $|y_i| \le |y_{i+1}|$ for $i = 0, 1, \ldots k-2$. It is an interesting fact that any word in a context-free language $L_G(X)$ has the same number of leftmost and of rightmost derivations. A context-free grammar $G$ is \index{grammar!unambiguous}\emph{unambiguous} for a nonterminal $X$ if every word in $L_G(X)$ has exactly one leftmost (rightmost) derivation. A language is \index{language!unambiguous}\emph{unambiguous} if there is an unambiguous grammar to generate it, otherwise it is called \index{language!ambiguous}\emph{inherently ambiguous}.
 
@@ -260,9 +299,12 @@ There are several convenient shorthands to describe context-free grammars. Usual
 
 Subsequently, we make use of the following notation. Let $A$ be an alphabet. A \index{copy}\emph{copy} of $A$ is an alphabet that is disjoint from $A$ and in bijection with $A$. A copy is often denoted $\bar{A}$ or $A'$. This implicitly means that the bijection is denoted similarly, namely as the mapping $a \mapsto \bar{a}$ or $a \mapsto a'$. The inverse bijection is denoted the same, that is $\bar{\bar{a}} = a$ ($(a')' = a$, respectively), and it is extended to a bijection from $(A \cup \bar{A})^*$ into itself  by $\overline{xy} = \bar{x} \bar{y}$ (similarly for $(A \cup A')^*$).
 
-Let $A$ be an alphabet and let $\bar{A}$ be a copy. The \index{Dyck language}\emph{Dyck language} over $A \cup \bar{A}$ is the language $D^*_A$ generated by $S$ in the grammar: $$S \to TS \mid \lambda; \ \ T \to a S \bar{a} \text{ for all } a \in A.$$ If $A$ has $n$ letters, then the notation $D^*_n$ is frequently used instead of $D^*_A$.
+Let $A$ be an alphabet and let $\bar{A}$ be a copy. The \index{Dyck language}\emph{Dyck language} over $A \cup \bar{A}$ is the language $D^*_A$ generated by $S$ in the grammar: 
+$$S \to TS \mid \lambda; \ \ T \to a S \bar{a} \text{ for all } a \in A.$$
+If $A$ has $n$ letters, then the notation $D^*_n$ is frequently used instead of $D^*_A$.
 
-The \index{Lukasiewicz language}\emph{Lukasiewicz language} is the language generated by the grammar: $$S \to aSS \mid \bar{a}$$ It is sometimes denoted by ${\L}$. It can be proved that ${\L} = D^*_1 \bar{a}$.
+The \index{Lukasiewicz language}\emph{Lukasiewicz language} is the language generated by the grammar:
+$$S \to aSS \mid \bar{a}$$ It is sometimes denoted by ${\L}$. It can be proved that ${\L} = D^*_1 \bar{a}$.
 
 \subsection{Normal Forms}
 \label{subsection:context-free-normal-forms}
@@ -319,7 +361,9 @@ A pushdown machine is \index{pushdown machine!realtime}\emph{realtime} if $T$ is
 
 An \index{configuration!internal}\emph{internal configuration} of a \index{$\pdm$}$\pdm$ $M$ is a couple $(q, h) \in Q \times Z^*$, where $q$ is the current state, and $h$ is the string over $Z^*$ composed of the symbols in the stack, the first letter of $h$ being the bottom-most symbol of the stack. A \index{configuration}\emph{configuration} is a triple $(x, q, h) \in \Sigma^* \times Q \times Z^*$, where $x$ is the input word to be read, and $(q, h)$ is an internal configuration.
 
-The \index{transition!relation}\emph{transition relation} is a relation over configurations defined in the following way: let $c = (yg, q, wz)$ and $c' = (g, q', wh)$ be two configurations, where $y \in (\Sigma \cup \{\lambda\})$, $g \in \Sigma^*$, $q, q' \in Q$, $z \in Z$, and $w, h \in Z^*$. There is a \index{transition}\emph{transition} between $c$ and $c'$, and we note $c \mapsto c'$, if $(y, q, z, h, q') \in T$. If $y = \lambda$, the transition is called a \index{transition!$\lambda$-transition}$\lambda$-transition, and if $y \in \Sigma$, the transition  is said to involve the reading of a letter. A \index{computation!valid}\emph{valid computation} is an element of the reflexive and transitive closure of the transition relation, and we note $c \mapsto^* c'$ a valid computation from $c$ and leading to $c'$. A convenient notation is to introduce, for any word $x \in \Sigma^*$, the relation on internal configurations, denoted $\xrightarrow{x}$, and defined by: $$(q, w) \xrightarrow{x} (q', w') \Leftrightarrow (x, q, w) \mapsto^* (\lambda, q', w').$$ We clearly have: $\xrightarrow{x} \circ \xrightarrow{y}\ =\ \xrightarrow{xy}$.
+The \index{transition!relation}\emph{transition relation} is a relation over configurations defined in the following way: let $c = (yg, q, wz)$ and $c' = (g, q', wh)$ be two configurations, where $y \in (\Sigma \cup \{\lambda\})$, $g \in \Sigma^*$, $q, q' \in Q$, $z \in Z$, and $w, h \in Z^*$. There is a \index{transition}\emph{transition} between $c$ and $c'$, and we note $c \mapsto c'$, if $(y, q, z, h, q') \in T$. If $y = \lambda$, the transition is called a \index{transition!$\lambda$-transition}$\lambda$-transition, and if $y \in \Sigma$, the transition  is said to involve the reading of a letter. A \index{computation!valid}\emph{valid computation} is an element of the reflexive and transitive closure of the transition relation, and we note $c \mapsto^* c'$ a valid computation from $c$ and leading to $c'$. A convenient notation is to introduce, for any word $x \in \Sigma^*$, the relation on internal configurations, denoted $\xrightarrow{x}$, and defined by:
+$$(q, w) \xrightarrow{x} (q', w') \Leftrightarrow (x, q, w) \mapsto^* (\lambda, q', w').$$
+We clearly have: $\xrightarrow{x} \circ \xrightarrow{y}\ =\ \xrightarrow{xy}$.
 
 An internal configuration $(q', w')$ is \index{configuration!internal!accessible}\emph{accessible} from an internal configuration $(q, w)$, or equivalently, $(q, w)$ is \index{configuration!internal!co-accessible}\emph{co-accessible} from $(q', w')$ if there is some $x \in \Sigma^*$ such that $(q, w) \xrightarrow{x} (q', w')$.
 
@@ -461,7 +505,8 @@ The phrase-structure, context-sensitive, context-free, and regular grammars are 
 \index{$\mathcal{L}_1$}$\mathcal{L}_1$ (or \index{$\CSL$}$\CSL$), 
 \index{$\mathcal{L}_2$}$\mathcal{L}_2$ (or \index{$\CFL$}$\CFL$), and 
 \index{$\mathcal{L}_3$}$\mathcal{L}_4$ (or \index{$\Reg$}$\Reg$), respectively.
-The following strict inclusions hold: $$\Reg \subset \Lin \subset \CFL \subset \CSL \subset \RE.$$
+The following strict inclusions hold:
+$$\Reg \subset \Lin \subset \CFL \subset \CSL \subset \RE.$$
 
 Type $0$ grammars and languages are equivalent to \emph{computability}: what is in principle computable. Thus, their importance is beyond any question. The same or almost the same can be said about regular grammars and languages. They correspond to strictly finitary computing devices. The remaining two classes lie in-between.
 
@@ -484,11 +529,14 @@ languages} is taken from \cite{Buntrock19981}. For brevity, we omit definitions 
 
 A \index{grammar!phrase-structure}\emph{phrase-structure} grammar or a \index{grammar!type $0$}\emph{type $0$} Chomsky grammar is a construct $G = (V_N, V_T, S, P)$, $V_N$ and $V_T$ are disjoint alphabets, $S \in V_N$ and $P$ is a finite set of ordered pairs $(u, v)$, where $u, v \in (V_N \cup V_T)^*$ and $u$ contains at least one element from $V_N$.
 
-As in Section \ref{subsection:context-free-grammars}, elements in $V_N$ are referred to as \index{nonterminal}\emph{nonterminals}, $V_T$ is the  \index{terminal}\emph{terminal} alphabet, $S$ is the \index{start symbol}\emph{start symbol} (or \index{axiom}\emph{axiom}) and $P$ is the set of \index{production} \emph{productions} or \index{rewriting rule}\emph{rewriting rules}. Productions $(u, v)$ are written $u \to v$. The \index{derivation!direct}\emph{direct derivation} relation induced by $G$ is a binary relation between words over $V_N \cup V_T$, denoted $\Rightarrow_G$, and defined as: $$\alpha \Rightarrow_G \beta \Leftrightarrow \alpha = xuy, \beta = xvy, \text{ and } (u \to v) \in P,$$ where $\alpha, \beta, x, y \in (V_N \cup V_T)^*$.
+As in Section \ref{subsection:context-free-grammars}, elements in $V_N$ are referred to as \index{nonterminal}\emph{nonterminals}, $V_T$ is the  \index{terminal}\emph{terminal} alphabet, $S$ is the \index{start symbol}\emph{start symbol} (or \index{axiom}\emph{axiom}) and $P$ is the set of \index{production} \emph{productions} or \index{rewriting rule}\emph{rewriting rules}. Productions $(u, v)$ are written $u \to v$. The \index{derivation!direct}\emph{direct derivation} relation induced by $G$ is a binary relation between words over $V_N \cup V_T$, denoted $\Rightarrow_G$, and defined as: 
+$$\alpha \Rightarrow_G \beta \Leftrightarrow \alpha = xuy, \beta = xvy, \text{ and } (u \to v) \in P,$$
+where $\alpha, \beta, x, y \in (V_N \cup V_T)^*$.
 
 The \index{derivation!relation}\emph{derivation relation} induced by $G$, denoted $\Rightarrow^*_G$, is the reflexive and transitive closure of the relation $\Rightarrow_G$.
 
-The \emph{language} generated by $G$, denoted $L(G)$, is: $$L(G) = \{w \in V_T^* \mid S \Rightarrow^*_G w\}.$$
+The \emph{language} generated by $G$, denoted $L(G)$, is:
+$$L(G) = \{w \in V_T^* \mid S \Rightarrow^*_G w\}.$$
 
 A language $L$ is of type $0$ if there exists a grammar $G$ of type $0$ such that $L = L(G)$. The family of all languages of type $0$ is denoted by \index{$\mathcal{L}_0$}$\mathcal{L}_0$.
 
@@ -507,19 +555,28 @@ It can be shown, that $L$ is a context-sensitive language if and only if there e
 
 Let $L = \{a^n b^n c^n \mid n \ge 1\}$. It can be shown, that $L$ is a context-sensitive language. This immediately implies, that the family of context-free languages is strictly contained in the family of context-sensitive languages, since $L \notin \CFL$.
 
-Now we characterize the family of context-sensitive languages by a so-called \index{workspace theorem}\emph{Workspace Theorem}. Let $G = (V_N, V_T, S, P)$ be a type $0$ grammar and consider a derivation $D$ according to $G$, $$D: S = w_0 \Rightarrow_G w_1 \Rightarrow_G \ldots \Rightarrow_G w_n = w.$$ The \emph{workspace} of $w$ by the derivation $D$ is: $$WS_G(w, D) = \max \{|w_i| \mid 0 \le i \le n\}.$$ The \emph{workspace} of $w$ is: $$WS_G(w) = \min \{WS_G(w, D) \mid D \text{ is a derivation of } w\}.$$ Observe that $WS_G(w) \ge |w|$ for all $G$ and $w$.
+Now we characterize the family of context-sensitive languages by a so-called \index{workspace theorem}\emph{Workspace Theorem}. Let $G = (V_N, V_T, S, P)$ be a type $0$ grammar and consider a derivation $D$ according to $G$,
+$$D: S = w_0 \Rightarrow_G w_1 \Rightarrow_G \ldots \Rightarrow_G w_n = w.$$
+The \emph{workspace} of $w$ by the derivation $D$ is:
+$$WS_G(w, D) = \max \{|w_i| \mid 0 \le i \le n\}.$$
+The \emph{workspace} of $w$ is:
+$$WS_G(w) = \min \{WS_G(w, D) \mid D \text{ is a derivation of } w\}.$$
+Observe that $WS_G(w) \ge |w|$ for all $G$ and $w$.
 
 The following \emph{Workspace Theorem} is a powerful tool in showing languages to be context-sensitive.
 
 \index{workspace theorem}
 \begin{theorem}[Workspace theorem]
-If $G$ is a type $0$ grammar and if there is a nonnegative integer $k$ such that $$WS_G(w) \le k |w| \text{ for all nonempty words } w \in L(G),$$ then $L(G)$ is a context-sensitive language.
+If $G$ is a type $0$ grammar and if there is a nonnegative integer $k$ such that
+$$WS_G(w) \le k |w| \text{ for all nonempty words } w \in L(G),$$
+then $L(G)$ is a context-sensitive language.
 \end{theorem}
 
 The family of context-sensitive languages can also be characterized in terms of so-called \index{linear bounded automaton}\emph{linear bounded automata}. Linear bounded automata are a special type of Turing machines, which are closely related to a certain class of Turing space complexity, $\classNSPACE(n)$. More precisely, a linear bounded automaton \index{$\LBA$}($\LBA$) is a nondeterministic Turing machine of space complexity $S(n) = n$.
 
 \begin{theorem}
-The family $\mathcal{L}_1 = \CSL$ is equal to the family of languages accepted by linear bounded automata, i.\,e.\ $$\CSL = \classNSPACE(n).$$
+The family $\mathcal{L}_1 = \CSL$ is equal to the family of languages accepted by linear bounded automata, i.\,e.
+$$\CSL = \classNSPACE(n).$$
 \end{theorem}
 
 However, it is not known whether the inclusion $\classDSPACE(n) \subseteq \classNSPACE(n)$ is strict or not.

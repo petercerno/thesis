@@ -20,9 +20,10 @@
 \newcommand{\Pref}{\textup{\sf Pref\/}}
 \newcommand{\Suff}{\textup{\sf Suff\/}}
 \newcommand{\Int}{\textup{\sf Int\/}}
-\newcommand{\Fin}{\textup{\sf Fin}}
 
-\newcommand{\Reg}{\textup{\sf Reg}}
+\newcommand{\Fin}{\textup{\sf FIN}}
+
+\newcommand{\Reg}{\textup{\sf REG}}
 
 \newcommand{\FA}{\textup{\sf FA}}
 \newcommand{\DFA}{\textup{\sf DFA}}
@@ -40,8 +41,8 @@
 % TODO(petercerno): Define!
 \newcommand{\TPDA}{\textup{\sf TPDA}}
 
-\newcommand{\Lin}{\textup{\sf Lin}}
-\newcommand{\Ocl}{\textup{\sf Ocl}}
+\newcommand{\Lin}{\textup{\sf LIN}}
+\newcommand{\Ocl}{\textup{\sf OCL}}
 \newcommand{\LL}{\textup{\sf LL}}
 \newcommand{\LR}{\textup{\sf LR}}
 
@@ -166,6 +167,9 @@
 
 \let\oldnl\nl% Store \nl in \oldnl
 \newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+
+\newcommand{\ACSL}{\textup{\sf ACSL}}
+\newcommand{\GACSL}{\textup{\sf GACSL}}
 
 \newcommand{\lcRA}[1][]{\ifthenelse{\equal{#1}{}}{\textup{\sf lc-RA}}{\textup{\sf lc-RA$[\mathcal{R}_#1]$}}\xspace}
 \newcommand{\lcRAp}[1][]{\ifthenelse{\equal{#1}{}}{\textup{\sf lc-RA}}{\textup{\sf lc-RA$[\mathcal{R}_#1']$}}\xspace}

@@ -44,3 +44,8 @@
 2015-04-05
 
 [ ] TODO: Use a special equality symbol for the equality that does not consider the empty word.
+
+2015-04-06
+
+[ ] TODO: Search for all occurences of {\sf } {\bf } etc.
+[ ] TODO: Use either \subsetneq or \subset.
