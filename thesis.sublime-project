@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+            "file_exclude_patterns": ["*.aux", "*.bbl", "*.blg", "*.bst", "*.eps", "*.gz", "*.idx", "*.ilg", "*.ind", "*.lof", "*.log", "*.lot", "*.out", "*.pdf", "*.toc", "*.zip"],
+		}
+	]
+}

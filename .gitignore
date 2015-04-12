@@ -10,4 +10,5 @@
 *.lot
 *.out
 *.pdf
+*.sublime-workspace
 *.toc
