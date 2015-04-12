@@ -1,218 +1,228 @@
 \chapwithtoc{List of Symbols}
 
-\noindent{\bf Standard mathematical symbols}.
+\noindent{\bf Standard Mathematical Symbols}.
 
 \begin{enumerate}[]
-\item $\N$: set of (positive) natural numbers.
+\item $\N$\ : set of (positive) natural numbers.
 \end{enumerate}
 
-\noindent{\bf Words and languages} (see Section \ref{section:words-and-languages}).
+\noindent{\bf Words and Languages} (see Section \ref{section:words-and-languages}).
 
 \begin{enumerate}[]
-\item $a, b, c, d$: symbols usually reserved for letters.
-\item $u, v, w, x, y, z$: symbols usually reserved for words.
-\item $\Sigma$: usually denotes an (input) alphabet.
-\item $\Gamma$: usually denotes a working alphabet (with auxiliary symbols).
-\item $L, L_0, L_1, L_2$: symbols usually reserved for languages (over $\Sigma$ or $\Gamma$).
-\item $\Sigma^*$: set of all words over $\Sigma$.
-\item $\Sigma^+$: set of all nonempty words over $\Sigma$.
-\item $\Sigma^k$: set of all words over $\Sigma$ of length $k$.
-\item $\Sigma^{\le k}$: set of all words over $\Sigma$ of length at most $k$.
-\item $\lambda$: the empty word.
-\item $|w|$: length of the word $w$.
-\item $|w|_a$: number of occurences of the letter $a$ in the word $w$.
-\item $u \cdot v$ (or $uv$): catenation (or concatenation) of the words $u$ and $v$.
-\item $w^i$: is defined as follows: $w^0 = \lambda$, $w^{i+1} = w^i \cdot w$.
-\item $w^R$: reversal (mirror image) of a word $w$.
-\item $\Pref_k(u)$: prefix of length $k$ of the word $u$.
-\item $\Suff_k(u)$: suffix of length $k$ of the word $u$.
-\item $\Int_k(u)$: interior words of length $k$ that occur in $u$.
-\item $L_1 \cup L_2$: union of languages $L_1$ and $L_2$.
-\item $L_1 \cap L_2$: intersection of languages $L_1$ and $L_2$.
-\item $L_1 \cdot L_2$ (or $L_1 L_2$): catenation (or concatenation) of languages $L_1$ and $L_2$.
-\item $L^i$: is defined as follows: $L^0 = \{\lambda\}$, $L^{i+1} = L^i \cdot L$.
-\item $L^*$ ($L^+$, respectively): Kleene star (Kleene plus, respectively) of a language $L$.
-\item $L^R$: reversal (mirror image) of a language $L$.
-\item $\delta_x(L) = x \backslash L$: left-derivate of $L$ with respect to $x \in \Sigma^*$.
-\item $\delta^x(L) = L / x$: right-derivate of $L$ with respect to $x \in \Sigma^*$.
-\item $L_0 \backslash L$: left-quotient of $L$ by $L_0$.
-\item $L / L_0$: right-quotient of $L$ by $L_0$.
-\item $2^S$ (or \index{$\mathcal{P}(S)$}$\mathcal{P}(S)$): power set of $S$, i.\,e.\ the collection of all subsets of $S$.
-\item $\calLL$: set of languages.
-\item $\calM$: set of models (automata, grammars, context rewriting systems, etc.).
-\item $\calL{\calM}$: set of languages accepted (recognized, generated, etc.) by the set of models (automata, grammars, context rewriting systems, etc.) $\calM$.
-\item $\calA$: symbol denoting an algorithm.
-\item $\Fin$: finite languages.
+\item $a, b, c, d$\ : symbols usually reserved for letters.
+\item $u, v, w, x, y, z$\ : symbols usually reserved for words.
+\item $\lambda$\ : the empty word.
+\item $\Sigma$\ : usually denotes an (input) alphabet.
+\item $\Gamma$\ : usually denotes a working alphabet (with auxiliary symbols).
+\item $L, L_0, L_1, L_2$\ : symbols usually reserved for languages (over $\Sigma$ or $\Gamma$).
+\item $=$\ : equality of numbers, sets, languages, etc.
+\item $\dot{=}$\ : equality of languages up to the empty word. $L\, \dot{=}\, L' \Leftrightarrow L \cup \{\lambda\} = L' \cup \{\lambda\}$.
+\item $\subseteq$\ : subset or equal.
+\item $\supseteq$\ : superset or equal.
+\item $\subset$\ : proper subset.
+\item $\supset$\ : proper superset.
+\item $\Sigma^*$\ : set of all words over $\Sigma$.
+\item $\Sigma^+$\ : set of all nonempty words over $\Sigma$.
+\item $\Sigma^k$\ : set of all words over $\Sigma$ of length $k$.
+\item $\Sigma^{\le k}$\ : set of all words over $\Sigma$ of length at most $k$.
+\item $|w|$\ : length of the word $w$.
+\item $|w|_a$\ : number of occurences of the letter $a$ in the word $w$.
+\item $u \cdot v$ (or $uv$)\ : catenation (or concatenation) of the words $u$ and $v$.
+\item $w^i$\ : is defined as follows\ : $w^0 = \lambda$, $w^{i+1} = w^i \cdot w$.
+\item $w^R$\ : reversal (mirror image) of a word $w$.
+\item $\Pref_k(u)$\ : prefix of length $k$ of the word $u$.
+\item $\Suff_k(u)$\ : suffix of length $k$ of the word $u$.
+\item $\Int_k(u)$\ : interior words of length $k$ that occur in $u$.
+\item $L_1 \cup L_2$\ : union of languages $L_1$ and $L_2$.
+\item $L_1 \cap L_2$\ : intersection of languages $L_1$ and $L_2$.
+\item $L_1 \cdot L_2$ (or $L_1 L_2$)\ : catenation (or concatenation) of languages $L_1$ and $L_2$.
+\item $L^i$\ : is defined as follows\ : $L^0 = \{\lambda\}$, $L^{i+1} = L^i \cdot L$.
+\item $L^*$ ($L^+$, respectively)\ : Kleene star (Kleene plus, respectively) of a language $L$.
+\item $L^R$\ : reversal (mirror image) of a language $L$.
+\item $\delta_x(L) = x \backslash L$\ : left-derivate of $L$ with respect to $x \in \Sigma^*$.
+\item $\delta^x(L) = L / x$\ : right-derivate of $L$ with respect to $x \in \Sigma^*$.
+\item $L_0 \backslash L$\ : left-quotient of $L$ by $L_0$.
+\item $L / L_0$\ : right-quotient of $L$ by $L_0$.
+\item $2^S$ (or $\mathcal{P}(S)$)\ : power set of $S$, i.\,e.\ the collection of all subsets of $S$.
+\item $\calLL$\ : set of languages.
+\item $\calM$\ : set of models (automata, grammars, context rewriting systems, etc.).
+\item $\calL{\calM}$\ : set of languages accepted (recognized, generated, etc.) by the set of models (automata, grammars, context rewriting systems, etc.) $\calM$.
+\item $\calA$\ : symbol denoting an algorithm.
+\item $\Fin$\ : finite languages.
 \end{enumerate}
 
 \noindent{\bf Regular Languages} (see Section \ref{section:regular-languages}).
 
 \begin{enumerate}[]
-\item $\Reg$: regular languages.
+\item $\Reg$\ : regular languages.
 \end{enumerate}
 
 \noindent{\em Finite Automata} (see Section \ref{subsection:finite-automata}).
 
 \begin{enumerate}[]
-\item $A$: usually denotes a finite automaton.
-\item $Q$: usually denotes a finite set of states.
-\item $\FA$: finite automaton.
-\item $\DFA$: deterministic finite automaton.
-\item $\NFA$: nondeterministic finite automaton.
-\item $\lambda$-$\NFA$: nondeterministic finite automaton with $\lambda$-transitions.
-\item $\NNFA$: $\NFA$ with nondeterministic starting state.
+\item $A$\ : usually denotes a finite automaton.
+\item $Q$\ : usually denotes a finite set of states.
+\item $\FA$\ : finite automaton.
+\item $\DFA$\ : deterministic finite automaton.
+\item $\NFA$\ : nondeterministic finite automaton.
+\item $\lambda$-$\NFA$\ : nondeterministic finite automaton with $\lambda$-transitions.
+\item $\NNFA$\ : $\NFA$ with nondeterministic starting state.
 \end{enumerate}
 
-\noindent{\bf Context-free languages} (see Section \ref{section:context-free-languages}).
+\noindent{\bf Context-Free Languages} (see Section \ref{section:context-free-languages}).
 
 \begin{enumerate}[]
-\item $\CFL$: context-free languages.
-\item $V_T$: usually denotes a set of terminals (or terminal letters).
-\item $V_N$: usually denotes a set of nonterminals (or variables).
-\item $G$: usually denotes a grammar.
-\item $L(G)$ or $L_G$: usually a language generated by the grammar $G$.
+\item $\CFL$\ : context-free languages.
+\item $V_T$\ : usually denotes a set of terminals (or terminal letters).
+\item $V_N$\ : usually denotes a set of nonterminals (or variables).
+\item $G$\ : usually denotes a grammar.
+\item $X \to \alpha$\ : shorthand for a production $(X, \alpha)$.
+\item $u \Rightarrow_G v$\ : single step derivation relation of a grammar $G$.
+\item $u \Rightarrow_G^* v$\ : reflexive and transitive closure of $\Rightarrow_G$.
+\item $L(G)$ or $L_G$\ : language generated by a grammar $G$.
 \end{enumerate}
 
-\noindent{\em Pushdown machines} (see Section \ref{subsection:pushdown-machines}).
+\noindent{\em Pushdown Machines} (see Section \ref{subsection:pushdown-machines}).
 
 \begin{enumerate}[]
-\item $\pdm$: pushdown machine.
-\item $\pda$: pushdown automaton.
-\item $\dpda$: deterministic pushdown automaton.
-\item $\DCFL$: deterministic context-free languages.
-\item $\symDCFL$: $\symDCFL = \DCFL\cap\DCFL^R$.
+\item $\pdm$\ : pushdown machine.
+\item $\pda$\ : pushdown automaton.
+\item $\dpda$\ : deterministic pushdown automaton.
+\item $\DCFL$\ : deterministic context-free languages.
+\item $\symDCFL$\ : $\DCFL\cap\DCFL^R$.
 \end{enumerate}
 
-% TODO(petercerno): Define!
+% TODO(petercerno)\ : Define!
 %$\TPDA$
 
 \noindent{\em Subfamilies} (see Section \ref{subsection:context-free-subfamilies}).
 
 \begin{enumerate}[]
-\item $\Lin$: linear languages.
-\item $\Ocl$: one-counter languages.
-\item $\LL(k)$-language: language generated by a $\LL(k)$-grammar.
-\item $\LR(k)$-language: language generated by a $\LR(k)$-grammar.
+\item $\Lin$\ : linear languages.
+\item $\Ocl$\ : one-counter languages.
+\item $\LL(k)$-language\ : language generated by a $\LL(k)$-grammar.
+\item $\LR(k)$-language\ : language generated by a $\LR(k)$-grammar.
 \end{enumerate}
 
 \noindent{\bf Chomsky Hierarchy} (see Section \ref{section:chomsky-hierarchy}).
 
 \begin{enumerate}[]
-\item $\RE$ ($\mathcal{L}_0$): recursively enumerable languages.
-\item $\CSL$ ($\mathcal{L}_1$): context-sensitive languages.
-\item $\CFL$ ($\mathcal{L}_2$): context-free languages.
-\item $\Reg$ ($\mathcal{L}_4$): regular languages.
+\item $\RE$ (or $\mathcal{L}_0$)\ : recursively enumerable languages.
+\item $\CSL$ (or $\mathcal{L}_1$)\ : context-sensitive languages.
+\item $\CFL$ (or $\mathcal{L}_2$)\ : context-free languages.
+\item $\Reg$ (or $\mathcal{L}_4$)\ : regular languages.
 \end{enumerate}
 
 \noindent{\em Context-Sensitive Grammars} (see Section \ref{subsection:context-sensitive-grammars}).
 
 \begin{enumerate}[]
-\item $\LBA$: linear bounded automaton.
-\item $\DCSL$: deterministic context-sensitive languages.
-\item $\GCSL$: growing context-sensitive languages.
+\item $\LBA$\ : linear bounded automaton.
+\item $\DCSL$\ : deterministic context-sensitive languages.
+\item $\GCSL$\ : growing context-sensitive languages.
 \end{enumerate}
 
-\noindent{\bf Computational complexity theory}.
+\noindent{\bf Computational Complexity Theory}.
 
 \begin{enumerate}[]
-\item $\SAT$: boolean satisfiability problem.
-\item $\classP$: decision problems decidable in deterministic polynomial time.
-\item $\classNP$: decision problems decidable in nondeterministic polynomial time.
-\item $\classDSPACE(n)$: decision problems decidable in deterministic linear space.
-\item $\classNSPACE(n)$: decision problems decidable in nondeterministic linear space.
-\item $\classPSPACE$: decision problems decidable in polynomial space.
+\item $\SAT$\ : boolean satisfiability problem.
+\item $\classP$\ : decision problems decidable in deterministic polynomial time.
+\item $\classNP$\ : decision problems decidable in nondeterministic polynomial time.
+\item $\classDSPACE(n)$\ : decision problems decidable in deterministic linear space.
+\item $\classNSPACE(n)$\ : decision problems decidable in nondeterministic linear space.
+\item $\classPSPACE$\ : decision problems decidable in polynomial space.
 \end{enumerate}
 
-\noindent{\bf Restarting automata} (see Section \ref{section:restarting-automata}).
+\noindent{\bf Restarting Automata} (see Section \ref{section:restarting-automata}).
 
 \begin{enumerate}[]
-\item $\cent$: left sentinel.
-\item $\$$: right sentinel.
-\item $\MVR$: move-right step causes a restarting automaton to shift the read/write window one position to the right and to enter a new state.
-\item $\MVL$: move-left step causes a restarting automaton to shift the read/write window one position to the left and to enter a new state.
-\item $\Rewrite$: rewrite step causes a restarting automaton to replace the content of the read/write window by a new shorter string, thereby shortening the tape, and to enter state a new state. Further, the read/write window is placed immediately to the right of the new string.
-\item $\Restart$: restart step causes a restarting automaton to place its read/write window over the left end of the tape, so that the first symbol it sees is the left border marker $\cent$, and to reenter the initial state $q_0$.
-\item $\Accept$: accept step causes a restarting automaton to halt and accept.
-\item $\RLWW$-automaton: the most general restarting automaton. Each cycle of each computation of an $\RLWW$-automaton $M$ consists of three phases: first $M$ scans its tape performing $\MVR$- and $\MVL$-instructions, then it executes a $\Rewrite$ step, and finally it scans its tape again performing $\MVR$- and $\MVL$-instructions.
-\item $\RLW$-automaton: $\RLWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
-\item $\RL$-automaton: $\RLW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
-\item $\RRWW$-automaton: $\RLWW$-automaton that does not use any $\MVL$-steps. Thus, in each cycle an $\RRWW$-automaton can scan its tape only once from left to right.
-\item $\RRW$-automaton: $\RRWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
-\item $\RR$-automaton: $\RRW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
-\item $\RWW$-automaton: $\RRWW$-automaton such that it makes restart immediately after performing a $\Rewrite$ operation. In particular, this means that it cannot perform a rewrite step during the tail of a computation.
-\item $\RW$-automaton: $\RWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
-\item $\R$-automaton: $\RW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
-\item $\monPrefix$: The prefix $\monPrefix$ denotes the classes of monotone restarting automata.
-\item $\detPrefix$: The prefix $\detPrefix$ denotes deterministic classes of restarting automata.
+\item $\cent$\ : left sentinel.
+\item $\$$\ : right sentinel.
+\item $\MVR$\ : move-right step causes a restarting automaton to shift the read/write window one position to the right and to enter a new state.
+\item $\MVL$\ : move-left step causes a restarting automaton to shift the read/write window one position to the left and to enter a new state.
+\item $\Rewrite$\ : rewrite step causes a restarting automaton to replace the content of the read/write window by a new shorter string, thereby shortening the tape, and to enter state a new state. Further, the read/write window is placed immediately to the right of the new string.
+\item $\Restart$\ : restart step causes a restarting automaton to place its read/write window over the left end of the tape, so that the first symbol it sees is the left border marker $\cent$, and to reenter the initial state $q_0$.
+\item $\Accept$\ : accept step causes a restarting automaton to halt and accept.
+\item $\RLWW$-automaton\ : the most general restarting automaton. Each cycle of each computation of an $\RLWW$-automaton $M$ consists of three phases\ : first $M$ scans its tape performing $\MVR$- and $\MVL$-instructions, then it executes a $\Rewrite$ step, and finally it scans its tape again performing $\MVR$- and $\MVL$-instructions.
+\item $\RLW$-automaton\ : $\RLWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
+\item $\RL$-automaton\ : $\RLW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
+\item $\RRWW$-automaton\ : $\RLWW$-automaton that does not use any $\MVL$-steps. Thus, in each cycle an $\RRWW$-automaton can scan its tape only once from left to right.
+\item $\RRW$-automaton\ : $\RRWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
+\item $\RR$-automaton\ : $\RRW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
+\item $\RWW$-automaton\ : $\RRWW$-automaton such that it makes restart immediately after performing a $\Rewrite$ operation. In particular, this means that it cannot perform a rewrite step during the tail of a computation.
+\item $\RW$-automaton\ : $\RWW$-automaton such that its tape alphabet coincides with its input alphabet $\Sigma$, that is, no auxiliary symbols are available.
+\item $\R$-automaton\ : $\RW$-automaton for which the right-hand side of each $\Rewrite$ step is a scattered subword of the left-hand side.
+\item $\monPrefix$\ : The prefix $\monPrefix$ denotes the classes of monotone restarting automata.
+\item $\detPrefix$\ : The prefix $\detPrefix$ denotes deterministic classes of restarting automata.
 \end{enumerate}
 
-\noindent{\bf String-rewriting systems} (see Section \ref{section:string-rewriting-systems}).
+\noindent{\bf String-Rewriting Systems} (see Section \ref{section:string-rewriting-systems}).
 
 \begin{enumerate}[]
-\item $R$: usually denotes a string-rewriting system.
-\item $\SRS$: string-rewriting system.
-\item $\dom(R)$: domain of a $\SRS$ $R$.
-\item $\rng(R)$: range of a $\SRS$ $R$.
-\item $\|R\|$: size of a $\SRS$ $R$.
-\item $u \to_R v$: single-step reduction relation induced by a $\SRS$ $R$.
-\item $u \to_R^* v$: reflexive and transitive closure of $\to_R$.
-\item $\Delta_R^*(u)$: set of all descendants of $u$ (modulo a $\SRS$ $R$).
-\item $\nabla_R^*(v)$: set of all ancestors of $v$ (modulo a $\SRS$ $R$).
-\item $\IRR(R)$: set of all irreducible strings (modulo a $\SRS$ $R$).
-\item $\CRL$: Church-Rosser languages.
+\item $\SRS$\ : string-rewriting system.
+\item $R$\ : usually denotes a string-rewriting system.
+\item $\dom(R)$\ : domain of a $\SRS$ $R$.
+\item $\rng(R)$\ : range of a $\SRS$ $R$.
+\item $\|R\|$\ : size of a $\SRS$ $R$.
+\item $l \to r$\ : (rewrite) rule of a string-rewriting system.
+\item $u \Rightarrow_R v$\ : single-step reduction relation induced by a $\SRS$ $R$.
+\item $u \Rightarrow_R^* v$\ : reflexive and transitive closure of $\Rightarrow_R$.
+\item $\Delta_R^*(u)$\ : set of all descendants of $u$ (modulo a $\SRS$ $R$).
+\item $\nabla_R^*(v)$\ : set of all ancestors of $v$ (modulo a $\SRS$ $R$).
+\item $\IRR(R)$\ : set of all irreducible strings (modulo a $\SRS$ $R$).
+\item $\CRL$\ : Church-Rosser languages.
 \end{enumerate}
 
 \noindent{\em McNaughton Families of Languages} (see Section \ref{subsection:mcnaughton-families}).
 
 \begin{enumerate}[]
-\item $\McNL$: McNaughton languages (defined by finite string-rewriting systems).
-\item $\wrMcNL$: McNaughton languages defined by finite weight-reducing string-rewriting systems.
-\item $\lrMcNL$: McNaughton languages defined by finite length-reducing string-rewriting systems.
-\item $\monMcNL$: McNaughton languages defined by finite monadic string-rewriting systems.
-\item $\genmonMcNL$: McNaughton languages defined by finite generalized monadic string-rewriting systems.
-\item $\conMcNL$: McNaughton languages defined by finite confluent string-rewriting systems.
-\item $\conwrMcNL$: McNaughton languages defined by finite confluent weight-reducing string-rewriting systems.
-\item $\conlrMcNL$: McNaughton languages defined by finite confluent length-reducing string-rewriting systems.
-\item $\conmonMcNL$: McNaughton languages defined by finite confluent monadic string-rewriting systems.
-\item $\congenmonMcNL$: McNaughton languages defined by finite confluent generalized monadic string-rewriting systems.
+\item $\McNL$\ : McNaughton languages (defined by finite string-rewriting systems).
+\item $\wrMcNL$\ : McNaughton languages defined by finite weight-reducing string-rewriting systems.
+\item $\lrMcNL$\ : McNaughton languages defined by finite length-reducing string-rewriting systems.
+\item $\monMcNL$\ : McNaughton languages defined by finite monadic string-rewriting systems.
+\item $\genmonMcNL$\ : McNaughton languages defined by finite generalized monadic string-rewriting systems.
+\item $\conMcNL$\ : McNaughton languages defined by finite confluent string-rewriting systems.
+\item $\conwrMcNL$\ : McNaughton languages defined by finite confluent weight-reducing string-rewriting systems.
+\item $\conlrMcNL$\ : McNaughton languages defined by finite confluent length-reducing string-rewriting systems.
+\item $\conmonMcNL$\ : McNaughton languages defined by finite confluent monadic string-rewriting systems.
+\item $\congenmonMcNL$\ : McNaughton languages defined by finite confluent generalized monadic string-rewriting systems.
 \end{enumerate}
 
 \noindent{\em Delimited String-Rewriting Systems} (see Section \ref{section:delimited-string-rewriting-systems}).
 
 \begin{enumerate}[]
 \item $\DSRS$ delimited string-rewriting system.
-\item $\Apply_{\mathcal{R}}(w)$: string obtained by applying different rules in $\DSRS$ $\mathcal{R}$ until no more rules can be applied.
-\item $\NewRule$: generates the next possible rule to be checked.
-\item $\Consistent$: checks that by adding a new rule to the system, one does not rewrite a positive example and a negative example into the same string.
+\item $\Apply_{\mathcal{R}}(w)$\ : string obtained by applying different rules in $\DSRS$ $\mathcal{R}$ until no more rules can be applied.
+\item $\NewRule$\ : generates the next possible rule to be checked.
+\item $\Consistent$\ : checks that by adding a new rule to the system, one does not rewrite a positive example and a negative example into the same string.
 \end{enumerate}
 
-\noindent{\bf Context rewriting systems and derived models} (see Section \ref{section:context-rewriting-systems} and Definitions \ref{definition:restrictions} and \ref{definition:derived-classes}).
+\noindent{\bf Context Rewriting Systems and Derived Models} (see Section \ref{section:context-rewriting-systems} and Definitions \ref{definition:restrictions} and \ref{definition:derived-classes}).
 
 \begin{enumerate}[]
-\item $\CRS$: context rewriting system.
-\item $\kCRS$: context rewriting system with length of contexts equal to $k$.
-\item $M$: usually denotes a context rewriting system.
-\item $\calM$: usually denotes a set (class) of context rewriting systems.
-\item $LC_{\cdot}$, $LC_k$: set of left contexts.
-\item $RC_{\cdot}$, $RC_k$: set of right contexts.
-\item $|M|$: width of the $\CRS$ $M$.
-\item $\size(M)$: size of the $\CRS$ $M$.
-\item $M_{\sf left}$: $\CRS$ $M$ with left-most rewriting relation $\vdash^{\sf left}_M$.
-\item $\kcalM$: set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has length of contexts equal to $k$.
-\item $\llcalM$: set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has width at most $l$.
-\item $\klcalM$: set of all $\CRS$ $M \in \kcalM$ such that every instruction $\phi$ of $M$ has width at most $l$.
-\item $\concalM$: set of all $\CRS$s $M \in \calM$ such that $M$ is confluent.
-\item $\lconcalM$: set of all $\CRS$s $M \in \calM$ such that $M$ is $\lambda$-confluent.
-\item $\leftcalM$: set $\{M_{\sf left} \mid M \in \calM\}$.
-\item $\clRA$: clearing restarting automaton.
-\item $\kclRA$: clearing restarting automaton with length of contexts equal to $k$.
-\item $\zlclRA$: clearing restarting automaton with empty contexts and maximal width of instructions equal to $l$.
-\item $\klclRA$: clearing restarting automaton with length of contexts equal to $k$ and maximal width of instructions equal to $l$.
-\item $\sclRA$: subword-clearing restarting automaton.
-\item $\DclRA$: $\Delta$-clearing restarting automaton.
-\item $\kDclRA$: $\Delta$-clearing restarting automaton with length of contexts equal to $k$.
-\item $\DXclRA$: $\Delta^*$-clearing restarting automaton.
-\item $\kDXclRA$: $\Delta^*$-clearing restarting automaton with length of contexts equal to $k$. 
+\item $\CRS$\ : context rewriting system.
+\item $\kCRS$\ : context rewriting system with length of contexts equal to $k$.
+\item $M$\ : usually denotes a context rewriting system.
+\item $\calM$\ : usually denotes a set (class) of context rewriting systems.
+\item $LC_{\cdot}$, $LC_k$\ : set of left contexts.
+\item $RC_{\cdot}$, $RC_k$\ : set of right contexts.
+\item $|M|$\ : width of the $\CRS$ $M$.
+\item $\size(M)$\ : size of the $\CRS$ $M$.
+\item $M_{\sf left}$\ : $\CRS$ $M$ with left-most rewriting relation $\vdash^{\sf left}_M$.
+\item $\kcalM$\ : set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has length of contexts equal to $k$.
+\item $\llcalM$\ : set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has width at most $l$.
+\item $\klcalM$\ : set of all $\CRS$ $M \in \kcalM$ such that every instruction $\phi$ of $M$ has width at most $l$.
+\item $\concalM$\ : set of all $\CRS$s $M \in \calM$ such that $M$ is confluent.
+\item $\lconcalM$\ : set of all $\CRS$s $M \in \calM$ such that $M$ is $\lambda$-confluent.
+\item $\leftcalM$\ : set $\{M_{\sf left} \mid M \in \calM\}$.
+\item $\clRA$\ : clearing restarting automaton.
+\item $\kclRA$\ : $\clRA$ with length of contexts equal to $k$.
+\item $\zlclRA$\ : $\clRA$ with empty contexts and maximal width of instructions $l$.
+\item $\klclRA$\ : $\clRA$ with length of contexts equal to $k$ and maximal width of instructions $l$.
+\item $\sclRA$\ : subword-clearing restarting automaton.
+\item $\DclRA$\ : $\Delta$-clearing restarting automaton.
+\item $\kDclRA$\ : $\DclRA$ with length of contexts equal to $k$.
+\item $\DXclRA$\ : $\Delta^*$-clearing restarting automaton.
+\item $\kDXclRA$\ : $\DXclRA$ with length of contexts equal to $k$. 
 \end{enumerate}
 
 \noindent{\bf Other Models} (see Section \ref{section:other-models}).
@@ -220,40 +230,46 @@
 \noindent{\em Marcus Contextual Grammars} (see Section \ref{section:marcus-contextual-grammars}).
 
 \begin{enumerate}[]
-\item $\TC$: languages generated by total contextual grammars.
-\item $\ECC$: languages externally generated by contextual grammars.
-\item $\ICC$: languages internally generated by contextual grammars.
-\item $\EC$: languages externally generated by contextual grammars without choice.
+\item $\phi$\ : choice mapping.
+\item $\TC$\ : languages generated by total contextual grammars.
+\item $\ECC$\ : languages externally generated by contextual grammars.
+\item $\ICC$\ : languages internally generated by contextual grammars.
+\item $\TC_c$, $\ECC_c$, $\ICC_c$\ : languages $\TC$, $\ECC$, $\ICC$ with computable choice mapping $\phi$.
+\item $\EC$\ : languages externally generated by contextual grammars without choice.
 \item $\IC$ languages internally generated by contextual grammars without choice.
 \end{enumerate}
 
 \noindent{\em Pure Grammars} (see Section \ref{section:pure-grammars}).
 
 \begin{enumerate}[]
-\item $\PCF$: pure context-free grammars (languages).
-\item $\PLI$: pure length increasing grammars (languages).
+\item $\PCF$\ : pure context-free grammars (languages).
+\item $\PLI$\ : pure length increasing grammars (languages).
 \end{enumerate}
 
 \noindent{\bf $\Delta$-Clearing Restarting Automata} (see Section \ref{section:dxclra}).
 
+\begin{enumerate}[]
+\item $L_C(M)$\ : characteristic language of a $\CRS$ $M$.
+\end{enumerate}
+
 \noindent{\em Algorithmic Viewpoint} (see Section \ref{section:dxclra_viewpoint}).
 
 \begin{enumerate}[]
-\item $(Q, S)$: protocol consisting of a querier $Q$ and a solver $S$.
+\item $(Q, S)$\ : protocol consisting of a querier $Q$ and a solver $S$.
 \item $L(Q, S)$ language recognized by the protocol $(Q, S)$.
-\item $\calQ$: class of queriers.
-\item $\calS$: class of solvers.
-\item $\calL{\calQ, \calS}$: class of languages recognized by the queriers $\calQ$ and solvers $\calS$.
+\item $\calQ$\ : class of queriers.
+\item $\calS$\ : class of solvers.
+\item $\calL{\calQ, \calS}$\ : class of languages recognized by the queriers $\calQ$ and solvers $\calS$.
 \end{enumerate}
 
 \noindent{\bf Limited Context Restarting Automata} (see Section \ref{section:lcra}).
 
 \begin{enumerate}[]
-\item $\ACSL$: acyclic context-sensitive languages.
-\item $\GACSL$: growing acyclic context-sensitive languages.
-\item $\lcRA$: limited context restarting automaton.
-\item $\lcRA[i]$: $\lcRA$ of type~$\mathcal{R}_i$.
-\item $\lcRAp[i]$: $\lcRA$ of type~$\mathcal{R}_i'$.
-\item $\conlcRA[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i$.
-\item $\conlcRAp[i]$: confluent $\lcRA$ of type~$\mathcal{R}_i'$.
+\item $\ACSL$\ : acyclic context-sensitive languages.
+\item $\GACSL$\ : growing acyclic context-sensitive languages.
+\item $\lcRA$\ : limited context restarting automaton.
+\item $\lcRA[i]$\ : $\lcRA$ of type~$\mathcal{R}_i$.
+\item $\lcRAp[i]$\ : $\lcRA$ of type~$\mathcal{R}_i'$.
+\item $\conlcRA[i]$\ : confluent $\lcRA$ of type~$\mathcal{R}_i$.
+\item $\conlcRAp[i]$\ : confluent $\lcRA$ of type~$\mathcal{R}_i'$.
 \end{enumerate}

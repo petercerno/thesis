@@ -93,7 +93,7 @@ $$\phi^{-1}(y) = \{x \in \Sigma^* \mid y \in \phi(x)\}.$$
 \section{Regular Languages}
 \label{section:regular-languages}
 
-Most of the material covered in this Section is taken from Sheng Yu \cite{Sh1997regular}.
+Most of the material covered in this Section is taken from \cite{Sh1997regular}.
 
 In this section we provide a very short survey of some basic notions concerning the family of \index{language!regular}regular languages. This is by no means a comprehensive survey. For a more thorough introduction we refer the reader to \cite{HopcroftMotwaniUllman07}.
 
@@ -220,12 +220,9 @@ The family of regular languages is closed under the following operations (we ass
 \end{enumerate}
 \end{theorem}
 
-Finally, we characterize the family of regular languages by a so-called \index{Myhill-Nerode theorem}Myhill-Nerode Theorem. Let $L \subseteq \Sigma^*$ and $x \in \Sigma^*$. The \emph{derivate} of $L$ with respect to $x$, denoted $\delta_x(L)$, is
-$$\delta_x(L) = x \backslash L = \{y \in \Sigma^* \mid xy \in L\}.$$
-
-For $L \subseteq \Sigma^*$, we define a relation $\equiv_L \subseteq \Sigma^* \times \Sigma^*$ by
+Finally, we characterize the family of regular languages by a so-called \index{Myhill-Nerode theorem}Myhill-Nerode Theorem. For $L \subseteq \Sigma^*$ we define a relation $\equiv_L \subseteq \Sigma^* \times \Sigma^*$ by
 $$x \equiv_L y \Leftrightarrow \delta_x(L) = \delta_y(L)$$
-for each pair $x, y \in \Sigma^*$. Clearly, $\equiv_L$ is an equivalence relation. It partitions $\Sigma^*$ into equivalence classes. The number of equivalence classes of $\equiv_L$ is called the \emph{index} of $\equiv_L$. 
+for every pair $x, y \in \Sigma^*$. Clearly, $\equiv_L$ is an equivalence relation. It partitions $\Sigma^*$ into equivalence classes. The number of equivalence classes of $\equiv_L$ is called the \emph{index} of $\equiv_L$. 
 %We denote the equivalence class that contains $x$ by $[x]_{\equiv_L}$, i.\,e.
 %$$[x]_{\equiv_L} = \{y \in \Sigma^* \mid y \equiv_L x\}.$$
 %Clearly, $x \equiv_L y$ if and only if $[x]_{\equiv_L} = [y]_{\equiv_L}$. We simply write $[x]$ instead of $[x]_{\equiv_L}$ if there is no confusion.
@@ -240,11 +237,9 @@ If $L$ is a regular language, then it can be shown that the minimal number of st
 \section{Context-Free Languages}
 \label{section:context-free-languages}
 
-This section is devoted to \index{language!context-free} context-free languages \index{$\CFL$}($\CFL$). Context-free languages and \index{grammar!context-free} grammars were designed  initially to formalize grammatical properties of natural languages. They subsequently appeared to be well adapted to the formal description of the syntax of programming languages. This led to a considerable development of the theory.
+This section is devoted to \index{language!context-free} context-free languages \index{$\CFL$}($\CFL$) and the main source is \cite{AuBeBo1997context-free}. Context-free languages and \index{grammar!context-free} grammars were designed  initially to formalize grammatical properties of natural languages. They subsequently appeared to be well adapted to the formal description of the syntax of programming languages. This led to a considerable development of the theory.
 
 We focus on two basic tools: context-free grammars and \index{pushdown automaton} pushdown automata. These are indeed the standard tools to generate and to recognize context-free languages. In Section \ref{subsection:context-free-grammars} we give a short introduction to context-free grammars, followed by the survey of their \index{normal form}normal forms in Section \ref{subsection:context-free-normal-forms}. In Section \ref{subsection:pushdown-machines} we introduce pushdown automata as a basic accepting device for context-free languages. In the last Section \ref{subsection:context-free-subfamilies} we present some subfamilies of context-free languages.
-
-The main source for this Section is Autebert et al. \cite{AuBeBo1997context-free}.
 
 \subsection{Context-Free Grammars}
 \label{subsection:context-free-grammars}
@@ -405,9 +400,7 @@ A \index{$\pdm$}$\pdm$ $M = (Q, \Sigma, Z, T)$ is \index{pushdown machine!determ
 \item $T(\lambda, q, z) \neq \emptyset \Rightarrow \forall a \in \Sigma: T(a, q, z) = \emptyset$
 \end{enumerate}
 
-A \index{pushdown automaton!deterministic}\emph{deterministic $\pda$} \index{$\dpda$}($\dpda$ for short) is a $\pda$ with a deterministic associated \index{$\pdm$}$\pdm$.
-
-It is possible to prove that the family of languages recognized by $\dpda$'s by \index{language recognized  by!empty storage}empty storage is the same as the family of languages recognized by $\dpda$'s by empty storage and \index{language recognized by!accepting states}accepting states, and that this family is included in the family of languages recognized by $\dpda$'s by accepting states. On the other hand, it is easy to verify that a language recognized by empty storage by $\dpda$ is prefix, i.\,e.\ no proper prefix of a word of this language belongs to this language. So, we are left with two families of languages: the family of languages recognized by accepting states, called the family of \index{language!context-free!deterministic}\emph{deterministic languages} \index{$\DCFL$}($\DCFL$), and the family of languages recognized by empty storage, called the family of \index{language!context-free!deterministic-prefix} \emph{deterministic-prefix languages}. It is easy to check that the family of deterministic-prefix languages is exactly the family of deterministic languages that are prefix languages.
+A \index{pushdown automaton!deterministic}\emph{deterministic $\pda$} \index{$\dpda$}($\dpda$ for short) is a $\pda$ with a deterministic associated \index{$\pdm$}$\pdm$. It is possible to prove that the family of languages recognized by $\dpda$'s by \index{language recognized  by!empty storage}empty storage is the same as the family of languages recognized by $\dpda$'s by empty storage and \index{language recognized by!accepting states}accepting states, and that this family is included in the family of languages recognized by $\dpda$'s by accepting states. On the other hand, it is easy to verify that a language recognized by empty storage by $\dpda$ is prefix, i.\,e.\ no proper prefix of a word of this language belongs to this language. So, we are left with two families of languages: the family of languages recognized by accepting states, called the family of \index{language!context-free!deterministic}\emph{deterministic languages} \index{$\DCFL$}($\DCFL$), and the family of languages recognized by empty storage, called the family of \index{language!context-free!deterministic-prefix} \emph{deterministic-prefix languages}. It is easy to check that the family of deterministic-prefix languages is exactly the family of deterministic languages that are prefix languages.
 
 The two families are distinct. As an example, the language $L_1 = \{a^n b^p \mid p > n > 0\}$ is deterministic but not prefix. To avoid these problems, a usual trickis to consider languages with an end marker: indeed, $L \sharp$ is a prefix language which is deterministic if and only if $L$ is deterministic.
 
@@ -429,7 +422,7 @@ The family of languages generated by right- or by left-linear grammars are equal
 
 However, the family of regular languages is strictly included in the family of linear languages, denoted by \index{$\Lin$}$\Lin$.
 
-Let $\Delta = \{a^n b^n \mid n \ge 0\}$. The language $\Delta$ is linear, but not regular. Moreover, the language $\Delta \Delta$ is context-free but not linear. Thus, the family of linear languages is a proper subfamily of the family of context-free languages. 
+Let $L = \{a^n b^n \mid n \ge 0\}$. The language $L$ is linear, but not regular. Moreover, the language $L \cdot L$ is context-free but not linear. Thus, the family of linear languages is a proper subfamily of the family of context-free languages. 
 %The proof leads to a specific pumping lemma for linear languages:
 %
 %\index{pumping lemma!linear language}
@@ -514,15 +507,10 @@ The class of context-sensitive languages has turned out to be of smaller importa
 
 The Chomsky hierarchy still constitutes a testing ground often used: new classes are compared with those in the Chomsky hierarchy. However, it is not any more the only testing ground in the language theory.
 
-In Section \ref{subsection:phrase-structure-grammars} we introduce \index{grammar!phrase-structure}phrase-structure grammars and formulate the relation between languages generated by these grammars and \index{language!recursively enumerable} recursively enumerable languages. In Section \ref{subsection:context-sensitive-grammars} we concentrate on the family of context-sensitive languages. Regular languages and context-free languages have already been covered in Section \ref{section:regular-languages} and Section \ref{section:context-free-languages}, respectively.Finally, in Section \ref{subsection:closure-properties} we summarize closure properties of families in Chomsky hierarchy.
+In Section \ref{subsection:phrase-structure-grammars} we introduce \index{grammar!phrase-structure}phrase-structure grammars and formulate the relation between languages generated by these grammars and \index{language!recursively enumerable} recursively enumerable languages. In Section \ref{subsection:context-sensitive-grammars} we concentrate on the family of context-sensitive languages. Regular languages and context-free languages have already been covered in Section \ref{section:regular-languages} and Section \ref{section:context-free-languages}, respectively. Finally, in Sections \ref{subsection:closure-properties} and \ref{subsection:decidability-properties} we summarize closure and decidability properties of families in Chomsky hierarchy.
 
-%In Section 
-%\ref{subsection:closure-properties} and Section \ref{subsection:decidability-properties}
-%we summarize closure and decidability properties of families in Chomsky hierarchy.
-
-The main source for this Section is \cite{MaSa1997formal, MaSa1997aspects}. Paragraph concerning \index{language!context-sensitive!growing}\emph{growing context-sensitive 
+The main source is \cite{MaSa1997formal, MaSa1997aspects}. Paragraph concerning \index{language!context-sensitive!growing}\emph{growing context-sensitive 
 languages} is taken from \cite{Buntrock19981}. For brevity, we omit definitions of Turing machines and complexity classes. The interested reader is referred to \cite{MaSa1997aspects}.
-%, or to a nice survey of structural complexity theory in Balc{\'a}zar et al. \cite{BRSI88, BRSII90}.
 
 \subsection{Phrase-Structure Grammars}
 \label{subsection:phrase-structure-grammars}
@@ -585,15 +573,15 @@ It can be shown, that there exist \index{language!context-sensitive}context-sens
 
 Dahlhaus and Warmuth \cite{DW86} consider \index{grammar!context-sensitive!growing}\emph{growing context-sensitive grammars} \index{$\GCSL$}($\GCSL$), that is, \index{grammar!context-sensitive} context-sensitive grammars for which each \index{production}production rule is strictly length-increasing. Obviously, for such a grammar the length of a \index{derivation}derivation is bounded from above by the length of the sentence derived. Dahlhaus and Warmuth prove that all \emph{growing context-sensitive languages}, that is, the languages that are generated by \emph{growing context-sensitive grammars}, have membership problems that are solvable in polynomial time.
 
-We conclude this section by summarizing some closure properties of the family of context-sensitive languages.
+%We conclude this section by summarizing some closure properties of the family of context-sensitive languages.
 
-\begin{theorem}
-The family $\mathcal{L}_1 = \CSL$ is closed under the following operations: union, intersection, complementation, concatenation, Kleene star, Kleene plus, intersection with regular languages, $\lambda$-free morphism, inverse morphism, $\lambda$-free substitution, mirror. 
+%\begin{theorem}
+%The family $\mathcal{L}_1 = \CSL$ is closed under the following operations: union, intersection, complementation, concatenation, Kleene star, Kleene plus, intersection with regular languages, $\lambda$-free morphism, inverse morphism, $\lambda$-free substitution, mirror. 
 
-It is not closed under substitution, morphism, and left (right) quotient with regular languages.
-\end{theorem}
+%It is not closed under substitution, morphism, and left (right) quotient with regular languages.
+%\end{theorem}
 
-\subsection{Closure properties}
+\subsection{Closure Properties}
 \label{subsection:closure-properties}
 
 \index{closure properties}Closure properties of families in Chomsky hierarchy 
@@ -661,7 +649,7 @@ language}Left/right quotient with regular language
 \end{tabular}
 \end{center}
 
-\subsection{Decidability properties}
+\subsection{Decidability Properties}
 \label{subsection:decidability-properties}
 
 Given a class $G$ of grammars, the following basic questions about arbitrary

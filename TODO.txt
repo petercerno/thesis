@@ -1,12 +1,13 @@
 2014-05-16
 
 [x] TODO: Replace "i.e." by "i.\,e.\ "
+[x] TODO: Replace "e.g." by "e.\,g.\ "
 [x] TODO: Replace \mbox (\makebox) by \textup.
 
 2015-01-01
 
-[x] TODO: Resolve all TODOs in the text.
-[ ] TODO: Add \cite{} references to Theorems.
+[ ] TODO: Resolve all TODOs in the text.
+[ ] TODO: Add \cite{} references to all Theorems and Definitions!
 [x] TODO: Unify ending symbol in definitions etc.
 [ ] TODO: Check old reviews. Update i.e., etc.
 [ ] TODO: Check missing references \ref{} and citations \cite{}.
@@ -26,26 +27,40 @@
 
 2015-03-20
 
-[ ] TODO: Unify notation for string-rewriting systems.
-[ ] TODO: Replace \vdash_M^c with \vdash_M.
+[x] TODO: Unify notation for string-rewriting systems.
+[x] TODO: Replace \vdash_M^c with \vdash_M.
 
 2015-03-21
 
 [ ] TODO: Clean the theoretical background (e.g. remove regular expresions, add TPDAs, etc.).
 [ ] TODO: Write an introduction to all Sections.
-[ ] TODO: Check and fine-tune the bibliography.
+[ ] TODO: Check and fine-tune the bibliography. Unify the bibliography uppercase letters.
 [ ] TODO: Add references to definitions when necessary.
 
 2015-03-28
 
-[ ] TODO: Add list of abbreviations, list of symbols.
-[ ] TODO: Write Conclusion.
+[x] TODO: Add list of abbreviations, list of symbols.
+[x] TODO: Write the Conclusion.
 
 2015-04-05
 
-[ ] TODO: Use a special equality symbol for the equality that does not consider the empty word.
+[ ] TODO: Use the \dot{=} symbol for the language equality up to the empty word.
 
 2015-04-06
 
 [ ] TODO: Search for all occurences of {\sf } {\bf } etc.
-[ ] TODO: Use either \subsetneq or \subset.
+[x] TODO: Use either \subsetneq or \subset.
+
+2015-04-11
+
+[x] TODO: Check the structure of the thesis.
+[ ] TODO: Check the spacing and overlines.
+[x] TODO: Add \Rightarrow and other symbols to the CFL section.
+[x] TODO: Add \dot{=} to the Words and languages symbols.
+[x] TODO: Add etc., i.e., e.g., iff to the List of Abbreviations.
+[x] TODO: Emphasize the use of the relaxed learning paradigm.
+
+2015-04-12
+
+[ ] TODO: Check the grammar typos.
+[ ] TODO: Emphasize the newly defined terms.

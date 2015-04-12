@@ -47,12 +47,10 @@
 \usepackage{oldgerm}
 \usepackage[all]{xy}
 \usepackage{xspace}
-
-\usepackage{index}
-
+\usepackage{makeidx}
+\makeindex
+\usepackage[totoc]{idxlayout}
 \usepackage[square,sort,comma,numbers]{natbib}
-%\usepackage{natbib}
-
 \usepackage{hyperref}
 \hypersetup{
     bookmarks=true,
@@ -63,7 +61,7 @@
     pdfstartview={FitH},
     pdftitle={Restricted Restarting Automata},
     pdfauthor={Peter Černo},
-    pdfkeywords={analysis by reduction, grammatical inference, restarting automata, string-rewriting systems},
+    pdfkeywords={analysis by reduction, grammatical inference, restarting automata, string-rewriting systems, context rewriting systems},
     pdfnewwindow=true,
     colorlinks=false,
     linkcolor=red,
@@ -72,7 +70,6 @@
     urlcolor=cyan
 }
 \usepackage[all]{hypcap}
-
 \usepackage[ruled,vlined,commentsnumbered]{algorithm2e}
 
 \hypersetup{pdftitle=Restricted Restarting Automata}
@@ -105,8 +102,6 @@
 \chapter*{#1}
 \addcontentsline{toc}{chapter}{#1}
 }
-
-\newindex{default}{idx}{ind}{Index}
 
 \frontmatter
 
@@ -270,7 +265,7 @@ Restarting automata were introduced as a model for analysis by reduction which i
 Keywords:
 % 3 až 5 klíčových slov v angličtině
 analysis by reduction, grammatical inference, restarting automata, 
-string-rewriting systems.
+string-rewriting systems, context rewriting systems.
 
 \vss}
 
@@ -327,7 +322,7 @@ string-rewriting systems.
 %%% Přílohy k disertační práci, existují-li (různé dodatky jako výpisy programů,
 %%% diagramy apod.). Každá příloha musí být alespoň jednou odkazována z vlastního
 %%% textu práce. Přílohy se číslují.
-\chapwithtoc{Attachments}
+%\chapwithtoc{Attachments}
 
 \vspace{12pt}
 
