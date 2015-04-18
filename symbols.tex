@@ -73,9 +73,9 @@
 
 \begin{enumerate}[]
 \item $\CFL$\ : context-free languages.
+\item $G$\ : usually denotes a (context-free) grammar.
 \item $V_T$\ : usually denotes a set of terminals (or terminal letters).
 \item $V_N$\ : usually denotes a set of nonterminals (or variables).
-\item $G$\ : usually denotes a grammar.
 \item $X \to \alpha$\ : shorthand for a production $(X, \alpha)$.
 \item $u \Rightarrow_G v$\ : single step derivation relation of a grammar $G$.
 \item $u \Rightarrow_G^* v$\ : reflexive and transitive closure of $\Rightarrow_G$.
@@ -135,8 +135,8 @@
 \noindent{\bf Restarting Automata} (see Section \ref{section:restarting-automata}).
 
 \begin{enumerate}[]
-\item $\cent$\ : left sentinel.
-\item $\$$\ : right sentinel.
+\item $\cent$\ : left marker (sentinel).
+\item $\$$\ : right marker (sentinel).
 \item $\MVR$\ : move-right step causes a restarting automaton to shift the read/write window one position to the right and to enter a new state.
 \item $\MVL$\ : move-left step causes a restarting automaton to shift the read/write window one position to the left and to enter a new state.
 \item $\Rewrite$\ : rewrite step causes a restarting automaton to replace the content of the read/write window by a new shorter string, thereby shortening the tape, and to enter state a new state. Further, the read/write window is placed immediately to the right of the new string.
@@ -159,16 +159,16 @@
 
 \begin{enumerate}[]
 \item $\SRS$\ : string-rewriting system.
-\item $R$\ : usually denotes a string-rewriting system.
+\item $R$\ : usually denotes a $\SRS$.
 \item $\dom(R)$\ : domain of a $\SRS$ $R$.
 \item $\rng(R)$\ : range of a $\SRS$ $R$.
 \item $\|R\|$\ : size of a $\SRS$ $R$.
-\item $l \to r$\ : (rewrite) rule of a string-rewriting system.
+\item $l \to r$\ : (rewrite) rule of a $\SRS$.
 \item $u \Rightarrow_R v$\ : single-step reduction relation induced by a $\SRS$ $R$.
 \item $u \Rightarrow_R^* v$\ : reflexive and transitive closure of $\Rightarrow_R$.
-\item $\Delta_R^*(u)$\ : set of all descendants of $u$ (modulo a $\SRS$ $R$).
-\item $\nabla_R^*(v)$\ : set of all ancestors of $v$ (modulo a $\SRS$ $R$).
-\item $\IRR(R)$\ : set of all irreducible strings (modulo a $\SRS$ $R$).
+\item $\Delta_R^*(u)$\ : set of all descendants of $u$ (modulo $\SRS$ $R$).
+\item $\nabla_R^*(v)$\ : set of all ancestors of $v$ (modulo $\SRS$ $R$).
+\item $\IRR(R)$\ : set of all irreducible strings (modulo $\SRS$ $R$).
 \item $\CRL$\ : Church-Rosser languages.
 \end{enumerate}
 
@@ -190,7 +190,7 @@
 \noindent{\em Delimited String-Rewriting Systems} (see Section \ref{section:delimited-string-rewriting-systems}).
 
 \begin{enumerate}[]
-\item $\DSRS$ delimited string-rewriting system.
+\item $\DSRS$\ : delimited string-rewriting system.
 \item $\Apply_{\mathcal{R}}(w)$\ : string obtained by applying different rules in $\DSRS$ $\mathcal{R}$ until no more rules can be applied.
 \item $\NewRule$\ : generates the next possible rule to be checked.
 \item $\Consistent$\ : checks that by adding a new rule to the system, one does not rewrite a positive example and a negative example into the same string.
@@ -200,17 +200,20 @@
 
 \begin{enumerate}[]
 \item $\CRS$\ : context rewriting system.
-\item $\kCRS$\ : context rewriting system with length of contexts equal to $k$.
-\item $M$\ : usually denotes a context rewriting system.
-\item $\calM$\ : usually denotes a set (class) of context rewriting systems.
-\item $LC_{\cdot}$, $LC_k$\ : set of left contexts.
-\item $RC_{\cdot}$, $RC_k$\ : set of right contexts.
+\item $\kCRS$\ : $\CRS$ with length of contexts equal to $k$.
+\item $M$\ : usually denotes a $\CRS$.
+\item $\calM$\ : usually denotes a set (class) of $\CRS$s.
+\item $LC_k$ ($LC_{\le k}$)\ : set of left contexts of length $k$ (at most $k$).
+\item $RC_k$ ($RC_{\le k}$)\ : set of right contexts of length $k$ (at most $k$).
 \item $|M|$\ : width of the $\CRS$ $M$.
 \item $\size(M)$\ : size of the $\CRS$ $M$.
+\item $\phi = (x, z \to t, y)$\ : instruction of a $\CRS$.
+\item $\vdash_M$\ : rewriting relation of the $\CRS$ $M$.
+\item $\vdash^{\sf left}_M$\ : left-most rewriting relation of the $\CRS$ $M$.
 \item $M_{\sf left}$\ : $\CRS$ $M$ with left-most rewriting relation $\vdash^{\sf left}_M$.
-\item $\kcalM$\ : set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has length of contexts equal to $k$.
-\item $\llcalM$\ : set of all $\CRS$ $M \in \calM$ such that every instruction $\phi$ of $M$ has width at most $l$.
-\item $\klcalM$\ : set of all $\CRS$ $M \in \kcalM$ such that every instruction $\phi$ of $M$ has width at most $l$.
+\item $\kcalM$\ : set of all $\CRS$s $M \in \calM$ such that every instruction $\phi$ of $M$ has length of contexts equal to $k$.
+\item $\llcalM$\ : set of all $\CRS$s $M \in \calM$ such that every instruction $\phi$ of $M$ has width at most $l$.
+\item $\klcalM$\ : set of all $\CRS$s $M \in \kcalM$ such that every instruction $\phi$ of $M$ has width at most $l$.
 \item $\concalM$\ : set of all $\CRS$s $M \in \calM$ such that $M$ is confluent.
 \item $\lconcalM$\ : set of all $\CRS$s $M \in \calM$ such that $M$ is $\lambda$-confluent.
 \item $\leftcalM$\ : set $\{M_{\sf left} \mid M \in \calM\}$.
@@ -236,7 +239,7 @@
 \item $\ICC$\ : languages internally generated by contextual grammars.
 \item $\TC_c$, $\ECC_c$, $\ICC_c$\ : languages $\TC$, $\ECC$, $\ICC$ with computable choice mapping $\phi$.
 \item $\EC$\ : languages externally generated by contextual grammars without choice.
-\item $\IC$ languages internally generated by contextual grammars without choice.
+\item $\IC$\ : languages internally generated by contextual grammars without choice.
 \end{enumerate}
 
 \noindent{\em Pure Grammars} (see Section \ref{section:pure-grammars}).
@@ -245,6 +248,19 @@
 \item $\PCF$\ : pure context-free grammars (languages).
 \item $\PLI$\ : pure length increasing grammars (languages).
 \end{enumerate}
+
+\noindent{\bf Grammatical Inference of Restricted $\CRS$} (see Section \ref{section:inference}).
+
+\begin{enumerate}[]
+\item $\Assumptions$\ : returns some set of instruction candidates.
+\item $\WeakAssumptions$\ : specific example of a function $\mathsf{Assumptions}$.
+\item $\StrongAssumptions$\ : specific example of a function $\mathsf{Assumptions}$.
+\item $\Consistent$\ : consistency check.
+\item $\Simplify$\ : simplification of the set of instructions.
+\item $\Infer$\ : auxiliary inference procedure.
+\item $\UnconstrainedInfer$\ : learning algorithm for $\lambda$-confluent $\CRS$s.
+\end{enumerate}
+
 
 \noindent{\bf $\Delta$-Clearing Restarting Automata} (see Section \ref{section:dxclra}).
 

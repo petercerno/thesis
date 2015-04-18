@@ -1,13 +1,13 @@
 \chapter{Selected Topics}
 \label{chapter:advanced}
 
-In this chapter we cover several selected topics of formal language theory that are related to our own models. Section \ref{section:restarting-automata} is devoted to \emph{restarting automata} (see \cite{O06}). Although our models are higly influenced by the theory of restarting automata, we study them from the perspective of \emph{string-rewriting systems} (see \cite{bookOtto93}) introduced in Section \ref{section:string-rewriting-systems}. In Section \ref{section:context-rewriting-systems} we define the so-called \emph{context rewriting systems}, from which all our models are derived. We conclude this chapter by presenting some other related models in Section \ref{section:other-models}.
+In this chapter we cover several selected topics of formal language theory that are related to our own models. Section \ref{section:restarting-automata} is devoted to \emph{restarting automata} \cite{O06}. Although our models are higly influenced by the theory of restarting automata, we study them from the perspective of \emph{string-rewriting systems} \cite{bookOtto93} introduced in Section \ref{section:string-rewriting-systems}. In Section \ref{section:context-rewriting-systems} we define the so-called \emph{context rewriting systems}, from which all our models are derived. We conclude this chapter by presenting some other related models in Section \ref{section:other-models}.
 
 \section{Restarting Automata}
 \label{section:restarting-automata}
 \index{restarting automaton}
 
-The main source for this section is \cite{O06}. The \index{restarting automaton}restarting automaton was introduced by Jančar et al. in 1995 in order to model the so-called \index{analysis by reduction}`analysis by reduction,' which is a technique used in linguistics to analyze sentences of natural languages that have a free word order. By now there are many different models of \index{restarting automaton}restarting automata, and their investigation has proved very fruitful in that they offer an opportunity to study the influence of various kinds of resources on their expressive power. Here we introduce and discuss the main variants of these automata.
+The main source for this section is \cite{O06}. The \index{restarting automaton}\emph{restarting automaton} was introduced in \cite{JMPV95} in order to model the so-called \index{analysis by reduction}\emph{analysis by reduction}, which is a technique used in linguistics to analyze sentences of natural languages that have a free word order. By now there are many different models of \index{restarting automaton}restarting automata, and their investigation has proved very fruitful in that they offer an opportunity to study the influence of various kinds of resources on their expressive power. Here we introduce and discuss the main variants of these automata.
 
 \index{analysis by reduction}\emph{Analysis by reduction} is a technique used in linguistics to analyze sentences of natural languages that have a free word order. This analysis consists of a stepwise simplification of a sentence in such a way that the syntactical correctness or incorrectness of the sentence is not affected. After a finite number of steps either a correct simple sentence is obtained, or an error is detected. In the former case the given sentence is accepted as being syntactically correct; if, however, all possible sequences of simplifications yield errors, then the given sentence is not syntactically correct. In this way it is also possible to determine dependencies between various parts of the given sentence, and to disambiguate between certain morphological ambiguities contained in the sentence.
 
@@ -29,7 +29,7 @@ As indicated above a \index{restarting automaton}restarting automaton is a nonde
 \label{figure:restarting_automaton}
 \end{figure}
 
-Formally, a \index{restarting automaton!two-way}\emph{two-way restarting automaton}, \index{$\RLWW$-automaton}$\RLWW$-automaton for short, is a one-tape machine described by an $8$-tuple $M = (Q, \Sigma, \Gamma, \cent, \$, q_0, k, \delta)$, where $Q$ is a finite set of \index{state}states, $\Sigma$ is a finite \index{alphabet!input}input alphabet, $\Gamma$ is a finite \index{alphabet!tape}tape alphabet containing $\Sigma$, $\cent, \$ \notin \Gamma$ are symbols that serve as \index{marker}markers for the left and right border of the work space, respectively, $q_0 \in Q$ is the \index{state!initial}initial state, $k \ge 1$ is the size of the \index{read/write window}\emph{read/write window}, and $$\delta: Q \times \mathfrak{PC}^{(k)} \to \mathcal{P}((Q \times (\{\MVR, \MVL\} \cup \mathfrak{PC}^{\le (k-1)})) \cup \{\Restart, \Accept\})$$ is the \index{transition!relation}\emph{transition relation}. Here $\mathfrak{PC}^{(k)}$ is the set of \index{read/write window!possible contents}\emph{possible contents} of the read/write window of $M$, where $$\mathfrak{PC}^{(i)} = (\cent \cdot \Gamma^{i-1}) \cup \Gamma^i \cup (\Gamma^{\le i-1} \cdot \$) \cup (\cent \cdot \Gamma^{\le i-2} \cdot \$)\ \ (i \ge 0),$$ and $$\Gamma^{\le n} = \bigcup_{i=0}^n \Gamma^i \text{ and } \mathfrak{PC}^{\le (k-1)} = \bigcup_{i=0}^{k-1}\mathfrak{PC}^{(i)}.$$
+Formally, a \index{restarting automaton!two-way}\emph{two-way restarting automaton}, \index{$\RLWW$-automaton}$\RLWW$-automaton for short, is a one-tape machine described by an $8$-tuple $M = (Q, \Sigma, \Gamma, \cent, \$, q_0, k, \delta)$, where $Q$ is a finite set of \index{state}states, $\Sigma$ is a finite \index{alphabet!input}input alphabet, $\Gamma$ is a finite \index{alphabet!tape}tape alphabet containing $\Sigma$, \index{$\cent$}\index{$\$$}$\cent, \$ \notin \Gamma$ are symbols that serve as \index{marker}\emph{markers} (or \index{sentinel}\emph{sentinels}) for the left and right border of the work space, respectively, $q_0 \in Q$ is the \index{state!initial}initial state, $k \ge 1$ is the size of the \index{read/write window}\emph{read/write window}, and $$\delta: Q \times \mathfrak{PC}^{(k)} \to \mathcal{P}((Q \times (\{\MVR, \MVL\} \cup \mathfrak{PC}^{\le (k-1)})) \cup \{\Restart, \Accept\})$$ is the \index{transition!relation}\emph{transition relation}. Here $\mathfrak{PC}^{(k)}$ is the set of \index{read/write window!possible contents}\emph{possible contents} of the read/write window of $M$, where $$\mathfrak{PC}^{(i)} = (\cent \cdot \Gamma^{i-1}) \cup \Gamma^i \cup (\Gamma^{\le i-1} \cdot \$) \cup (\cent \cdot \Gamma^{\le i-2} \cdot \$)\ \ (i \ge 0),$$ and $$\Gamma^{\le n} = \bigcup_{i=0}^n \Gamma^i \text{ and } \mathfrak{PC}^{\le (k-1)} = \bigcup_{i=0}^{k-1}\mathfrak{PC}^{(i)}.$$
 
 The \index{transition!relation}transition relation describes five different types of \index{transition step}transition steps:
 
@@ -63,12 +63,12 @@ Given an input of length $n$, and $\RLWW$-automaton can execute at most $n$ cycl
 In the following we restate some basic facts about \index{computation}computations of \index{restarting automaton}restarting automata.
 
 \index{error preserving theorem}
-\begin{proposition}[Error Preserving Property]
+\begin{proposition}[Error Preserving Property]\label{proposition:error-preserving-rlww}
 Let $M$ be an \index{$\RLWW$-automaton}$\RLWW$-automaton, and let $u, v$ be words over its \index{alphabet!input}\emph{input} alphabet $\Sigma$. If $q_0 \cent u \$ \vdash_M^{c^*} q_0 \cent v \$$ holds and $u \notin L(M)$, then $v \notin L(M)$, either.
 \end{proposition}
 
 \index{correctness preserving theorem}
-\begin{proposition}[Correctness Preserving Property]
+\begin{proposition}[Correctness Preserving Property]\label{proposition:correctness-preserving-rlww}
 Let $M$ be an \index{$\RLWW$-automaton}$\RLWW$-automaton, and let $u, v$ be words over its \index{alphabet!input}\emph{input} alphabet $\Sigma$. If $q_0 \cent u \$ \vdash_M^{c^*} q_0 \cent v \$$ is an initialsegment of an \emph{accepting} computation of $M$, then $v \in L(M)$.
 \end{proposition}
 
@@ -140,24 +140,24 @@ As we have already mentioned we study our models from the perspective of \emph{s
 Let $\Sigma$ be a finite alphabet.
 
 \begin{enumerate}
-\item A \emph{string-rewriting system} ($\SRS$) $R$ on $\Sigma$ is a set of \emph{(rewrite) rules} $(l \to r)$, where $l, r \in \Sigma^*$. The set $\{l \in \Sigma^* \mid \exists r \in \Sigma^*: (l \to r) \in R\}$ is called the \emph{domain} of $R$ and is denoted $\dom(R)$. The set $\{r \in \Sigma^* \mid \exists l \in \Sigma^*: (l \to r) \in R\}$ is called the \emph{range} of $R$ and is denoted $\rng(R)$. If $R$ is finite, then the \emph{size} of $R$ is defined to be $\sum_{(l \to r) \in R}(|l| + |r|)$ and is denoted $\|R\|$. The \emph{width} of rule $(l \to r) \in R$ is $|l| + |r|$.
-\item If $R$ is a string-rewriting system on $\Sigma$, then the \emph{single-step reduction relation} on $\Sigma^*$, that is induced by $R$ is defined as follows: for any $u, v \in \Sigma^*$, $u \Rightarrow_R v$ if and only if there exists $(l \to r) \in R$ such that for some $x, y \in \Sigma^*$, $u = xly$ and $v = xry$. The \emph{reduction relation} on $\Sigma^*$ induced by $R$ is the reflexive and transitive closure of $\Rightarrow_R$ and is denoted by $\Rightarrow^*_R$.
-\item For a string $u \in \Sigma^*$, if there exists a string $v$ such that $u \Rightarrow_R v$ holds, then $u$ is called \emph{reducible} modulo $R$, $v$ is a \emph{direct descendant} of $u$, and $u$ is a \emph{direct ancestor} of $v$. If such a string $v$ does not exist, then $u$ is called \emph{irreducible} modulo $R$. By $\Delta_R^*(u)$ we denote the set of all descendants of $u$, that is, $\Delta_R^*(u) := \{v \mid u \Rightarrow_R^* v\}$, $\nabla_R^*(v)$ is the set of all ancestors of $v$, that is, $\nabla_R^*(v) := \{u \mid u \Rightarrow_R^* v\}$, and by $\IRR(R)$ we denote the set of all irreducible strings modulo $R$.
+\item A \index{string-rewriting system}\emph{string-rewriting system} (\index{$\SRS$}$\SRS$) $R$ on $\Sigma$ is a set of \index{rule!rewrite}\emph{(rewrite) rules} $(l \to r)$, where $l, r \in \Sigma^*$. The set $\{l \in \Sigma^* \mid \exists r \in \Sigma^*: (l \to r) \in R\}$ is called the \index{domain}\emph{domain} of $R$ and is denoted \index{$\dom(R)$}$\dom(R)$. The set $\{r \in \Sigma^* \mid \exists l \in \Sigma^*: (l \to r) \in R\}$ is called the \index{range}\emph{range} of $R$ and is denoted \index{$\rng(R)$}$\rng(R)$. If $R$ is finite, then the \emph{size} of $R$ is defined to be $\sum_{(l \to r) \in R}(|l| + |r|)$ and is denoted \index{$\|R\|$}$\|R\|$. The \emph{width} of rule $(l \to r) \in R$ is $|l| + |r|$.
+\item If $R$ is a string-rewriting system on $\Sigma$, then the \index{reduction relation!single-step}\emph{single-step reduction relation} on $\Sigma^*$, that is induced by $R$ is defined as follows: for any $u, v \in \Sigma^*$, $u \Rightarrow_R v$ if and only if there exists $(l \to r) \in R$ such that for some $x, y \in \Sigma^*$, $u = xly$ and $v = xry$. The \index{reduction relation}\emph{reduction relation} on $\Sigma^*$ induced by $R$ is the reflexive and transitive closure of $\Rightarrow_R$ and is denoted by $\Rightarrow^*_R$.
+\item For a string $u \in \Sigma^*$, if there exists a string $v$ such that $u \Rightarrow_R v$ holds, then $u$ is called \emph{reducible} modulo $R$, $v$ is a \emph{direct descendant} of $u$, and $u$ is a \emph{direct ancestor} of $v$. If such a string $v$ does not exist, then $u$ is called \emph{irreducible} modulo $R$. By \index{$\Delta_R^*(u)$}$\Delta_R^*(u)$ we denote the set of all descendants of $u$, that is, $\Delta_R^*(u) := \{v \mid u \Rightarrow_R^* v\}$, \index{$\nabla_R^*(v)$}$\nabla_R^*(v)$ is the set of all ancestors of $v$, that is, $\nabla_R^*(v) := \{u \mid u \Rightarrow_R^* v\}$, and by \index{$\IRR(R)$}$\IRR(R)$ we denote the set of all irreducible strings modulo $R$.
 \end{enumerate}
 \end{definition}
 
 \begin{definition}[\cite{bookOtto93}]
 Let $R$ be a string-rewriting system on $\Sigma$. We say that $R$ is:
 \begin{enumerate}
-\item \emph{terminating} or \emph{noetherian} if there is no infinite sequence of reduction steps $w_1 \Rightarrow_R w_2 \Rightarrow_R w_3 \Rightarrow_R \ldots$,
-\item \emph{locally confluent} if, for all $u, v, w \in \Sigma^*$, $u \Rightarrow_R v$ and $u \Rightarrow_R w$ imply that there exists some $z \in \Sigma^*$ such that $v \Rightarrow_R^* z$ and $w \Rightarrow_R^* z$ hold,
-\item \emph{confluent} if, for all $u, v, w \in \Sigma^*$, $u \Rightarrow_R^* v$ and $u \Rightarrow_R^* w$ imply that there exists some $z \in \Sigma^*$ such that $v \Rightarrow_R^* z$ and $w \Rightarrow_R^* z$ hold,
-\item \emph{convergent} if it is both noetherian and confluent,
-\item \emph{generalized monadic}, if $|l| \ge |r|$ and $|r|\le 1$ for each rule $(l \to r)\in R$,
-\item \emph{monadic}, if $|l| > |r|$ and $|r|\le 1$ for each rule $(l \to r)\in R$,
-\item \emph{length-reducing}, if for each rule $(l \to r) \in R: |l| > |r|$. 
-\item \emph{non-increasing}, if for each rule $(l \to r) \in R: |l| \ge |r|$. 
-\item \emph{weight-reducing}, if there exists a so-called \emph{weight function} $f: \Sigma \to \mathsf{N}$, such that for each rule $(l \to r) \in R: f^*(l) > f^*(r)$, where $f^*: \Sigma^* \to \mathsf{N}$ is defined inductively as: $f^*(\lambda) = 0$, $f^*(xa) = f^*(x) + f(a)$ for all $x \in \Sigma^*, a \in \Sigma$.
+\item \index{string-rewriting system!terminating}\emph{terminating} or \index{string-rewriting system!noetharian}\emph{noetherian} if there is no infinite sequence of reduction steps $w_1 \Rightarrow_R w_2 \Rightarrow_R w_3 \Rightarrow_R \ldots$,
+\item \index{string-rewriting system!locally confluent}\emph{locally confluent} if, for all $u, v, w \in \Sigma^*$, $u \Rightarrow_R v$ and $u \Rightarrow_R w$ imply that there exists some $z \in \Sigma^*$ such that $v \Rightarrow_R^* z$ and $w \Rightarrow_R^* z$ hold,
+\item \index{string-rewriting system!confluent}\emph{confluent} if, for all $u, v, w \in \Sigma^*$, $u \Rightarrow_R^* v$ and $u \Rightarrow_R^* w$ imply that there exists some $z \in \Sigma^*$ such that $v \Rightarrow_R^* z$ and $w \Rightarrow_R^* z$ hold,
+\item \index{string-rewriting system!convergent}\emph{convergent} if it is both noetherian and confluent,
+\item \index{string-rewriting system!generalized monadic}\emph{generalized monadic}, if $|l| \ge |r|$ and $|r|\le 1$ for each rule $(l \to r)\in R$,
+\item \index{string-rewriting system!monadic}\emph{monadic}, if $|l| > |r|$ and $|r|\le 1$ for each rule $(l \to r)\in R$,
+\item \index{string-rewriting system!length-reducing}\emph{length-reducing}, if for each rule $(l \to r) \in R: |l| > |r|$. 
+\item \index{string-rewriting system!non-increasing}\emph{non-increasing}, if for each rule $(l \to r) \in R: |l| \ge |r|$. 
+\item \index{string-rewriting system!weight-reducing}\emph{weight-reducing}, if there exists a so-called \index{weight function}\emph{weight function} $f: \Sigma \to \mathsf{N}$, such that for each rule $(l \to r) \in R: f^*(l) > f^*(r)$, where $f^*: \Sigma^* \to \mathsf{N}$ is defined inductively as: $f^*(\lambda) = 0$, $f^*(xa) = f^*(x) + f(a)$ for all $x \in \Sigma^*, a \in \Sigma$.
 
 Note that the length-reducing string-rewriting systems represent only a special case of the more general weight-reducing string-rewriting systems. To see this just consider the following weight function: $f(a) := 1$ for all $a \in \Sigma$.
 
@@ -169,26 +169,26 @@ Also note that every weight-reducing string-rewriting system is noetherian.
 If $R$ is a finite string-rewriting system on alphabet $\Sigma$, then the set $\IRR(R)$ of irreducible strings with respect to $R$ is a regular language; furthermore, a finite automaton for $\IRR(R)$ can be constructed in a polynomial time from $R$.
 \end{lemma}
 
-In the literature string-rewriting systems are also known as \emph{semi-Thue systems}. A string-rewriting system $R$ with the property that $(l \to r) \in R$ implies $(r \to l) \in R$ is also called a \emph{Thue system} (after the Norwegian mathematician and logician Axel Thue who introduced it in 1914). For a Thue system $R$, the single-step reduction relation $\Rightarrow_R$ is symmetric, so that the reduction relation $\Rightarrow^*_R$ coincides with the \emph{Thue congruence} $\Leftrightarrow^*_R$, where $\Leftrightarrow_R$ is defined as $\Rightarrow_R \cup \Rightarrow_R^{-1}$.
+In the literature string-rewriting systems are also known as \index{semi-Thue system}\emph{semi-Thue systems}. A string-rewriting system $R$ with the property that $(l \to r) \in R$ implies $(r \to l) \in R$ is also called a \index{Thue system}\emph{Thue system} (after the Norwegian mathematician and logician Axel Thue who introduced it in 1914). For a Thue system $R$, the single-step reduction relation $\Rightarrow_R$ is symmetric, so that the reduction relation $\Rightarrow^*_R$ coincides with the \index{Thue congruence}\emph{Thue congruence} $\Leftrightarrow^*_R$, where $\Leftrightarrow_R$ is defined as $\Rightarrow_R \cup \Rightarrow_R^{-1}$.
 
 The reason that the relation $\Leftrightarrow^*_R$ is called a ``congruence'' relation is that it is an equivalence relation that is compatible with respect to concatenation of strings. For a convergent system $R$, the set $\IRR(R)$ of irreducible strings is a complete set of unique representatives for the Thue congruence $\Leftrightarrow^*_R$ (see, e.\,g.,~\cite{bookOtto93}).
 
-While it is undecidable in general whether a finite string-rewriting system is confluent (see, e.\,g.,~\cite{bookOtto93}), confluence is a decidable property for finite string-rewriting systems that are terminating. Let $R$ be a string-rewriting system on~$\Sigma$. If there are two rules $(l \to r)$ and $(l' \to r')$ in $R$ such that $l = ul'v$ for some $u,v\in\Sigma^*$, then the word $l$ can be rewritten by either of the two rules: $l \Rightarrow_R r$ and $l =ul'v\Rightarrow_R ur'v$. If the system $R$ is to be confluent, then the words $r$ and $ur'v$ must have a common descendant. Accordingly, the pair $(r,ur'v)$ is called a \emph{critical pair} of~$S$. Furthermore, if $l = uv$ and $l'=vw$ for some words $u,v,w\in\Sigma^+$, then the word $uvw$ can be rewritten by either rule: $uvw= l w\Rightarrow_R rw$ and $uvw =ul'\Rightarrow_R ur'$. Hence, also $(rw,ur')$ is  a \emph{critical pair} of~$R$.
+While it is undecidable in general whether a finite string-rewriting system is confluent (see, e.\,g.,~\cite{bookOtto93}), confluence is a decidable property for finite string-rewriting systems that are terminating. Let $R$ be a string-rewriting system on~$\Sigma$. If there are two rules $(l \to r)$ and $(l' \to r')$ in $R$ such that $l = ul'v$ for some $u,v\in\Sigma^*$, then the word $l$ can be rewritten by either of the two rules: $l \Rightarrow_R r$ and $l =ul'v\Rightarrow_R ur'v$. If the system $R$ is to be confluent, then the words $r$ and $ur'v$ must have a common descendant. Accordingly, the pair $(r,ur'v)$ is called a \index{critical pair}\emph{critical pair} of~$S$. Furthermore, if $l = uv$ and $l'=vw$ for some words $u,v,w\in\Sigma^+$, then the word $uvw$ can be rewritten by either rule: $uvw= l w\Rightarrow_R rw$ and $uvw =ul'\Rightarrow_R ur'$. Hence, also $(rw,ur')$ is  a \index{critical pair}\emph{critical pair} of~$R$.
 
 \begin{proposition}\label{PropCon}{\rm \cite{KnBe70}}
-A terminating string-rewriting system is confluent if and only if, for each critical pair $(p,q)$ of $R$, $p$ and $q$ have a common descendant mod~$S$. 
+A terminating string-rewriting system is confluent if and only if, for each critical pair $(p,q)$ of $R$, $p$ and $q$ have a common descendant mod~$R$. 
 \end{proposition}
 
 If $R$ is finite, then it has only finitely many critical pairs, which can be computed. Hence, it follows immediately that confluence is decidable for finite terminating string-rewriting systems.
 
-String-rewriting systems play a central part in the definition of the so called \emph{Church-Rosser languages} ($\CRL$). A language $L \subseteq \Sigma^*$ is called a \emph{Church-Rosser language}, if it consists of those strings $w \in \Sigma^*$ that, placed within the context $t_1 w t_2$ of certain auxiliary strings $t_1$ and $t_2$, reduce to a certain ``accepting'' symbol with respect to a finite, length-reducing and confluent string-rewriting system. Apart from the final symbol and the symbols occurring in the contexts $t_1$ and $t_2$, also other non-terminal symbols are allowed in this definition. Although the rewriting process with respect to the string-rewriting system considered is inherently non-deterministic, the confluence of the system ensures that each reduction sequence will lead to the same result.
+String-rewriting systems play a central part in the definition of the so called \index{language!Church-Rosser}\emph{Church-Rosser languages} (\index{$\CRL$}$\CRL$). A language $L \subseteq \Sigma^*$ is called a \emph{Church-Rosser language}, if it consists of those strings $w \in \Sigma^*$ that, placed within the context $t_1 w t_2$ of certain auxiliary strings $t_1$ and $t_2$, reduce to a certain ``accepting'' symbol with respect to a finite, length-reducing and confluent string-rewriting system. Apart from the final symbol and the symbols occurring in the contexts $t_1$ and $t_2$, also other non-terminal symbols are allowed in this definition. Although the rewriting process with respect to the string-rewriting system considered is inherently non-deterministic, the confluence of the system ensures that each reduction sequence will lead to the same result.
 
 \subsection{McNaughton Families of Languages}
 \label{subsection:mcnaughton-families}
 
-The natural generalization of Church-Rosser languages led to the development of the broad concept of the so-called \emph{McNaughton families} \cite{Beaudry2003}.
+The natural generalization of Church-Rosser languages led to the development of the broad concept of the so-called \index{McNaughton families}\emph{McNaughton families} \cite{Beaudry2003}.
 
-A language $L\subseteq \Sigma^*$ is called a \emph{McNaughton language}, if there exist a finite alphabet $\Gamma$ strictly containing~$\Sigma$, a finite string-rewriting system $R$ on~$\Gamma$, strings $t_1,t_2\in(\Gamma\smallsetminus\Sigma)^*\cap \IRR(R)$, and a letter $Y\in(\Gamma\smallsetminus\Sigma)\cap \IRR(R)$ such that, for all $w\in\Sigma^*$, $w\in L$ if and only if $t_1wt_2\Rightarrow^*_R Y$. Here the symbols of $\Sigma$ are \emph{terminals}, while those of $\Gamma\smallsetminus\Sigma$ can be seen as \emph{nonterminals}. We say that the McNaughton language $L$ is \emph{specified} by the four-tuple $(R,t_1,t_2,Y)$. This fact will be expressed as $L = L(R,t_1,t_2,Y)$.
+A language $L\subseteq \Sigma^*$ is called a \index{language!McNaughton}\emph{McNaughton language}, if there exist a finite alphabet $\Gamma$ strictly containing~$\Sigma$, a finite string-rewriting system $R$ on~$\Gamma$, strings $t_1,t_2\in(\Gamma\smallsetminus\Sigma)^*\cap \IRR(R)$, and a letter $Y\in(\Gamma\smallsetminus\Sigma)\cap \IRR(R)$ such that, for all $w\in\Sigma^*$, $w\in L$ if and only if $t_1wt_2\Rightarrow^*_R Y$. Here the symbols of $\Sigma$ are \emph{terminals}, while those of $\Gamma\smallsetminus\Sigma$ can be seen as \emph{nonterminals}. We say that the McNaughton language $L$ is \emph{specified} by the four-tuple $(R,t_1,t_2,Y)$. This fact will be expressed as $L = L(R,t_1,t_2,Y)$.
 
 We illustrate this definition by a simple example.
 
@@ -198,36 +198,35 @@ $$R=\{\cent aaaa\to \cent aaF, Faa\to aF, F\$\to \$, \cent aa\$ \to Y, \cent a\$
 This system does not have any critical pairs, and hence, it is confluent. Now, for all $m\in \N$, $\cent a^m\$\Rightarrow_R^* Y\textup{ if and only if } m=2^n\textup{ for some }n\ge 0,$ which implies that the McNaughton language $L(R,\cent,\$,Y)$ is the language $L_{\rm expo} = \{\,a^{2^n}\mid n\in \N\,\}.$
 \end{example}
 
-By placing restrictions on the finite string-rewriting systems used we obtain certain families of McNaughton languages. A McNaughton language is called \emph{weight-reducing} (\emph{length-reducing}), if it is defined using a finite string-rewriting system that is weight-reducing (length-reducing). The resulting class of languages is denoted by~\wrMcNL\ (\lrMcNL). A McNaughton language is called (\emph{generalized}) \emph{monadic}, if it is defined using a finite string-rewriting system that is (generalized) monadic. The resulting language classes are denoted by~{\sf gen-mon-McNL} and {\sf mon-McNL}. By requiring, in addition, that the string-rewriting system is confluent, we obtain the McNaughton families \conwrMcNL, \conlrMcNL, {\sf con-gen-mon-McNL}, and {\sf con-mon-McNL}. Thus, Example~\ref{ExMcNL} shows that $L_{\rm expo}\in \conlrMcNL$. Concerning these families the following results are known.
+By placing restrictions on the finite string-rewriting systems used we obtain certain families of McNaughton languages. A McNaughton language is called \index{language!McNaughton!weight-reducing}\emph{weight-reducing} (\index{language!McNaughton!length-reducing}\emph{length-reducing}), if it is defined using a finite string-rewriting system that is weight-reducing (length-reducing). The resulting class of languages is denoted by \index{$\wrMcNL$}$\wrMcNL$ (\index{$\lrMcNL$}$\lrMcNL$). A McNaughton language is called (\index{language!McNaughton!generalized monadic}\emph{generalized}) \index{language!McNaughton!monadic}\emph{monadic}, if it is defined using a finite string-rewriting system that is (generalized) monadic. The resulting language classes are denoted by \index{$\genmonMcNL$}$\genmonMcNL$ and \index{$\monMcNL$}$\monMcNL$. By requiring, in addition, that the string-rewriting system is confluent, we obtain the McNaughton families \index{$\conwrMcNL$}$\conwrMcNL$, \index{$\conlrMcNL$}$\conlrMcNL$, \index{$\congenmonMcNL$}$\congenmonMcNL$, and \index{$\conmonMcNL$}$\conmonMcNL$. Thus, Example~\ref{ExMcNL} shows that $L_{\rm expo}\in \conlrMcNL$. Concerning these families the following results are known.
 
 \begin{theorem}{\rm \cite{Beaudry2003,Leupold2011}}\label{ThmMcNL}\\[+0.2cm]
 $\begin{array}[t]{crcccl}
 {\rm (a)} & \GCSL & = & \wrMcNL & = & \lrMcNL.\\
 {\rm (b)} & \CRL  & = & \conwrMcNL & = & \conlrMcNL.\\
-{\rm (c)} & \CFL  & = & \textup{\sf gen-mon-McNL} & = & \textup{\sf mon-McNL}.\\
-{\rm (d)} & \Reg  & \subset & \textup{\sf con-mon-McNL} & \subseteq & 
-\textup{\sf con-gen-mon-McNL}\; \subset\; \symDCFL.
+{\rm (c)} & \CFL  & = & \genmonMcNL & = & \monMcNL.\\
+{\rm (d)} & \Reg  & \subset & \conmonMcNL & \subseteq & \congenmonMcNL\; \subset\; \symDCFL.
 \end{array}$
 \end{theorem}
 
-Here $\GCSL$ is the class of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and $\CRL$ is the class of \emph{Church-Rosser languages} \cite{MNO88}. $\Reg$ and $\CFL$ denote the classes of regular and context-free languages, $\symDCFL = \DCFL\cap\DCFL^R$, that is, a language $L$ belongs to \symDCFL, if both, $L$ and $L^R$, are deterministic context-free. It is still open whether the second inclusion in (d) is proper. In fact, it is shown in~\cite{Leupold2011} that the families {\sf con-mon-McNL} and {\sf con-gen-mon-McNL} coincide, if and only if the former is closed under inverse strictly alphabetic morphisms. We refer the interested reader to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
+Here \index{$\GCSL$}$\GCSL$ is the class of \index{language!growing context-sensitive}\emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and \index{$\CRL$}$\CRL$ is the class of \index{language!Church-Rosser}\emph{Church-Rosser languages} \cite{MNO88}. \index{$\Reg$}$\Reg$ and \index{$\CFL$}$\CFL$ denote the classes of \index{language!regular}regular and \index{language!context-free}context-free languages, \index{$\symDCFL$}$\symDCFL = \DCFL\cap\DCFL^R$, that is, a language $L$ belongs to $\symDCFL$, if both, $L$ and $L^R$, are \index{language!context-free!deterministic}deterministic context-free. It is still open whether the second inclusion in (d) is proper. In fact, it is shown in~\cite{Leupold2011} that the families $\conmonMcNL$ and $\congenmonMcNL$ coincide, if and only if the former is closed under inverse strictly alphabetic morphisms. We refer the interested reader to \cite{Beaudry2003} and \cite{Leupold2011} where these families are studied in detail. 
 
 \subsection{Delimited String-Rewriting Systems}
 \label{section:delimited-string-rewriting-systems}
 
-In this section we give a short overview of the so-called \emph{delimited string-rewriting systems} ($\DSRS$) \cite{Eyraud2007}, which are expressive enough to define a nontrivial class of languages containing all regular languages and some context-free languages. Additionally, we present a novel algorithm \emph{LARS} \cite{Eyraud2007} (Learning Algorithm for Rewriting Systems) which identifies a large subclass of these languages in polynomial time. In fact, a simplified version of LARS \cite{delaHiguera2010} identifies any delimited string-rewriting system in the limit. The main difference between delimited string-rewriting systems and string-rewriting systems is that delimited string-rewriting systems use a specific order relation over the set of all terms and rules in order to make always only one single rule eligible for application for any given input string. This makes them an efficient (often linear) parsing device for strings with the membership problem decidable in polynomial time.
+In this section we give a short overview of the so-called \index{delimited string-rewriting system}\emph{delimited string-rewriting systems} (\index{$\DSRS$}$\DSRS$) \cite{Eyraud2007}, which are expressive enough to define a nontrivial class of languages containing all regular languages and some context-free languages. Additionally, we present a novel algorithm \index{LARS}\emph{LARS} \cite{Eyraud2007} (Learning Algorithm for Rewriting Systems) which identifies a large subclass of these languages in polynomial time. In fact, a simplified version of LARS \cite{delaHiguera2010} identifies any delimited string-rewriting system in the limit. The main difference between delimited string-rewriting systems and string-rewriting systems is that delimited string-rewriting systems use a specific order relation over the set of all terms and rules in order to make always only one single rule eligible for application for any given input string. This makes them an efficient (often linear) parsing device for strings with the membership problem decidable in polynomial time.
 
-First, we introduce two new symbols $\cent$ and $\$$, called the \emph{sentinels}, that do not belong to the alphabet $\Sigma$. We will be concerned with languages that are subsets of $\cent \cdot \Sigma^* \cdot \$$. As for the rewrite rules, they will be made of pairs of \emph{terms} partially marked; a term is a string from $T(\Sigma) = \{\lambda, \cent\} \cdot \Sigma^* \cdot \{\lambda, \$\}$.
+First, we introduce two new symbols \index{$\cent$}$\cent$ and \index{$\$$}$\$$, called the \index{sentinel}\emph{sentinels}, that do not belong to the alphabet $\Sigma$. We will be concerned with languages that are subsets of $\cent \cdot \Sigma^* \cdot \$$. As for the \index{rule!rewrite}rewrite rules, they will be made of pairs of \index{term}\emph{terms} partially marked; a term is a string from $T(\Sigma) = \{\lambda, \cent\} \cdot \Sigma^* \cdot \{\lambda, \$\}$.
 
 Terms in $T(\Sigma)$ can be of the following \emph{types}: type $1$: $w \in \Sigma^*$, type $2$: $w \in \cent \cdot \Sigma^*$, type $3$: $w \in \Sigma^* \cdot \$$, and type $4$: $w \in \cent \cdot \Sigma^* \cdot \$$. For $w \in T(\Sigma)$ the \emph{root} of $w$ is $w$ without the sentinels $\cent$ and $\$$, e.\,g.\ $root(\cent aab) = aab$. We define a specific order relation over $T(\Sigma)$: $u < v \Leftrightarrow root(u) <_{lex-length} root(v) \vee (root(u) = root(v) \wedge type(u) < type(v))$, where $w_1 <_{lex-length} w_2 \Leftrightarrow |w_1| < |w_2| \vee (|w_1| = |w_2| \wedge w_1 <_{lex} w_2)$. For instance, $ab < \cent ab < ab \$ < \cent ab \$ < ba$.
 
-A \emph{rewrite rule} $\rho$ is an ordered pair of terms $\rho = (l, r)$, generally written as $\rho = l \vdash r$. The term $l$ is called the \emph{left-hand side} of $\rho$ and $r$ is \emph{right-hand side} of $\rho$. We say that $\rho = l \vdash r$ is a \emph{delimited rewrite rule} if $l$ and $r$ are of the same type. By a \emph{delimited string-rewriting system} ($\DSRS$), we mean any finite set $\mathcal{R}$ of delimited rewrite rules. The order relation extends to rules: $(l_1, r_1) < (l_2, r_2)$ if $l_1 < l_2$ or $(l_1 = l_2) \wedge (r_1 < r_2)$.
+A \index{rule!rewrite}\emph{rewrite rule} $\rho$ is an ordered pair of terms $\rho = (l, r)$, generally written as $\rho = l \vdash r$. The term $l$ is called the \emph{left-hand side} of $\rho$ and $r$ is \emph{right-hand side} of $\rho$. We say that $\rho = l \vdash r$ is a \emph{delimited rewrite rule} if $l$ and $r$ are of the same type. By a \emph{delimited string-rewriting system} ($\DSRS$), we mean any finite set $\mathcal{R}$ of delimited rewrite rules. The order relation extends to rules: $(l_1, r_1) < (l_2, r_2)$ if $l_1 < l_2$ or $(l_1 = l_2) \wedge (r_1 < r_2)$.
 
 A system is \emph{deterministic} if no two rules share a common left-hand side. Given a system $\mathcal{R}$ and string $w$, there may be several rules applicable upon $w$. Nevertheless, only one rule is eligible. This is the rule having the smallest left-hand side. The same rule might be eligible in different places, but we systematically privilege the leftmost position.
 
 Given a $\DSRS$ $\mathcal{R}$ and two strings $w_1, w_2 \in T(\Sigma)$, we say that $w_1$ \emph{rewrites in one step into} $w_2$, written $w_1 \vdash_{\mathcal{R}} w_2$ or simply $w_1 \vdash w_2$, if there exists an eligible rule $(l \vdash r) \in \mathcal{R}$ for $w_1$, and there are two strings $u, v \in T(\Sigma)$ such that $w_1 = ulv$ and $w_2 = urv$, and furthermore $u$ is shortest for this rule. A string $w$ is \emph{reducible} if there exists $w'$ such that $w \vdash w'$, and \emph{irreducible} otherwise. Let $\vdash_{\mathcal{R}}^* $ (or simply $\vdash^*$) denote the reflexive and transitive closure of $\vdash_{\mathcal{R}}$. We say that $w_1$ \emph{reduces to} $w_2$ or that $w_2$ is \emph{derivable from} $w_1$ if $w_1 \vdash_{\mathcal{R}}^* w_2$.
 
-Given a $\DSRS$ $\mathcal{R}$ and an irreducible string $e \in \Sigma^*$ we define the language $L(\mathcal{R}, e)$ as the set of strings that reduce to $e$ using the rules of $\mathcal{R}$: $L(\mathcal{R}, e) = \{ w \in \Sigma^* \mid \cent w \$ \vdash_{\mathcal{R}}^* \cent e \$ \}.$ Deciding whether a string $w$ belongs to a language $L(\mathcal{R}, e)$ consists of trying to obtain $e$ from $w$ by a rewriting derivation. We will denote by $\Apply_{\mathcal{R}}(w)$ the string obtained by applying the different rules in $\mathcal{R}$ until no more rules can be applied. We extend the notation to a set of strings: $\Apply_{\mathcal{R}}(S) = \{\Apply_{\mathcal{R}}(w) \mid w \in S\}$.
+Given a $\DSRS$ $\mathcal{R}$ and an irreducible string $e \in \Sigma^*$ we define the language $L(\mathcal{R}, e)$ as the set of strings that reduce to $e$ using the rules of $\mathcal{R}$: $L(\mathcal{R}, e) = \{ w \in \Sigma^* \mid \cent w \$ \vdash_{\mathcal{R}}^* \cent e \$ \}.$ Deciding whether a string $w$ belongs to a language $L(\mathcal{R}, e)$ consists of trying to obtain $e$ from $w$ by a rewriting derivation. We will denote by \index{$\Apply$}$\Apply_{\mathcal{R}}(w)$ the string obtained by applying the different rules in $\mathcal{R}$ until no more rules can be applied. We extend the notation to a set of strings: $\Apply_{\mathcal{R}}(S) = \{\Apply_{\mathcal{R}}(w) \mid w \in S\}$.
 
 \begin{example}
 Let $\Sigma = \{a, b\}$. 
@@ -250,15 +249,15 @@ $$\cent aa \underline{aabb} bb \$ \vdash
 
 {\bf Algorithm LARS}\label{section:lars}
 
-Learning Algorithm for Rewriting Systems (LARS) introduced in \cite{Eyraud2007} generates the possible rules among those that can be applied over the positive samples $S_+$, tries using them and keeps them if they do not create inconsistency (using the negative samples $S_-$ for that). Algorithm LARS calls the function $\NewRule$, which generates the next possible rule to be checked.
+\index{LARS}\emph{Learning Algorithm for Rewriting Systems} (LARS) introduced in \cite{Eyraud2007} generates the possible rules among those that can be applied over the positive samples $S_+$, tries using them and keeps them if they do not create inconsistency (using the negative samples $S_-$ for that). Algorithm LARS calls the function \index{$\NewRule$}$\NewRule$, which generates the next possible rule to be checked.
 
-For this, one should choose \emph{useful} rules, i.\,e.\ those that can be applied on at least one string from $S_+$. One might also consider useful a rule that allows us to diminish the size of the set $S_+$: a rule which, when added, has the property that two different strings rewrite into an identical string. The goal of usefulness is to avoid an exponential explosion in the number of rules to be checked. The function $\Consistent$ checks that by adding the new rule to the system, one does not rewrite a positive example and a negative example into a same string.
-
+For this, one should choose \emph{useful} rules, i.\,e.\ those that can be applied on at least one string from $S_+$. One might also consider useful a rule that allows us to diminish the size of the set $S_+$: a rule which, when added, has the property that two different strings rewrite into an identical string. The goal of usefulness is to avoid an exponential explosion in the number of rules to be checked. The function \index{$\Consistent$}$\Consistent$ checks that by adding the new rule to the system, one does not rewrite a positive example and a negative example into a same string.
 
 \begin{algorithm}
 \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 \caption{Learning algorithm $\mathsf{LARS}(S_+, S_-)$}
 \label{algorithm:lars}
+\index{LARS}
 %\DontPrintSemicolon
 \LinesNumbered
 \Input{Sample $S = (S^+, S^-)$ over $\Sigma$.}
@@ -279,27 +278,24 @@ The goal is to be able to learn any $\DSRS$ with LARS. The simplified version pr
 \section{Context Rewriting Systems}
 \label{section:context-rewriting-systems}
 
-In this thesis we use the so-called \emph{context rewriting systems} ($\CRS$) as a framework for all considered models. Context rewriting systems naturally emerge from ideas of both string-rewriting systems and delimited string-rewriting systems. However, there are several important differences. Unlike string-rewriting systems the rewriting rules of $\CRS$ are extended by \emph{contexts} that limit their application. As we have already mentioned, delimited string-rewriting systems use a specific order relation over the set of all terms and rules. Context rewriting systems, on the other hand, are nondeterministic and do not use any ordering. To test whether a word $w$ belongs to the language $L(M)$ accepted by a given $\CRS$ $M$, one has to check whether $w$ can be reduced to the empty word $\lambda$ by a sequence of applications of the instructions of $M$.
+In this thesis we use the so-called \index{context rewriting system}\emph{context rewriting systems} (\index{$\CRS$}$\CRS$) as a framework for all considered models. Context rewriting systems naturally emerge from ideas of both string-rewriting systems and delimited string-rewriting systems. However, there are several important differences. Unlike string-rewriting systems the rewriting rules of $\CRS$ are extended by \emph{contexts} that limit their application. As we have already mentioned, delimited string-rewriting systems use a specific order relation over the set of all terms and rules. Context rewriting systems, on the other hand, are nondeterministic and do not use any ordering. To test whether a word $w$ belongs to the language $L(M)$ accepted by a given $\CRS$ $M$, one has to check whether $w$ can be reduced to the empty word $\lambda$ by a sequence of applications of the instructions of $M$.
 
 \begin{definition}[Context rewriting systems \cite{CM10}]\label{definition:crs}
-A \emph{context rewriting system} (\emph{$\CRS$} for short) is a system $M = (\Sigma, \Gamma, \Phi)$, where $\Sigma$ is an \emph{input alphabet}, $\Gamma \supseteq \Sigma$ is a \emph{working alphabet} not containing the special symbols $\cent$ and $\$$, called \emph{sentinels}, and $\Phi$ is a finite set of \emph{instructions} of the form:
+A \index{context rewriting system}\emph{context rewriting system} (\index{$\CRS$}\emph{$\CRS$} for short) is a system $M = (\Sigma, \Gamma, \Phi)$, where $\Sigma$ is an \index{alphabet!input}\emph{input alphabet}, $\Gamma \supseteq \Sigma$ is a \index{alphabet!working}\emph{working alphabet} not containing the special symbols \index{$\cent$}$\cent$ and \index{$\$$}$\$$, called \index{sentinel}\emph{sentinels}, and $\Phi$ is a finite set of \index{instruction}\emph{instructions} of the form:
 $$(x, z \to t, y)\;,$$
-where $x$ is called the \emph{left context}, $x \in \{\lambda, \cent\}\cdot\Gamma^*$,
-$y$ is called the \emph{right context}, $y \in \Gamma^*\cdot\{\lambda, \$\}$, and
-$z \to t$ is called the \emph{instruction-rule}, $z, t \in \Gamma^*$.
-The \emph{width} of the instruction $\phi = (x, z \to t, y)$ is $|\phi| = |xzty|$. The \emph{width} of the context rewriting system $M$ is $|M| = \max_{\phi \in \Phi} |\phi|$ and the \emph{size} of the context rewriting system $M$ is $\size(M) = \sum_{\phi \in \Phi} |\phi|$. If the input alphabet and the working alphabet of $M$ are known from the context, we use $M$ and $\Phi$ interchangeably. We also use a shorter notation $(\Sigma, \Phi)$ to denote a $\CRS$ $(\Sigma, \Sigma, \Phi)$ without auxiliary symbols.
+where $x$ is called the \index{context!left}\emph{left context}, $x \in \{\lambda, \cent\}\cdot\Gamma^*$, $y$ is called the \index{context!right}\emph{right context}, $y \in \Gamma^*\cdot\{\lambda, \$\}$, and $z \to t$ is called the \index{instruction!rule}\emph{instruction-rule}, $z, t \in \Gamma^*$. The \emph{width} of the instruction $\phi = (x, z \to t, y)$ is $|\phi| = |xzty|$. The \emph{width} of the context rewriting system $M$ is $|M| = \max_{\phi \in \Phi} |\phi|$ and the \emph{size} of the context rewriting system $M$ is $\size(M) = \sum_{\phi \in \Phi} |\phi|$. If the input alphabet and the working alphabet of $M$ are known from the context, we use $M$ and $\Phi$ interchangeably. We also use a shorter notation $(\Sigma, \Phi)$ to denote a $\CRS$ $(\Sigma, \Sigma, \Phi)$ without auxiliary symbols.
 
-For arbitrary words $u, v, z, t \in \Gamma^*$, a word $w = uzv$ \emph{can be rewritten} into $utv$ (denoted as $uzv \vdash_M utv$ or $uzv \vdash_{\Phi} utv$) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$ such that $x$ is a suffix of $\cent \cdot u$ and $y$ is a prefix of $v \cdot \$ $. We often underline the rewritten part of the word $w$, and if the instruction $\phi$ is known we use $\vdash^{(\phi)}_M$ instead of $\vdash_M$, i.\,e., $u \underline{z} v \vdash^{(\phi)}_M utv$.
+For arbitrary words $u, v, z, t \in \Gamma^*$, a word $w = uzv$ \emph{can be rewritten} into $utv$ (denoted as \index{$\vdash_M$}$uzv \vdash_M utv$ or \index{$\vdash_{\Phi}$}$uzv \vdash_{\Phi} utv$) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$ such that $x$ is a suffix of $\cent \cdot u$ and $y$ is a prefix of $v \cdot \$ $. We often underline the rewritten part of the word $w$, and if the instruction $\phi$ is known we use $\vdash^{(\phi)}_M$ instead of $\vdash_M$, i.\,e., $u \underline{z} v \vdash^{(\phi)}_M utv$.
 
-A word $w = uzv$ can be \emph{left-most} rewritten into $utv$ (denoted as $uzv \vdash^{\sf left}_M utv$ or $uzv \vdash^{\sf left}_{\Phi} utv$) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$ such that $u \underline{z} v \vdash^{(\phi)}_M utv$, and for every other instruction $\phi' = (x', z' \to t', y') \in \Phi$ such that $uzv = u' \underline{z'} v' \vdash^{(\phi')}_M u't'v'$ the following holds: either $|u'| > |u|$, or $|u'| = |u|$ and $xzty$ is lexicographically smaller than $x'z't'y'$. We say that $\phi$ is the \emph{left-most instruction in $\Phi$ for the word $w = uzv$}. There is at most one such instruction.
+A word $w = uzv$ can be \emph{left-most} rewritten into $utv$ (denoted as \index{$\vdash^{\sf left}_M$}$uzv \vdash^{\sf left}_M utv$ or \index{$\vdash^{\sf left}_{\Phi}$}$uzv \vdash^{\sf left}_{\Phi} utv$) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$ such that $u \underline{z} v \vdash^{(\phi)}_M utv$, and for every other instruction $\phi' = (x', z' \to t', y') \in \Phi$ such that $uzv = u' \underline{z'} v' \vdash^{(\phi')}_M u't'v'$ the following holds: either $|u'| > |u|$, or $|u'| = |u|$ and $xzty$ is lexicographically smaller than $x'z't'y'$. We say that $\phi$ is the \index{instruction!left-most}\emph{left-most instruction in $\Phi$ for the word $w = uzv$}. There is at most one such instruction.
 
-The relation $\vdash_M \ \subseteq \Gamma^* \times \Gamma^*$ is called the \emph{rewriting relation} and the relation $\vdash^{\sf left}_M \ \subseteq \Gamma^* \times \Gamma^*$ is called the \emph{left-most rewriting relation}.
+The relation $\vdash_M \ \subseteq \Gamma^* \times \Gamma^*$ is called the \index{rewriting relation}\emph{rewriting relation} and the relation $\vdash^{\sf left}_M \ \subseteq \Gamma^* \times \Gamma^*$ is called the \index{rewriting relation!left-most}\emph{left-most rewriting relation}.
 
-Let $l \in \{\lambda, \cent\} \cdot \Gamma^*$, and $r \in \Gamma^* \cdot \{\lambda, \$\}$. A word $w = uzv$ \emph{can be rewritten in the context $(l, r)$} into $utv$ (denoted as $uzv \vdash_M utv$ \emph{in the context $(l, r)$}) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$, such that $x$ is a suffix of $l \cdot u$ and $y$ is a prefix of $v \cdot r$. Similary as above, one can define the \emph{left-most} rewriting in the context $(l, r)$. Each definition that uses the rewriting relation $\vdash_M$ (or left-most rewriting relation $\vdash^{\sf left}_M$) can be \emph{relativized} to any context $(l, r)$. Unless stated otherwise, we will use the \emph{standard context} $(l, r) = (\cent, \$)$.
+Let $l \in \{\lambda, \cent\} \cdot \Gamma^*$, and $r \in \Gamma^* \cdot \{\lambda, \$\}$. A word $w = uzv$ \index{rewriting relation!in the context $(l, r)$}\emph{can be rewritten in the context $(l, r)$} into $utv$ (denoted as $uzv \vdash_M utv$ \emph{in the context $(l, r)$}) if and only if there exists an instruction $\phi = (x, z \to t, y) \in \Phi$, such that $x$ is a suffix of $l \cdot u$ and $y$ is a prefix of $v \cdot r$. Similary as above, one can define the \emph{left-most} rewriting in the context $(l, r)$. Each definition that uses the rewriting relation $\vdash_M$ (or left-most rewriting relation $\vdash^{\sf left}_M$) can be \emph{relativized} to any context $(l, r)$. Unless stated otherwise, we will use the \emph{standard context} $(l, r) = (\cent, \$)$.
 
-If $M = (\Sigma, \Gamma, \Phi)$ is a context rewriting system, then $M_{\sf left}$ denotes the same context rewriting system, except that we define the rewriting relation $\vdash_{M_{\sf left}}$ as the left-most rewriting relation $\vdash^{\sf left}_M$.
+If $M = (\Sigma, \Gamma, \Phi)$ is a context rewriting system, then $M_{\sf left}$ denotes the same context rewriting system, except that we define the rewriting relation \index{$\vdash_{M_{\sf left}}$}$\vdash_{M_{\sf left}}$ as the left-most rewriting relation $\vdash^{\sf left}_M$.
 
-A context rewriting system $M = (\Sigma, \Gamma, \Phi)$ is called \emph{simplified} if for every $\phi = (x, z \to t, y) \in \Phi: z \not\vdash_{\Phi - \{\phi\}}^* t$ in the context $(x, y)$.
+A context rewriting system $M = (\Sigma, \Gamma, \Phi)$ is called \index{context rewriting system!simplified}\emph{simplified} if for every $\phi = (x, z \to t, y) \in \Phi: z \not\vdash_{\Phi - \{\phi\}}^* t$ in the context $(x, y)$.
 
 The \emph{language} associated with $M$ is defined as $L(M) = \{w \in \Sigma^* \mid w \vdash_M^* \lambda \}$, where $\vdash_M^*$ is the reflexive and transitive closure of $\vdash_M$. Note that, by definition, $\lambda \in L(M)$.
 \end{definition}
@@ -316,7 +312,7 @@ Then we have $aaa\underline{ab}bbb \vdash^{(1)}_{M} aa\underline{ab}bb \vdash^{(
 \end{example}
 
 \begin{example}\label{example:dyck}
-Let $M = (\Sigma, \Phi)$ be a $\CRS$ with $\Sigma = \{a, b\}$ and $\Phi$ consisting of only one instruction $(\lambda, ab \to \lambda, \lambda)$. Then we have $aba\underline{ab}bab \vdash_M ab\underline{ab}ab \vdash_M \underline{ab}ab \vdash_M \underline{ab} \vdash_M \lambda$, i.\,e.\ $abaabbab \vdash_M^* \lambda$. So the word $abaabbab$ is accepted by $M$. It is easy to see that both $M$ and $M_{\sf left}$ recognize the \emph{Dyck language} of correct parentheses over $\Sigma$, i.\,e., the language generated by $S$ in the grammar: $S \to TS \mid \lambda; \ \ T \to a S b$.
+Let $M = (\Sigma, \Phi)$ be a $\CRS$ with $\Sigma = \{a, b\}$ and $\Phi$ consisting of only one instruction $(\lambda, ab \to \lambda, \lambda)$. Then we have $aba\underline{ab}bab \vdash_M ab\underline{ab}ab \vdash_M \underline{ab}ab \vdash_M \underline{ab} \vdash_M \lambda$, i.\,e.\ $abaabbab \vdash_M^* \lambda$. So the word $abaabbab$ is accepted by $M$. It is easy to see that both $M$ and $M_{\sf left}$ recognize the \index{language!Dyck}\emph{Dyck language} of correct parentheses over $\Sigma$, i.\,e., the language generated by $S$ in the grammar: $S \to TS \mid \lambda; \ \ T \to a S b$.
 \end{example}
 
 \begin{remark}\label{remark:setinstructions}
@@ -326,67 +322,64 @@ We use the following notation: if $X \subseteq \{\lambda, \cent\}\cdot\Gamma^*$ 
 By reversing all rewriting rules of a $\CRS$-system we obtain a dual system.
 
 \begin{definition}\label{definition:crs-dual}
-Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$-system. A \emph{dual context rewriting system} $M^D$ is a $\CRS$-system $M^D = (\Sigma, \Gamma, \Phi^D)$, where $\Phi^D = \{(x, t \to z, y) \mid (x, z \to t, y) \in \Phi \}$. For an instruction $\phi = (x, z \to t, y)$, we call $\phi^D = (x, t \to z, y)$ a \emph{dual instruction} to the instruction $\phi$. We also define a \emph{dual rewriting relation} to the relation $\vdash_M$ as $\dashv_M = (\vdash_M)^D = \vdash_{M^D}$.
+Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$-system. A \index{context rewriting system!dual}\emph{dual context rewriting system} $M^D$ is a $\CRS$-system $M^D = (\Sigma, \Gamma, \Phi^D)$, where $\Phi^D = \{(x, t \to z, y) \mid (x, z \to t, y) \in \Phi \}$. For an instruction $\phi = (x, z \to t, y)$, we call $\phi^D = (x, t \to z, y)$ a \index{instruction!dual}\emph{dual instruction} to the instruction $\phi$. We also define a \index{rewriting relation!dual}\emph{dual rewriting relation} to the relation $\vdash_M$ as \index{$\dashv_M$}$\dashv_M = (\vdash_M)^D = \vdash_{M^D}$.
 \end{definition}
 
 \begin{remark}\label{remark:approach}
 Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$-system and $N = M^D$ be a dual $\CRS$-system to the $\CRS$-system $M$. Let $L$ be a language of all words that can be ``generated'' from the empty word $\lambda$ by using the dual rewriting relation $\dashv_M$, i.\,e.\ $L = \{w \in \Sigma^* \mid \lambda \dashv_M^* w\}$. Obviously, $L(M) = L$. This reasoning suggests that we can look at context rewriting systems from two points of view:
 \begin{enumerate}
 \item
-We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a system that recognizes the language $L(M)$ by using \emph{reductions}, i.\,e.\ $L(M) = \{ w \in \Sigma^* \mid w \vdash^*_M \lambda \}$, where $\vdash_M$ is the rewriting relation of $M$, called the \emph{reduction relation}.
+We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a system that recognizes the language $L(M)$ by using \emph{reductions}, i.\,e.\ $L(M) = \{ w \in \Sigma^* \mid w \vdash^*_M \lambda \}$, where $\vdash_M$ is the rewriting relation of $M$, called the \index{reduction relation}\emph{reduction relation}.
 \item
-We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a generative device generating the language $L(M)$ by using \emph{productions}, i.\,e.\ $L(M) = \{ w \in \Sigma^* \mid \lambda \dashv^*_M w \}$, where $\dashv_M \;= \; (\vdash_M)^D$ is the rewriting relation of $N = M^D$, called the \emph{production relation}.
+We can consider $M=(\Sigma, \Gamma, \Phi)$ to be a generative device generating the language $L(M)$ by using \emph{productions}, i.\,e.\ $L(M) = \{ w \in \Sigma^* \mid \lambda \dashv^*_M w \}$, where $\dashv_M \;= \; (\vdash_M)^D$ is the rewriting relation of $N = M^D$, called the \index{production relation}\emph{production relation}.
 \end{enumerate}
 \end{remark}
 
 \begin{definition}\label{definition:crs-types}
 Let  $M = (\Sigma, \Gamma, \Phi)$ be a context rewriting system. We say that $M$ is:
 \begin{enumerate}
-\item \emph{length-reducing}, if for each instruction $\phi = (x, z \to t, y) \in \Phi: |z| > |t|$.
-
-\item \emph{weight-reducing}, if there exists a so-called \emph{weight function} $f: \Gamma \to \mathsf{N}$, such that for each instruction $\phi = (x, z \to t, y) \in \Phi: f^*(z) > f^*(t)$, where $f^*: \Gamma^* \to \mathsf{N}$ is defined inductively as: $f^*(\lambda) = 0$, $f^*(xa) = f^*(x) + f(a)$ for all $x \in \Gamma^*, a \in \Gamma$.
-
-\item \emph{confluent} if, for all $u, v, w \in \Gamma^*$, $u \vdash_M^* v$ and $u \vdash_M^* w$ imply that there exists some $z \in \Gamma^*$ such that $v \vdash_M^* z$ and $w \vdash_M^* z$ hold.
-
-\item \emph{$\lambda$-confluent} if, for all $u, v \in \Gamma^*$, $u \vdash_M^* \lambda$ and $u \vdash_M^* v$ imply that $v \vdash_M^* \lambda$.
-
-%Note that length-reducing context rewriting systems are only a special case of weight-reducing context rewriting systems. To see this just consider a weight function: $f(a) := 1$, for all $a \in \Gamma$.
+\item \index{context rewriting system!length-reducing}\emph{length-reducing}, if for each instruction $\phi = (x, z \to t, y) \in \Phi: |z| > |t|$.
+\item \index{context rewriting system!weight-reducing}\emph{weight-reducing}, if there exists a so-called \emph{weight function} $f: \Gamma \to \mathsf{N}$, such that for each instruction $\phi = (x, z \to t, y) \in \Phi: f^*(z) > f^*(t)$, where $f^*: \Gamma^* \to \mathsf{N}$ is defined inductively as: $f^*(\lambda) = 0$, $f^*(xa) = f^*(x) + f(a)$ for all $x \in \Gamma^*, a \in \Gamma$.
+\item \index{context rewriting system!confluent}\emph{confluent} if, for all $u, v, w \in \Gamma^*$, $u \vdash_M^* v$ and $u \vdash_M^* w$ imply that there exists some $z \in \Gamma^*$ such that $v \vdash_M^* z$ and $w \vdash_M^* z$ hold.
+\item \index{context rewriting system!$\lambda$-confluent}\emph{$\lambda$-confluent} if, for all $u, v \in \Gamma^*$, $u \vdash_M^* \lambda$ and $u \vdash_M^* v$ imply that $v \vdash_M^* \lambda$.
 \end{enumerate}
 \end{definition}
 
 All context rewriting systems have the following basic property.
 
-\begin{lemma}[Error Preserving Property, \cite{O06}]\label{lemma:error-preserving}
+\index{error preserving theorem}
+\begin{lemma}[Error Preserving Property, see also Proposition \ref{proposition:error-preserving-rlww}]\label{lemma:error-preserving}
 Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$ and $u, v$ be two words over $\Gamma$. 
 If $u \vdash_M^* v$ and $u \not\in L(M)$, then $v \not\in L(M)$.
 \end{lemma}
 
-All $\lambda$-confluent context rewriting systems can be characterized in the following way.
+All $\lambda$-confluent context rewriting systems can be characterized as follows.
 
-\begin{lemma}[Correctness Preserving Property, \cite{O06}]\label{lemma:correctness-preserving}
+\index{correctness preserving theorem}
+\begin{lemma}[Correctness Preserving Property, see also Proposition \ref{proposition:correctness-preserving-rlww}]\label{lemma:correctness-preserving}
 Let $M=(\Sigma, \Gamma, \Phi)$ be a $\CRS$. $M$ is $\lambda$-confluent if and only if for all $u, v \in \Gamma^*$ the following property holds: if $u \vdash_M^* v$ and $u \in L(M)$, then $v \in L(M)$.
 \end{lemma}
 
 We will not study $\CRS$ in their general form, since they are too powerful. (They can represent all recursively enumerable languages.) Instead, we will always put some restrictions on the instructions and then study such restricted models. We recognize two types of restrictions: \emph{local} \ref{definition:restrictions} and \emph{global} \ref {definition:restrictions-global} restrictions.
 
 \begin{definition}[Local Restrictions]\label{definition:restrictions}
-\emph{Local restrictions} restrict each instruction individually. (In other words, the decision whether the instruction satisfies a local restriction does not depend on other instructions.)
+\index{restriction!local}\emph{Local restrictions} restrict each instruction individually. (In other words, the decision whether the instruction satisfies a local restriction does not depend on other instructions.)
 \begin{enumerate}
 \item\label{restriction:contexts}
-We can restrict the \emph{length of contexts} to a positive integer constant $k$. More precisely, we can restrict each instruction $(x, z \to t, y)$ of a $\CRS$ $M=(\Sigma, \Gamma, \Phi)$ to satisfy the following constraints: $x \in LC_k := \Gamma^k \cup \{\cent\}\cdot\Gamma^{\le k-1}$ and $y \in RC_k := \Gamma^k \cup \Gamma^{\le k-1}\cdot\{\$\}$. In other words, if the context $x$ (or $y$) does not contain a sentinel then we require $|x| = k$ (or $|y| = k$, respectively). If $x$ (or $y$) contains a sentinel, we allow $|x| \le k$ (or $|y| \le k$, respectively).
+We can restrict the \emph{length of contexts} to a positive integer constant $k$. More precisely, we can restrict each instruction $(x, z \to t, y)$ of a $\CRS$ $M=(\Sigma, \Gamma, \Phi)$ to satisfy the following constraints: \index{$LC_k$}$x \in LC_k := \Gamma^k \cup \{\cent\}\cdot\Gamma^{\le k-1}$ and \index{$RC_k$}$y \in RC_k := \Gamma^k \cup \Gamma^{\le k-1}\cdot\{\$\}$. In other words, if the context $x$ (or $y$) does not contain a sentinel then we require $|x| = k$ (or $|y| = k$, respectively). If $x$ (or $y$) contains a sentinel, we allow $|x| \le k$ (or $|y| \le k$, respectively).
 
 We also include a special case $k = 0$. In this case we require that each instruction $(x, z \to t, y)$ of a $\CRS$ $M=(\Sigma, \Gamma, \Phi)$ satisfies: $x = y = \lambda$.
 
 In addition, we use a special notation $k = \cdot$, if the length of contexts is not constrained. In this case we define $LC_k = \{\lambda, \cent\} \cdot \Gamma^*$ and $RC_k = \Gamma^* \cdot \{\lambda, \$\}$. This means that the contexts can have an arbitrary length (no matter whether they contain a sentinel or not).
 
-If a context rewriting system $M=(\Sigma, \Gamma, \Phi)$ satisfies the above restrictions, then we call such system $M$ a \emph{$k$-context rewriting system} ($\kCRS$ for short). We extend this notation to all classes derived from context rewriting systems: If $\calM$ is a class of context rewriting systems, then $\kcalM$ denotes the class of all context rewriting systems $M=(\Sigma, \Gamma, \Phi) \in \calM$ such that, for every instruction $(x, z \to t, y) \in \Phi$: $x \in LC_k$ and $y \in RC_k$.
+If a context rewriting system $M=(\Sigma, \Gamma, \Phi)$ satisfies the above restrictions, then we call such system $M$ a \emph{$k$-context rewriting system} (\index{$\kCRS$}$\kCRS$ for short). We extend this notation to all classes derived from context rewriting systems: If $\calM$ is a class of context rewriting systems, then $\kcalM$ denotes the class of all context rewriting systems $M=(\Sigma, \Gamma, \Phi) \in \calM$ such that, for every instruction $(x, z \to t, y) \in \Phi$: $x \in LC_k$ and $y \in RC_k$.
 
 Naturally, if we increase the length of contexts used in instructions of a context rewriting system, we do not decrease their expressiveness. This is formally proved in Theorem \ref{theorem:context_extension}. To illustrate the basic idea, let $x \in \Gamma^k, y \in \Gamma^k$. Then we can simulate any $\kCRS$ instruction $(x, z \to t, y)$ by the following set of $\kCRS[(k+1)]$ instructions: $\{ (lx, z \to t, yr) \mid l \in \{\cent\} \cup \Gamma, r \in \Gamma \cup \{\$\} \}$. If $x$ (or $y$) already contains a sentinel then we do not need to add any extra letter $l$ (or $r$, respectively).
 
 \item\label{restriction:width}
 We can restrict the \emph{width} of a context rewriting system $M=(\Sigma, \Gamma, \Phi)$ to be bounded from above by a positive integer constant $l$. In that case every instruction $\phi = (x, z \to t, y) \in \Phi$ satisfies the following constraint: $|\phi| = |xzty| \le l$.
 
-We call such system $M$ a context rewriting system \emph{with maximal width $l$}.
+We call such system $M$ a context rewriting system \index{context rewriting system!with maximal width $l$}\emph{with maximal width $l$}.
 
 If $\calM$ is a class of context rewriting systems, then $\llcalM$ denotes the class of all context rewriting systems $M \in \calM$ such that, for every instruction $\phi \in \Phi$: $|\phi| \le l$. Similarly, $\klcalM$ denotes the class of all context rewriting systems $M \in \kcalM$ such that, for every instruction $\phi \in \Phi$: $|\phi| \le l$.
 
@@ -417,18 +410,18 @@ It is easy to see that $u \underline{z} v \vdash^{(\phi)} utv$ if and only if $u
 
 \begin{remark}
 Based on the above result, we can allow contexts of any length up to $k$, i.\,e.\ we can use:\\
-\indent $LC_{\le k} = \Gamma^{\le k} \cup \cent \cdot \Gamma^{\le k-1} = \bigcup_{i \le k} LC_i$ instead of $LC_k$ and\\
-\indent $RC_{\le k} = \Gamma^{\le k} \cup \Gamma^{\le k-1} \cdot \$ = \bigcup_{i \le k} RC_i$ instead of $RC_k$.
+\indent \index{$LC_{\le k}$}$LC_{\le k} = \Gamma^{\le k} \cup \cent \cdot \Gamma^{\le k-1} = \bigcup_{i \le k} LC_i$ instead of $LC_k$ and\\
+\indent \index{$RC_{\le k}$}$RC_{\le k} = \Gamma^{\le k} \cup \Gamma^{\le k-1} \cdot \$ = \bigcup_{i \le k} RC_i$ instead of $RC_k$.
 \end{remark}
 
 \begin{definition}[Global Restrictions]\label{definition:restrictions-global}
-\emph{Global restrictions} have implications on the whole set of instructions. Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definition:restrictions}. Then:
+\index{restriction!global}\emph{Global restrictions} have implications on the whole set of instructions. Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definition:restrictions}. Then:
 \begin{enumerate}
 \item\label{restriction:conf}
-$\concalM$ denotes the class of all context rewriting systems $M \in \calM$ such that $M$ is confluent.
+\index{context rewriting system!confluent}$\concalM$ denotes the class of all context rewriting systems $M \in \calM$ such that $M$ is confluent.
 
 \item\label{restriction:lambda}
-$\lconcalM$ denotes the class of all context rewriting systems $M \in \calM$ such that $M$ is $\lambda$-confluent.
+\index{context rewriting system!$\lambda$-confluent}$\lconcalM$ denotes the class of all context rewriting systems $M \in \calM$ such that $M$ is $\lambda$-confluent.
 
 \item\label{restriction:left}
 $\leftcalM$ denotes the class $\{M_{\sf left} \mid M \in \calM\}$.
@@ -436,7 +429,8 @@ $\leftcalM$ denotes the class $\{M_{\sf left} \mid M \in \calM\}$.
 \end{definition}
 
 \begin{lemma}\label{lemma:lambda}
-Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definition:restrictions}. Then $$\calL{\concalM} \subseteq \calL{\lconcalM} \subseteq \calL{\leftcalM}.$$
+Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definition:restrictions}. Then
+$$\calL{\concalM} \subseteq \calL{\lconcalM} \subseteq \calL{\leftcalM}.$$
 Moreover, if $M \in \lconcalM$, then $L(M) = L(M_{\sf left})$.
 \end{lemma}
 
@@ -448,26 +442,26 @@ Therefore, $w \notin L(M)$, and thus $L(M) = L(M_{\sf left})$.
 \begin{definition}\label{definition:nf}
 Let $\calM$ be a class of $\CRS$ restricted according to Definition \ref{definition:restrictions}. We say that $M = (\Sigma, \Gamma, \Phi) \in \calM$ has:
 \begin{enumerate}
-\item \emph{Minimal set of instructions}, if for every $N = (\Sigma, \Gamma, \Psi) \in \calM$, $\Psi \subset \Phi \Rightarrow L(N) \neq L(M)$.
-\item \emph{Minimal width}, if for every $N = (\Sigma, \Gamma, \Psi) \in \calM$, $|N| < |M| \Rightarrow L(N) \neq L(M)$.
+\item \index{context rewriting system!with minimal set of instructions}\emph{Minimal set of instructions}, if for every $N = (\Sigma, \Gamma, \Psi) \in \calM$, $\Psi \subset \Phi \Rightarrow L(N) \neq L(M)$.
+\item \index{context rewriting system!with minimal width}\emph{Minimal width}, if for every $N = (\Sigma, \Gamma, \Psi) \in \calM$, $|N| < |M| \Rightarrow L(N) \neq L(M)$.
 \end{enumerate}
 \end{definition}
 
-By using the framework of context rewriting systems we can define many interesting classes that have been studied intensively in several papers. In the following, we discuss \emph{clearing}, \emph{$\Delta$-clearing}, \emph{subword-clearing} and \emph{limited-context restarting automata}.
+By using the framework of context rewriting systems we can define many interesting classes that have been studied intensively in several papers. In the following, we discuss \emph{clearing}, \emph{$\Delta$-clearing}, \emph{subword-clearing} and \emph{limited context restarting automata}.
 
 \begin{definition}[Derived Classes]\label{definition:derived-classes}
 We recognize several classes derived from context rewriting systems:
 \begin{enumerate}
-\item\label{definition:clra} A \emph{clearing restarting automaton} \cite{CM10} (\emph{$\clRA$} for short) is a $\CRS$ $M = (\Sigma, \Phi)$, where for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t = \lambda$. Since $t$ is always the empty word, we use the short notation $\phi = (x, z, y)$.
+\item\label{definition:clra} A \index{clearing restarting automaton}\emph{clearing restarting automaton} \cite{CM10} (\index{$\clRA$}\emph{$\clRA$} for short) is a $\CRS$ $M = (\Sigma, \Phi)$, where for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t = \lambda$. Since $t$ is always the empty word, we use the short notation $\phi = (x, z, y)$.
 
 \item\label{definition:sclra}
-A \emph{subword-clearing restarting automaton} \cite{C12} (\emph{$\sclRA$} for short) is a generalization of $\clRA$; it is a $\CRS$ $M = (\Sigma, \Phi)$, where for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t$ is a subword of $z$, such that $|t| < |z|$.
+A \index{subword-clearing restarting automaton}\emph{subword-clearing restarting automaton} \cite{C12} (\index{$\sclRA$}\emph{$\sclRA$} for short) is a generalization of $\clRA$; it is a $\CRS$ $M = (\Sigma, \Phi)$, where for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t$ is a subword of $z$, such that $|t| < |z|$.
 
-\item\label{definition:dclra} A \emph{$\Delta$-clearing restarting automaton} \cite{CM10} (\emph{$\DclRA$} for short) is also a generalization of $\clRA$; it is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where $\Gamma = \Sigma \cup \{\Delta\}$, $\Delta \notin \Sigma$, and for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Gamma^+$ and $t \in \{\lambda, \Delta\}$.
+\item\label{definition:dclra} A \index{$\Delta$-clearing restarting automaton}\emph{$\Delta$-clearing restarting automaton} \cite{CM10} (\index{$\DclRA$}\emph{$\DclRA$} for short) is also a generalization of $\clRA$; it is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where $\Gamma = \Sigma \cup \{\Delta\}$, $\Delta \notin \Sigma$, and for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Gamma^+$ and $t \in \{\lambda, \Delta\}$.
 
-\item\label{definition:dxclra} A \emph{$\Delta^*$-clearing restarting automaton} \cite{CM10} (\emph{$\DXclRA$} for short) is a generalization of $\DclRA$; it is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where $\Gamma = \Sigma \cup \{\Delta\}$, $\Delta \notin \Sigma$, and for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Gamma^+$ and $t \in \{\lambda, \Delta, \ldots, \Delta^{|z|}\}$.
+\item\label{definition:dxclra} A \index{$\Delta^*$-clearing restarting automaton}\emph{$\Delta^*$-clearing restarting automaton} \cite{CM10} (\index{$\DXclRA$}\emph{$\DXclRA$} for short) is a generalization of $\DclRA$; it is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where $\Gamma = \Sigma \cup \{\Delta\}$, $\Delta \notin \Sigma$, and for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Gamma^+$ and $t \in \{\lambda, \Delta, \ldots, \Delta^{|z|}\}$.
 
-\item \label{definition:lcra} A \emph{limited-context restarting automaton} \cite{B10Diploma, B11, OCM13} (\emph{$\lcRA$} for short) of type $\mathcal{R}_0'$ is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where every instruction $\phi = (x, z \to t, y) \in \Phi$ is weight-reducing. For $\lcRA$ of type $\mathcal{R}_1'$ we require, in addition, that $|t| \le 1$, for $\lcRA$ of type $\mathcal{R}_2'$ we require, in addition, that $x \in \{\cent, \lambda\}$, and $y \in \{\$, \lambda\}$, and, finally, for $\lcRA$ of type $\mathcal{R}_2'$ we require, in addition, that $y = \$$. We say that an $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is of type $\mathcal{R}_i$, for $i \in \{0, 1, 2, 3\}$, if $M$ is of type $\mathcal{R}_i'$ and $\Phi$ only contains length-reducing instructions.
+\item \label{definition:lcra} A \index{limited context restarting automaton}\emph{limited context restarting automaton} \cite{B10Diploma, B11, OCM13} (\index{$\lcRA$}\emph{$\lcRA$} for short) of type $\mathcal{R}_0'$ is a $\CRS$ $M = (\Sigma, \Gamma, \Phi)$, where every instruction $\phi = (x, z \to t, y) \in \Phi$ is weight-reducing. For $\lcRA$ of type $\mathcal{R}_1'$ we require, in addition, that $|t| \le 1$, for $\lcRA$ of type $\mathcal{R}_2'$ we require, in addition, that $x \in \{\cent, \lambda\}$, and $y \in \{\$, \lambda\}$, and, finally, for $\lcRA$ of type $\mathcal{R}_2'$ we require, in addition, that $y = \$$. We say that an $\lcRA$ $M=(\Sigma,\Gamma,\Phi)$ is of type $\mathcal{R}_i$, for $i \in \{0, 1, 2, 3\}$, if $M$ is of type $\mathcal{R}_i'$ and $\Phi$ only contains length-reducing instructions.
 \end{enumerate}
 \end{definition}
 
@@ -477,180 +471,110 @@ Speaking about a $\clRA$ $M$ ($\DclRA$, $\DXclRA$, $\sclRA$, $\lcRA$ $M$, respec
 
 Clearing restarting automata are studied in \cite{CM10} (Section \ref{section:clra}). In this thesis they play a role of the most restricted model and we will use them to prove some lower bounds on the complexity of learning. Although clearing restarting automata are very restricted, they can recognize all regular languages, some context-free languages and even some non-context-free languages. However, there are some context-free languages that are outside the class of languages accepted by clearing restarting automata. For instance, the language $L = \{a^n c b^n \mid n \ge 0\}$ is not recognized by any clearing restarting automaton. On the other hand, it can be easily shown that this language is recognized by the subword-clearing restarting automaton $M = (\{a, b, c\}, \Phi)$ with $\Phi = \{(a, acb \to c, b), (\cent, acb \to \lambda, \$)\}$. In general, not all context-free languages can be recognized by subword-clearing restarting automata \cite{C13}. Both clearing and subword-clearing restarting automata do not use auxiliary symbols. In Section \ref{section:inference} we provide a learning framework for inferring such models from data.
 
-If we allow auxiliary symbols then, interestingly, only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages (\cite{CM11}). In Section \ref{section:dxclra} we prove this fact by showing that $\CFL \subseteq \calL{\DclRA}$. Allowing auxiliary symbols also gives rise to a broad family of limited-context restarting automata studied in Section \ref{section:lcra}. Limited context restarting automaton ($\lcRA$) of type $\mathcal{R}_1$ is a proper extension of the clearing restarting automaton, while $\lcRA$ of type $\mathcal{R}_2$ is incomparable to the clearing restarting automaton. In \cite{OCM13} limited context restarting automata and their confluent versions are put into the context of \emph{McNaughton families of languages} \cite{Beaudry2003}, relating the classes of languages accepted by these automata in particular to the class $\GCSL$ of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and to the class $\CRL$ of \emph{Church-Rosser languages} \cite{MNO88}.
+If we allow auxiliary symbols then, interestingly, only one auxiliary symbol $\Delta$ is needed to recognize all context-free languages \cite{CM11}. In Section \ref{section:dxclra} we prove this fact by showing that $\CFL \subseteq \calL{\DclRA}$. Allowing auxiliary symbols also gives rise to a broad family of limited context restarting automata studied in Section \ref{section:lcra}. Limited context restarting automaton ($\lcRA$) of type $\mathcal{R}_1$ is a proper extension of the clearing restarting automaton, while $\lcRA$ of type $\mathcal{R}_2$ is incomparable to the clearing restarting automaton. In \cite{OCM13} limited context restarting automata and their confluent versions are put into the context of \emph{McNaughton families of languages} \cite{Beaudry2003}, relating the classes of languages accepted by these automata in particular to the class $\GCSL$ of \emph{growing context-sensitive languages} \cite{Buntrock19981,Dahlhaus1986} and to the class $\CRL$ of \emph{Church-Rosser languages} \cite{MNO88}.
 
-The decidability of $\lambda$-confluence for clearing restarting automata and limited-context restarting automata is studied in \cite{OM15}. It turns out that $\lambda$-confluence is not even recursively enumerable for clearing restarting automata and that it is decidable in double exponential time for limited-context restarting automata of type $\mathcal{R}_2$. Although the undecidability of $\lambda$-confluence for clearing restarting automata might seem prohibitive for learning $\lambda$-confluent $\CRS$, we will see that we do not need to verify $\lambda$-confluence at all. Interestingly, \emph{confluence} is decidable for all limited-context restarting automata of type $\mathcal{R}_0'$. 
+The decidability of $\lambda$-confluence for clearing restarting automata and limited context restarting automata is studied in \cite{OM15}. It turns out that $\lambda$-confluence is not even recursively enumerable for clearing restarting automata and that it is decidable in double exponential time for limited context restarting automata of type $\mathcal{R}_2$. Although the undecidability of $\lambda$-confluence for clearing restarting automata might seem prohibitive for learning $\lambda$-confluent $\CRS$, we will see that we do not need to verify $\lambda$-confluence at all. Interestingly, \emph{confluence} is decidable for all limited context restarting automata of type $\mathcal{R}_0'$. 
 
 \section{Other Models}
 \label{section:other-models}
 
 In this Section we cover some other related models, in particular, Marcus' contextual grammars and pure grammars.
 
-Marcus' contextual grammars (described in Section \ref{section:marcus-contextual-grammars}) are based on adjoining (inserting) pairs of strings/contexts into a word according to a selection procedure. The selection procedure controls which strings (contexts) can be inserted in which places of a string. As the selection procedure can be of arbitrary complexity \cite{Pa98}, many language classes generated by contextual grammars are of high complexity and without practical applications.
+\index{Marcus' contextual grammars}\emph{Marcus' contextual grammars} (described in Section \ref{section:marcus-contextual-grammars}) are based on adjoining (inserting) pairs of strings/contexts into a word according to a selection procedure. The selection procedure controls which strings (contexts) can be inserted in which places of a string. As the selection procedure can be of arbitrary complexity \cite{Pa98}, many language classes generated by contextual grammars are of high complexity and without practical applications.
 
-Pure grammars \cite{maurer1980pure} (described in Section \ref{section:pure-grammars}) are similar to Chomsky grammars, but they do not use auxiliary symbols -- nonterminals. Both sides of their productions are terminal strings only. There were considered mainly grammars with length increasing rules which correspond to the length-decreasing reductions used by restarting automata. In the case when the left-hand sides of the rules are single letters only, such grammars generate only a subset of the class of context-free languages (\CFL), while in general they can generate a subset of the class of context-sensitive languages (but not all of \CFL).
+\index{pure grammar}\emph{Pure grammars} \cite{maurer1980pure} (described in Section \ref{section:pure-grammars}) are similar to Chomsky grammars, but they do not use auxiliary symbols -- nonterminals. Both sides of their productions are terminal strings only. There were considered mainly grammars with length increasing rules which correspond to the length-decreasing reductions used by restarting automata. In the case when the left-hand sides of the rules are single letters only, such grammars generate only a subset of the class of context-free languages ($\CFL$), while in general they can generate a subset of the class of context-sensitive languages (but not all of $\CFL$).
 
 \subsection{Marcus Contextual Grammars}
 \label{section:marcus-contextual-grammars}
 \index{contextual grammar}
 
-The main source for this section is \cite{EhPaRo1997contextual}.
-\index{contextual grammar}Contextual grammars were introduced by Solomon Marcus 
-in 1969 \cite{M69}, in an attempt to build a bridge between analytical and generative 
-models of natural languages. In particular, contextual grammars were ``translating'' 
-the central notion of context from the analytical models into the framework of 
-generative grammars. A lucid account of the motivation behind contextual grammars 
-from the natural point of view can be found in Solomon Marcus \cite{Ma1997contextual}.
+The main source for this section is \cite{EhPaRo1997contextual}. \index{contextual grammar}\emph{Contextual grammars} were introduced by Solomon Marcus in 1969 \cite{M69}, in an attempt to build a bridge between analytical and generative models of natural languages. In particular, contextual grammars were ``translating'' the central notion of context from the analytical models into the framework of generative grammars. A lucid account of the motivation behind contextual grammars from the natural point of view can be found in Solomon Marcus \cite{Ma1997contextual}.
 
-Contextual grammars provide an important tool in the study of \emph{recursion}
-in formal language theory. In a sense, the research on contextual grammars is
-a study of recursion in its pure form.
+Contextual grammars provide an important tool in the study of \emph{recursion} in formal language theory. In a sense, the research on contextual grammars is a study of recursion in its pure form.
 
-Also, contextual grammars offer a very convenient framework for the systematic
-study of the basic language theoretic operations, such as insertion and deletion,
-and the operation of splicing, which provide a nice bridge between formal language
-theory and DNA computing.
+Also, contextual grammars offer a very convenient framework for the systematic study of the basic language theoretic operations, such as insertion and deletion, and the operation of splicing, which provide a nice bridge between formal language theory and DNA computing.
 
-Finally it should be stressed that contextual grammars form a major contribution
-to our understanding of \index{pure grammar}\emph{pure grammars} 
-(see Section \ref{section:pure-grammars}).
+Finally it should be stressed that contextual grammars form a major contribution to our understanding of \index{pure grammar}\emph{pure grammars} (see Section \ref{section:pure-grammars}).
 
-In this section we consider contextual grammars from the formal language theory
-point of view.
+In this section we consider contextual grammars from the formal language theory point of view.
 
 A \emph{total contextual grammar} is a system
 $$G = (\Sigma, B, C, \phi),$$
-where $\Sigma$ is an alphabet, $B$ is a finite language over $\Sigma$, $C$ is a finite
-subset of $\Sigma^* \$ \Sigma^*$, where $\$$ is a special symbol not in $\Sigma$, and
-$\phi: \Sigma^* \times \Sigma^* \times \Sigma^* \to 2^C$.
+where $\Sigma$ is an alphabet, $B$ is a finite language over $\Sigma$, $C$ is a finite subset of $\Sigma^* \$ \Sigma^*$, where $\$$ is a special symbol not in $\Sigma$, and $\phi: \Sigma^* \times \Sigma^* \times \Sigma^* \to 2^C$.
 
-The strings in $B$ are called \index{axiom}\emph{axioms}, the elements $u \$ v$ in $C$ 
-are called \index{context}\emph{contexts}, and $\phi$ is the \index{choice mapping}
-\emph{choice mapping}. Here we do not impose restrictions on $\phi$ -- we even do not 
-assume that $\phi$ is computable.
+The strings in $B$ are called \index{axiom}\emph{axioms}, the elements $u \$ v$ in $C$ are called \index{context}\emph{contexts}, and $\phi$ is the \index{choice mapping}\emph{choice mapping}. Here we do not impose restrictions on $\phi$ -- we even do not assume that $\phi$ is computable.
 
-For a \index{contextual grammar!total}total contextual grammar $G = (\Sigma, B, C, \phi)$
-we define the relation $\Rightarrow_G$ on $\Sigma^*$ as follows:
-$x \Rightarrow_G y$ if and only if $x = x_1 x_2 x_3$, $y = x_1 u x_2 v x_3$,
-for some $x_1, x_2, x_3 \in \Sigma^*$, $u \$ v \in C$, such that
-$u \$ v \in \phi(x_1, x_2, x_3)$.
+For a \index{contextual grammar!total}total contextual grammar $G = (\Sigma, B, C, \phi)$ we define the relation $\Rightarrow_G$ on $\Sigma^*$ as follows: $x \Rightarrow_G y$ if and only if $x = x_1 x_2 x_3$, $y = x_1 u x_2 v x_3$, for some $x_1, x_2, x_3 \in \Sigma^*$, $u \$ v \in C$, such that $u \$ v \in \phi(x_1, x_2, x_3)$.
 
-The subscript $G$ may be omitted from $\Rightarrow_G$ whenever $G$ is understood.
-Denoting by $\Rightarrow^*_G$ the reflexive and transitive closure of $\Rightarrow_G$,
-the language generated by $G$ is
+The subscript $G$ may be omitted from $\Rightarrow_G$ whenever $G$ is understood. Denoting by $\Rightarrow^*_G$ the reflexive and transitive closure of $\Rightarrow_G$, the language generated by $G$ is
 $$L(G) = \{x \in \Sigma^* \mid w \Rightarrow^*_G x \text{ for some } w \in B\}.$$
 
 Note that, by definition, $B \subseteq L(G)$.
 
-We say that $x$ \index{derivation!direct}\emph{directly derives} $y$ in $G$ or that 
-$x$ \index{derivation}\emph{derives} $y$ in $G$ whenever $x \Rightarrow_G y$ or 
-$x \Rightarrow^*_G y$ holds, respectively.
+We say that $x$ \index{derivation!direct}\emph{directly derives} $y$ in $G$ or that $x$ \index{derivation}\emph{derives} $y$ in $G$ whenever $x \Rightarrow_G y$ or $x \Rightarrow^*_G y$ holds, respectively.
 
-Two special cases of total contextual grammars are very natural and have been
-extensively investigated:
+Two special cases of total contextual grammars are very natural and have been extensively investigated:
 
 \begin{enumerate}
-\item A total contextual grammar $G = (\Sigma, B, C, \phi)$ is called 
-\index{contextual grammar!total!external}\emph{external}
-if $\phi(x_1, x_2, x_3) = \emptyset$ for all $x_1, x_2, x_3 \in \Sigma^*$
-such that $x_1 x_3 \neq \lambda$.
-\item A total contextual grammar $G = (\Sigma, B, C, \phi)$ is called 
-\index{contextual grammar!total!internal}\emph{internal}
-if $\phi(x_1, x_2, x_3) = \phi(x_1', x_2, x_3')$ for all
-$x_1, x_1', x_2, x_3, x_3' \in \Sigma^*$.
+\item A total contextual grammar $G = (\Sigma, B, C, \phi)$ is called \index{contextual grammar!total!external}\emph{external} if $\phi(x_1, x_2, x_3) = \emptyset$ for all $x_1, x_2, x_3 \in \Sigma^*$ such that $x_1 x_3 \neq \lambda$.
+\item A total contextual grammar $G = (\Sigma, B, C, \phi)$ is called \index{contextual grammar!total!internal}\emph{internal} if $\phi(x_1, x_2, x_3) = \phi(x_1', x_2, x_3')$ for all $x_1, x_1', x_2, x_3, x_3' \in \Sigma^*$.
 \end{enumerate}
 
-Note that in both cases, the adjoining of a context $u \$ v \in \phi(x_1, x_2, x_3)$
-to the string $x_1 x_2 x_3$ depends on $x_2$ only. Therefore, in these cases we can
-simplify the \index{choice mapping}choice mapping $\phi$ by having 
-$\phi: \Sigma^* \to 2^C$. The so modified total contextual grammars are called 
-\index{contextual grammar}\emph{contextual grammars}.
+Note that in both cases, the adjoining of a context $u \$ v \in \phi(x_1, x_2, x_3)$ to the string $x_1 x_2 x_3$ depends on $x_2$ only. Therefore, in these cases we can simplify the \index{choice mapping}choice mapping $\phi$ by having $\phi: \Sigma^* \to 2^C$. The so modified total contextual grammars are called \index{contextual grammar}\emph{contextual grammars}.
 
-Since in this way there is no difference between external and internal grammars,
-we shall distinguish between derivation relations, defining:
+Since in this way there is no difference between external and internal grammars, we shall distinguish between derivation relations, defining:
 
 \begin{enumerate}
 \item $x \Rightarrow_{ex} y$ if and only if $y = u x v$ for $u \$ v \in \phi(x)$,
-\item $x \Rightarrow_{in} y$ if and only if $x = x_1 x_2 x_3$, $y = x_1 u x_2 v x_3$,
-for some $x_1, x_2, x_3 \in \Sigma^*$, $u \$ v \in \phi(x_2)$.
+\item $x \Rightarrow_{in} y$ if and only if $x = x_1 x_2 x_3$, $y = x_1 u x_2 v x_3$, for some $x_1, x_2, x_3 \in \Sigma^*$, $u \$ v \in \phi(x_2)$.
 \end{enumerate}
 
-We call $\Rightarrow_{ex}$ an \index{derivation!external}\emph{external} (direct) 
-derivation and $\Rightarrow_{in}$ an \index{derivation!internal}\emph{internal} 
-(direct) derivation. Accordingly we associate with a contextual grammar $G$ two
-languages:
-$$L_{\alpha}(G) = \{x \in \Sigma^* \mid w \Rightarrow_{\alpha} x 
-\text{ for some } w \in B\}$$
+We call $\Rightarrow_{ex}$ an \index{derivation!external}\emph{external} (direct) derivation and $\Rightarrow_{in}$ an \index{derivation!internal}\emph{internal} (direct) derivation. Accordingly we associate with a contextual grammar $G$ two languages:
+$$L_{\alpha}(G) = \{x \in \Sigma^* \mid w \Rightarrow_{\alpha} x \text{ for some } w \in B\}$$
 for $\alpha \in \{ex, in\}$.
 
-For a contextual grammar $G = (\Sigma, B, C, \phi)$, the relation $u \$ v \in \phi(x)$
-can be interpreted as a rewriting rule $x \to u x v$. Therefore, a contextual grammar
-with internal derivation can be considered to be a \index{pure grammar}pure grammar 
-with arbitrarily many (length-increasing) productions of the form $x \to u x v$, where 
-there exists a bound $k$ such that, for each $x$ and each production $x \to u x v$, 
-$|uv| \le k$ holds. (Pure grammars are grammars that do not use nonterminals. 
-See Section \ref{section:pure-grammars})
+For a contextual grammar $G = (\Sigma, B, C, \phi)$, the relation $u \$ v \in \phi(x)$ can be interpreted as a rewriting rule $x \to u x v$. Therefore, a contextual grammar with internal derivation can be considered to be a \index{pure grammar}pure grammar with arbitrarily many (length-increasing) productions of the form $x \to u x v$, where there exists a bound $k$ such that, for each $x$ and each production $x \to u x v$, $|uv| \le k$ holds. (Pure grammars are grammars that do not use nonterminals. See Section \ref{section:pure-grammars})
 
-A contextual grammar $G = (\Sigma, B, C, \phi)$ is said to be 
-\index{contextual grammar!without choice}\emph{without choice}
-if $\phi(x) = C$ for all $x \in \Sigma^*$. In such a case, the mapping $\phi$ can
-be ignored, and we write the grammar in the form $G = (\Sigma, B, C)$.
+A contextual grammar $G = (\Sigma, B, C, \phi)$ is said to be \index{contextual grammar!without choice}\emph{without choice} if $\phi(x) = C$ for all $x \in \Sigma^*$. In such a case, the mapping $\phi$ can be ignored, and we write the grammar in the form $G = (\Sigma, B, C)$.
 
 Five basic families of languages are obtained in this way:
 
 \begin{enumerate}
-\item \index{$\TC$}$\TC$ is the family of languages generated by 
-total contextual grammars,
-\item \index{$\ECC$}$\ECC$ is the family of languages externally generated by 
-contextual grammars,
-\item \index{$\ICC$}$\ICC$ is the family of languages internally generated by 
-contextual grammars,
-\item \index{$\EC$}$\EC$ is the family of languages externally generated by 
-contextual grammars without choice,
-\item \index{$\IC$}$\IC$ is the family of languages internally generated by 
-contextual grammars without choice.
+\item \index{$\TC$}$\TC$ is the family of languages generated by total contextual grammars,
+\item \index{$\ECC$}$\ECC$ is the family of languages externally generated by contextual grammars,
+\item \index{$\ICC$}$\ICC$ is the family of languages internally generated by contextual grammars,
+\item \index{$\EC$}$\EC$ is the family of languages externally generated by contextual grammars without choice,
+\item \index{$\IC$}$\IC$ is the family of languages internally generated by contextual grammars without choice.
 \end{enumerate}
 
-In general case of contextual grammars it is natural to require that $\phi$ is
-a computable mapping. The corresponding families are denoted by \index{$\TC_c$}$\TC_c$,
-\index{$\ECC_c$}$\ECC_c$, \index{$\ICC_c$}$\ICC_c$, respectively.
+In general case of contextual grammars it is natural to require that $\phi$ is a computable mapping. The corresponding families are denoted by \index{$\TC_c$}$\TC_c$, \index{$\ECC_c$}$\ECC_c$, \index{$\ICC_c$}$\ICC_c$, respectively.
 
 We conclude this section with examples that illustrate the above definitions.
 
 \begin{example}
-Every finite language, $B$, belongs to every family of contextual languages:
-for $G = (\Sigma, B, \emptyset)$ we have $L_{ex}(G) = L_{in}(G) = B$.
+Every finite language, $B$, belongs to every family of contextual languages: for $G = (\Sigma, B, \emptyset)$ we have $L_{ex}(G) = L_{in}(G) = B$.
 \end{example}
 
 \begin{example}
-For each alphabet $\Sigma$, the language $\Sigma^*$ belongs to every family
-of contextual languages: for $G = (\Sigma, \{\lambda\}, \$ \Sigma)$ we have
-$L_{ex}(G) = L_{in}(G) = \Sigma^*$.
-If we take $G = (\Sigma, \Sigma, \$ \Sigma)$, then $L_{ex}(G) = L_{in}(G) = \Sigma^+$.
+For each alphabet $\Sigma$, the language $\Sigma^*$ belongs to every family of contextual languages: for $G = (\Sigma, \{\lambda\}, \$ \Sigma)$ we have $L_{ex}(G) = L_{in}(G) = \Sigma^*$. If we take $G = (\Sigma, \Sigma, \$ \Sigma)$, then $L_{ex}(G) = L_{in}(G) = \Sigma^+$.
 \end{example}
 
 \begin{example}
-Consider the grammar $G = (\{a, b\}, \{\lambda\}, \{a \$ b\})$. Obviously
-$L_{ex}(G) = \{a^n b^n \mid n \ge 1\}$, whereas $L_{in}(G)$ is the Dyck language
-over the alphabet $\{a, b\}$. This second equality can be proved by induction
-on the length of the strings.
+Consider the grammar $G = (\{a, b\}, \{\lambda\}, \{a \$ b\})$. Obviously $L_{ex}(G) = \{a^n b^n \mid n \ge 1\}$, whereas $L_{in}(G)$ is the Dyck language over the alphabet $\{a, b\}$. This second equality can be proved by induction on the length of the strings.
 
 Note that $L_{ex}(G)$ is not regular and $L_{in}(G)$ is not linear.
 \end{example}
 
 \begin{example}
-For $G = (\{a, b, c\}, \{\lambda\}, \{\alpha \beta \$ \gamma, \alpha \$ \beta \gamma
-\mid \{\alpha, \beta, \gamma\} = \{a, b, c\}\})$, we obtain
+For $G = (\{a, b, c\}, \{\lambda\}, \{\alpha \beta \$ \gamma, \alpha \$ \beta \gamma \mid \{\alpha, \beta, \gamma\} = \{a, b, c\}\})$, we obtain
 $$L_{in}(G) = \{x \in \{a, b, c\}^* \mid |x|_a = |x|_b = |x|_c\}.$$
-The inclusion $\subseteq$ is obvious. The inverse inclusion can be proved by
-induction on the length of strings.
+The inclusion $\subseteq$ is obvious. The inverse inclusion can be proved by induction on the length of strings.
 
 Note that the above language is not context-free.
 \end{example}
 
 \begin{example}
-The grammar $G = (\{a\}, \{a^3\}, \{\$ a, \$ a^2\}, \phi)$, with mapping $\phi$
-defined by
+The grammar $G = (\{a\}, \{a^3\}, \{\$ a, \$ a^2\}, \phi)$, with mapping $\phi$ defined by
 $$\phi(a^i) = \left\lbrace\begin{array}{l l}
 \$ a & \text{if } i + 1 \neq 2^k \text{ for } k \ge 0 \\ 
 \$ a^2 & \text{if } i + 1 = 2^k \text{ for } k \ge 0
@@ -669,50 +593,15 @@ $$
 \label{section:pure-grammars}
 \index{pure grammar}
 
-The main source for this section is \cite{MaSa1997aspects}.
-In the \index{Chomsky hierarchy}Chomsky hierarchy and related types of grammars, it has 
-become customary to divide the alphabet into two parts: 
-\index{nonterminal}\emph{nonterminal} letters and \index{terminal}\emph{terminal} letters. 
-Only words consisting entirely of terminal letters are considered to be in the language 
-generated. Basically, this distinction stems from linguistic motivation: nonterminals 
-represent syntactic classes of a language. One can view the use of nonterminals also as an 
-auxiliary definitional mechanisms for generative devices. Not everything derived from the 
-axiom or axioms is accepted as belonging to the language. Nonterminals are used to filter 
-out unwanted words.
+The main source for this section is \cite{MaSa1997aspects}. In the \index{Chomsky hierarchy}Chomsky hierarchy and related types of grammars, it has become customary to divide the alphabet into two parts: \index{nonterminal}\emph{nonterminal} letters and \index{terminal}\emph{terminal} letters. Only words consisting entirely of terminal letters are considered to be in the language generated. Basically, this distinction stems from linguistic motivation: nonterminals represent syntactic classes of a language. One can view the use of nonterminals also as an auxiliary definitional mechanisms for generative devices. Not everything derived from the axiom or axioms is accepted as belonging to the language. Nonterminals are used to filter out unwanted words.
 
-The study of \index{pure grammar}\emph{pure grammars} continues the line of research 
-concerning rewriting systems. In a pure grammar there is only one undivided alphabet. 
-The starting point, \index{axiom}\emph{axiom}, is a word or, more commonly, a finite set 
-of words. Rewriting is defined in the standard way, and a specific pure grammar is 
-obtained by giving a finite set of \index{rewriting rule}rewriting rules or 
-\index{production}productions. All words derivable from some of the axioms belong to 
-the \index{language!pure}\emph{language} of the pure grammar. A pure grammar is 
-\index{pure grammar!context-free}\emph{context-free} 
-\index{pure grammar!length increasing}(\emph{length increasing}, respectively), if the 
-length of the left side of every production is equal to one (less than or equal to the 
-length of the right side, respectively). Abbreviations \index{$\PCF$}$\PCF$ and 
-\index{$\PLI$}$\PLI$ will be used for these special classes of pure grammars and their 
-languages. One can define also \index{pure grammar!context-sensitive} pure 
-context-sensitive grammars in the standard way. The resulting class of languages will 
-be strictly smaller than the class of $\PLI$ languages.
+The study of \index{pure grammar}\emph{pure grammars} continues the line of research concerning rewriting systems. In a pure grammar there is only one undivided alphabet. The starting point, \index{axiom}\emph{axiom}, is a word or, more commonly, a finite set of words. Rewriting is defined in the standard way, and a specific pure grammar is obtained by giving a finite set of \index{rewriting rule}rewriting rules or \index{production}productions. All words derivable from some of the axioms belong to the \index{language!pure}\emph{language} of the pure grammar. A pure grammar is \index{pure grammar!context-free}\emph{context-free} \index{pure grammar!length increasing}(\emph{length increasing}, respectively), if the length of the left side of every production is equal to one (less than or equal to the length of the right side, respectively). Abbreviations \index{$\PCF$}$\PCF$ and \index{$\PLI$}$\PLI$ will be used for these special classes of pure grammars and their languages. One can define also \index{pure grammar!context-sensitive} pure context-sensitive grammars in the standard way. The resulting class of languages will be strictly smaller than the class of $\PLI$ languages.
 
-The language $\{a^n c b^n \mid n \ge 1\}$ is generated by the $\PCF$ grammar
-with the axiom $acb$ and the only production $c \to acb$. The language
-$\{a^n b^n \mid n \ge 1\}$ is not $\PCF$ but is generated by the $\PLI$ grammar
-with the axiom $ab$ and the only production $ab \to a^2 b^2$. Neither one
-of the languages
-$$\{a^n b^n c^n \mid n \ge 1\} \text{ and }
-\{a^n b^n \mid n \ge 1\} \cup \{a^n b^{2n} \mid n \ge 1\}$$
+The language $\{a^n c b^n \mid n \ge 1\}$ is generated by the $\PCF$ grammar with the axiom $acb$ and the only production $c \to acb$. The language $\{a^n b^n \mid n \ge 1\}$ is not $\PCF$ but is generated by the $\PLI$ grammar with the axiom $ab$ and the only production $ab \to a^2 b^2$. Neither one of the languages
+$$\{a^n b^n c^n \mid n \ge 1\} \text{ and } \{a^n b^n \mid n \ge 1\} \cup \{a^n b^{2n} \mid n \ge 1\}$$
 is pure, that is, they are not generated by any pure grammar whatsoever.
 
-Every regular language is $\PLI$ and, hence, pure. The family of pure languages
-over a one-letter alphabet $\{a\}$ coincides with the family of 
-\index{language!regular}regular languages over $\{a\}$, whereas $\PCF$ languages 
-constitute a proper subfamily.
-There are nonrecursive \index{language!pure}pure languages. Each of the differences
-$\mathcal{L}_i \backslash \mathcal{L}_{i+1}$, $0 \le i \le 2$, where
-$\mathcal{L}_i$, $0 \le i \le 3$, are the language families in the Chomsky
-hierarchy, contains both pure and nonpure languages.
+Every regular language is $\PLI$ and, hence, pure. The family of pure languages over a one-letter alphabet $\{a\}$ coincides with the family of \index{language!regular}regular languages over $\{a\}$, whereas $\PCF$ languages constitute a proper subfamily. There are nonrecursive \index{language!pure}pure languages. Each of the differences $\mathcal{L}_i \backslash \mathcal{L}_{i+1}$, $0 \le i \le 2$, where $\mathcal{L}_i$, $0 \le i \le 3$, are the language families in the Chomsky hierarchy, contains both pure and nonpure languages.
 
 %\subsection{Two-Pushdown Automata}
 
