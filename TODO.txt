@@ -6,19 +6,19 @@
 
 2015-01-01
 
-[ ] TODO: Resolve all TODOs in the text.
+[x] TODO: Resolve all TODOs in the text.
 [ ] TODO: Add \cite{} references to all Theorems and Definitions!
 [x] TODO: Unify ending symbol in definitions etc.
 [x] TODO: Check old reviews. Update i.e., etc.
 [x] TODO: Check missing references \ref{} and citations \cite{}.
-[ ] TODO: Add index.
+[x] TODO: Add index.
 [x] TODO: Add list of tables / figures.
 [x] TODO: Make a technical report from the rejected FI publication.
 
 2015-01-17
 
 [n] TODO: Update reference labels!
-[x] TODO: Update the reference concerning the decidability of the lambda-confulence.
+[x] TODO: Update the reference concerning the decidability of the lambda-confluence.
 
 2015-02-15
 
@@ -31,7 +31,7 @@
 
 2015-03-21
 
-[ ] TODO: Clean the theoretical background (e.g. remove regular expresions, add TPDAs, etc.).
+[ ] TODO: Clean the theoretical background (e.g. remove regular expressions, add TPDAs, etc.).
 [ ] TODO: Write an introduction to all Sections.
 [x] TODO: Check and fine-tune the bibliography. Unify the bibliography uppercase letters.
 [ ] TODO: Add references to definitions when necessary.
@@ -47,7 +47,7 @@
 
 2015-04-06
 
-[x] TODO: Search for all occurences of {\sf } {\bf } etc.
+[x] TODO: Search for all occurrences of {\sf } {\bf } etc.
 [x] TODO: Use either \subsetneq or \subset.
 
 2015-04-11
@@ -61,5 +61,9 @@
 
 2015-04-12
 
-[ ] TODO: Check the grammar typos.
+[x] TODO: Check the grammar typos.
 [ ] TODO: Emphasize the newly defined terms.
+
+2015-04-19
+
+[ ] TODO: Prune the index.
