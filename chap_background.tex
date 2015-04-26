@@ -3,9 +3,9 @@
 
 In this chapter we give a short survey of the theory of automata and formal languages and introduce the notation for all subsequent chapters.
 
-The main source for this chapter is \cite{RozSal97I, HopcroftMotwaniUllman07}, and the free encyclopedia Wikipedia (\url{http://en.wikipedia.org/}). The overall structure of this chapter and some formulations are taken from \cite{C10Diploma}.
+The main source for this chapter is \citep{RozSal97I, HopcroftMotwaniUllman07}, and the free encyclopedia Wikipedia (\url{http://en.wikipedia.org/}). The overall structure of this chapter and some formulations are taken from \citep{C10Diploma}.
 
-In Section \ref{section:words-and-languages} (according to \cite{MaSa1997formal}) we give the reader some preliminary views about the very basics of the formal language theory, about words and languages. In Section \ref{section:regular-languages} (using \cite{Sh1997regular}) we focus on regular languages. We describe several types of finite automata, introduce regular expression, and mention some standard properties of regular languages. In Section \ref{section:context-free-languages} we investigate context-free languages, grammars, and their normal forms (we follow \cite{AuBeBo1997context-free}). We also define pushdown automata as a device for accepting context-free languages, and mention some of the most important subfamilies of this family. The last Section \ref{section:chomsky-hierarchy} (according to \cite{MaSa1997aspects}) is devoted to Chomsky hierarchy of grammars and languages. We cover some properties  of type $0$ (phrase-structure) and type $1$ (context-sensitive) grammars and languages.
+In Section \ref{section:words-and-languages} (according to \citep{MaSa1997formal}) we give the reader some preliminary views about the very basics of the formal language theory, about words and languages. In Section \ref{section:regular-languages} (using \citep{Sh1997regular}) we focus on regular languages. We describe several types of finite automata, introduce regular expression, and mention some standard properties of regular languages. In Section \ref{section:context-free-languages} we investigate context-free languages, grammars, and their normal forms (we follow \citep{AuBeBo1997context-free}). We also define pushdown automata as a device for accepting context-free languages, and mention some of the most important subfamilies of this family. The last Section \ref{section:chomsky-hierarchy} (according to \citep{MaSa1997aspects}) is devoted to Chomsky hierarchy of grammars and languages. We cover some properties  of type $0$ (phrase-structure) and type $1$ (context-sensitive) grammars and languages.
 
 \section{Words and Languages}
 \label{section:words-and-languages}
@@ -27,14 +27,7 @@ Observe that $u$ itself and $\lambda$ are subwords, prefixes and suffixes of $u$
 
 \index{$\Pref_k(u)$}$\Pref_k(u)$ denotes either the (nontrivial) \index{prefix}prefix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. Similarly, \index{$\Suff_k(u)$}$\Suff_k(u)$ denotes either the (nontrivial) \index{suffix}suffix of length $k$ of the word $u$ in case $|u|>k$, or the whole word $u$ in case $|u|\le k$. The set of all subwords of length $k$ of $u$ that occur in $u$ in a position other than the prefix or suffix is denoted \index{$\Int_k(u)$}$\Int_k(u)$ \index{interior words}(interior words).
 
-%The \index{shuffle}\emph{shuffle} operation between words, denoted $\shuffle$, is defined recursively by
-%$$(au \shuffle bv) = a(u \shuffle bv) \cup b(au \shuffle v),$$
-%and
-%$$(u \shuffle \lambda) = (\lambda \shuffle u) = \{u\},$$
-%where $u, v \in \Sigma^*$ and $a, b \in \Sigma$. Obviously,
-%$$(u \shuffle v) = \{x_1 y_1 \ldots x_n y_n \mid u = x_1 \ldots x_n, v = y_1 \ldots y_n, n \ge 1\}.$$
-
-We now proceed from words to languages. Subsets, finite or infinite, of $\Sigma^*$ are referred to as (\emph{formal}) \index{language}\emph{languages} over $\Sigma$. Thus $L_1 = \{\lambda, 0, 111, 1001\}$ and $L_2 = \{0^p \mid p \ \text{is a prime}\}$ are languages over the \index{alphabet!binary}\emph{binary alphabet} $\{0, 1\}$. A \index{language!finite}finite language can always, at least in principle, be defined as $L_1$ above: by listing all of its words. Such a procedure is not possible for \index{language!infinite}infinite languages. Some finitary specification other than simple listing is needed to define an infinite language. 
+We now proceed from words to languages. Subsets, finite or infinite, of $\Sigma^*$ are referred to as (\emph{formal}) \index{language}\emph{languages} over $\Sigma$. Thus $L_1 = \{\lambda, 0, 111, 1001\}$ and $L_2 = \{0^p \mid p \ \text{is a prime}\}$ are languages over the \index{alphabet!binary}\emph{binary alphabet} $\{0, 1\}$. A \index{language!finite}finite language can always, at least in principle, be defined as $L_1$ above: by listing all of its words. Such a procedure is not possible for \index{language!infinite}infinite languages. Some finitary specification other than simple listing is needed to define an infinite language.
 
 In formal language theory in general, there are two major types of mechanisms for defining languages: \index{acceptor}\emph{acceptors} and \index{generator}\emph{generators}. Acceptors are usually defined in terms of \index{automaton}\emph{automata}, which work as follows: they are given an input word and after some processing they either accept or reject this input word. For instance, the so-called \index{finite automaton}\emph{finite automata} consist of a finite set of internal states and a set of rules that govern the change of the current state when reading a given input symbol. The finite automaton reads a given input word from left to right starting in a specific \index{state!starting}\emph{starting state}. After reading the input word it accepts only if it ends in one of its \index{state!accepting}\emph{accepting states}, otherwise it rejects. Finite automata recognize the family of \index{language!regular}\emph{regular languages}, which plays a central role in the whole formal language theory (see Section \ref{section:regular-languages}).
 
@@ -58,9 +51,6 @@ $$L / L_0 = \bigcup_{x \in L_0} L / x = \{y \in \Sigma^* \mid yx \in L, x \in L_
 It is clear by the above definition that
 $$(L_1 \backslash L) \cup (L_2 \backslash L) = (L_1 \cup L_2) \backslash L$$
 for any $L_1, L_2 \subseteq \Sigma^*$. Similar equality holds for right-quotient of languages.
-
-%Also the \index{shuffle}shuffle operation is extended in the natural to languages:
-%$$(L_1 \shuffle L_2) = \bigcup_{u \in L_1, v \in L_2}(u \shuffle v).$$
 
 The operations of union, catenation, and Kleene star are referred as \index{operation!regular}\emph{regular} operations. A language $L$ over $\Sigma$ is termed \index{language!regular}\emph{regular} if $L$ can be obtained from the \index{language!atomic}``atomic'' languages $\emptyset$ (the \index{language!empty} empty language) and $\{a\}$, where $a$ is a letter of $\Sigma$, by applying regular operations finitely many times. By applying union and catenation, we obviously get all \index{language!finite}finite languages \index{$\Fin$}($\Fin$). The star operation is needed to produce \index{language!infinite}infinite languages. In fact, for any $k$, there are regular languages that cannot be represented with fewer than $k$ nested star operations. When we speak of the \emph{family} of regular languages, we mean all languages that are regular over some $\Sigma$, that is, the alphabet may vary from language to language. The family of regular languages has many desirable formal properties. It is closed under most of the usual operations for languages, in particular, under all Boolean operations.
 
@@ -93,18 +83,18 @@ $$\phi^{-1}(y) = \{x \in \Sigma^* \mid y \in \phi(x)\}.$$
 \section{Regular Languages}
 \label{section:regular-languages}
 
-The main source for this Section is \cite{Sh1997regular}.
+The main source for this Section is \citep{Sh1997regular}.
 
-In this section we provide a very short survey of some basic notions concerning the family of \index{language!regular}regular languages. This is by no means a comprehensive survey. For a more thorough introduction we refer the reader to \cite{HopcroftMotwaniUllman07}.
+In this section we provide a very short survey of some basic notions concerning the family of \index{language!regular}regular languages. This is by no means a comprehensive survey. For a more thorough introduction we refer the reader to \citep{HopcroftMotwaniUllman07}.
 
-For \index{language!regular} regular languages, the natural acceptors are \index{finite automaton}finite automata and the generators are \index{regular expressions}regular expressions and \index{grammar!right-linear}right \index{grammar!left-linear}(left) linear grammars (see Section \ref{subsection:context-free-subfamilies}).
+For regular languages, the natural acceptors are finite automata and the generators are \index{regular expressions}regular expressions and \index{grammar!right-linear}right \index{grammar!left-linear}(left) linear grammars (see Section \ref{subsection:context-free-subfamilies}).
 
 In Section \ref{subsection:finite-automata} we describe several types of finite automata, all of which accept exactly the family of regular languages. In Section \ref{subsection:regular-expressions} we introduce regular expressions and their relationship to finite automata. The last Section \ref{subsection:properties-of-regular-languages} gives some properties of regular languages.
 
 \subsection{Finite Automata}
 \label{subsection:finite-automata}
 
-\index{language!regular}Regular languages and \index{finite automaton}finite automata have had a wide range of applications. Their most celebrated application has been lexical analysis in programming language compilation and user-interface translations. Other notable applications include circuit design, text editing, and pattern matching.
+Regular languages and finite automata have had a wide range of applications. Their most celebrated application has been lexical analysis in programming language compilation and user-interface translations. Other notable applications include circuit design, text editing, and pattern matching.
 
 A \index{finite automaton}\emph{finite automaton} \index{$\FA$}($\FA$) consists of a finite set of internal states and a set of rules that govern the change of the current state when reading a given input symbol. If the next state is always uniquely determined by the current state and the current input symbol, we say that the automaton is deterministic. Formally, we define a deterministic finite automaton as follows:
 
@@ -124,7 +114,7 @@ A $\DFA$ such that every state is reachable from the starting state and reaches 
 
 A \index{configuration}\emph{configuration} of $A = (Q, \Sigma, \delta, s, F)$ is a word in $Q \Sigma^*$, i.\,e.\ a state $q \in Q$ followed by a word $x \in \Sigma^*$ where $q$ is the current state of $A$ and $x$ is the remaining part of the input. The \index{configuration!starting}\emph{starting configuration} of $A$ for an input word $x \in \Sigma^*$ is $sx$.  \index{configuration!accepting}\emph{Accepting configuration} are defined to be elements of $F$ (followed by the empty word $\lambda$).
 
-A \index{computation!step}computation step of $A$ is a \index{transition}transition from a configuration $\alpha$ to a configuration $\beta$, denoted by $\alpha \vdash_A \beta$, where $\vdash_A$ is a binary relation on the set of configurations of $A$. The relation $\vdash_A$ is defined by: for $px, qy \in Q \Sigma^*$, $px \vdash_A qy$ if $x = ay$ for some $a \in \Sigma$ and $\delta(p, a) = q$. We use $\vdash$ instead of $\vdash_A$ if there is no confusion. The transitive closure and the reflexive and transitive closure of $\vdash$ are denoted $\vdash^+$ and $\vdash^*$, respectively.
+A \index{computation!step}computation step of $A$ is a transition from a configuration $\alpha$ to a configuration $\beta$, denoted by $\alpha \vdash_A \beta$, where $\vdash_A$ is a binary relation on the set of configurations of $A$. The relation $\vdash_A$ is defined by: for $px, qy \in Q \Sigma^*$, $px \vdash_A qy$ if $x = ay$ for some $a \in \Sigma$ and $\delta(p, a) = q$. We use $\vdash$ instead of $\vdash_A$ if there is no confusion. The transitive closure and the reflexive and transitive closure of $\vdash$ are denoted $\vdash^+$ and $\vdash^*$, respectively.
 
 The language accepted by a $\DFA$ $A = (Q, \Sigma, \delta, s, F)$, denoted $L(A)$, is defined as follows:
 $$L(A) = \{w \mid sw \vdash^* f \ \text{for some} \ f \in F\}.$$
@@ -153,7 +143,7 @@ It can be easily verified that $L(A) = L(A')$.
 
 Another form of generalization of $\NFA$ is defined in the following.
 
-A \emph{$\NFA$ with nondeterministic starting state} \index{$\NNFA$}($\NNFA$) $A = (Q, \Sigma, \delta, S, F)$ is an $\NFA$ except that there is a set of \index{state!starting}starting states $S$ rather than exactly one starting state. Thus, for an input word, the \index{computation}computation of $A$ starts from a nondeterministically chosen \index{state!starting}starting state.
+A \emph{$\NFA$ with nondeterministic starting state} \index{$\NNFA$}($\NNFA$) $A = (Q, \Sigma, \delta, S, F)$ is an $\NFA$ except that there is a set of \index{state!starting}starting states $S$ rather than exactly one starting state. Thus, for an input word, the computation of $A$ starts from a nondeterministically chosen \index{state!starting}starting state.
 
 It can be shown that for each $\NNFA$ $A$ of $n$ states, we can construct an equivalent $\DFA$ $A'$ of at most $2^n$ states.
 
@@ -180,14 +170,14 @@ denote, respectively. Then
 
 We assume that $*$ has higher precedence than $\cdot$ and $+$, and $\cdot$ has higher precedence than $+$. A pair of parentheses may be omitted whenever the omission would not cause any confusion. Also, we usually omit the symbol $\cdot$ in regular expressions.
 
-There are three major approaches for transforming regular expressions into finite automata. The first approach is to transform a regular expression into a $\lambda$-$\NFA$. This approach is simple and intuitive, but may generate many \index{transition!$\lambda$-transition}$\lambda$-transitions. The second approach transforms a regular expression into an $\NFA$ without \index{transition!$\lambda$-transition}$\lambda$-transitions. The third and most involved approach is to transform a regular expression directly into an equivalent $\DFA$.
+There are three major approaches for transforming regular expressions into finite automata. The first approach is to transform a regular expression into a $\lambda$-$\NFA$. This approach is simple and intuitive, but may generate many $\lambda$-transitions. The second approach transforms a regular expression into an $\NFA$ without $\lambda$-transitions. The third and most involved approach is to transform a regular expression directly into an equivalent $\DFA$.
 
 The converse is also possible, i.\,e.\ for a given finite automaton $A$, we can construct a regular expression $e$ such that $e$ denotes the language accepted by $A$. The construction uses \index{finite automaton!extended}\emph{extended finite automata} where a transition between a pair of states is labeled by a regular expression. For a given finite automaton, a so-called \emph{state elimination technique} deletes a state at each step and changes the transitions accordingly. This process continues until the $\FA$ contains only the starting state, a final state, and the transition between them. The regular expression labeling the transition specifies exactly the language accepted by $A$.
 
 \subsection{Properties of Regular Languages}
 \label{subsection:properties-of-regular-languages}
 
-There are many ways to show that a language is regular; for example, this can be done by demonstrating that the language is accepted by a finite automaton, specified by a regular expression, or generated by a right-linear grammar (see Section \ref{subsection:context-free-subfamilies}). To prove that a language is not regular, the most commonly used tools are the \emph{pumping properties} of \index{language!regular}regular languages, which are usually stated as \index{pumping lemma}``pumping lemmas''. The term ``pumping'' intuitively describes the property that any sufficiently long word of the language has a nonempty subword that can be ``pumped'', i.\,e.\ if the subword is replaced by an arbitrary number of copies of the same subword, the resulting word is still in the language.
+There are many ways to show that a language is regular; for example, this can be done by demonstrating that the language is accepted by a finite automaton, specified by a regular expression, or generated by a right-linear grammar (see Section \ref{subsection:context-free-subfamilies}). To prove that a language is not regular, the most commonly used tools are the \emph{pumping properties} of regular languages, which are usually stated as \index{pumping lemma}``pumping lemmas''. The term ``pumping'' intuitively describes the property that any sufficiently long word of the language has a nonempty subword that can be ``pumped'', i.\,e.\ if the subword is replaced by an arbitrary number of copies of the same subword, the resulting word is still in the language.
 
 There are many versions of pumping lemmas for regular languages. The ``standard'' version is a necessary but not sufficient condition for regularity.
 
@@ -233,7 +223,7 @@ If $L$ is a regular language, then it can be shown that the minimal number of st
 \section{Context-Free Languages}
 \label{section:context-free-languages}
 
-This section is devoted to \index{language!context-free} context-free languages \index{$\CFL$}($\CFL$) and the main source is \cite{AuBeBo1997context-free}. Context-free languages and \index{grammar!context-free} grammars were designed  initially to formalize grammatical properties of natural languages. They subsequently appeared to be well adapted to the formal description of the syntax of programming languages. This led to a considerable development of the theory.
+This section is devoted to \index{language!context-free} context-free languages \index{$\CFL$}($\CFL$) and the main source is \citep{AuBeBo1997context-free}. Context-free languages and grammars were designed initially to formalize grammatical properties of natural languages. They subsequently appeared to be well adapted to the formal description of the syntax of programming languages. This led to a considerable development of the theory.
 
 We focus on two basic tools: context-free grammars and \index{pushdown automaton} pushdown automata. These are indeed the standard tools to generate and to recognize context-free languages. In Section \ref{subsection:context-free-grammars} we give a short introduction to context-free grammars, followed by the survey of their \index{normal form}normal forms in Section \ref{subsection:context-free-normal-forms}. In Section \ref{subsection:pushdown-machines} we introduce pushdown automata as a basic accepting device for context-free languages. In the last Section \ref{subsection:context-free-subfamilies} we present some subfamilies of context-free languages.
 
@@ -290,12 +280,12 @@ There are several convenient shorthands to describe context-free grammars. Usual
 
 Subsequently, we make use of the following notation. Let $A$ be an alphabet. A \index{copy}\emph{copy} of $A$ is an alphabet that is disjoint from $A$ and in bijection with $A$. A copy is often denoted $\bar{A}$ or $A'$. This implicitly means that the bijection is denoted similarly, namely as the mapping $a \mapsto \bar{a}$ or $a \mapsto a'$. The inverse bijection is denoted the same, that is $\bar{\bar{a}} = a$ ($(a')' = a$, respectively), and it is extended to a bijection from $(A \cup \bar{A})^*$ into itself  by $\overline{xy} = \bar{x} \bar{y}$ (similarly for $(A \cup A')^*$).
 
-Let $A$ be an alphabet and let $\bar{A}$ be a copy. The \index{language!Dyck}\emph{Dyck language} over $A \cup \bar{A}$ is the language $D^*_A$ generated by $S$ in the grammar: 
+Let $A$ be an alphabet and let $\bar{A}$ be a copy. The \index{language!Dyck}\emph{Dyck language} over $A \cup \bar{A}$ is the language $D^*_A$ generated by $S$ in the grammar:
 $$S \to TS \mid \lambda; \ \ T \to a S \bar{a} \text{ for all } a \in A.$$
 If $A$ has $n$ letters, then the notation $D^*_n$ is frequently used instead of $D^*_A$.
 
 The \index{language!Lukasiewicz}\emph{Lukasiewicz language} is the language generated by the grammar:
-$$S \to aSS \mid \bar{a}$$ It is sometimes denoted by ${\L}$. It can be proved that ${\L} = D^*_1 \bar{a}$.
+$$S \to aSS \mid \bar{a}$$ It is sometimes denoted by $L$. It can be proved that $L = D^*_1 \bar{a}$.
 
 \subsection{Normal Forms}
 \label{subsection:context-free-normal-forms}
@@ -358,9 +348,9 @@ We clearly have: $\xrightarrow{x} \circ \xrightarrow{y}\ =\ \xrightarrow{xy}$.
 
 An internal configuration $(q', w')$ is \index{configuration!internal!accessible}\emph{accessible} from an internal configuration $(q, w)$, or equivalently, $(q, w)$ is \index{configuration!internal!co-accessible}\emph{co-accessible} from $(q', w')$ if there is some $x \in \Sigma^*$ such that $(q, w) \xrightarrow{x} (q', w')$.
 
-A rule $(y, q, z, h, q') \in T$ is an \index{rule!increasing}increasing rule (respectively a \index{rule!stationary}stationary, respectively a \index{rule!decreasing}decreasing rule) if $|h| > 1$ (respectively $|h| = 1$, respectively $|h| < 1$). The use of an increasing rule (respectively a stationary, respectively a decreasing rule) in a \index{computation}computation increases (respectively leaves unchanged, respectively decreases) the number of symbols in the stack. A $\pdm$ is in \index{$\pdm$!quadratic form}\emph{quadratic form} if for all rules $(y, q, z, h, q') \in T$, we have: $|h| \le 2$.
+A rule $(y, q, z, h, q') \in T$ is an \index{rule!increasing}increasing rule (respectively a \index{rule!stationary}stationary, respectively a \index{rule!decreasing}decreasing rule) if $|h| > 1$ (respectively $|h| = 1$, respectively $|h| < 1$). The use of an increasing rule (respectively a stationary, respectively a decreasing rule) in a computation increases (respectively leaves unchanged, respectively decreases) the number of symbols in the stack. A $\pdm$ is in \index{$\pdm$!quadratic form}\emph{quadratic form} if for all rules $(y, q, z, h, q') \in T$, we have: $|h| \le 2$.
 
-A $\pdm$ is used as a device for recognizing words by specifying \index{configuration!starting}starting configurations and \index{configuration!accepting}accepting configurations. The convention is that there is only one starting internal configuration $i = (q, z)$, where the state $q$ is the initial state, and the letter $z$ is the initial stack symbol. The sets of internal accepting configurations usually considered are:
+A $\pdm$ is used as a device for recognizing words by specifying starting configurations and accepting configurations. The convention is that there is only one starting internal configuration $i = (q, z)$, where the state $q$ is the initial state, and the letter $z$ is the initial stack symbol. The sets of internal accepting configurations usually considered are:
 
 \begin{enumerate}
 \item the set $F \times Z^*$ where $F$ is a subset of $Q$, called the set of \index{state!accepting}\emph{accepting states},
@@ -371,17 +361,11 @@ A $\pdm$ is used as a device for recognizing words by specifying \index{configur
 
 We call each of these cases a \index{mode of acceptance}\emph{mode of acceptance}.
 
-A \index{pushdown automaton}\emph{pushdown automaton} over $\Sigma$ (a \index{$\pda$}$\pda$ for short) is composed of a pushdown machine $(Q, \Sigma, Z, T)$, together with an  \index{configuration!internal!initial} \emph{initial internal configuration} $i$, and a set $K$ of \index{configuration!internal!accepting}\emph{internal accepting configurations}. It is so a $6$-tuple $A = (Q, \Sigma, Z, i, K, T)$, and $(Q, \Sigma, Z, T)$ is called the \emph{$\pdm$ associated} to $A$.
+A \index{pushdown automaton}\emph{pushdown automaton} over $\Sigma$ (a \index{$\pda$}$\pda$ for short) is composed of a pushdown machine $(Q, \Sigma, Z, T)$, together with an \index{configuration!internal!initial}\emph{initial internal configuration} $i$, and a set $K$ of \index{configuration!internal!accepting}\emph{internal accepting configurations}. It is so a $6$-tuple $A = (Q, \Sigma, Z, i, K, T)$, and $(Q, \Sigma, Z, T)$ is called the \emph{$\pdm$ associated} to $A$.
 
 A word $x \in \Sigma^*$ is \emph{recognized} by a $\pda$ $A = (Q, \Sigma, Z, i, K ,T)$ over $\Sigma$ with a specified \index{mode of acceptance} mode of acceptance if there is $k \in K$ such that $i \xrightarrow{x} k$. Considering  the modes of acceptance defined above, in the first case the word is said to be recognized by \index{language recognized by!accepting states} \emph{accepting states $F$}, in the second case the word is said to be recognized by \index{language recognized by!empty storage}\emph{empty storage}, in the third case the word is said to be recognized by \emph{empty storage and accepting states $F$}, and in the last case the word is said to be recognized by \emph{topmost stack symbols $Z'$}. The \emph{language accepted} by a $\pda$ with a given mode of acceptance is the set of all words recognized by the $\pda$ with this mode. For any $\pda$ $A = (Q, \Sigma, Z, i, K, T)$, we note $L(A)$ the language recognized by $A$, and for any set of internal accepting configurations $K'$, we note $L(A, K')$ the language recognized by the $\pda$ $A' = (Q, \Sigma, Z, i, K', T)$.
 
-In general, for a given $\pda$, changing the mode of acceptance changes the languages recognized. Nevertheless, the family of languages that are recognized by $\pda$'s, using any of these modes remains the same. 
-%This can be proved easily using a useful, though technical, transformation of a 
-%$\pda$ adding it the bottom symbol testing ability. A $\pda$ \index{bottom testing}
-%\emph{admits bottom testing} if there is a partition of the stack alphabet $Z$ in 
-%$B \cup B'$ such that for any accessible configuration $(q, w)$, the word $w$ 
-%is in $B B'^*$.
-Moreover, the family of languages recognized by $\pda$'s using any of the aforementioned modes of acceptance is exactly the family of \index{language!context-free}context-free languages.
+In general, for a given $\pda$, changing the mode of acceptance changes the languages recognized. Nevertheless, the family of languages that are recognized by $\pda$'s, using any of these modes remains the same. Moreover, the family of languages recognized by $\pda$'s using any of the aforementioned modes of acceptance is exactly the family of context-free languages.
 
 The characterization of context-free languages in terms of languages recognized by $\pda$'s allows much simpler proofs of certain properties of context-free languages.
 
@@ -398,9 +382,9 @@ A $\pdm$ $M = (Q, \Sigma, Z, T)$ is \index{pushdown machine!deterministic}\emph{
 
 A \index{pushdown automaton!deterministic}\emph{deterministic $\pda$} \index{$\dpda$}($\dpda$ for short) is a $\pda$ with a deterministic associated $\pdm$. It is possible to prove that the family of languages recognized by $\dpda$'s by \index{language recognized by!empty storage}empty storage is the same as the family of languages recognized by $\dpda$'s by empty storage and \index{language recognized by!accepting states}accepting states, and that this family is included in the family of languages recognized by $\dpda$'s by accepting states. On the other hand, it is easy to verify that a language recognized by empty storage by $\dpda$ is prefix, i.\,e.\ no proper prefix of a word of this language belongs to this language. So, we are left with two families of languages: the family of languages recognized by accepting states, called the family of \index{language!context-free!deterministic}\emph{deterministic languages} \index{$\DCFL$}($\DCFL$), and the family of languages recognized by empty storage, called the family of \index{language!context-free!deterministic-prefix} \emph{deterministic-prefix languages}. It is easy to check that the family of deterministic-prefix languages is exactly the family of deterministic languages that are prefix languages.
 
-The two families are distinct. As an example, the language $L_1 = \{a^n b^p \mid p > n > 0\}$ is deterministic but not prefix. To avoid these problems, a usual trickis to consider languages with an end marker: indeed, $L \sharp$ is a prefix language which is deterministic if and only if $L$ is deterministic.
+The two families are distinct. As an example, the language $L_1 = \{a^n b^p \mid p > n > 0\}$ is deterministic but not prefix. To avoid these problems, a usual trick is to consider languages with an end marker: indeed, $L \sharp$ is a prefix language which is deterministic if and only if $L$ is deterministic.
 
-For any $\dpda$ it is possible to construct a $\dpda$ recognizing the same language such that an accepting state cannot be on the left side of an $\lambda$-rule. Consequently, in such a $\dpda$, for any recognized word, there is only one successful \index{computation}computation. This proves that deterministic languages are \index{language!unambiguous}unambiguous. Moreover, the family of deterministic languages is closed under complementation. This property does not hold for the family of context-free languages.
+For any $\dpda$ it is possible to construct a $\dpda$ recognizing the same language such that an accepting state cannot be on the left side of an $\lambda$-rule. Consequently, in such a $\dpda$, for any recognized word, there is only one successful computation. This proves that deterministic languages are unambiguous. Moreover, the family of deterministic languages is closed under complementation. This property does not hold for the family of context-free languages.
 
 \subsection{Subfamilies}
 \label{subsection:context-free-subfamilies}
@@ -414,28 +398,15 @@ We present here some subfamilies of the family of context-free languages. We beg
 \item \index{grammar!regular}\emph{regular}, if each production $X \to v \in P$ has $v \in V_T \cup V_T V_N \cup \{\lambda\}$.
 \end{enumerate}
 
-The family of languages generated by right- or by left-linear grammars are equal and equal to the family of languages generated by regular grammars, which is exactly the family of \index{language!regular}regular languages.
+The family of languages generated by right- or by left-linear grammars are equal and equal to the family of languages generated by regular grammars, which is exactly the family of regular languages.
 
 However, the family of regular languages is strictly included in the family of linear languages, denoted by \index{$\Lin$}$\Lin$.
 
-Let $L = \{a^n b^n \mid n \ge 0\}$. The language $L$ is linear, but not regular. Moreover, the language $L \cdot L$ is context-free but not linear. Thus, the family of linear languages is a proper subfamily of the family of context-free languages. 
-%The proof leads to a specific pumping lemma for linear languages:
-%
-%\index{pumping lemma!linear language}
-%\begin{lemma}
-%Let $L$ be a linear language over $\Sigma$. Then there exists a 
-%natural number $n$ such that any word $z$ in $L$ of length at least $n$
-%admits a factorization $z = u v w x y$ satisfying
-%\begin{enumerate}
-%\item $|uvxy| \le n$,
-%\item $v \neq \lambda$ or $x \neq \lambda$,
-%\item $u v^i w x^i y \in L$ for all $i \ge 0$.
-%\end{enumerate}
-%\end{lemma}
+Let $L = \{a^n b^n \mid n \ge 0\}$. The language $L$ is linear, but not regular. Moreover, the language $L \cdot L$ is context-free but not linear. Thus, the family of linear languages is a proper subfamily of the family of context-free languages.
 
-The linear languages can be characterized also by pushdown automata. Given a \index{computation}computation of $\pda$ A, a \emph{turn} in the computation is a move that decreases the height of the pushdown store and is preceded by a move that has not decreased it. A $\pda$ $A$ is said to be \index{pushdown automaton!one-turn} \emph{one-turn} if in any computation, there is at most one turn. It can be shown that a language is linear if and only if it is recognized by a one-turn $\pda$. This characterization can further be generalized to \index{pushdown automaton!finite-turn} finite-turn $\pda$'s and languages.
+The linear languages can be characterized also by pushdown automata. Given a computation of $\pda$ A, a \emph{turn} in the computation is a move that decreases the height of the pushdown store and is preceded by a move that has not decreased it. A $\pda$ $A$ is said to be \index{pushdown automaton!one-turn} \emph{one-turn} if in any computation, there is at most one turn. It can be shown that a language is linear if and only if it is recognized by a one-turn $\pda$. This characterization can further be generalized to \index{pushdown automaton!finite-turn} finite-turn $\pda$'s and languages.
 
-Next we present the family of \index{language!one-counter}one-counter languages. It is defined through $\pda$'s. A $\pda$ is \index{pushdown automaton!one-counter}\emph{one-counter} if the stack alphabet contains only one letter. A \index{language!context-free}context-free language is a \index{language!one-counter}\emph{one-counter language} if it is recognized by a one-counter $\pda$ by empty storage and accepting states.
+Next we present the family of \index{language!one-counter}one-counter languages. It is defined through $\pda$'s. A $\pda$ is \index{pushdown automaton!one-counter}\emph{one-counter} if the stack alphabet contains only one letter. A context-free language is a \index{language!one-counter}\emph{one-counter language} if it is recognized by a one-counter $\pda$ by empty storage and accepting states.
 
 We denote by \index{$\Ocl$}$\Ocl$ this family of languages. The terminology used here comes from the fact that, as soon as the stack alphabet is reduced to a single letter, the stack can be viewed a counter.
 
@@ -443,7 +414,7 @@ However, it is worth noticing that, contrarily to the case of linear languages, 
 
 We now turn to another subfamily of the family of context-free languages. Consider an alphabet $\Sigma$ containing two particular letters $a$ and $\bar{a}$. A context-free grammar over the terminal alphabet $\Sigma$ is \index{grammar!parenthetic}\emph{parenthetic} if each rule of the grammar has the following form $X \to a \alpha \bar{a}$ with $\alpha$ containing neither the letter $a$ nor the letter $\bar{a}$. As usual, a language is said to be \index{language!parenthetic}\emph{parenthetic} if it is generated by some parenthetic grammar. In the particular case where the alphabet $\Sigma$ does not contain any other letters than the two special ones $a$ and $\bar{a}$, we speak of \emph{pure parenthetic} \index{grammar!pure parenthetic}grammar or \index{language!pure parenthetic}language.
 
-Clearly, any pure parenthetic language over $\Sigma = \{a, \bar{a}\}$ is included in the \index{language!Dyck}Dyck language $D_1^*$. However, it should be noted that $D_1^*$ is not (purely) parenthetic.
+Clearly, any pure parenthetic language over $\Sigma = \{a, \bar{a}\}$ is included in the Dyck language $D_1^*$. However, it should be noted that $D_1^*$ is not (purely) parenthetic.
 
 A context-free grammar $G = (V_N, V_T, S, P)$ is  \index{grammar!simple}\emph{simple} if it is in  Greibach normal form and if, for each pair $(X, a) \in V_N \times V_T$, there is at most one rule of the form $X \to am$. As usual, a \index{language!simple}language is \emph{simple} if it can be generated by a simple grammar. It is easy to check that any simple language is deterministic, and that there do exist deterministic languages which are not simple. The simple languages are exactly the languages recognized by \index{pushdown automaton!simple} simple deterministic $\pda$'s as defined in Section \ref{subsection:pushdown-machines}. Moreover, this family of languages enjoys nice properties. For instance, any simple language is prefix, and the family of simple languages generates a free monoid.
 
@@ -489,10 +460,10 @@ In this Section we present classical \index{Chomsky hierarchy}\emph{Chomsky hier
 \item \index{language!regular}\index{grammar!regular}\emph{regular} or \index{language!type $3$}\index{grammar!type $3$}\emph{type $3$}.
 \end{enumerate}
 
-The phrase-structure, context-sensitive, context-free, and regular grammars are also called type $0$, type $1$, type $2$, and type $3$ grammars, respectively. The families of languages they generate are denoted by 
+The phrase-structure, context-sensitive, context-free, and regular grammars are also called type $0$, type $1$, type $2$, and type $3$ grammars, respectively. The families of languages they generate are denoted by
 \index{$\mathcal{L}_0$}$\mathcal{L}_0$ (or \index{$\RE$}$\RE$),
-\index{$\mathcal{L}_1$}$\mathcal{L}_1$ (or \index{$\CSL$}$\CSL$), 
-\index{$\mathcal{L}_2$}$\mathcal{L}_2$ (or \index{$\CFL$}$\CFL$), and 
+\index{$\mathcal{L}_1$}$\mathcal{L}_1$ (or \index{$\CSL$}$\CSL$),
+\index{$\mathcal{L}_2$}$\mathcal{L}_2$ (or \index{$\CFL$}$\CFL$), and
 \index{$\mathcal{L}_3$}$\mathcal{L}_4$ (or \index{$\Reg$}$\Reg$), respectively.
 The following strict inclusions hold:
 $$\Reg \subset \Lin \subset \CFL \subset \CSL \subset \RE.$$
@@ -503,17 +474,17 @@ The class of context-sensitive languages has turned out to be of smaller importa
 
 The Chomsky hierarchy still constitutes a testing ground often used: new classes are compared with those in the Chomsky hierarchy. However, it is not any more the only testing ground in the language theory.
 
-In Section \ref{subsection:phrase-structure-grammars} we introduce \index{grammar!phrase-structure}phrase-structure grammars and formulate the relation between languages generated by these grammars and \index{language!recursively enumerable} recursively enumerable languages. In Section \ref{subsection:context-sensitive-grammars} we concentrate on the family of context-sensitive languages. Regular languages and context-free languages have already been covered in Section \ref{section:regular-languages} and Section \ref{section:context-free-languages}, respectively. Finally, in Sections \ref{subsection:closure-properties} and \ref{subsection:decidability-properties} we summarize closure and decidability properties of families in Chomsky hierarchy.
+In Section \ref{subsection:phrase-structure-grammars} we introduce phrase-structure grammars and formulate the relation between languages generated by these grammars and recursively enumerable languages. In Section \ref{subsection:context-sensitive-grammars} we concentrate on the family of context-sensitive languages. Regular languages and context-free languages have already been covered in Section \ref{section:regular-languages} and Section \ref{section:context-free-languages}, respectively. Finally, in Sections \ref{subsection:closure-properties} and \ref{subsection:decidability-properties} we summarize closure and decidability properties of families in Chomsky hierarchy.
 
-The main source is \cite{MaSa1997formal, MaSa1997aspects}. Paragraph concerning \index{language!context-sensitive!growing}\emph{growing context-sensitive 
-languages} is taken from \cite{Buntrock19981}. For brevity, we omit definitions of Turing machines and complexity classes. The interested reader is referred to \cite{MaSa1997aspects}.
+The main source is \citep{RozSal97I}. Paragraph concerning \index{language!context-sensitive!growing}\emph{growing context-sensitive
+languages} is taken from \citep{Buntrock19981}. For brevity, we omit definitions of Turing machines and complexity classes. The interested reader is referred to \citep{MaSa1997aspects}.
 
 \subsection{Phrase-Structure Grammars}
 \label{subsection:phrase-structure-grammars}
 
 A \index{grammar!phrase-structure}\emph{phrase-structure} grammar or a \index{grammar!type $0$}\emph{type $0$} Chomsky grammar is a construct $G = (V_N, V_T, S, P)$, $V_N$ and $V_T$ are disjoint alphabets, $S \in V_N$ and $P$ is a finite set of ordered pairs $(u, v)$, where $u, v \in (V_N \cup V_T)^*$ and $u$ contains at least one element from $V_N$.
 
-As in Section \ref{subsection:context-free-grammars}, elements in $V_N$ are referred to as \index{nonterminal}\emph{nonterminals}, $V_T$ is the  \index{terminal}\emph{terminal} alphabet, $S$ is the \index{start symbol}\emph{start symbol} (or \index{axiom}\emph{axiom}) and $P$ is the set of \index{production} \emph{productions} or \index{rewriting rule}\emph{rewriting rules}. Productions $(u, v)$ are written $u \to v$. The \index{derivation!direct}\emph{direct derivation} relation induced by $G$ is a binary relation between words over $V_N \cup V_T$, denoted $\Rightarrow_G$, and defined as: 
+As in Section \ref{subsection:context-free-grammars}, elements in $V_N$ are referred to as \index{nonterminal}\emph{nonterminals}, $V_T$ is the  \index{terminal}\emph{terminal} alphabet, $S$ is the \index{start symbol}\emph{start symbol} (or \index{axiom}\emph{axiom}) and $P$ is the set of \index{production} \emph{productions} or \index{rewriting rule}\emph{rewriting rules}. Productions $(u, v)$ are written $u \to v$. The \index{derivation!direct}\emph{direct derivation} relation induced by $G$ is a binary relation between words over $V_N \cup V_T$, denoted $\Rightarrow_G$, and defined as:
 $$\alpha \Rightarrow_G \beta \Leftrightarrow \alpha = xuy, \beta = xvy, \text{ and } (u \to v) \in P,$$
 where $\alpha, \beta, x, y \in (V_N \cup V_T)^*$.
 
@@ -565,31 +536,23 @@ $$\CSL = \classNSPACE(n).$$
 
 However, it is not known whether the inclusion $\classDSPACE(n) \subseteq \classNSPACE(n)$ is strict or not.
 
-It can be shown, that there exist \index{language!context-sensitive}context-sensitive languages for which the membership problem is $\classPSPACE$-complete. Thus, in their full generality these languages are too powerful for practical applications. On the other hand, \index{language!context-free}context-free languages are not powerful enough to completely describe all the syntactical aspects of a programming language like \index{Pascal}Pascal, since some of them are inherently context dependent. There are various alternatives to define classes of languages that are strictly in between $\CFL$ and $\CSL$. One approach is based on making the \index{grammar!context-free}context-free grammars more powerful by adding certain attributes that must be evaluated in order to decide whether a sentence derived from that grammar is considered to be `valid'. Another approach is based on restricting the power of \index{grammar!context-sensitive}context-sensitive grammars.
+It can be shown, that there exist context-sensitive languages for which the membership problem is $\classPSPACE$-complete. Thus, in their full generality these languages are too powerful for practical applications. On the other hand, context-free languages are not powerful enough to completely describe all the syntactical aspects of a programming language like Pascal, since some of them are inherently context dependent. There are various alternatives to define classes of languages that are strictly in between $\CFL$ and $\CSL$. One approach is based on making the context-free grammars more powerful by adding certain attributes that must be evaluated in order to decide whether a sentence derived from that grammar is considered to be `valid'. Another approach is based on restricting the power of context-sensitive grammars.
 
-Dahlhaus and Warmuth \cite{DW86} consider \index{grammar!context-sensitive!growing}\emph{growing context-sensitive grammars} \index{$\GCSL$}($\GCSL$), that is, \index{grammar!context-sensitive} context-sensitive grammars for which each \index{production}production rule is strictly length-increasing. Obviously, for such a grammar the length of a \index{derivation}derivation is bounded from above by the length of the sentence derived. Dahlhaus and Warmuth prove that all \emph{growing context-sensitive languages}, that is, the languages that are generated by \emph{growing context-sensitive grammars}, have membership problems that are solvable in polynomial time.
-
-%We conclude this section by summarizing some closure properties of the family of context-sensitive languages.
-
-%\begin{theorem}
-%The family $\mathcal{L}_1 = \CSL$ is closed under the following operations: union, intersection, complementation, concatenation, Kleene star, Kleene plus, intersection with regular languages, $\lambda$-free morphism, inverse morphism, $\lambda$-free substitution, mirror. 
-
-%It is not closed under substitution, morphism, and left (right) quotient with regular languages.
-%\end{theorem}
+Dahlhaus and Warmuth \citep{DW86} consider \index{grammar!context-sensitive!growing}\emph{growing context-sensitive grammars} \index{$\GCSL$}($\GCSL$), that is, context-sensitive grammars for which each \index{production}production rule is strictly length-increasing. Obviously, for such a grammar the length of a \index{derivation}derivation is bounded from above by the length of the sentence derived. Dahlhaus and Warmuth prove that all \emph{growing context-sensitive languages}, that is, the languages that are generated by \emph{growing context-sensitive grammars}, have membership problems that are solvable in polynomial time.
 
 \subsection{Closure Properties}
 \label{subsection:closure-properties}
 
-\index{closure properties}Closure properties of families in Chomsky hierarchy 
-(Y stands for \emph{yes} and N stands for \emph{no}) taken from \cite{MaSa1997formal}:
+\index{closure properties}Closure properties of families in Chomsky hierarchy
+(Y stands for \emph{yes} and N stands for \emph{no}) taken from \citep{MaSa1997formal}:
 
 \begin{center}
 \begin{tabular}{ | l | c | c | c | c | c | }
 \hline
               & $\RE$
               & $\CSL$
-              & $\CFL$ 
-              & $\Lin$ 
+              & $\CFL$
+              & $\Lin$
               & $\Reg$\\
 \hline
 \index{union}Union
@@ -613,7 +576,7 @@ Dahlhaus and Warmuth \cite{DW86} consider \index{grammar!context-sensitive!growi
 \index{substitution}Substitution
               & Y     & N      & Y      & N      & Y \\
 \hline
-\index{substitution!$\lambda$-free}$\lambda$-free substitution  
+\index{substitution!$\lambda$-free}$\lambda$-free substitution
               & Y     & Y      & Y      & N      & Y \\
 \hline
 \index{morphism}Morphism
@@ -628,7 +591,7 @@ Dahlhaus and Warmuth \cite{DW86} consider \index{grammar!context-sensitive!growi
 \index{left-quotient}\index{right-quotient}Left/right quotient
               & Y     & N      & N      & N      & Y \\
 \hline
-\index{left-quotient!with regular language}\index{right-quotient!with regular 
+\index{left-quotient!with regular language}\index{right-quotient!with regular
 language}Left/right quotient with regular language
               & Y     & N      & Y      & Y      & Y \\
 \hline
@@ -653,24 +616,24 @@ elements $G_1$, $G_2$ of $G$ can be formulated:
 \begin{enumerate}
 \item \index{equivalence}\emph{equivalence}: are $G_1$, $G_2$ equivalent?
 \item \index{inclusion}\emph{inclusion}: is $L(G_1)$ included in $L(G_2)$?
-\item \index{membership}\emph{membership}: is an arbitrarily given string $x$ an 
+\item \index{membership}\emph{membership}: is an arbitrarily given string $x$ an
 element of $L(G_1)$?
 \item \index{emptiness}\emph{emptiness}: is $L(G_1)$ empty?
 \item \index{finiteness}\emph{finiteness}: is $L(G_1)$ finite?
 \item \index{regularity}\emph{regularity}: is $L(G_1)$ a regular language?
 \end{enumerate}
 
-\index{decidability properties}Decidability properties of classes of phrase-structure, 
-context-sensitive, context-free, linear, and regular grammars (N stands for 
-\emph{non-decidable} and D stands for \emph{decidable}) taken from \cite{MaSa1997formal}:
+\index{decidability properties}Decidability properties of classes of phrase-structure,
+context-sensitive, context-free, linear, and regular grammars (N stands for
+\emph{non-decidable} and D stands for \emph{decidable}) taken from \citep{MaSa1997formal}:
 
 \begin{center}
 \begin{tabular}{ | l | c | c | c | c | c | }
 \hline
-              & $\RE$ 
-              & $\CSL$ 
-              & $\CFL$ 
-              & $\Lin$ 
+              & $\RE$
+              & $\CSL$
+              & $\CFL$
+              & $\Lin$
               & $\Reg$\\
 \hline
 \index{equivalence}Equivalence
@@ -693,11 +656,3 @@ context-sensitive, context-free, linear, and regular grammars (N stands for
 \hline
 \end{tabular}
 \end{center}
-
-%We conclude this section with \index{Rice theorem}\emph{Rice Theorem}:
-%
-%\begin{theorem}[Rice theorem]
-%Let $P$ be a nontrivial property of type $0$ languages (there are languages having
-%property $P$ and also languages not having property $P$). Then property $P$
-%is undecidable for type $0$ languages.
-%\end{theorem}

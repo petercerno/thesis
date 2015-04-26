@@ -37,6 +37,7 @@
 % insert here the call for the packages your document requires
 \usepackage{amsthm}
 \usepackage{amssymb, amsmath, amsfonts}
+\usepackage{bm} % for bold math
 \usepackage{thmtools}
 \usepackage{setspace}
 \usepackage{xspace}
@@ -50,7 +51,8 @@
 \usepackage{makeidx}
 \makeindex
 \usepackage[totoc]{idxlayout}
-\usepackage[square,sort,comma,numbers]{natbib}
+%FM \usepackage[square,sort,comma,authoryear]{natbib}
+\usepackage[authoryear,square,sort&compress]{natbib}
 \usepackage{hyperref}
 \hypersetup{
     bookmarks=true,
@@ -152,7 +154,7 @@ Department of Software and Computer Science Education
 
 \begin{tabular}{rl}
 
-Supervisor of the doctoral thesis: & František Mráz \\
+Supervisor of the doctoral thesis: & RNDr. František Mráz, CSc. \\
 \noalign{\vspace{2mm}}
 Study programme: & Informatics \\
 \noalign{\vspace{2mm}}
@@ -174,11 +176,11 @@ Prague \the\year
 \openright
 
 \noindent
-First of all, I would like to thank my PhD advisor, RNDr. František Mráz CSc., for his time and generous support during my PhD studies. Also, František Mráz provided a comprehensive guidance when I applied for the grant from the Grant Agency of Charles University. Thanks to this effort the research presented in this thesis was supported by the Grant Agency of Charles University under Grant-No. 272111/A-INF/MFF and by the Czech Science Foundation under Grant-No. P103/10/0783 and Grant-No. P202/10/1333.
+First of all, I would like to thank my PhD advisor, RNDr. František Mráz CSc., for his time and generous support during my PhD studies. Also, František Mráz provided a comprehensive guidance when I applied for the grant from the Grant Agency of Charles University in Prague. Thanks to this effort the research presented in this thesis was supported by the Grant Agency of Charles University under Grant-No. 272111/A-INF/MFF (principal investigator P.~{\v C}erno) and by the Czech Science Foundation under Grant-No. P103/10/0783 (principal investigator I.~Mr{\'a}zov{\'a}), Grant-No. P202/10/1333 (principal investigator J.~{\v S}{\'\i}ma), and Grant-No. 15-04960S (principal investigator I. Mr{\'a}zov{\'a}).
 
 Special thanks belong to my research advisor Prof. Dr. Friedrich Otto who influenced me in many ways and whose discussions with me and my advisor often sparked many new ideas and insights partially reflected in this thesis.
 
-I am indebted to Martin Plátek CSc. for providing many short-term contracts and extra financial support that helped to finance my research.
+I am indebted to Martin Plátek CSc. and doc. RNDr. Iveta Mrázová CSc.  for providing many short-term contracts and extra financial support that helped to finance my research.
 
 During my studies, I was given the opportunity to spend some time at the University of Kassel in Kassel, Germany. For this I would like to thank Prof. Dr. Friedrich Otto who invited me to his group and to my advisor who negotiated this stay. The chapter on grammatical inference was based on ideas developed during this internship.
 
@@ -218,7 +220,7 @@ signature of the author
 \setlength\parskip{5mm}
 
 Název práce:
-Restricted Restarting Automata
+Omezené Restartovací Automaty
 % přesně dle zadání
 
 Autor:
@@ -287,7 +289,9 @@ analysis by reduction, 	grammatical inference, restarting automata, string-rewri
 \include{preface}
 \include{chap_background}
 \include{chap_selected}
-\include{chap_crs_nonaux}
+\include{chap_goals}
+\include{chap_clra}
+\include{chap_crs_learning}
 \include{chap_crs_aux}
 
 \backmatter
@@ -300,7 +304,8 @@ analysis by reduction, 	grammatical inference, restarting automata, string-rewri
 %%% Seznam použité literatury	
 \def\bibname{Bibliography}
 %\bibliographystyle{plain}
-\bibliographystyle{these}
+%FM \bibliographystyle{these}
+\bibliographystyle{my_splncsnat}
 \bibliography{bibliography}
 \addcontentsline{toc}{chapter}{\bibname}
 

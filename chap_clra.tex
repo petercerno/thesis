@@ -1,0 +1,870 @@
+\chapter{Clearing Restarting Automata}\label{chapter:clra}
+
+The main purpose of this chapter is to satisfy Goal \ref{goal:clra} from Chapter \ref{chapter:goals}, i.\,e.\ to study \index{clearing restarting automaton}\emph{clearing restarting automata} in detail. Although clearing restarting automata are very restricted, they can recognize all regular languages, some context-free languages and even some non-context-free languages. Nevertheless, there are some context-free languages that are outside the class of languages accepted by clearing restarting automata. We also discuss some extensions of clearing restarting automata, such as \index{subword-clearing restarting automaton}\emph{subword-clearing restarting automata}. The main source for this chapter is \citep{CM09, C10Diploma, CM10}.
+
+As defined in Definition \ref{definition:derived-classes}, a \index{clearing restarting automaton}\emph{clearing restarting automaton} (\index{$\clRA$}\emph{$\clRA$} for short) is a $\CRS$ $M = (\Sigma, \Phi)$, where for every instruction $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t = \lambda$. Clearing restarting automata use only the terminal symbols, which are present in an input word. They use a set of rules for iterated local simplifications until the input word is reduced into the empty word -- in which case the word is accepted -- or a nonempty word that cannot be simplified anymore is obtained -- in which case the word is rejected.
+
+While still being nondeterministic, clearing restarting automata can recognize some non-context-free languages (even without the use of auxiliary symbols).
+
+Clearing restarting automata do not use states. This is similar to \emph{stateless restarting automata} introduced in \citep{KuMeOt08}. However, a stateless restarting automaton still has the ability to rewrite a subword on its tape by a shorter subword or in its weakest version to delete a scattered subword of its tape. Moreover, a stateless restarting automaton scans its tape from the left to the right and it can check that all the subwords seen in its scanning window are from a finite set of words. Our models of restarting automata can delete only whole subwords based only on a fixed size context around the deleted subword.
+
+It is easy to see that an instruction $(x,z,y)$ of a $\clRA$ corresponds to the rewriting meta-instruction $(x',z \to \lambda,y')$ of an $\RR$-automaton (see Section \ref{section:restarting-automata}), where either $x'=\{x''\}$ in the case when $x=\cent \cdot x''$, or $x' = \Sigma^*\cdot \{x\}$ in the case when $x$ does not start with $\cent$, and either $y'=\{y''\}$ in the case when $y=y'' \cdot \$ $, or $y' = \{y\} \cdot \Sigma^* $ in the case when $y$ does not end with $\$ $.
+
+\begin{theorem}\label{theorem:clRAsubseteqRR}
+$\calL{\clRA} \subseteq \calL{\RR}.$
+\end{theorem}
+
+As we will see later, the above inclusion is proper. In the following sections we compare the class of languages recognized by clearing restarting automata to the Chomsky hierarchy. We show that the class of languages recognized by clearing restarting automata, while being a proper subset of the class of context-sensitive languages is incomparable to $\CFL$ with respect to inclusion. We study what is the minimal size of alphabet and context used by clearing restarting automata in order to be able to recognize a non-context-free language.
+
+First, in Section \ref{se:clRAandReg} we show that all regular languages can be recognized by clearing restarting automata with restricted left (right, respectively) contexts. In case of a one-letter alphabet, clearing restarting automata recognize exactly all regular languages containing the empty word. In Section \ref{se:nonClosureclRA} we present some (non-)closure properties of $\calL{\clRA}$. We prove that $\calL{\clRA}$ is not closed under several operations (concatenation, intersection, intersection with a regular language, difference) and that there exist context-free languages which cannot be recognized by any $\clRA$.
+
+As we have seen in Theorem \ref{theorem:context_extension}, by increasing the length of contexts used in instructions, $\clRA$ could only increase their power. In Section \ref{se:k-hierarchy_k-cl-RA} we show that the language classes recognized by \index{$\kclRA$}$\kclRA[k]$ create an infinite proper hierarchy with respect to $k$.
+
+In the following Sections \ref{4clRA-non-CFL}, \ref{1clRA}, \ref{2clRA-non-CFL}, and \ref{3clRA-non-CFL} we study under which restrictions (on the length of contexts and the size of alphabet) $\kclRA[k]$ can recognize non-context-free languages. In these sections, we prefer the generative point of view for clearing restarting automata as was described in Remark \ref{remark:approach}.
+
+In Section \ref{4clRA-non-CFL} we prove that $\kclRA[4]$ are able to recognize a non-context-free language over a two-letter alphabet. We construct a $\kclRA[4]$ $M = (\Sigma, \Phi)$ such that $L(M) \cap \{(ab)^n \mid n > 0\} = \{(ab)^{2^l} \mid l = 0, 1, 2, \ldots\}$. Since context-free languages are closed under intersection with regular languages, it follows that $L(M)$ is a non-context-free language. Rather than describing the language $L(M)$ directly, we use a special inverse homomorphism of this language called \emph{circle-square representation} of $L(M)$. We use the term circle-square representation since we map the language $L(M)$ into a language on alphabet $\{ \Circle, \Square \}$, i.\,e.\ the words of this language are composed of circles and squares.
+
+Similar circle-square representations are used also in other sections of this chapter. The main motivation behind their use is that they often give us some insight into the structure of the language recognized by the clearing restarting automaton. The language itself is often very difficult to describe directly, but usually it contains some regularities, which are easily captured by using the proper circle-square representation.
+
+In Section \ref{1clRA} we prove that $\kclRA[1]$ can recognize only context-free languages, i.\,e.\ $\calL{\kclRA[1]} \subset \CFL$.
+
+In Section \ref{2clRA-non-CFL} we prove that there exists a $\kclRA[2]$ recognizing a non-context-free language over a six-letter alphabet. In the first part we describe a general idea of \emph{sending a signal} through an \emph{ether} and the subsequent \emph{recovery} of the ether by using only instructions of a $\kclRA[2]$. You can imagine the ether as a word with some special properties. The signal is usually a single letter, which spreads through this ether. The propagation of the signal disturbs the ether. Therefore, we have special instructions that recover the disturbed ether. In the second part we look at the process of sending a signal through the ether by using a special circle-square representation. This representation substantially simplifies the original language generated by the process of sending a signal and enables us to prove that this language is a non-context-free language. In the last part we show that it is possible to construct a $\kclRA[2]$ on a six-letter alphabet which simulates the aforementioned process of sending a signal.
+
+In Section \ref{3clRA-non-CFL} we construct a $\kclRA[3]$ $M = (\Sigma, \Phi)$ on a two-letter alphabet $\Sigma = \{a, b\}$ such that $L(M)$ is a non-context-free language. The idea of this automaton is based on the idea of sending a signal through the ether. As you can see this result improves the result from Section \ref{4clRA-non-CFL}. In spite of this fact, we have decided to include Section \ref{4clRA-non-CFL}, since we present there some basic ideas, which are then reused in other sections in a more complex form.
+
+In Section \ref{clra_membership} we prove that the membership problem for $\clRA$ is $\classNP$-complete. Finally, in Section \ref{clra_extensions} we discuss some extensions of $\clRA$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[\texorpdfstring{$\clRA$ and Regular Languages}%
+                        {cl-RA and REG}]%
+                        {$\bm{\clRA}$ and Regular Languages}\label{se:clRAandReg}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Here we show that clearing restarting automata using only instructions with left contexts starting with the left sentinel $\cent$ recognize exactly the class of regular languages. Further, if we restrict the alphabet used by a $\clRA$ to a single letter, the respective automata recognize regular languages over single-letter alphabet only.
+
+\begin{theorem}\label{theorem:regular_to_clra}
+For every $n$-state deterministic finite automaton $A$ there exists an equivalent  clearing restarting automaton $M$ such that $|M| = n+1$.
+\end{theorem}
+
+\begin{proof}
+Let $A = (Q, \Sigma, \delta, q_0, F)$ be a deterministic finite automaton, where $Q$ is a set of $n$ states, and let $\delta^*$ be the extension of $\delta$ as defined in Section \ref{subsection:finite-automata}. For every word $w = w_1 \ldots w_n \in \Sigma^n$ there exist words $x_w, z_w, y_w \in \Sigma^*$ such that $w = x_w z_w y_w$, $0 < |z_w| \le n$, and $\delta^*(q_0, x_w) = \delta^*(q_0, x_w z_w)$. This follows from the so-called \emph{pigeon hole principle}: There are only $n$ states and the following sequence: $\delta^*(q_0, \lambda)$, $\delta^*(q_0, w_1)$, $\delta^*(q_0, w_1 w_2)$, $\ldots$, $\delta^*(q_0, w_1 w_2 \ldots w_n)$ contains exactly $n+1$ elements. Therefore, there exist $0 \le i < j \le n$ such that: $\delta^*(q_0, w_1 \ldots w_i) = \delta^*(q_0, w_1 \ldots w_j)$. If we define $x_w = w_1 \ldots w_i$, $z_w = w_{i+1} \ldots w_j$ and $y_w = w_{j+1} \ldots w_n$, then $w = x_w z_w y_w$, $0 < |z_w| \le n$, and $\delta^*(q_0, x_w) = \delta^*(q_0, x_w z_w)$. Now consider a $\clRA$ $M = (\Sigma, \Phi)$, where $\Phi = \{ (\cent, w, \$) \mid w \in L(A)$ and $|w| < n\} \cup \{(\cent x_w, z_w, y_w) \mid w \in \Sigma^n\}$. Apparently, $|M| = n + 1$. Consider any word $w \in \Sigma^*$. If $0 < |w| < n$, then $w \in L(M) \Leftrightarrow w \in L(A)$. Suppose that $|w| \ge n$, i.\,e.\ $w = x_u z_u y_u v$, where $u \in \Sigma^n$ and $v \in \Sigma^*$. Apparently, $x_u z_u y_u v \in L(A) \Leftrightarrow x_u y_u v \in L(A)$. The application of the instruction $(\cent x_u, z_u, y_u) \in \Phi$ on the word $w$ does not change the acceptance of this word by the automaton $A$. It only shortens the length of this word, so after finitely many steps we get a nonempty word that is shorter than $n$ letters.
+\end{proof}
+
+On the other hand, the number of instructions of a clearing restarting automaton is not, in general, polynomially bounded with respect to the number of states of an equivalent deterministic finite automaton. We illustrate this in the following Example \ref{example:regular}.
+
+\begin{example}\label{example:regular}
+For every positive integer $k > 1$ consider the finite language $L_k = \{ w \in \{a, b\}^* \mid |w|_a = |w|_b = k \}$. It is easy to find a deterministic finite automaton $A_k$ with polynomially many states with respect to $k$ that recognizes the language $L_k$. The automaton $A_k$ only needs to store in its state how many $a$s and $b$s it has read so far, i.\,e.\ it needs only $(k+1)^2$ states. On the other hand, if a $\clRA$ $M = (\Sigma, \Phi)$ recognizes the language $L_k$ then for every word $w \in L_k: (\cent, \underline{w}, \$) \in \Phi$. Proof (by contradiction): Suppose that there exists a word $w \in L_k: (\cent, \underline{w}, \$) \notin \Phi$. No instruction of $M$ can rewrite the whole word $w$ to the empty word in one single step. Therefore, any accepting computation starting from the input word $w$ consists of at least two steps, e.\,g.\ $w \vdash_M w' \vdash_M^* \lambda$.  However, the word $w'$ is not an element of $L_k$, because if we clear any proper subword of the word $w$, then we obtain a word that does not have $k$ occurrences of $a$ and $b$. This is a contradiction, because $w' \vdash_M^* \lambda \Rightarrow w' \in L(M)$. We have shown that $|\Phi| \ge |L_k| = \binom{2k}{k}$, which is exponential with respect to $k$.
+\end{example}
+
+Nevertheless, there exist regular languages that have a compact representation in the class of clearing restarting automata, but that cannot be compactly represented by using deterministic finite automata. Consider, for instance, the sequence of finite languages $L(M_0)$, $L(M_1)$, $L(M_2)$, $\ldots$ from Example \ref{example:signals}. This sequence of languages has a compact representation in the class of clearing restarting automata because the size of every automaton $M_i$ is polynomial with respect to $i$. On the other hand, for every $i$ the length of the longest word $w_i \in L(M_i)$ is exponential with respect to $i$. Therefore, the smallest deterministic finite automaton $A_i$ recognizing the language $L(M_i)$ must have at least $|w_i|$ states, i.\,e.\ exponentially many states. Otherwise, we could apply the pigeon hole principle on the word $w_i$ which would imply that the language $L(A_i)$ is an infinite language.
+
+Next, we show that the converse also holds if each instruction of the given $\clRA$ is either prefix-rewriting or suffix-rewriting. \index{rewriting rule}Rewriting rules, which can rewrite only prefix (suffix, respectively) of tape content, are called \index{rewriting rule!prefix-rewriting}prefix-rewriting (\index{rewriting rule!suffix-rewriting}suffix-rewriting, respectively). A rule $(x, z, y)$ of a $\clRA$ such that $x$ has prefix $\cent$ can rewrite only the prefix of a tape content, so it is prefix-rewriting. Similarly, each rule $(x, z, y)$ of a $\clRA$ such that $y$ has suffix $\$$ is suffix-rewriting. \index{string-rewriting system!combined prefix-rewriting and suffix-rewriting}String-rewriting systems having prefix- and suffix-rewriting rules only are called finite combined prefix- and suffix-rewriting systems \citep{Hofbauer2004301}.
+
+\begin{theorem}\label{theorem:clra_to_regular}
+Let $M=(\Sigma,\Phi)$ be a $\clRA$ such that for each $(x, z, y) \in \Phi$: $\cent$ is a prefix of $x$ or $\$$ is a suffix of $y$. Then $L(M)$ is a regular language.
+\end{theorem}
+
+\begin{proof}
+The rewriting relation of $M^D$ satisfying the conditions of the theorem is a finite combined prefix- and suffix rewriting system. Thus, $L(M)=\{ w \in \Sigma^* \mid \lambda \dashv_M^* w \}$ is generated from the regular language $\{\lambda\}$ using a finite combined prefix- and suffix-rewriting system. Hofbauer and Waldman in \citep{Hofbauer2004301} have shown that finite combined prefix- and suffix-rewriting systems preserve regularity. From this it follows immediately that $L(M)$ is a regular language.
+\end{proof}
+
+As we have already seen in Example \ref{example:a^n_b^n}, if we allow instructions with left context not starting with $\cent$ and right context not ending with $\$$, then clearing restarting automata can recognize also languages which are not regular.
+
+Also $\clRA$ with a single-letter alphabet without any restrictions on contexts cannot recognize more than regular languages over a single-letter alphabet.
+
+\begin{lemma}
+For each $\clRA$ $M = (\Sigma, \Phi)$, where $\Sigma = \{a\}$, $L(M)$ is a regular language.
+\end{lemma}
+
+\begin{proof}
+If we replace every instruction $\phi = (a^x, a^z, a^y)$ in $\Phi$ by the instruction $\phi' = (\cent \cdot a^x, a^z, a^y)$ we get an equivalent $\clRA$ $M' = (\Sigma, \Phi')$ such that $L(M')=L(M)$ and $u \vdash_M v$ if and only if $u \vdash_{M'} v$. Since for each instruction $\phi' = (x', z', y')$ in $\Phi'$ the left context $x'$ starts with $\cent$, $L(M) = L(M')$ is a regular language according to Theorem \ref{theorem:clra_to_regular}.
+\end{proof}
+
+On the other hand by Theorem \ref{theorem:regular_to_clra}, for each regular language $L$ there exists a $\clRA$ $M$ such that $L(M) = L \cup \{\lambda\}$. Since over a single-letter alphabet the class of regular languages equals to the class of context-free languages, we get the following corollary:
+
+\begin{corollary}
+If we restrict ourselves to a single-letter alphabet, clearing restarting automata recognize exactly all context-free languages containing the empty word.
+\end{corollary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[\texorpdfstring{(Non-)closure Properties of ${\mathcal L}(\clRA)$}%
+                        {(Non-)closure Properties of L(cl-RA)}]%
+                        {(Non-)closure Properties of $\bm{{\mathcal L}(\clRA)}$}\label{se:nonClosureclRA}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section, we present several results showing that the class of languages recognized by clearing restarting automata does not contain all context-free languages and is not closed under several operations.
+
+\begin{theorem}\label{theorem:L_1}
+The language $L_1 = \{a^ncb^n \mid n \ge 0\} \cup \{\lambda\}$ is not recognized by any clearing restarting automaton.
+\end{theorem}
+
+\begin{proof}
+For a contradiction, let us suppose that there exists a $\clRA$ $M = (\Sigma,\Phi)$ such that $L(M) = L_1$. Let $m = |M|$ be the width of $M$. Obviously, $a^m c b^m \in L$ implies $a^m c b^m \vdash_M^* \lambda$ and the word $a^m c b^m$ cannot be reduced to $\lambda$ in a single step. On the other hand, if we erase any single nonempty continuous proper subword from the word $a^m c b^m$, then  we get a word that does not belong to $L_1$ -- a contradiction to $L(M) = L_1$.
+\end{proof}
+
+The language $L_1$ can be recognized by a simple $\RR$-automaton. Consequently, using Theorem \ref{theorem:clRAsubseteqRR} and the fact that $L_1$ is a context-free language we get the following:
+
+\begin{corollary}\label{corollary:clRasubsetRRWW}\hspace{1 cm} \
+\begin{enumerate}
+    \item[a)]
+        $\calL{\clRA} \subset \calL{\RR}.$
+    \item[b)] \label{co:clRAnotallCFL}
+        $\CFL - \calL{\clRA} \not= \emptyset$.
+\end{enumerate}
+\end{corollary}
+
+Let $L_2 = \{a^nb^n \mid n\ge 0\}$ and $L_3 = \{a^nb^{2n} \mid n \ge 0\}$ be two sample languages. It is easy to see, that both $L_2$ and $L_3$ are recognized by some $\kclRA[1]$.
+
+\begin{theorem}\label{theorem:L_2_L_3}
+The languages $L_2 \cup L_3$ and $L_2 \cdot L_3$ are not recognized by any $\clRA$.
+\end{theorem}
+
+\begin{proof}
+For a contradiction, let us suppose that there exists a $\clRA$ $M = (\Sigma,\Phi)$ such that $L(M) = L_2 \cup L_3$ ($L(M) = L_2 \cdot L_3$, respectively). Let $m = |M|$. Obviously, $a^{4m} b^{4m} \in L(M)$ and $a^{4m} b^{4m} \vdash_M^* \lambda$. Let $a^{4m} b^{4m} \vdash_M^{(\phi)} a^{4m-s} b^{4m-t}$ be the first step of an accepting computation of $M$ on $a^{4m} b^{4m}$, where $s, t \ge 0, s+t > 0$ and $\phi = (x, z, y) \in \Phi$. Because $|\phi| = |xzy| \le m$, $|x|, |y|, |z| \ge 1$ and $a^{4m-s} b^{4m-t} \in L(M)$, it follows that $s = t$, $0 < 2s < m$ and $z = a^sb^s$. Then $a^{4m+s} b^{8m+s} \vdash_M^{(\phi)} = a^{4m} b^{8m} \in L(M)$ and we obtain a contradiction to the error preserving property since $a^{4m+s} b^{8m+s}$ is not in $L_2 \cup L_3$ (not in $L_2 \cdot L_3$, respectively).
+\end{proof}
+
+\begin{corollary}
+$\calL{\clRA}$ is neither closed under union nor concatenation.
+\end{corollary}
+
+\begin{corollary}
+$\calL{\clRA}$ is not closed under homomorphism.
+\end{corollary}
+
+\begin{proof}
+Consider $L = \{ a^n b^n c^m d^{2m} \mid n, m \ge 0 \}$ recognized by $\kclRA[1]$ and the homomorphism $h: a \mapsto a, b \mapsto b, c \mapsto a, d \mapsto b$. Then $h(L) = L_2 \cdot L_3 \not\in \calL{\clRA}$.
+\end{proof}
+
+It is easy to see that each of the following languages:
+    \begin{eqnarray*}
+        L_4 & = & \{a^ncb^n \mid n \ge 0\} \cup \{a^nb^n \mid n \ge 0\}\quad \textup{ and} \\
+        L_5 & = & \{a^ncb^m \mid n, m \ge 0\} \cup \{\lambda\}
+    \end{eqnarray*}
+can be recognized by a $\kclRA[1]$. Using these languages we can show several additional non-closure properties of $\calL{\clRA}$.
+
+\begin{corollary}
+$\calL{\clRA}$ is not closed under
+\begin{itemize}
+    \item[a)]
+        intersection,
+    \item[b)]
+        intersection with a regular language,
+    \item[c)]
+        set difference.
+\end{itemize}
+\end{corollary}
+
+\begin{proof}
+Part a) follows from the equality $L_1 = L_4 \cap L_5$ and Theorem \ref{theorem:L_1}. For proving b) just notice that $L_5$ is a regular language. Proof of c) is implied by the equality $L_1 = (L_4 - L_2) \cup \{ \lambda \}$.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hierarchy With Respect to the Length of Contexts}
+\label{se:k-hierarchy_k-cl-RA}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section we show that by increasing the length of contexts in instructions of clearing restarting automata we strictly increase their power. Hence, we obtain the following infinite hierarchy of language classes.
+
+\begin{theorem}
+$\calL{\kclRA} \subset \calL{\kclRA[(k+1)]}$, for all $k\ge 1$.
+\end{theorem}
+
+\begin{proof}
+First, we show that by increasing the length of contexts for a $\clRA$ we do not decrease its power. If $M = (\Sigma, \Phi)$ is a $\kclRA$, then by Theorem \ref{theorem:context_extension} there exists a \kCRS[(k+1)] $M' = (\Sigma, \Phi')$ such that for each $w, w' \in \Sigma^*:$
+$$w \vdash_M w' \quad \Leftrightarrow \quad w \vdash_{M'} w'$$
+and both $\Phi$ and $\Phi'$ have the same set of rules. Thus $M'$ is a $\kclRA[(k+1)]$ and $L(M) = L(M')$.
+
+Next we show that by increasing the length of contexts of $\clRA$ we do increase their power. For each $k\ge 1$ and the language $L_1^{(k)} = \{(c^kac^k)^n(c^kbc^k)^n \mid n \ge 0\}$ the following holds:
+$$L_1^{(k)} \in \calL{\kclRA[(k+1)]} - \calL{\kclRA}\enspace.$$
+
+It is easy to see that $L_1^{(k)}$ is recognized by the following $\kclRA[(k+1)]$ $M_1^{(k+1)} = (\{a,b,c\},\Phi_1^{(k+1)})$ with instructions:
+$$
+\begin{array}{l}
+(1) \quad (ac^k, \underline{c^kac^kc^kbc^k}, c^kb),\\
+(2) \quad (\cent, \underline{c^kac^kc^kbc^k}, \$).
+\end{array}
+$$
+Assume to the contrary that there is a $\kclRA[k]$ $M=(\{a,b,c\},\Phi)$ recognizing the language $L_1^{(k)}$. Let $m = |M|$. The word $w=(c^kac^k)^m(c^kbc^k)^m$ is accepted by $M$. Let us inspect the first reduction of an accepting computation for $w$: $w \vdash_M^{(\phi)} w'$. Then in the instruction $\phi=(x,z,y)$ used in this reduction the deleted part $z$ must be of the form $c^rac^k(c^kac^k)^n(c^kbc^k)^nc^kbc^s$ for some $n, 0 \le n < \frac{m}{6}$, $r,s \ge 0$, $r+s=2k$. The left context $x$ must contain at least one symbol $a$, otherwise the instruction $\phi$ could be applied to the word $w''=(c^kac^k)^m(c^kbc^k)(c^kac^k)^{n+1}(c^kbc^k)^{n+1}(c^kbc^k)^{m-1} \not\in L_1^{(k)}$ and we would obtain $w'' \vdash_M^{(\phi)} w \in L_1^{(k)}$, which contradicts the error preserving property (Theorem \ref{lemma:error-preserving}). Similarly, the right context $y$ must contain at least one symbol $b$. Then obviously $|xzy| \ge 2k+2 +|z|$ and $|x|=|y| \ge k+1$, which is a contradiction.
+\end{proof}
+
+\section[\texorpdfstring{$\kclRA[4]$ Recognizing a non-Context-Free Language}%
+                        {4-cl-RA Recognizing a non-CFL}]%
+                        {$\kclRA[4]$ Recognizing a non-Context-Free Language}%
+\label{4clRA-non-CFL}
+\index{$\kclRA[4]$}
+
+We have seen that $\clRA$ can recognize some context-free languages. In the following we show that they can even recognize some non-context-free languages. However, since $\calL{\clRA} \subset \calL{\RR}$ and $\RR$-automata can be simulated by linear bounded automata \citep{JMPV99}, we have the following:
+
+\begin{corollary}
+$\calL{\clRA} \subset \CSL$, where \CSL\ denotes the class of context-sensitive languages.
+\end{corollary}
+
+In order to construct a $\clRA$ recognizing a non-context-free language we first describe a scheme for learning instructions of $\clRA$ from a set of reductions. Subsequently we apply this scheme for inferring the desired $\kclRA[4]$.
+
+Knowing some reductions that can be made by an unknown clearing restarting automaton $M$, we can often infer its instructions. Let $w_1 \vdash_M w'_1, \dots, w_n \vdash_M w'_n$, where $w_i,w'_i \in \Sigma^*$ for $i=1, \dots, n$, $n>0$, be a list of known reductions. A meta-algorithm for machine learning of unknown clearing restarting automaton can be outlined as follows:
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Learning a clearing restarting automaton from a set of sample reductions.}
+\label{algorithm:clra-learning}
+\DontPrintSemicolon
+\LinesNumbered
+\Input{Set of reductions $w_i \vdash_M w'_i$, $i = 1, \ldots, n$.}
+\Output{$\clRA$ $M$.}
+$k := 1$\;
+For each reduction $w_i \vdash_M w'_i$ nondeterministically choose a factorization of $w_i$ such that $w_i = \alpha_i \beta_i \gamma_i$ and $w'_i = \alpha_i \gamma_i$.\;\label{clra-step2}
+Construct the clearing restarting automaton $M = (\Sigma, \Phi)$, where $\Phi = \bigcup_{i=1}^n \{(\Suff_k(\cent\alpha_i),\beta_i,\Pref_k(\gamma_i\$))\}$.\;
+Test the automaton $M$ using any available information, e.\,g.\ some negative samples of words not belonging to $L(M)$.\;
+If the automaton passed all the tests, \Return{$M$}. \;
+Otherwise try another factorization of the known reductions and continue by Step \ref{clra-step2}. If all possible factorizations have been tried, then increase $k$ and continue by Step \ref{clra-step2}.\;
+\end{algorithm}
+
+Although Step \ref{clra-step2} is nondeterministic, for many sample reductions the factorization in this step is unambiguous. E.\,g.\ for the set of sample reductions $\{aabb \vdash_M ab, ab \vdash_M \lambda\}$ we obtain for $k=1$ only one set of instructions $I=\{(a,ab,b),(\cent,ab,\$)\}$, which is exactly the set of instructions of the automaton $M$ from Example \ref{example:a^n_b^n} recognizing the language $L = \{a^nb^n \mid n\ge 0\}$.
+
+Even if the algorithm is very simple, it can be used to infer non-trivial clearing restarting automata.
+
+In \citep{JMPV97} there was presented a very restricted restarting automaton (deterministic restarting automaton which can delete only) that recognizes a non-context-free language. It is possible to construct a $\clRA$ recognizing a non-context-free language using Algorithm \ref{algorithm:clra-learning} based on reductions collected from a sample computation of this restricted restarting automaton.
+
+\begin{theorem}\label{theorem:clRAnonCFL}
+There exists a $\clRA$ $M$ recognizing a non-context-free language.
+\end{theorem}
+
+Idea of the proof: We will construct a $\clRA$ $M = (\Sigma, \Phi)$, where $\Sigma = \{a, b\}$, such that $L(M) \cap \{(ab)^n \mid n>0\} = \{(ab)^{2^l} \mid l \ge 0\}$. Since context-free languages are closed under intersection with regular languages, it follows that $L(M)$ is a non-context-free language.
+
+The respective automaton from \citep{JMPV97} accepts the word $(ab)^8$ by the following sequence of reductions:
+\begin{eqnarray*}
+& & ababababababab\underline{a}b  \vdash_M
+ababababab\underline{a}babb  \vdash_M
+  ababab\underline{a}babbabb  \vdash_M\\
+& & ab\underline{a}babbabbabb  \vdash_M
+  abbabbabba\underline{b}b  \vdash_M
+  abbabba\underline{b}bab  \vdash_M\\
+& & abba\underline{b}babab  \vdash_M
+  a\underline{b}bababab  \vdash_M
+  ababab\underline{a}b  \vdash_M\\
+& & ab\underline{a}babb  \vdash_M
+  abba\underline{b}b  \vdash_M
+  a\underline{b}bab  \vdash_M\\
+& & ab\underline{a}b  \vdash_M
+  a\underline{b}b  \vdash_M
+  \underline{ab}  \vdash_M
+  \lambda  \textup{ accept}.
+\end{eqnarray*}
+
+From this sample computation, we can collect 15 reductions and use them as an input to Algorithm \ref{algorithm:clra-learning}. All these reductions have unambiguous factorizations (the deleted symbols are underlined). Hence, the only variable we have to choose is $k$ -- the length of the context of the instructions. In the following, we use the abbreviation for sets of instructions introduced in Remark \ref{remark:setinstructions}.
+
+\begin{enumerate}
+\item For $k = 1$ we get the following 3 instructions:\\
+$(b, \underline{a}, b),\quad
+ (a, \underline{b}, b),\quad
+ (\cent, \underline{ab}, \$)$.\\
+Then, however,  the automaton would accept the word $ababab$, which does not belong to $L$: $abab\underline{a}b \vdash ab\underline{a}bb \vdash a\underline{b}bb \vdash a\underline{b}b \vdash \underline{ab} \vdash \lambda$.
+
+\item For $k = 2$ we get the following set of instructions:\\
+$(ab, \underline{a}, \{b\$, ba\}),\quad
+ (\{\cent a, ba\}, \underline{b}, \{b\$, ba\}),\quad
+ (\cent, \underline{ab}, \$)$.\\
+Then, however, the automaton would accept the word $ababab$ that does not belong to $L$: $abab\underline{a}b \vdash aba\underline{b}b \vdash ab\underline{a}b \vdash a\underline{b}b \vdash \underline{ab} \vdash \lambda$.
+
+\item For $k = 3$ we get the following set of instructions:\\
+$(\{\cent ab, bab\}, \underline{a}, \{b\$, bab\}),\quad
+ (\{\cent a, bba\}, \underline{b}, \{b\$, bab\}),\quad
+ (\cent, \underline{ab}, \$)$.\\
+But then again the automaton would accept the word $ababab$, which does not belong to $L$: $ab\underline{a}bab \vdash a\underline{b}bab \vdash ab\underline{a}b \vdash a\underline{b}b \vdash \underline{ab} \vdash \lambda$.
+
+\item For $k = 4$ we get the following set of instructions:\\
+$(\{\cent ab, abab\},\underline{a},\{b\$, babb\}), \quad
+(\{\cent a, abba\},\underline{b},\{b\$,bab\$,baba\}), \quad
+   (\cent,\underline{ab},\$).$\\
+Let us show that this automaton has the required properties.
+\end{enumerate}
+
+Let us denote the instructions $\Phi$ of our 4-$\clRA$ $M = (\Sigma, \Phi)$ as:
+$$
+\begin{array}{ll}
+a_1 = (\cent ab, \underline{a}, b\$),\hspace{5em}    & b_3 = (\cent a, \underline{b}, baba),\\
+a_2 = (\cent ab, \underline{a}, babb),  & b_4 = (abba, \underline{b}, b\$),\\
+a_3 = (abab, \underline{a}, b\$),        & b_5 = (abba, \underline{b}, bab\$),\\
+a_4 = (abab, \underline{a}, babb),       & b_6 = (abba, \underline{b}, baba),\\
+b_1 = (\cent a, \underline{b}, b\$),     & c_0 = (\cent, \underline{ab}, \$).\\
+b_2 = (\cent a, \underline{b}, bab\$),
+\end{array}
+$$
+In the rest of this section we prove that $L(M)$ is not a context-free language. We use the generative approach described in Remark \ref{remark:approach}. The corresponding set of dual instructions $\Phi^D$ can be outlined as (the little vertical arrows in the left-hand sides of these productions mark the positions where some symbols are inserted):
+$$
+\begin{array}{ll}
+A_1: \cent ab ^\downarrow b\$ \dashv_M \cent ab \underline{a} b\$,\hspace{5em} & B_3: \cent a ^\downarrow baba \dashv_M \cent a \underline{b} baba,\\
+A_2: \cent ab ^\downarrow babb \dashv_M \cent ab \underline{a} babb,           & B_4: abba ^\downarrow b\$ \dashv_M abba \underline{b} b\$,\\
+A_3: abab ^\downarrow b\$ \dashv_M abab \underline{a} b\$,                     & B_5: abba ^\downarrow bab\$ \dashv_M abba \underline{b} bab\$,\\
+A_4: abab ^\downarrow babb \dashv_M abab \underline{a} babb ,                  & B_6: abba ^\downarrow baba \dashv_M abba \underline{b} baba,\\
+B_1: \cent a ^\downarrow b\$ \dashv_M \cent a \underline{b} b\$,               & C_0: \cent ^\downarrow \$ \dashv_M \cent \underline{ab} \$.\\
+B_2: \cent a ^\downarrow bab\$ \dashv_M \cent a \underline{b} bab\$,
+\end{array}
+$$
+Now observe that each word generated by $M$ is of the form:
+$$w = (ab)^{x_0}(abb)^{y_0} \ldots (ab)^{x_n}(abb)^{y_n},$$
+where $n \ge 0, x_0 \ge 0, y_0 > 0, \ \ x_1 > 0, y_1 > 0, \ \ \ldots, \ \ x_n > 0, y_n \ge 0$ (for $n = 0$ we consider for $x_0$ and $y_0$ only the inequalities $x_0 \ge 0, y_0 \ge 0$). This is because each production preserves this form. This form allows us to define the so-called \emph{circle-square representation} of $w$ as $\Circle^{x_0} \Square^{y_0} \ldots \Circle^{x_n} \Square^{y_n}$ where each circle $\Circle$ represents $ab$ and each square $\Square$ represents $abb$. If we rewrite the productions of $M$ in this circle-square representation, we get:
+$$
+\begin{array}{ll}
+A_1': \cent \underline{\Square} \$ \dashv_M \cent \Circle \Circle \$,\hspace{5em}    & B_3': \cent \underline{\Circle} \Circle ? \dashv_M \cent \Square \Circle ?,\\
+A_2': \cent \underline{\Square} \Square \dashv_M \cent \Circle \Circle \Square,      & B_4': \Square \underline{\Circle} \$ \dashv_M \Square \Square \$, \\
+A_3': \Circle \underline{\Square} \$ \dashv_M \Circle \Circle \Circle \$ ,           & B_5': \Square \underline{\Circle} \Circle \$ \dashv_M \Square \Square \Circle \$, \\
+A_4': \Circle \underline{\Square} \Square \dashv_M \Circle \Circle \Circle \Square,  & B_6': \Square \underline{\Circle} \Circle ? \dashv_M \Square \Square \Circle ?,\\
+B_1': \cent \underline{\Circle} \$ \dashv_M \cent \Square \$,                        & C_0': \cent ^\downarrow \$ \dashv_M \cent \Circle \$ ,\\
+B_2': \cent \underline{\Circle} \Circle \$ \dashv_M \cent \Square \Circle \$,
+\end{array}
+$$
+where the symbol $?$ represents either the symbol $\Circle$, or the symbol $\Square$.
+
+\begin{lemma}
+Consider a $\kCRS[1]$ $R = (\{\Circle, \Square\}, \Omega)$ with instructions $\Omega$:
+$$\begin{array}{l}
+(0) \quad (\cent, \lambda \to \Circle, \$),\\
+(1) \quad (\{\cent, \Square\}, \underline{\Circle} \to \Square, \{\Circle, \$\}) \text{, and}\\
+(2) \quad (\{\cent, \Circle\}, \underline{\Square} \to \Circle \Circle, \{\Square, \$\}).
+\end{array}
+$$
+Then for every $\phi \in \Phi^D$: $\phi$ can be applied to $w = (ab)^{x_0}(abb)^{y_0} \ldots (ab)^{x_n}(abb)^{y_n}$ if and only if there exists $\omega \in \Omega$ which can be applied in the same way to the word $\Circle^{x_0} \Square^{y_0} \ldots \Circle^{x_n} \Square^{y_n}$. Thus the circle-square representation of the language $L(M)$ is equal to $\{ w \mid \lambda \vdash_R^* w \} = L(R^D)$.
+\end{lemma}
+
+\begin{proof}
+There is one-to-one correspondence between the productions $A_1$, $A_2$, $A_3$, $A_4$, $B_1$, $B_4$, $C_0$ from $\Phi^D$ and instructions $A_1'$, $A_2'$, $A_3'$, $A_4'$, $B_1'$, $B_4'$, $C_0'$ from $\Omega$. Now observe that the productions $B_2$ and $B_3$ correspond to the instruction $(\cent, \underline{\Circle} \to \Square, \Circle)$ of $R$, and similarly the productions $B_5$ and $B_6$ correspond to the instruction $(\Square, \underline{\Circle} \to \Square, \Circle)$ of $R$.
+\end{proof}
+
+The following theorem characterizes the languages recognized by a slightly more general version of the $\kCRS[1]$ from the previous lemma. Moreover, we will use this theorem also in another section in a different situation.
+
+\begin{theorem}\label{theorem:circle-square-theorem}
+Consider a $\kCRS[1]$ $R = (\{\Circle, \Square\}, \Omega)$ with instructions:
+$$
+\begin{array}{l}
+(0) \quad (\cent, \lambda \to \Circle^m, \$),\\
+(1) \quad (\{\cent, \Square\}, \underline{\Circle} \to \Square^{\alpha}, \{\Circle, \$\})\text,\\
+(2) \quad (\{\cent, \Circle\}, \underline{\Square} \to \Circle^{\beta}, \{\Square, \$\}),
+\end{array}
+$$
+where $m, \alpha, \beta \ge 1$ are integer constants. Then every $w \in L(R^D)$ is of the form:\\
+$$w = \Circle^{x_0} \Square^{y_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Square^{y_k},$$
+where:
+$$
+\begin{array}{c}
+k \ge 0, x_0 \ge 0, y_0 > 0, \ \ x_1 > 0, y_1 > 0, \ \ \ldots, \ \ x_k > 0, y_k \ge 0,\\
+\alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0 + \alpha^1 \beta^1 x_1 + \alpha^1 \beta^2 y_1 + \ldots +
+\alpha^k \beta^k x_k + \alpha^k \beta^{k+1} y_k = (\alpha \beta)^l m
+\end{array} \quad (*)
+$$
+for some $l \ge 1$. We call this sum the \emph{overall sum} of the word $w$. Note that in the case $k = 0$ we consider for $x_0$ and $y_0$ only the inequalities $x_0 \ge 0, y_0 \ge 0$.
+\end{theorem}
+
+\begin{proof}
+(By induction on the number of used instructions)
+
+The word $\Circle^m$ evidently
+satisfies all conditions of the theorem, i.\,e.\ $k = 0$, $x_0 = m$, $y_0 = 0$, and
+$\alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0 = (\alpha \beta)^0 m$.
+
+Suppose that we have $w$ of the form
+$w = \Circle^{x_0} \Square^{y_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Square^{y_k}$
+satisfying all conditions $(*)$ of the theorem.
+Depending on the last used instruction, there are several cases we have to consider:
+
+\begin{enumerate}
+\item $(\cent, \underline{\Circle} \to \Square^{\alpha}, \$)$:
+can be applied only to the word $w = \Circle$, i.\,e.\ $m = 1$. We get $w' = \Square^{\alpha}$ satisfying all conditions $(*)$, i.\,e.\ $k = 0$, $x_0 = 0$, $y_0 = \alpha$, and $\alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0 = \alpha \beta = (\alpha \beta) m$.
+
+\item $(\cent, \underline{\Circle} \to \Square^{\alpha}, \Circle)$:
+can be applied to $w = \underline{\Circle} \Circle^{x_0 - 1} \Square^{y_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Square^{y_k}$, where $x_0 \ge 2$. We get $w' = \Square^{\alpha} \Circle^{x_0 - 1} \Square^{y_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Square^{y_k}$, which is equal to $\Circle^{x'_0} \Square^{y'_0} \Circle^{x'_1} \Square^{y'_1} \ldots \Circle^{x'_{k+1}} \Square^{y'_{k+1}}$, where $x'_0 = 0$, $y'_0 = \alpha$, $x'_1 = x_0 - 1$, $y'_1 = y_0$, and $x'_{i+1} = x_i$, $y'_{i+1} = y_i$ for all $i \in \{1, 2, \ldots, k\}$. Thus $\alpha^0 \beta^0 x'_0 + \alpha^0 \beta^1 y'_0 + \alpha^1 \beta^1 x'_1 + \alpha^1 \beta^2 y'_1 + \ldots \alpha^{k+1} \beta^{k+1} x'_{k+1} + \alpha^{k+1} \beta^{k+2} y'_{k+1} = \alpha^0 \beta^0 \times 0 + \alpha^0 \beta^1 \times \alpha - \alpha^1 \beta^1 \times 1 + \alpha^1 \beta^1 (\alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0 + \ldots \alpha^k \beta^k x_k + \alpha^k \beta^{k+1} y_k) = (\alpha \beta) \times (\alpha \beta)^l m = (\alpha \beta)^{l+1} m$.
+
+\item $(\Square, \underline{\Circle} \to \Square^{\alpha}, \$)$:
+can be applied to $w = \Circle^{x_0} \Square^{y_0} \ldots \Circle^{x_{k-1}} \Square^{y_{k-1}} \underline{\Circle}$, where $k \ge 1$,  $y_{k-1} \ge 1$, $x_k = 1$, $y_k = 0$. We get $w = \Circle^{x_0} \Square^{y_0} \ldots \Circle^{x_{k-1}} \Square^{y_{k-1}} \Square^{\alpha} = \Circle^{x'_0} \Square^{y'_0} \ldots \Circle^{x'_{k-1}} \Square^{y'_{k-1}}$, where $x'_i = x_i$, $y'_i = y_i$ for all $i \in \{0, 1, \ldots, k-2\}$, and $x'_{k-1} = x_{k-1}$, $y'_{k-1} = y_{k-1} + \alpha$. Thus $\alpha^0 \beta^0 x'_0 + \alpha^0 \beta^1 y'_0 + \alpha^1 \beta^1 x'_1 + \alpha^1 \beta^2 y'_1 + \ldots \alpha^{k-1} \beta^{k-1} x'_{k-1} + \alpha^{k-1} \beta^k y'_{k-1} = \alpha^0 \beta^0 x_0 +  \alpha^0 \beta^1 y_0 + \alpha^1 \beta^1 x_1 + \alpha^1 \beta^2y_1 + \ldots \alpha^{k-1} \beta^{k-1} x_{k-1} + \alpha^{k-1} \beta^k (y_{k-1} + \alpha) = \alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0 + \ldots \alpha^{k-1} \beta^{k-1} x_{k-1} + \alpha^{k-1} \beta^k y_{k-1} + \alpha^k \beta^k x_k + \alpha^k \beta^{k+1} y_k = (\alpha \beta)^l m$.
+
+\item $(\Square, \underline{\Circle} \to \Square^{\alpha}, \Circle)$:
+can be applied to a subword $u = \Square \underline{\Circle} \Circle$ of the word $w$. We get a new subword $u' = \Square \Square^{\alpha} \Circle$ and the corresponding $w'$. The overall sum does not change, since each $\Square$ in both subwords contributes to this sum with the weight $\alpha^i \beta^{i+1}$ for some $i \ge 0$ and each $\Circle$ contributes to this sum with the weight $\alpha^{i+1} \beta^{i+1}$. Thus $w'$ satisfies all conditions $(*)$ of the theorem.
+
+\item $(\cent, \underline{\Square} \to \Circle^{\beta}, \$)$:
+can be applied only to the word $w = \Square = \Circle^{x_0} \Square^{y_0}$, where $k = 0$, $x_0 = 0$, $y_0 = 1$. We get $w' = \Circle^{\beta} = \Circle^{x_0'} \Square^{y_0'}$, where $x_0' = \beta$, $y_0' = 0$, and the overall sum $\alpha^0 \beta^0 x_0' + \alpha^0 \beta^1 y_0' = \beta = \alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0$ remains unchanged.
+
+\item $(\cent, \underline{\Square} \to \Circle^{\beta}, \Square)$:
+can be applied to $w = \underline{\Square} \Square^{y_0 - 1} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Square^{y_k}$, where $x_0 = 0$ and $y_0 \ge 2$. We get $w' = \Circle^{\beta} \Square^{y_0 - 1} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Square^{y_k}$ which is equal to $\Circle^{x'_0} \Square^{y'_0} \Circle^{x'_1} \Square^{y'_1} \ldots \Circle^{x'_k} \Square^{y'_k}$, where $x'_0 = \beta$, $y'_0 = y_0 - 1$, and $x'_i = x_i$, $y'_i = y_i$ for all $i \in \{1, 2, \ldots, k\}$. Thus $\alpha^0 \beta^0 x'_0 + \alpha^0 \beta^1 y'_0 + \alpha^1 \beta^1 x'_1 + \alpha^1 \beta^2 y'_1 + \alpha^k \beta^k x'_k + \alpha^k \beta^{k+1} y'_k = \alpha^0 \beta^0 \times \beta + \alpha^0 \beta^1 (y_0 - 1) + \alpha^1 \beta^1 x_1 + \alpha^1 \beta^2 y_1 + \ldots \alpha^k \beta^k x_k + \alpha^k \beta^{k+1} y_k = (\alpha \beta)^l m$.
+
+\item $(\Circle, \underline{\Square} \to \Circle^{\beta}, \$)$:
+can be applied to $w = \Circle^{x_0} \Square^{y_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \underline{\Square}$, where $x_k \ge 1$, $y_k = 1$. We get $w' = \Circle^{x_0} \Square^{y_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x_k} \Circle^{\beta} = \Circle^{x'_0} \Square^{y'_0} \Circle^{x_1} \Square^{y_1} \ldots \Circle^{x'_k} \Square^{y'_k}$, where $x'_i = x_i$, $y'_i = y_i$ for all $i \in \{0, 1, \ldots, k-1\}$, $x'_k = x_k + \beta$, and $y'_k = 0$. Thus $\alpha^0 \beta^0 x'_0 + \alpha^0 \beta^1 y'_0 + \ldots \alpha^{k-1} \beta^{k-1} x'_{k-1} + \alpha^{k-1} \beta^k y'_{k-1} + \alpha^k \beta^k x'_k + \alpha^k \beta^{k+1} y'_k = \alpha^0 \beta^0 x_0 + \alpha^0 \beta^1 y_0 + \ldots \alpha^{k-1} \beta^{k-1} x_{k-1} + \alpha^{k-1} \beta^k y_{k-1} + \alpha^k \beta^k (x_k + \beta) = (\alpha \beta)^l m$.
+
+\item $(\Circle, \underline{\Square} \to \Circle^{\beta}, \Square)$:
+can be applied to a subword $u = \Circle \underline{\Square} \Square$ of the word $w$. We get a new subword $u' = \Circle \Circle^{\beta} \Square$ and the corresponding $w'$. The overall sum does not change, since each $\Circle$ in both subwords contributes to this sum with the weight $\alpha^i \beta^i$ for some $i \ge 0$ and each $\Square$ contributes to this sum with the weight $\alpha^i \beta^{i+1}$. Thus $w'$ satisfies all conditions $(*)$ of the theorem.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}\label{theorem:circle-square-cap-theorem}
+Let $R$ be a $\kCRS[1]$ from Theorem \ref{theorem:circle-square-theorem}. Then
+$$L(R^D) \cap \{\Circle\}^+ = \{\Circle^{x} \mid x = (\alpha \beta)^l m, \ l = 0, 1, 2, \ldots\}.$$
+\end{theorem}
+
+\begin{proof}
+If $\lambda \vdash_R^* \Circle^{x}$, then by Theorem \ref{theorem:circle-square-theorem} necessarily $x = (\alpha \beta)^l m$ for some $l \ge 0$. On the other hand, by using the instructions of $R$ we can easily generate any such word $\Circle^{x}$, where $x = (\alpha \beta)^l m$. For instance, consider the following derivation:\\
+$\Circle^m = \underline{\Circle} \Circle^{m-1} \vdash_R \Square^{\alpha} \underline{\Circle} \Circle^{m-2} \vdash_R
+\Square^{\alpha} \Square^{\alpha} \underline{\Circle} \Circle^{m-3} \vdash_R^*
+\Square^{\alpha  (m-1)} \underline{\Circle} \vdash_R \Square^{\alpha  m} = \\
+\underline{\Square} \Square^{\alpha  m - 1} \vdash_R
+\Circle^{\beta} \underline{\Square} \Square^{\alpha  m - 2} \vdash_R
+\Circle^{\beta} \Circle^{\beta} \underline{\Square} \Square^{\alpha  m - 3} \vdash_R^*
+\Circle^{\beta (\alpha  m - 1)} \underline{\Square} \vdash_R \Circle^{(\alpha \beta)  m}$.\\
+Thus $\Circle^m \vdash_R^* \Circle^{(\alpha \beta)  m}$, which implies that $\Circle^m \vdash_R^* \Circle^{(\alpha \beta)^l  m}$ for any $l \ge 0$.
+\end{proof}
+
+If we apply Theorem \ref{theorem:circle-square-cap-theorem} to the circle-square representation of $L(M)$, i.\,e.\ $m = 1$, $\alpha = 1$, and $\beta = 2$, we get the following result:
+
+\begin{theorem}\label{theorem:4clRA}
+$L(M) \cap \{(ab)^n \mid n > 0\} = \{(ab)^{2^l} \mid l = 0, 1, 2, \ldots\}$.
+\end{theorem}
+
+As context-free languages are closed under intersection with regular languages, $L(M)$ is not a context-free language.
+
+\section[\texorpdfstring{$\kclRA[1]$ Recognize at most Context-Free Languages}%
+                        {1-cl-RA Recognize at most CFL}]%
+                        {$\kclRA[1]$ Recognize at most Context-Free Languages}%
+\label{1clRA}
+\index{$\kclRA[1]$}
+
+Let $M = (\Sigma, \Phi)$ be a $\clRA$, $l \in \{ \cent, \lambda \} \cdot \Sigma^*$, and $r \in \Sigma^* \cdot \{ \lambda, \$ \}$. Let us denote $L_{(l,r)}(M) = \{w \in \Sigma^* \mid w \vdash_M^* \lambda$ in the context $(l,r) \}$ (see Definition \ref{definition:crs}). If $\clRA$ $M$ is known from the context, then we use the abbreviation $L_{(l,r)} = L_{(l,r)}(M)$.
+
+\begin{example}
+Suppose that we have $\kclRA[1]$ $M = (\Sigma, \Phi)$, where $\Sigma = \{a, b\}$ and the instructions are $\Phi = \{(\cent, \underline{ab}, \$), (a, \underline{ab}, b)\}$. Of course, we have\\
+\indent $L_{({\small \cent},\$)}(M) = \{\lambda\} \cup a \cdot L_{(a,b)}(M) \cdot b$ \ and\\
+\indent $L_{(a,b)}(M) = \{\lambda\} \cup a \cdot L_{(a,b)}(M) \cdot b$.\\
+We can rewrite these language equations into the context-free grammar $G = (V_N, V_T, S, P)$ with $V_N = \{S, X\}$, $V_T = \Sigma$, and the following set of production rules:\\
+\indent $S \to \lambda \mid a X b$,\\
+\indent $X \to \lambda \mid a X b$.\\
+We can generalize this technique to any $\kclRA[1]$.
+\end{example}
+
+\begin{lemma}\label{lemma:1clra}
+Suppose that we have $\kclRA[1]$ $M = (\Sigma, \Phi)$.
+Then for each $l \in LC_1 = \{\cent\} \cup \Sigma$, and $r \in RC_1 = \Sigma \cup \{\$\}$:
+$$L_{(l,r)} = \{\lambda\} \cup \bigcup_{(l, u_1 \ldots u_n, r) \in \Phi, u_1,\ldots,u_n \in \Sigma}
+L_{(l, u_1)} \cdot u_1 \cdot L_{(u_1, u_2)} \cdot u_2 \ldots u_{n-1} \cdot
+L_{(u_{n-1}, u_n)} \cdot u_n \cdot L_{(u_n, r)}\enspace.$$
+\end{lemma}
+
+\begin{proof}
+Let $R$ denote the right-hand side of this equation. Suppose $w \in L_{(l,r)}$. If $w = \lambda$, then $w \in R$. If $w \neq \lambda$, then $w \vdash_M^* w_0 \vdash_M \lambda$ in the context $(l,r)$. Suppose $w_0 = u_1 \ldots u_n$. Then, clearly, $(l, u_1 \ldots u_n, r) \in \Phi$ and $w = z_0 u_1 z_1 u_2 z_2 \ldots u_n z_n$ for some $z_0, \ldots, z_n \in \Sigma^*$ such that $z_0 \vdash_M^* \lambda$ in the context $(l, u_1)$, $z_1 \vdash_M^* \lambda$ in the context $(u_1, u_2)$, etc., $z_n \vdash_M^* \lambda$ in the context $(u_n, r)$. This is equivalent to $z_0 \in L_{(l,u_1)}$, $z_1 \in L_{(u_1, u_2)}$, \dots, $z_n \in L_{(u_n, r)}$. Thus $w$ is in  $R$.
+
+Suppose that $w \in R$. If $w = \lambda$, then $w \in L_{(l,r)}$. Otherwise, suppose that $w = z_0 u_1 z_1 u_2 z_2 \ldots u_n z_n$ for some $(l, u_1 \ldots u_n, r) \in \Phi$ and $z_0, \ldots, z_n \in \Sigma^*$ such that $z_0 \in L_{(l,u_1)}$, $z_1 \in L_{(u_1, u_2)}$,\dots, $z_n \in L_{(u_n, r)}$. Obviously, $w = \underline{z_0} u_1 z_1 u_2 z_2 \ldots u_n z_n \vdash_M^* u_1 \underline{z_1} u_2 z_2 \ldots u_n z_n \vdash_M^* u_1 u_2 \underline{z_2} \ldots u_n z_n \vdash_M^* \ldots \vdash_M^* u_1 u_2 \ldots u_n \underline{z_n} \vdash_M^* u_1 u_2 \ldots u_n \vdash_M \lambda$ in the context $(l,r)$ and hence $w \in L_{(l,r)}$.
+\end{proof}
+
+Since we can easily rewrite the language equations from Lemma \ref{lemma:1clra}
+into the production rules of a context-free grammar with the initial nonterminal corresponding to $L_{({\small \cent},\$)}$,
+we get together with Theorem \ref{theorem:L_1} the following corollary:
+
+\begin{corollary}\label{corollary:1clra_cfl}
+$\calL{\kclRA[1]} \subset \CFL$\ . Moreover, for every $\kclRA[1]$ $M$ the context-free grammar $G$, s. t. $L(G) = L(M)$, can be effectively constructed in polynomial time w.r.t. the size of $M$.
+\end{corollary}
+
+\section[\texorpdfstring{$\kclRA[2]$ Recognizing a non-Context-Free Language}%
+                        {2-cl-RA Recognizing a non-CFL}]%
+                        {$\kclRA[2]$ Recognizing a non-Context-Free Language}%
+\label{2clRA-non-CFL}
+\index{$\kclRA[2]$}
+
+In the following, we use the generative approach as described in Remark \ref{remark:approach}. We restrict ourselves to $\kclRA[2]$ only.
+
+\begin{definition}\label{definition:ether}
+Let $\Lambda$ be a finite nonempty set of the so-called \emph{basic symbols}. We define a set of the so-called \emph{wave symbols} as $\wave(\Lambda) = \{\stackrel{uv}{\sim} \mid u,v \in \Lambda\}$. Let $\Sigma = \Lambda \cup \wave(\Lambda)$.
+
+We say that a couple $(x, y) \in \Sigma \times \Sigma$ satisfies the \emph{ether property} if and only if the couple $(x, y)$ is one of the following types:
+$$
+\begin{array}{ll}
+(1) \quad (\stackrel{uv}{\sim}, \stackrel{vw}{\sim})    & \textup{for some } u, v, w \in \Lambda,\\
+(2) \quad (\stackrel{uv}{\sim}, v)                  & \textup{for some } u, v \in \Lambda,\\
+(3) \quad (u, \stackrel{uv}{\sim})                  & \textup{for some } u, v \in \Lambda.
+\end{array}
+$$
+For each wave symbol $x =\ \stackrel{uv}{\sim}$ let us define ${\sf left}(x) = u$, ${\sf right}(x) = v$. For $x \in \Lambda$ let us define ${\sf left}(x) = {\sf right}(x) = x$. Hence, a couple $(x, y) \in \Sigma \times \Sigma$ satisfies the \emph{ether property} if and only if ${\sf right}(x) = {\sf left}(y)$ and at least one of the symbols $x, y$ is a wave symbol.
+
+We say that a word $w = x_1 x_2 \ldots x_n \in \Sigma^*$ satisfies the \emph{ether property} if and only if all couples $(x_1, x_2)$, $(x_2, x_3)$, ..., $(x_{n-1}, x_n)$ satisfy the ether property. We also say that the word $w$ is an \emph{ether} and for clarity we often mark this property by a line above the ether, e.\,g.\ $\overline{a \stackrel{ab}{\sim} \; \stackrel{bc}{\sim}}\ \overline{a \stackrel{ab}{\sim} b \stackrel{bc}{\sim} c}\ a$.
+\end{definition}
+
+First, we will informally describe the motivation behind Definition \ref{definition:ether}. Suppose that we have two special symbols $X, Y \in \Lambda$ -- the so-called \emph{membranes} -- connected by an ether, i.\,e.\ a word satisfying the ether property, for instance $\overline{X \stackrel{Xe}{\sim} \; \stackrel{ee}{\sim} \; \stackrel{eY}{\sim} Y}$. We want to send some signal from $X$ to $Y$ through the ether. For technical reasons, the signal is represented by two special basic symbols $a, \tilde{a} \in \Lambda$. After sending a signal, we want to recover the ether between $X$ and $Y$ in order to be able to send another signal. Our goal is to simulate this process by using a $\kclRA[2]$ $M$. The choice of the term membrane for the symbols $X$ and $Y$ is motivated by the fact that a membrane usually serves as a separator of two spaces. In our case the membranes $X$ and $Y$ are on the border of the space filled by the ether, but in general we can have more membranes such that each two consecutive membranes are connected by different ethers.
+
+We can schematically describe the process of spreading a signal from left to right in the ether as:
+$$\sigma \overline{x y z} \dashv_M \sigma x \sigma' \overline{y z}\;,$$
+where $\sigma, \sigma' \in \{a, \tilde{a}\}$. We call this step a \emph{jump} of the signal $\sigma$ \emph{from left to right}. The jump can occur only if the couple $(\sigma, x)$ does not satisfy the ether property and both couples $(x, y)$ and $(y, z)$ do satisfy the ether property. We have to choose $\sigma'$ in such a way that neither $(x, \sigma')$, nor $(\sigma', y)$ satisfy the ether property. It is easy to see that we can always choose such $\sigma' \in \{a, \tilde{a}\}$. If ${\sf right}(x) = {\sf left}(y) = a$, then choose $\sigma' = \tilde{a}$. Otherwise, if ${\sf right}(x) = {\sf left}(y) \neq a$, then choose $\sigma' = a$.
+
+Now observe that we can simulate the jump of the signal $\sigma$ from left to right by the dual instruction to the instruction:
+$$(\sigma x, \sigma', yz)\;,$$
+which is a legal instruction of a $\kclRA[2]$.
+
+\begin{example}\label{example:spread}
+In this example we demonstrate the process of sending a signal from $X$ to $Y$:
+$$
+\begin{array}{ll}
+(1) & \quad \overline{X \stackrel{Xe}{\sim} \; \stackrel{ee}{\sim} \; \stackrel{eY}{\sim} Y} \dashv_M\\
+(2) & \quad X\ \underline{a}\ \overline{\stackrel{Xe}{\sim} \; \stackrel{ee}{\sim} \; \stackrel{eY}{\sim} Y} \dashv_M\\
+(3) & \quad X\ a \stackrel{Xe}{\sim} \underline{a} \; \overline{\stackrel{ee}{\sim} \; \stackrel{eY}{\sim} Y} \dashv_M\\
+(4) & \quad X\ a \stackrel{Xe}{\sim} a \stackrel{ee}{\sim} \underline{a}\; \overline{\stackrel{eY}{\sim} Y} \dashv_M\\
+(5) & \quad X\ a \stackrel{Xe}{\sim} a \stackrel{ee}{\sim} a \stackrel{eY}{\sim} \underline{a}\ Y\;.
+\end{array}
+$$
+Note that in the first step $(1) \to (2)$ the symbol $X$ initiated sending a signal $a$ to $Y$. On the other hand, in the last step $(4) \to (5)$ the symbol $Y$ received the signal $a$ from $X$. Only in the steps $(2) \to (3)$ and $(3) \to (4)$ we used the jump operation.
+Now we have to recover the ether between $X$ and $Y$ to be able to send another signal.
+\end{example}
+
+We can schematically describe the process of recovering an ether
+from left to right as:
+$$\overline{x y} z d \dashv_M \overline{x y \stackrel{uv}{\sim} z} d,$$
+where $u = {\sf right}(y)$ and $v = {\sf left}(z)$. We call this step a \emph{recovery} of the ether \emph{from left to right}. The recovery can occur only if the couple $(x, y)$ satisfies the ether property and neither $(y, z)$, nor $(z, d)$ satisfy the ether property.
+
+Once again, observe that we can simulate the recovery of the ether from left to right by the dual instruction to the instruction:
+$$(xy, \stackrel{uv}{\sim}, zd),$$
+which is a legal instruction of a $\kclRA[2]$.
+
+\begin{example}\label{example:recover}
+In this example, we demonstrate the process of recovering the ether from $X$ to $Y$. We continue from the previous Example \ref{example:spread}.
+$$
+\begin{array}{ll}
+(5) & X \; a \stackrel{Xe}{\sim} a \stackrel{ee}{\sim} a \stackrel{eY}{\sim} a \; Y \dashv_M\\
+(6) & \overline{X \stackrel{Xa}{\sim} a}\ \stackrel{Xe}{\sim}\ a\ \stackrel{ee}{\sim}\ a\ \stackrel{eY}{\sim}\ a\ Y \dashv_M\\
+(7) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim}}\ a\ \stackrel{ee}{\sim}\ a\ \stackrel{eY}{\sim}\ a\ Y \dashv_M\\
+(8) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim} \; \stackrel{ea}{\sim} a}\
+\stackrel{ee}{\sim}\ a\ \stackrel{eY}{\sim}\ a\ Y \dashv_M\\
+(9) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim} \; \stackrel{ea}{\sim} a
+\stackrel{ae}{\sim} \ \stackrel{ee}{\sim}}\ a\ \stackrel{eY}{\sim}\ a\ Y \dashv_M\\
+(10) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim} \; \stackrel{ea}{\sim} a
+\stackrel{ae}{\sim} \, \stackrel{ee}{\sim} \, \stackrel{ea}{\sim} a}\ \stackrel{eY}{\sim}\ a\ Y \dashv_M\\
+(11) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim} \; \stackrel{ea}{\sim} a
+\stackrel{ae}{\sim} \, \stackrel{ee}{\sim} \, \stackrel{ea}{\sim} a \stackrel{ae}{\sim} \, \stackrel{eY}{\sim}}\ a\ Y \dashv_M\\
+(12) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim} \; \stackrel{ea}{\sim} a
+\stackrel{ae}{\sim} \, \stackrel{ee}{\sim} \, \stackrel{ea}{\sim} a \stackrel{ae}{\sim} \, \stackrel{eY}{\sim} \, \stackrel{Ya}{\sim} a}\ Y \dashv_M\\
+(13) & \overline{X \stackrel{Xa}{\sim} a \stackrel{aX}{\sim} \, \stackrel{Xe}{\sim} \; \stackrel{ea}{\sim} a
+\stackrel{ae}{\sim} \, \stackrel{ee}{\sim} \, \stackrel{ea}{\sim} a \stackrel{ae}{\sim} \, \stackrel{eY}{\sim} \, \stackrel{Ya}{\sim} a \stackrel{aY}{\sim} Y}\;.
+\end{array}
+$$
+Note that in the first step $(5) \to (6)$ the symbol $X$ initiated recovering of the ether between $X$ and $Y$. On the other hand, in the last step $(12) \to (13)$ the symbol $Y$ finished the recovery of the ether between $X$ and $Y$. Only in the steps $(6) \to (7)$ to $(11) \to (12)$ we used the recovery operation. Now we can send another signal from $X$ to $Y$.
+\end{example}
+
+It is difficult to describe the language $L$ which is generated from the word $X \stackrel{Xe}{\sim} \; \stackrel{ee}{\sim} \; \stackrel{eY}{\sim} Y$ by repeated sending a signal (represented by the symbols $a$ and $\tilde{a}$) from $X$ to $Y$, as in Example \ref{example:spread} and Example \ref{example:recover}. But observe that if the ether between $X$ and $Y$ has $n$ symbols, then after sending a signal through this ether we get an unusable transfer medium between $X$ and $Y$ of length $2n + 1$. After subsequent recovering of this medium we get a new ether between $X$ and $Y$ of length $2(2n+1) + 1$. Thus the transfer medium between $X$ and $Y$ grows exponentially as we send signals from $X$ to $Y$. Also note that $L_{ether} = \{w \in \Sigma^* \mid |w| \ge 2, w \text{ is an ether }\}$ is a regular language. It can be shown that the language $L \cap L_{ether}$ contains only words of length $4^k + 1$, and  for each $k \ge 1$ it contains at least one word. This implies that $L$ is not a context-free language. In order to prove this formally we need to make some observations.
+
+Suppose that we have $w = a_1 a_2 \ldots a_n \in \Sigma^*$. Consider the sequence of couples $(a_1, a_2)$, $(a_2, a_3)$, ..., $(a_{n-1}, a_n)$. Now if we replace each couple in this sequence with the symbol $\Circle$ or $\Square$ depending on whether the
+corresponding couple satisfies the ether property or not, we get a so-called \emph{circle-square representation} of the word $w$. For instance, in the word $\overline{a \stackrel{ab}{\sim} \; \stackrel{bc}{\sim}}\ \overline{a \stackrel{ab}{\sim} b \stackrel{bc}{\sim} c}\ a$ we have couples:\\
+\indent $(a, \stackrel{ab}{\sim})$,
+$(\stackrel{ab}{\sim}, \stackrel{bc}{\sim})$,
+$(\stackrel{bc}{\sim}, a)$,
+$(a, \stackrel{ab}{\sim})$,
+$(\stackrel{ab}{\sim}, b)$,
+$(b, \stackrel{bc}{\sim})$,
+$(\stackrel{bc}{\sim}, c)$, and
+$(c, a)$.\\
+The corresponding circle-square representation of this word is: $\Circle \Circle \Square \Circle \Circle \Circle \Circle \Square$.
+
+For $w \in \Sigma^{\ge 2}$, let us define $\psi(w)$ to be the circle-square representation of $w$. First, note that $|\psi(w)| = |w| - 1$. Second, for each $1 \le i < j \le n: \psi(w[i \ldots j]) = \psi(w)[i \ldots j - 1]$.
+
+The circle-square representation of the jump and recovery operation is:\\
+\indent \indent (1) \ circle-square jump: $\Square \underline{\Circle} \Circle \dashv \Square \Square \Square \Circle$,\\
+\indent \indent (2) \ circle-square recovery: $\Circle \underline{\Square} \Square \dashv \Circle \Circle \Circle \Square$.
+
+The corresponding instructions for these operations are:\\
+\indent \indent (1) \ circle-square jump instruction: $(\Square, \underline{\Circle} \to \Square \Square, \Circle)$,\\
+\indent \indent (2) \ circle-square recovery instruction : $(\Circle, \underline{\Square} \to \Circle \Circle, \Square)$.
+
+\begin{lemma}\label{lemma:circle-square-jump-and-recover}
+Suppose $w \in \Sigma^*$.\\
+\indent (1) \ If $\sigma \in \{a, \tilde{a}\}$ and $w' = \sigma x y z \in \Sigma^4$ is a subword of $w$, then there exists a jump instruction $(\sigma x, \lambda \to \sigma', yz)$ applicable to the subword $w'$ of $w$ if and only if a circle-square jump instruction $(\Square, \underline{\Circle} \to \Square \Square, \Circle)$ can be applied to $\psi(w')$, i.\,e.\ if $\psi(w') = \Square \Circle \Circle$.\\
+\indent (2) \ If $w' = x y z d \in \Sigma^4$ is a subword of $w$, then there exists a recovery instruction $(xy, \lambda \to \stackrel{uv}{\sim}, zd)$ applicable to the subword $w'$ of $w$ if and only if a circle-square recover instruction $(\Circle, \underline{\Square} \to \Circle \Circle, \Square)$ can be applied to $\psi(w')$, i.\,e.\ if $\psi(w') = \Circle \Square \Square$.
+\end{lemma}
+
+\begin{proof}
+The proof is an immediate consequence of the definition of the jump and recovery operation.
+\end{proof}
+
+Thus if the concrete symbols of a word are not important but we study which pairs of consecutive symbols satisfy the ether property, we can restrict ourselves to the circle-square representation of words and
+the aforementioned circle-square jump and recovery instructions.
+
+\begin{example}
+If we rewrite Examples \ref{example:spread} and \ref{example:recover} in a circle-square representation,
+then the signal spreading part from Example \ref{example:spread} is:
+$$
+\begin{array}{l}
+(1) \quad \underline{\Circle} \Circle \Circle \Circle \dashv\\
+(2) \quad \Square \Square \underline{\Circle} \Circle \Circle \dashv\\
+(3) \quad \Square \Square \Square \Square \underline{\Circle} \Circle \dashv\\
+(4) \quad \Square \Square \Square \Square \Square \Square \underline{\Circle} \dashv\\
+(5) \quad \Square \Square \Square \Square \Square \Square \Square \Square
+\end{array}
+$$
+and the recovery part from Example \ref{example:recover} is:
+$$
+\begin{array}{l}
+(5) \quad \underline{\Square} \Square \Square \Square \Square \Square \Square \Square \dashv\\
+(6) \quad \Circle \Circle \underline{\Square} \Square \Square \Square \Square \Square \Square \dashv\\
+(7) \quad \Circle \Circle \Circle \Circle \underline{\Square} \Square \Square \Square \Square \Square \dashv\\
+(8) \quad \Circle \Circle \Circle \Circle \Circle \Circle \underline{\Square} \Square \Square \Square \Square \dashv\\
+(9) \quad \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \underline{\Square} \Square \Square \Square \dashv\\
+(10) \quad \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \underline{\Square} \Square \Square \dashv\\
+(11) \quad \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \underline{\Square} \Square \dashv\\
+(12) \quad \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \underline{\Square} \dashv\\
+(13) \quad \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle \Circle\;.
+\end{array}
+$$
+\end{example}
+
+Consider a $\kCRS[1]$ $R = (\{\Circle, \Square\}, \Omega)$ with the following instructions:
+$$\begin{array}{l}
+(0) \quad (\cent, \lambda \to \Circle^m, \$),\\
+(1) \quad (\{\cent, \Square\}, \underline{\Circle} \to \Square \Square, \{\Circle, \$\}),\\
+(2) \quad (\{\cent, \Circle\}, \underline{\Square} \to \Circle \Circle, \{\Square, \$\}).
+\end{array}
+$$
+According to Theorem \ref{theorem:circle-square-cap-theorem}, $L(R^D) \cap \{\Circle\}^+ = \{\Circle^{x} \mid x = 4^l m, \ l = 0, 1, 2, \ldots\}$, where $m \ge 1$ and $\alpha = \beta = 2$.
+
+Note that the circle-square representation of the word $w_0 = \overline{X \stackrel{Xe}{\sim} \; \stackrel{ee}{\sim} \; \stackrel{eY}{\sim} Y}$ is $\Circle^4$ and the circle-square representation of $L_{ether}$ is the language $\{\Circle\}^+$. Let $L$ denote the language generated from the word $w_0$ by continual sending a signal (represented by the symbols $a$ and $\tilde{a}$) from $X$ to $Y$, as it was described above  in Example \ref{example:spread} and Example \ref{example:recover}. It is easy to see that the circle-square representation of $L$ is equal to $L(R^D)$ for $m=4$. Thus the circle-square representation of $L \cap L_{ether}$ is $L(R^D)\cap \{\Circle\}^+$, which is equal to $\{\Circle^{x} \mid x = 4^k, \ k = 1, 2, 3, \ldots\}$. This implies that the language $L \cap L_{ether}$ contains only words of length $4^k + 1$, and for each $k \ge 1$ at least one word.
+
+The approach described so far can be generalized in many ways. For instance, we can have more membranes, more kinds of signals, and we can also send these signals in both directions. If we send signals in both directions, then we have to ensure that in every transfer medium the communication flows only in one direction at any given time.
+
+On the other hand, this approach allows us to construct a $\kclRA[2]$ accepting a non-context-free language by using only $6$-letter alphabet. First, the signal is represented by symbols $a$ and $\tilde{a}$, and these two symbols are the only basic symbols. Thus $\Lambda = \{a, \tilde{a}\}$ and the corresponding alphabet $\Sigma = \Lambda \cup \wave(\Lambda)$ contains exactly $2 + 4 = 6$ letters. Second, we do not use special symbols for membranes, i.\,e.\ $X$ and $Y$. Instead of $X$ we can use $a$ and instead of $Y$ we can use $a$, as well. The (dual) instructions of the resulting automaton simulate continual sending of the signal from the first symbol $a$ to the last symbol $a$, and the starting word is $w_0 = a \stackrel{aa}{\sim} \; \stackrel{aa}{\sim} \; \stackrel{aa}{\sim} a$.
+
+\section[\texorpdfstring{$\kclRA[3]$ Recognizing a non-Context-Free Language}%
+                        {3-cl-RA Recognizing a non-CFL}]%
+                        {$\kclRA[3]$ Recognizing a non-Context-Free Language}%
+\label{3clRA-non-CFL}
+\index{$\kclRA[3]$}
+
+The question, whether there exists a $\kclRA[2]$ with alphabet consisting of less than six letters recognizing a non-context-free language, remains open. However, there exists a $\kclRA[3]$ accepting a non-context-free language on alphabet $\Sigma = \{a, b\}$. Also the idea of this automaton is based on sending a signal through the ether. Let us consider the following productions:
+\begin{eqnarray*}
+& & aaabbbaaabbb \dashv_M\\
+& & a\underline{b}aabbbaaabbb \dashv_M
+aba\underline{b}abbbaaabbb \dashv_M\\
+& & ababab\underline{a}bbaaabbb \dashv_M
+abababab\underline{a}baaabbb \dashv_M\\
+& & abababababa\underline{b}aabbb \dashv_M
+ababababababa\underline{b}abbb \dashv_M\\
+& & abababababababab\underline{a}bb \dashv_M
+ababababababababab\underline{a}b \dashv_M\\
+& & \underline{aa}abababababababababab \dashv_M\\
+& & aaa\underline{bb}bababababababababab \dashv_M\\
+& & aaabbb\underline{aa}ababababababababab \dashv_M\\
+& & aaabbbaaa\underline{bb}babababababababab \dashv_M\\
+& & \ldots\\
+& & (aaabbb)^{8}\underline{aa}abab \dashv_M\\
+& & (aaabbb)^{8}aaa\underline{bb}bab \dashv_M\\
+& & (aaabbb)^{8}aaabbb\underline{aa}ab \dashv_M\\
+& & (aaabbb)^{8}aaabbbaaa\underline{bb}b\;.
+\end{eqnarray*}
+The corresponding $\kclRA[3]$ $M = (\Sigma, \Phi)$ has the following instructions:
+$$
+\begin{array}{ll}
+a_1 = (bab, \underline{a}, b\$),\hspace{5em}    & c_1 = (\cent, \underline{aa}, aba),\\
+a_2 = (bab, \underline{a}, baa) ,               & c_2 = (bbb, \underline{aa}, ab\$),\\
+a_3 = (bab, \underline{a}, bb\$),               & c_3 = (bbb, \underline{aa}, aba),\\
+a_4 = (bab, \underline{a}, bba),                & d_1 = (aaa, \underline{bb}, b\$),\\
+b_1 = (\cent a, \underline{b}, aab),            & d_2 = (aaa, \underline{bb}, bab),\\
+b_2 = (aba, \underline{b}, aab),                & e_1 = (\cent, \underline{aaabbbaaabbb}, \$).\\
+b_3 = (aba, \underline{b}, abb),
+\end{array}
+$$
+It is difficult to describe the language $L(M)$ directly. Therefore, we introduce the following circle-square representation: Suppose that we have $w = a_1 a_2 \ldots a_n \in \Sigma^*$. Consider the corresponding sequence of couples $(a_1, a_2)$, $(a_2, a_3)$, ..., $(a_{n-1}, a_n)$. Now if we replace each couple in this sequence with the symbol $\Circle$ or $\Square$ depending on whether the corresponding couple $(a_i, a_{i+1})$ is homogenous (i.\,e.\ $a_i = a_{i+1}$) or not, we get a \emph{circle-square representation} of the word $w$.
+
+For $w \in \Sigma^{\ge 2}$, we define $\chi(w)$ to be the circle-square representation of $w$. Of course, $|\chi(w)| = |w| - 1$, and for each $1 \le i < j \le n: \chi(w[i \ldots j]) = \chi(w)[i \ldots j - 1]$.
+
+The circle-square representation of productions defining the automaton $M$ is:
+\begin{eqnarray*}
+& & \underline{\Circle} \Circle \Square \Circle \Circle \Square \Circle \Circle
+\Square \Circle \Circle \dashv\\
+& & \Square \Square \underline{\Circle} \Square \Circle \Circle \Square \Circle
+\Circle \Square \Circle \Circle \dashv\\
+& & \Square \Square \Square \Square \Square \underline{\Circle} \Circle \Square
+\Circle \Circle \Square \Circle \Circle \dashv\\
+& & \Square \Square \Square \Square \Square \Square \Square \underline{\Circle}
+\Square \Circle \Circle \Square \Circle \Circle \dashv\\
+& & \Square \Square \Square \Square \Square \Square \Square \Square \Square \Square
+\underline{\Circle} \Circle \Square \Circle \Circle \dashv\\
+& & \Square \Square \Square \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \underline{\Circle} \Square \Circle \Circle \dashv\\
+& & \Square \Square \Square \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \underline{\Circle} \Circle \dashv\\
+& & \Square \Square \Square \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \Square \Square \underline{\Circle} \dashv\\
+& & \Square \Square \Square \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \Square \Square \Square \Square \dashv\\
+& & \Circle \Circle \underline{\Square} \Square \Square \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \Square \Square \Square \Square \dashv\\
+& & \Circle \Circle \Square \Circle \Circle \underline{\Square} \Square \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \Square \Square \Square \Square \dashv\\
+& & \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \underline{\Square} \Square \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \Square \Square \Square \Square \dashv\\
+& & \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \underline{\Square} \Square \Square \Square \Square \Square \Square
+\Square \Square \Square \Square \Square \Square \Square \Square \Square \dashv\\
+& & \ldots\\
+& & (\Circle \Circle \Square)^{16} \Circle \Circle \underline{\Square} \Square \Square \dashv\\
+& & (\Circle \Circle \Square)^{16} \Circle \Circle \Square \Circle \Circle \underline{\Square} \Square \dashv\\
+& & (\Circle \Circle \Square)^{16} \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \underline{\Square} \dashv\\
+& & (\Circle \Circle \Square)^{16} \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle\enspace.
+\end{eqnarray*}
+
+Consider a $\kCRS[2]$ $R = (\{\Circle, \Square\}, \Omega)$ with instructions:
+$$
+\begin{array}{ll}
+X_0 = (\cent, \underline{\Circle} \to \Square \Square, \Circle \Square),\hspace{5em} &
+Y_0 = (\cent, \lambda \to \Circle \Circle, \Square \Square),\\
+X_1 = (\Square \Square, \underline{\Circle} \to \Square \Square, \Circle \Square), &
+Y_1 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \Square \Square),\\
+X_2 = (\Square \Square, \underline{\Circle} \to \Square \Square, \Square \Circle), &
+Y_2 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \Square \$),\\
+X_3 = (\Square \Square, \underline{\Circle} \to \Square \Square, \Circle \$), &
+Y_3 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \$),\\
+X_4 = (\Square \Square, \underline{\Circle} \to \Square \Square, \$), &
+Z_0 = (\cent, \lambda \to \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle, \$).\\
+\end{array}
+$$
+Then, trivially for each instruction $\phi \in \Phi^D$, if $\phi$ can be applied to the word $w \in \Sigma^{\ge 2}$, then there exists $\omega \in \Omega$ which can be applied in the same way to the word $\chi(w)$. Thus the circle-square representation of the language $L(M)$ is included in $L(R^D)$.
+
+To analyze the language $L(R^D)$ we first introduce several auxiliary definitions. An \emph{ether} is a word $w \in \{\Circle, \Square\}^+$ which starts and ends with $\Circle$, and if for some $1 < i < |w|$ we have $w[i] = \Square$, then $w[i-1] = w[i+1] = \Circle$, i.\,e.\ all squares are single. A \emph{factor} is a word $\Square^k w \neq \lambda$ such that $k \ge 0$ and $w$ is either $\lambda$, or an ether. For a word $w \in \{\Circle, \Square\}^+$, we define a \emph{factorization} $w = w_0 w_1 \ldots w_n$ recursively as: $w_n$ is the longest suffix of $w$ such that $w_n$ is a factor, and $w_0 w_1 \ldots w_{n-1}$ is the factorization of the rest of the word. Since the word $w_n$ is defined unambiguously, it is easy to see by induction that the factorization of $w$ is unique. For instance, the word $w = \Square \Square \Circle \Square \Circle \Circle \Square \Square \Square \Square \Square \Square \Circle \Square \Circle \Circle \Square \Circle \Circle$ has the factors: $w_0 = \Square \Square \Circle \Square \Circle \Circle$ and $w_1 = \Square \Square \Square \Square \Square \Square \Circle \Square \Circle \Circle \Square \Circle \Circle$. The weight of a factor $u$ is defined as $\psi(u) = |u|_{\Square} + 2 |u|_{\Circle}$.
+
+\begin{lemma}\label{lemma:circle-square-3clRA}
+Suppose that $w \in L(R^D)$ and $w = w_0 w_1 \ldots w_n$ is a factorization of $w$. Let us denote $a_i = \psi(w_i)$, for all $i = 0, 1, \ldots, n$. Then for some $l \ge 1$:
+$$
+5^0 a_0 + 5^1 a_1 + \ldots + 5^n a_n = 4 \times 5^{n+l} - 1\enspace.
+$$
+We call this sum the overall sum of the word $w$.
+\end{lemma}
+
+\begin{proof}
+(By induction on the number of used instructions of $R$)
+
+The first applied instruction is always
+$Z_0 = (\cent, \lambda \to \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle, \$)$.
+This instruction can never be used later.
+The factorization of the resulting word $w = \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle \Square \Circle \Circle$
+is clearly $w = w_0$, thus $n = 0$, $a_0 = \psi(w_0) = \psi(w) = 19$ and $5^0 a_0 = 19 = 4 \times 5^{0+l} - 1$ for $l = 1$.
+
+Suppose that $w = w_0 w_1 \ldots w_n$ is a factorization of $w$ generated so far by
+circle-square instructions, $a_i = \psi(w_i)$, for all $i = 0, 1, \ldots, n$,
+and $5^0 a_0 + 5^1 a_1 + \ldots + 5^n a_n = 4 \times 5^{n+l} - 1$ for some $l \ge 1$.
+We consider several cases depending on the next applied instruction.
+
+\begin{enumerate}
+\item $X_0 = (\cent, \underline{\Circle} \to \Square \Square, \Circle \Square)$: can be applied only to a prefix $\underline{\Circle} \Circle \Square$ of $w_0$, i.\,e.\ $w_0 = \underline{\Circle} \Circle \Square u_0$. After application we get $w_0' = \Square \Square \Circle \Square u_0$ which is obviously a factor with the same weight as $w_0$.
+\item $X_1 = (\Square \Square, \underline{\Circle} \to \Square \Square, \Circle \Square)$: can be applied only to a subword $u = \Square \Square \underline{\Circle} \Circle \Square$ of $w$. Apparently, $u$ is a subword of some factor $w_i$, i.\,e.\ $w_i = \Square^k \Square \Square \underline{\Circle} \Circle \Square u_i$, $k \ge 0$. After application we get $w_i' = \Square^k \Square \Square \Square \Square \Circle \Square u_i$ which is a factor with the same weight as $w_i$.
+\item $X_2 = (\Square \Square, \underline{\Circle} \to \Square \Square, \Square \Circle)$: can be applied only to a subword $u = \Square \Square \underline{\Circle} \Square \Circle$ of $w$. Obviously, $u$ is a subword of some factor $w_i$, i.\,e.\ $w_i = \Square^k \Square \Square \underline{\Circle} \Square \Circle u_i$, $k \ge 0$. After application we obtain $w_i' = \Square^k \Square \Square \Square \Square \Square \Circle u_i$, which is a factor with the same weight as $w_i$.
+\item $X_3 = (\Square \Square, \underline{\Circle} \to \Square \Square, \Circle \$)$: can be applied only to a suffix $\Square \Square \underline{\Circle} \Circle$ of $w_n$, i.\,e.\ $w_n = \Square^k \Square \Square \underline{\Circle} \Circle$, $k \ge 0$. After application we get $w_n' = \Square^k \Square \Square \Square \Square \Circle$, which is a factor with the same weight as $w_n$.
+\item $X_4 = (\Square \Square, \underline{\Circle} \to \Square \Square, \$)$: can be applied only to a suffix $\Square \Square \underline{\Circle}$ of $w_n$, i.\,e.\ $w_n = \Square^k \Square \Square \underline{\Circle}$, $k \ge 0$. After application we obtain $w_n' = \Square^k \Square \Square \Square \Square$, which is a factor with the same weight as $w_n$.
+\item $Y_0 = (\cent, \lambda \to \Circle \Circle, \Square \Square)$: can be applied only to a prefix of $w_0$, i.\,e.\ $w_0 = \Square \Square \Square^k e_0$, $k \ge 0$, $e_0$ is either $\lambda$, or the ether. After application we get a new factor $w_0' = \Circle \Circle$ with $a_0' = \psi(w_0') = 4$, i.\,e.\ the corresponding $w' = w_0' w_1' \ldots w_{n+1}'$, where $w_{i+1}' = w_i$, $a_{i+1}' = a_i$, for all $i = 0, 1, \ldots, n$. Thus the overall sum is $5^0 a_0' + 5^1 a_1' + \ldots + 5^{n+1} a_{n+1}' = 4 + 5 \times (4 \times 5^{n+l} - 1) = 4 \times 5^{(n+1)+l} - 1$.
+\item $Y_1 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \Square \Square)$: can be applied to a subword $\Circle \Circle \underline{\Square} \Square \Square$ of $w$, i.\,e.\ to a prefix of some factor $w_{i+1} = \underline{\Square} \Square \Square u_{i+1}$, where $w_i = u_i \Circle \Circle$. After application we get factors: $w_i' = u_i \Circle \Circle \Square \Circle \Circle$ and $w_{i+1}' = \Square \Square u_{i+1}$. Obviously, $\psi(w_i) + 5 \times \psi(w_{i+1}) = \psi(w_i') + 5 \times \psi(w_{i+1}')$, because $\psi(w_i') - \psi(w_i) = 5 \times (\psi(w_{i+1}) - \psi(w_{i+1}')) = 5$. Since all other factors remain unchanged, the overall sum does not change.
+\item $Y_2 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \Square \$)$: can be applied to a suffix $\Circle \Circle \underline{\Square} \Square$ of $w$, i.\,e.\ $n \ge 1$, $w_{n-1} = u_{n-1} \Circle \Circle$, and $w_n = \underline{\Square} \Square$. After application we obtain factors: $w_{n-1}' = u_{n-1} \Circle \Circle \Square \Circle \Circle$ and $w_n' = \Square$. Obviously, $\psi(w_{n-1}) + 5 \times \psi(w_n) = \psi(w_{n-1}') + 5 \times \psi(w_n')$, because $\psi(w_{n-1}') - \psi(w_{n-1}) = 5 \times (\psi(w_n) - \psi(w_n')) = 5$. Since all other factors remain unchanged, the overall sum does not change.
+\item $Y_3 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \$)$: can be applied to a suffix $\Circle \Circle \underline{\Square}$ of $w$, i.\,e.\ $n \ge 1$, $w_{n-1} = u_{n-1} \Circle \Circle$, and $w_n = \underline{\Square}$. After application we get factor: $w_{n-1}' = u_{n-1} \Circle \Circle \Square \Circle \Circle$ and the last factor vanishes. Apparently, $\psi(w_{n-1}) + 5 \times \psi(w_n) = \psi(w_{n-1}')$, because $\psi(w_{n-1}') - \psi(w_{n-1}) = 5 \times \psi(w_n) = 5$. All other factors remain unchanged, thus if we denote $a_i' = \psi(w_i')$, for all $i = 0, 1, \ldots, n-1$, then $5^0 a_0' + 5^1 a_1' + \ldots + 5^{n-1} a_{n-1}' = 5^0 a_0 + 5^1 a_1 + \ldots + 5^{n-1} (a_{n-1} + 5a_n) = 4 \times 5^{n+l} - 1 = 4 \times 5^{(n-1)+(l+1)} - 1$.
+\end{enumerate}
+\end{proof}
+
+Note that only the instruction $Y_0 = (\cent, \lambda \to \Circle \Circle, \Square \Square)$ increases the number of factors and only the instruction $Y_3 = (\Circle \Circle, \underline{\Square} \to \Square \Circle \Circle, \$)$ decreases the number of factors. Also note that only the instruction $Y_0$ increases the overall sum, and only the instruction $Y_3$ increases $l$. All remaining instructions neither change the number of factors, nor the overall sum.
+
+\begin{lemma}
+$L(M) \cap \{(ab)^n \mid n > 0\} = \{(ab)^n \mid n = 2 \times 5^l, l = 1, 2, \ldots \}$.
+\end{lemma}
+
+\begin{proof}
+Suppose that $(ab)^m \in L(M)$ for some $m > 0$. The circle-square representation of $(ab)^m$ is $\Square^{2m - 1}$. Since $\Square^{2m - 1}$ is a factor, according to Lemma \ref{lemma:circle-square-3clRA} we get $2m - 1 = 4 \times 5^{n+l} - 1$, where $n = 0$ and $l \ge 1$. Thus $m = 2 \times 5^l$.
+
+On the other hand, we have to show that for each $l \ge 1$, $(ab)^{2 \times 5^l} \in L(M)$. First observe:
+$$
+\begin{array}{l}
+aaabbb (aaabbb)^m aaabbb \dashv_M\\
+a\underline{b}aabbb (aaabbb)^m aaabbb \dashv_M
+aba\underline{b}abbb (aaabbb)^m aaabbb \dashv_M\\
+ababab\underline{a}bb (aaabbb)^m aaabbb \dashv_M
+abababab\underline{a}b (aaabbb)^m aaabbb \dashv_M\\
+\ldots \dashv_M ababababab (ababababab)^m aaabbb \dashv_M\\
+ababababab (ababababab)^m a\underline{b}aabbb \dashv_M
+ababababab (ababababab)^m aba\underline{b}abbb \dashv_M\\
+ababababab (ababababab)^m ababab\underline{a}bb \dashv_M
+ababababab (ababababab)^m abababab\underline{a}b = \\
+(ab)^5 (ababababab)^m (ab)^5\enspace.
+\end{array}
+$$
+Similarly:
+$$
+\begin{array}{l}
+abab (ab)^n abab \dashv_M\\
+\underline{aa}abab (ab)^n abab \dashv_M
+aaa\underline{bb}bab (ab)^n abab \dashv_M\\
+aaabbb\underline{aa}ab (ab)^n abab \dashv_M
+aaabbbaaa\underline{bb}b (ab)^n abab \dashv_M\\
+\ldots \dashv_M aaabbbaaabbb (aaabbb)^n abab \dashv_M\\
+aaabbbaaabbb (aaabbb)^n \underline{aa}abab \dashv_M
+aaabbbaaabbb (aaabbb)^n aaa\underline{bb}bab \dashv_M\\
+aaabbbaaabbb (aaabbb)^n aaabbb\underline{aa}ab \dashv_M
+aaabbbaaabbb (aaabbb)^n aaabbbaaa\underline{bb}b = \\
+(aaabbb)^2 (aaabbb)^n (aaabbb)^2\enspace.
+\end{array}
+$$
+Consequently, for $m = 0$ we get: $\lambda \dashv_M aaabbbaaabbb \dashv_M^* (ab)^{2 \times 5}$, and for each $l \ge 1$: $(ab)^{2 \times 5^l} \dashv_M^* (aaabbb)^{2 \times 5^l} \dashv_M^* (ababababab)^{2 \times 5^l} = (ab)^{2 \times 5^{l+1}}$. Thus for each $l \ge 1: (ab)^{2 \times 5^l} \in L(M)$.
+\end{proof}
+
+The following theorem summarizes the results from the previous Sections
+\ref{se:clRAandReg}, \ref{4clRA-non-CFL}, \ref{1clRA}, \ref{2clRA-non-CFL}, and \ref{3clRA-non-CFL},
+and compares the class of languages recognized by clearing restarting automata
+with the class of context-free languages.
+
+\begin{theorem} Let us consider $\kclRA$ working with an alphabet $\Sigma$.
+\begin{enumerate}
+    \item[a)]
+        $\calL{\clRA} = \CFL$ for $|\Sigma| = 1$.
+    \item[b)]
+        $\calL{\kclRA[1]} \subset \CFL$ for an arbitrary alphabet $\Sigma$.
+    \item[c)]
+        $\calL{\kclRA[2]} - \CFL \not= \emptyset$ for $|\Sigma| \ge 6$.
+    \item[d)]
+        $\calL{\kclRA[3]} - \CFL \not= \emptyset$ for $|\Sigma| \ge 2$.
+\end{enumerate}
+\end{theorem}
+
+\section[\texorpdfstring{Membership Problem for $\clRA$}%
+                        {Membership Problem for cl-RA}]%
+                        {Membership Problem for $\bm{\clRA}$}%
+\label{clra_membership}
+
+In this section we study the membership problem for clearing restarting automata. Although, in general, it is $\classNP$-complete to decide whether $w \in L(M)$ for $\clRA$ $M = (\Sigma, \Phi)$, it is possible to decide whether $w \in L(M)$ in polynomial time if $M \in \kclRA[1]$. The membership problem for $\clRA$ is clearly in $\classNP$ since $w \in L(M) \Leftrightarrow \exists n \le |w|, w_1, \ldots, w_n \in \Sigma^{\le |w|}, \phi_1, \ldots, \phi_n \in \Phi: w = w_1 \vdash_M^{(\phi_1)} w_2 \ldots w_n \vdash_M^{(\phi_n)} \lambda$. We prove the $\classNP$-hardness by reducing from $3$-$\SAT$.
+
+\begin{theorem}\label{theorem:clra_membership}
+The membership problem for $\clRA$ is $\classNP$-complete. It is decidable in polynomial time for $\kclRA[1]$.
+\end{theorem}
+
+\begin{proof}
+According to Corollary \ref{corollary:1clra_cfl} we can transform any $\kclRA[1]$ $M$ to an equivalent context-free grammar $G$ in polynomial time. Therefore, we can also decide whether $w \in L(M)$ in polynomial time. For general $\clRA$, consider a $3$-$\SAT$ formula $\psi = \bigwedge_{i=1}^n C_i$, where clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$, and $\ell_{i,1}$, $\ell_{i,2}$, $\ell_{i,3}$ are literals having pairwise different variables, for all $i \in \{1, 2, \ldots, n\}$. Let $\Omega = \{a_1, a_2, \ldots, a_m\}$ be the set of all variables occurring in $\psi$. In the following, we will effectively construct (in polynomial time) a $\clRA$ $M = (\Sigma, \Phi)$ and a word $w$, such that the following holds: the formula $\psi$ is satisfiable if and only if $w \in L(M)$. Our alphabet $\Sigma$ will contain all symbols from $\Omega \cup \overline{\Omega}$, where $\overline{\Omega} = \{ \overline{a_i} \mid a_i \in \Omega \}$, and $\Omega \cap \overline{\Omega} = \emptyset$. In addition, $\Sigma$ will contain also the following two special symbols: $\sharp, \Square$. The word $w$ is:
+$$w = \Square a_1 \overline{a_1} \ldots a_m \overline{a_m} \sharp \ell_{1,1} \ell_{1,2} \ell_{1,3} \Square \ldots \Square a_1 \overline{a_1} \ldots a_m \overline{a_m} \sharp \ell_{n,1} \ell_{n,2} \ell_{n,3} \Square.$$
+It consists of $n$ blocks of the form $a_1 \overline{a_1} \ldots a_m \overline{a_m} \sharp \ell_{i,1} \ell_{i,2} \ell_{i,3}$ separated by $\Square$. In the left part of each block we encode the assignment $v: \Omega \to \{0, 1\}$ of the truth values to the variables $a_1, \ldots, a_m$. We use the following convention: If both $a_j \overline{a_j}$ are present in the left part of the block, the truth value of $a_j$ is not yet assigned. If only $a_j$ is present then $v(a_j) = 1$. If only $\overline{a_j}$ is present then $v(a_j) = 0$. The $\clRA$ $M$ will (nondeterministically) assign the truth values to the variables by deleting the ``unwanted'' variables from the left part of blocks. We need to make sure that the assignments are consistent across all blocks. Moreover, the $\clRA$ $M$ will be able to delete the whole block $\alpha \sharp \beta$ if $\beta$ is true under the assignment defined by the left part $\alpha$. The problem is that the $\clRA$ $M$ can have only polynomially many instructions. We cannot, for instance, use the following set of instructions: $\{ (\Square, \underline{\alpha \sharp \beta \Square}, \lambda) \mid v_{\alpha}(\beta) = 1, \text{ where } v_{\alpha} \text{ is an assignment defined by } \alpha\}$, because there is exponentially many words (assignments) $\alpha$ such that $v_{\alpha}(\beta) = 1$. In the following, we outline how to achieve both consistency of the assignments across all blocks and at most polynomially many instructions. The resulting $\clRA$ is intended to work as follows. For $j = 1, \ldots, m$:
+\begin{enumerate}
+\item[(1)] Assign the truth value to the variable $a_j$ in the leftmost block of the input word (by deleting either $a_j$ or $\overline{a_j}$).
+\item[(2)] Propagate this assignment to all blocks (from left to right).
+\item[(3)] Eliminate all blocks that are true under this new assignment.
+\item[(4)] Eliminate the variable $a_j$ (or $\overline{a_j}$) from the prefix of all blocks.
+\end{enumerate}
+Note that at the beginning of the $j$-th phase the input word is of the form:
+$$\Square a_j \overline{a_j} \ldots a_m \overline{a_m} \sharp \beta_1 \Square \ldots \Square a_j \overline{a_j} \ldots a_m \overline{a_m} \sharp \beta_k \Square.$$
+The instructions for the steps (1) -- (4) are:
+\begin{enumerate}
+\item[(1)] $(\cent \Square,\ a_j,\ \overline{a_j} a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp)$,\\
+$(\cent \Square a_j,\ \overline{a_j},\ a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp)$.
+\item[(2)] $(\Square \overline{a_j} a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp \beta \Square,\ a_j,\ \overline{a_j} a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp)$,\\
+$(\Square a_j a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp \beta \Square a_j,\ \overline{a_j},\ a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp)$.
+\item[(3)] $(\Square,\ a_j a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp \beta \Square,\ \lambda)$, if $a_j$ is in $\beta$,\\
+$(\Square,\ \overline{a_j} a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp \beta \Square,\ \lambda)$, if $\overline{a_j}$ is in $\beta$.
+\item[(4)] $(\Square,\ a_j,\ a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp)$,\\
+$(\Square,\ \overline{a_j},\ a_{j+1} \overline{a_{j+1}} \ldots a_m \overline{a_m} \sharp)$.
+\end{enumerate}
+Let $\Phi$ be the set of above instructions for all $j = 1, \ldots, m$ and for all $\beta = \ell_{i,1} \ell_{i,2} \ell_{i,3}$, where $i = 1, \ldots, n$. In addition, let $(\cent, \Square, \$) \in \Phi$. It is easy to see that $\clRA$ $M = (\Sigma, \Phi)$ can be effectively constructed in polynomial time and has polynomial size w.r.t. $n + m$. Moreover, if $\psi$ is satisfiable then by following the steps (1) -- (4) the input word $w$ can be reduced to a single $\Square$, which can then be reduced to $\lambda$ by using the instruction $(\cent, \Square, \$)$, i.\,e.\ $w \in L(M)$. On the other hand, let us assume that $w \in L(M)$, i.\,e.\ $w \vdash_M^* \lambda$. Our goal is to prove that $\psi$ is satisfiable. Observe that the only way to delete a subword $\sharp \beta \Square = \sharp \ell_{i,1} \ell_{i,2} \ell_{i,3} \Square$ (corresponding to the clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$) from the input word is by using an instruction of type (3). Such instruction also unambiguously specifies an assignment to some variable $a_j$ from $C_i$ such that $C_i$ is true under this assignment. If we collect all assignments from all instructions of type (3) used in the reduction $w \vdash_M^* \lambda$ we get an assignment satisfying the whole formula $\psi$, provided that the collected assignments are consistent. It is easy to see that the collected assignments are consistent because assignments can be created only at the first block of the input word by using instructions of type (1). Other blocks can only copy the assignments from previous blocks by using instructions of type (2). Also, instructions of type (4) cannot create new assignments. They can only forget existing assignments.
+\end{proof}
+
+\section[\texorpdfstring{Extensions of $\clRA$}%
+                        {Extensions of cl-RA}]%
+                        {Extensions of $\bm{\clRA}$}%
+\label{clra_extensions}
+
+Almost all models studied in this thesis are extensions of clearing restarting automata. One interesting example is a \index{subword-clearing restarting automaton}\emph{subword-clearing restarting automaton} (\index{$\sclRA$}\emph{$\sclRA$} for short), which is a $\CRS$ $M = (\Sigma, \Phi)$, where for each instruction  $\phi = (x, z \to t, y) \in \Phi$: $z \in \Sigma^+$ and $t$ is a subword of $z$, such that $|t| < |z|$. Subword-clearing restarting automata are strictly more powerful than clearing restarting automata, because the following language $L = \{a^n c b^n \mid n \ge 0\}$ (not recognized by $\clRA$) is recognized by the $\sclRA$ $M = (\{a, b, c\}, \Phi)$ with instructions $\Phi = \{(a, \underline{acb} \to c, b), (\cent, \underline{acb}, \$)\}$. On the other hand, not all context-free languages can be recognized by subword-clearing restarting automata.
+
+\begin{theorem}[\citep{C13}]
+The language $L = \{ w w^R \mid w \in \Sigma^* \}$, $|\Sigma| \ge 2$, is not recognized by any $\sclRA$.
+\end{theorem}
+
+\begin{proof}
+Suppose (for contradiction) that there exists a $\sclRA$ $M = (\Sigma, \Phi)$  recognizing the language $L = \{ w w^R \mid w \in \Sigma^* \}$, where $|\Sigma| \ge 2$. Consider any instruction $\phi = (x, z \to t, y) \in \Phi$ such that $x$ or $y$ does not contain a sentinel. There exists at least one such instruction, because otherwise the language $L(M)$ would be finite. (This observation follows easily from the fact that an instruction  $(\cent x, z \to t, y\$)$ can be applied only to the word $xzy$). Without loss of generality assume that the right context $y$ does not contain the sentinel $\$$, i.\,e.\, $y \in \Sigma^*$. Let $\bar{x} \in \Sigma^*$ denote the left context $x$ without the sentinel $\cent$, i.\,e.\, $x = \bar{x}$ if $x \in \Sigma^*$, otherwise $x = \cent \bar{x}$. It is easy to see, that $\bar{x} z y \alpha \vdash_M^{(\phi)} \bar{x} t y \alpha$ for any $\alpha \in \Sigma^*$. Pick any two different letters $a, b \in \Sigma$. Consider the words $w = \bar{x} z y a^{2n} b$ and $w' = \bar{x} t y a^{2n} b$, where $n = |\phi|$. The word $w' \cdot w'^R$ has the middle point between the two letters $b$, which is denoted here by the dot: $w' \cdot w'^R = \bar{x} t y a^n a^n b \cdot b a^n a^n (\bar{x} t y)^R$. Apparently, $w' w'^R \in L$. The word $w w'^R$ has the middle point somewhere in the underlined part: $\bar{x} z y a^n \underline{a^n} b b a^n a^n (\bar{x} t y)^R$, because $|t| < |z| \le n$. It is easy to see that $w w'^R \notin L$: if you go $n$ steps to the left from the middle point of the word $w w'^R$, you will see only the letter $a$. But if you go $n$ steps to the right from the middle point of the word $w w'^R$, you will see also the letter $b$. This is a contradiction to the error preserving property of $M$, because $w w'^R \vdash_M^{(\phi)} w' w'^R$, but $w w'^R \notin L$ and $w' w'^R \in L$.
+\end{proof}
+
+Other extensions (that use auxiliary symbols) are studied in Chapter \ref{chapter:crs_aux}. In this Chapter we focus solely on context rewriting systems without auxiliary symbols. As we will see in the following Chapter \ref{chapter:inference}, not using auxiliary symbols gives rise to grammatical inference of many different types of restricted context rewriting systems (including clearing and subword-clearing restarting automata).

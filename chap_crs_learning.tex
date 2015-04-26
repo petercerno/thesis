@@ -1,0 +1,481 @@
+\chapter[\texorpdfstring{Grammatical Inference of Restricted $\CRS$}%
+                        {Grammatical Inference of Restricted CRS}]%
+                        {Grammatical Inference of Restricted $\bm{\CRS}$}\label{chapter:inference}
+
+The main purpose of this chapter is to satisfy Goal \ref{goal:learning} from Chapter \ref{chapter:goals}, i.\,e.\ to study grammatical inference of context rewriting systems without auxiliary symbols. We show that, under certain conditions, it is possible to identify in polynomial time (but not polynomial data) any target $\lambda$-confluent context rewriting system without auxiliary symbols from informant (i.\,e.\ from positive and negative samples). However, we use a slightly relaxed version of polynomial identification paradigm.                        
+
+\index{grammatical inference}Grammatical inference is concerned with finding a description (representation or model) of a language when given only some information about the language, e.\,g.\ some words of the language, the structure of the language, counter-examples or access to an oracle.
+One common root of many of the formalizations used in grammatical inference is Gold's model of \index{identification in the limit}\emph{identification in the limit}. E. Mark Gold can be justly called a pioneer in this field thanks to his seminal paper on ``Language identification in the limit'' \citep{Gold67limit}. The question of how children learn languages was part of his motivation; however, his focus was on theoretical investigations. In Gold's model, a language is a set of strings over some fixed finite alphabet. In the following, we will use the term \index{language!target}\emph{target language} to refer to a language which has to be learned. Assume, for a moment, that there is some fixed system of representations of languages, called a \index{hypothesis space}\emph{hypothesis space}, such that at least one correct model for the target language is contained in that system. Gold considers a \index{learner}\emph{learner} to be an algorithmic device which is given examples, step by step, and which, in each of the infinitely many steps, returns a hypothesis. A learner is considered successful if after some step the learner returns the same hypothesis over and over again for all future steps and the hypothesis it converges to is a correct representation for the target language in the underlying hypothesis space. Gold considers both \index{learning from text}\emph{learning from text}, i.\,e.\ the case when only positive examples (strings belonging to the target language) are available for the learner, as well as \index{learning from informant}\emph{learning from informant}, i.\,e.\ the case when both \index{example!positive}positive and \index{example!negative}negative examples (strings labeled according to whether or not they belong to the target language) are available.  More formally, a \index{text}\emph{text} of a language $L$ is an infinite sequence of strings that contains all strings of $L$. An \index{informant}\emph{informant} of a language $L$ is an infinite sequence containing all strings over the underlying alphabet such that each string is labeled according to whether or not it belongs to $L$.
+
+When concerned about \index{grammatical inference!efficient}\emph{efficient} grammatical inference \citep{delaHiguera1997} the main definitions of polynomial inference have been proposed by Pitt and Angluin. In his seminal paper \citep{Pitt89} Pitt discusses different possible ideas as to what polynomial complexity for the problem of identification in the limit of \emph{deterministic finite automata} ($\DFA$) should be. Pitt proposes that for an identification algorithm to be polynomial it must have polynomial \index{update time}\emph{update time}, and also make a polynomial number of \index{implicit error}\emph{implicit errors} (in the size of the automaton). An implicit error is made when the current hypothesis does not agree with a new example. However, this definition is shown (by Pitt) to be very restrictive, in the sense that no superclasses of regular languages allow polynomial time inference.
+
+Another model of learning has been proposed by Angluin \citep{Angluin1988} where the presentation of the language can be controlled by asking queries to an \index{oracle}\emph{oracle}. There are two types of queries: the \index{query!membership}\emph{membership queries} (a string is proposed to the oracle which returns its correct classification), and \index{query!equivalence}\emph{equivalence queries}, where a representation is proposed to the oracle, which either accepts it as a correct representation of the language to be inferred, or returns a counter-example: a string from the symmetrical difference of the proposed language and the target one. This is known as the \index{MAT}\emph{MAT} model (\index{minimally adequate teacher}\emph{minimally adequate teacher}). With time complexity depending on the size of the automaton to be inferred and the length of the longest counter-example returned by the oracle, Angluin proves that $\DFA$ can be identified in polynomial time with membership queries and equivalence queries. Angluin also proves that both of these queries are necessary: neither membership queries alone, nor equivalence queries alone allow polynomial inference.
+
+Since both of these models show that even $\DFA$ cannot be inferred in polynomial time (unless strong oracles are used), we follow another theoretical framework provided by Gold in \citep{Gold78}: he presented a model for identification from informant, where a sample of labeled strings $(S^+, S^-)$, with $S^+$ a set of positive instances, and $S^-$ a set of negative instances, is presented to the inference algorithm that must return a representation compatible with $(S^+, S^-)$. The further conditions are that for each language there exists a \index{sample!characteristic}\emph{characteristic sample} with which the algorithm returns a correct representation, and this must be monotonous in the sense that if correctly labeled examples are added to the characteristic set, then the algorithm infers the same language. These conditions insure identification, and it is easy to see that a class of representations is identifiable in the limit from given data if and only if it is identifiable in the limit from a complete presentation of examples, provided that we do not consider any efficiency criteria.
+
+Most of the work in grammatical inference has focused on the area of learning regular languages. Now there are several good algorithms to deal with the case of learning from an informant \citep{Cicchello2003}. On the other hand, moving up the Chomsky hierarchy gives rise to some difficult problems. Characteristic samples (needed for identification) may not be of polynomial size, and although context-free grammars can be identified, in the framework of active learning, from a minimum adequate teacher \citep{Angluin1987}, the equivalence queries for context-free grammars are not computable. In \citep{Clark2010} Alexander Clark emphasizes the importance of learnability of the representation classes of formal languages. He proposes that one way to build learnable representations is by making them \emph{objective} or \emph{empiricist}: the structure of the representation should be based on the structure of the language. He illustrates this approach with three classes corresponding to the lowest three levels of the Chomsky hierarchy. All these classes are efficiently learnable under suitable learning paradigms. In defining these representation classes the author follows a simple slogan: ``Put learnability first!'' It means that we should design representations from the ground to be learnable. Rather than defining a representation, and then defining a function from the representation to the language, we should start by defining the map from the language to the representation. The basic elements of such formalism, whether they are states in an automaton, or non-terminals in a phrase-structure grammar, must have a clear definition in terms of sets of strings. In the conclusive remarks the author suggests that the  representations, which are both efficiently learnable and capable of representing mildly context-sensitive languages seem to be good candidates for models of human linguistic competence.
+
+Another promising alternative to tackle the learning barriers is to consider models which do not use auxiliary elements at all. Typical representatives of this category are \emph{contextual grammars} in \citep{M69}, \emph{pure context-free grammars} in \citep{maurer1980pure}, and \emph{locally testable languages} in \citep{MR74,Zal72}. In this section, we use \emph{context rewriting systems} ($\CRS$) without auxiliary symbols as our model. Our approach is reminiscent of the \emph{delimited string-rewriting systems} ($\DSRS$) introduced in \citep{Eyraud2007}, and described in Section \ref{section:delimited-string-rewriting-systems}. The main difference between delimited string-rewriting systems and context rewriting systems is that delimited string-rewriting systems use a specific order relation over the set of all terms and rules in order to make always only one single rule eligible for application for any given input string. Context rewriting systems, on the other hand, are nondeterministic. To test whether a word $w$ belongs to the language $L(M)$ accepted by a given $\CRS$ $M$, one has to check whether $w$ can be reduced to the empty word $\lambda$ by a sequence of applications of the instructions of $M$. If we assume that the instructions are length-reducing, then every such sequence has at most $|w|$ steps. But as there could be several instructions that are applicable to the same word, or there could be several places at which a given instruction can be applied, all such sequences must be checked. It would be much better if we could assume that each and every sequence of applications of instructions of $M$ reduces $w$ to $\lambda$, if $w \in L(M)$. In this case we could restrict ourselves only to leftmost sequences of reductions, and accordingly, membership in $L(M)$ would be decidable deterministically in time $O(|w|)$. We call such context rewriting systems \emph{$\lambda$-confluent} and show that the proposed learning algorithm can be used to identify $\lambda$-confluent context rewriting system in the limit from informant. Although $\lambda$-confluence can be useful in practical applications, in \citep{OM15} it has been shown that $\lambda$-confluence is not even recursively enumerable for very restricted context rewriting systems. Nevertheless, we will show that the proposed learning algorithm works in the limit even if we do not check the $\lambda$-confluence of the inferred model. The proposed inference algorithm works with various types of restricted context-rewriting systems. For instance, we use clearing restarting automata to prove some lower bounds on the complexity of learning.
+
+The main source for this chapter is \citep{C12, C13, C15tech}. It has the following structure. In Section \ref{section:learning} we discuss the paradigm of polynomial identification, as defined in \citep{Gold78, delaHiguera1997}, and also a slightly relaxed learning paradigm that we actually use. Subsequently, in Sections \ref{section:algorithm}, \ref{section:restricted-learning}, and \ref{section:unrestricted-learning} we describe the learning algorithm built on our relaxed learning paradigm.
+
+\section{Learning}\label{section:learning}
+
+We now turn to our learning problem. We follow the approach used in \citep{Eyraud2007}.
+
+\begin{definition}[\citep{Eyraud2007}]\label{definition:identification1}
+Let $\calLL$ be a class of languages represented by some class $\calM$ of models.
+\begin{enumerate}
+\item A \index{sample}\emph{sample} $S$ for a language $L \in \calLL$ is a pair $(S^+, S^-)$ of two finite sets $S^+, S^- \subseteq \Sigma^*$ such that if $w \in S^+$ then $w \in L$ and if $w \in S^-$ then $w \notin L$. The \emph{size} of $S$, denoted as $\size(S)$, is the sum of the lengths of all the strings in $S^+$, $S^-$. Formally, $\size(S) = \size(S^+) + \size(S^-)$, where $\size(T) = \sum_{w \in T} |w|$.
+
+\item An \index{learning algorithm}$(\calLL, \calM)$-learning algorithm $\calA$ is a program that takes as input a sample and outputs a representation from $\calM$. The \emph{size} of a model $M \in \calM$, denoted as $\size(M)$, can be defined as a measure proportional to the number of bits that we need in order to represent the model $M$.
+\end{enumerate}
+\end{definition}
+
+We use the paradigm of \index{polynomial identification}\emph{polynomial identification}, as defined in \citep{Gold78, delaHiguera1997}. In this paradigm we require that the learning algorithm has a running time polynomial in the size of the data from which it has to learn from. Next we want the algorithm to converge in some way to a chosen target, ideally after having seen a polynomial number of examples only. As this constraint is usually too hard, we want the convergence to take place in the limit, i.\,e., after having seen a finite number of examples. The polynomial aspects are then taken into account by using the size of a minimal \emph{characteristic sample}, whose presence should ensure identification.
+
+\begin{definition}[Polynomial Identification \citep{delaHiguera1997}]\label{definition:identification2}
+A class $\calLL$ of languages is \index{polynomial identification}\emph{identifiable in polynomial time and data from \index{informant}informat} for a class $\calM$ of models if and only if there exists a $(\calLL, \calM)$-learning algorithm $\calA$ and two polynomials $\alpha(\cdot)$ and $\beta(\cdot)$ such that:
+\begin{enumerate}
+\item\label{polynomial1} Given a sample $S = (S^+, S^-)$ for $L \in \calLL$ of size $m$, $\calA$ returns a model (hypothesis) $M \in \calM$ in $O(\alpha(m))$ time and $M$ is \emph{consistent with} $S$, i.\,e.\ $S^+ \subseteq L(M)$ and $S^- \cap L(M) = \emptyset$.
+
+\item\label{polynomial2} For each model $M \in \calM$ representing the language $L \in \calLL$, there exists a finite \index{sample!characteristic}\emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ of size at most $O(\beta(\size(M)))$ and a model $N \in \calM$: $L(N) = L(M)$, such that, on all samples $S = (S^+, S^-)$ for $L$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, $\calA$ returns the model $N$.
+\end{enumerate}
+\end{definition}
+
+Unfortunately, Definition \ref{definition:identification2} is too strict for our purposes. We need to relax this definition in two ways. First, we need to drop the requirement on the size of the characteristic sample, since in some cases the characteristic sample can be exponentially large. Second, we need to relax the condition $\calLL = \calL{\calM}$ to $\calLL \subseteq \calL{\calM}$. In other words, our class of models $\calM$ will be more expressive than the class of languages $\calLL$ that we want to infer. This is a reasonable relaxation in the setting of inferring $\lambda$-confluent models, since we are not able to effectively represent the class of $\lambda$-confluent models (recall that $\lambda$-confluence is, in most cases, not even recursively enumerable).
+
+\begin{definition}[Relaxed Polynomial Identification]\label{definition:identification3}
+\index{polynomial identification!relaxed}
+Let $\calLL$ be a class of languages that is representable by some class $\calM$ of models, i.\,e.\  $\calLL \subseteq \calL{\calM}$. A class $\calLL$ of languages is \emph{identifiable in polynomial time (but not data) from informant} for a class $\calM$ of models if and only if there exists a $(\calLL, \calM)$-learning algorithm $\calA$ and a polynomial $\alpha(\cdot)$ such that:
+\begin{enumerate}
+\item\label{relaxed-polynomial1} Given a sample $S = (S^+, S^-)$ for $L \in \calLL$ of size $m$, $\calA$ returns a model (hypothesis) $M \in \calM$ in $O(\alpha(m))$ time and $M$ is \emph{consistent with} $S$, i.\,e.\ $S^+ \subseteq L(M)$ and $S^- \cap L(M) = \emptyset$.
+
+\item\label{relaxed-polynomial2} For each model $M \in \calM$ representing the language $L \in \calLL$, there exists a finite \emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ and a model $N \in \calM$: $L(N) = L(M)$, such that, on all samples $S = (S^+, S^-)$ for $L$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, $\calA$ returns the model $N$.
+\end{enumerate}
+\end{definition}
+
+\section{Learning Algorithm}\label{section:algorithm}
+
+In this section we propose a general \index{learning algorithm}\emph{learning algorithm} for inferring various restricted $\lambda$-confluent context rewriting systems in polynomial time (but not data) from \emph{informant} in our relaxed learning paradigm as defined in Definition \ref{definition:identification3}.
+
+In the following, the term \index{model}\emph{model} refers to any context rewriting system $M \in \calM$, where $\calM$ is a fixed class of context rewriting systems restricted according to Definition \ref{definition:restrictions} (our \index{hypothesis space}\emph{hypothesis space}). Our focus will be on the \index{polynomial identification}\emph{polynomial identification} of the class of languages $\calLL = \calL{\lconcalM}$ as defined in Section \ref{section:learning}. Since in most cases we cannot effectively decide $\lambda$-confluence, it is not possible to construct a $(\calLL, \lconcalM)$-learning algorithm. Therefore, we design a $(\calLL, \leftcalM)$-learning algorithm $\calA$ such that both conditions of Definition \ref{definition:identification3} are satisfied. If $\calM$ allows instructions of unrestricted width then the Condition \ref{relaxed-polynomial1} of Definition \ref{definition:identification3} is easily satisfied by returning a model $M = (\Sigma, \Phi)$ with $\Phi = \{ (\cent, w \to \lambda, \$) \mid w \in S^+, w \neq \lambda \}$, when given a sample $S = (S^+, S^-)$. In this case $L(M) = S^+$ and, in addition, $M$ is confluent, and thus also $\lambda$-confluent. Unfortunately, as the language $L(M)$ is always finite, only finite languages can be learned in this way. We need a more sophisticated algorithm that is able to deal also with infinite languages. To this end we first present in Section \ref{section:restricted-learning} an auxiliary inference procedure (Algorithm \ref{algorithm:lambda-learning}) that tries to infer a model consistent with the given sample such that the width of the model is restricted from above by some constant. This restriction is useful because it leads to models that can generalize over the presented sample. Then, in Section \ref{section:unrestricted-learning} we use this auxiliary inference procedure as a component in our final learning algorithm.
+
+There is one additional subtlety involved in our learning schema that we need to discuss -- one of the (optional) input parameters of our learning algorithm is the length of contexts $k$. This parameter, if specified, restricts the hypothesis space $\calM$ to the class $\kcalM$ (see Definition \ref{definition:restrictions} for details). The class  $\kcalM$ allows only instructions where the length of contexts is constrained to be \emph{exactly} $k$ letters long. The only exception is, of course, the case when the contexts contain a sentinel. In that case they can be shorter than $k$ letters. A basic intuition behind constraining the contexts like this is as follows. The \emph{context} $(x, y)$ used in the instruction $\phi = (x, z \to t, y)$ limits the applicability of the \emph{instruction-rule} $z \to t$, so that we can rewrite the word $z$ to $t$ only if $z$ is placed inside the context $(x, y)$. The longer the contexts $x$ and $y$ are the smaller is the ``chance'' that the instruction-rule $z \to t$ will be applied in a ``wrong'' context. The main motivation for constraining the contexts arises from the famous $n$-gram model, which is often used, e.\,g., in \emph{language modeling} or \emph{statistical machine translation} \citep{Jurafsky}. By changing the length of contexts $k$ we can influence the sparsity of the resulting model just as we can influence the sparsity of the $n$-gram model by specifying $n$. If we overestimate the length of contexts $k$, the resulting model may become too sparse and may not generalize well. On the other hand, underestimating $k$ can lead to over-generalization and divergence, as our target language may not be in the class $\calL{\kcalM}$. It can be an interesting research direction to investigate heuristics for choosing the right length of contexts. However, from the perspective of identification in the limit we only need to choose long enough contexts, because it can be easily shown that for any class $\calM$ of context rewriting systems restricted according to Definition \ref{definition:restrictions} the following inclusions hold: $\calL{\kcalM[0]} \subseteq \calL{\kcalM[1]} \subseteq \calL{\kcalM[2]} \subseteq \ldots$. Moreover, if we do not specify the length of contexts $k$, the proposed learning algorithm will figure it out in the limit.
+
+\section{Learning With Restricted Width}\label{section:restricted-learning}
+
+The problem we are interested in here can be best described as follows. Given a sample $S = (S^+, S^-)$ for some language $L \in \calLL$, we would like to find a model (hypothesis) $M \in \klcalM$ consistent with $S$ (i.\,e., $S^+ \subseteq L(M)$ and $S^- \cap L(M) = \emptyset$), where $k$ is the \emph{optional} length of contexts and $l \ge 1$ is the finite prescribed maximal width of instructions. We use the notation $k = \cdot$ if $k$ is not specified, and we assume that $S^+ \cap S^- = \emptyset$ and $\lambda \in S^+$. As $\klcalM$ is a finite class, we could try to enumerate all models $M \in \klcalM$ and return the first model $M$ consistent with $S$. This is, however, a bad idea, as there are, in general, double exponentially many models $M \in \klcalM$ with respect to the width $l$. This follows easily from the fact that there are, in general, exponentially many instructions that have the width bounded from above by $l$ and each model $M \in \klcalM$ can be specified as a subset of these instructions. Since we are interested in polynomial identification as described in Section \ref{section:learning}, we need to use a different approach. The following Algorithm \ref{algorithm:lambda-learning} is an auxiliary inference procedure that will be used as a core component in our learning algorithm.
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Auxiliary inference procedure $\Infer_{\calM}(S, k, l)$}
+\label{algorithm:lambda-learning}
+\index{$\Infer_{\calM}$}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{Sample $S = (S^+, S^-)$ over $\Sigma$,
+$S^+ \cap S^- = \emptyset, \lambda \in S^+$.\\
+Length of contexts $k \ge 0$, or $k = \cdot$, if not specified.\\
+Maximal width of instructions $l \ge 1$.}
+\Output{A model $M \in \klcalM$ possibly not consistent with $S$.}
+$\Phi \leftarrow \Assumptions
+(S^+, k, l)$\label{algorithm:lambda-learning:assumptions}\;
+\While{$\exists w_- \in S^-, w_+ \in S^+, \phi \in \Phi: w_- \vdash^{(\phi)} w_+$\label
+{algorithm:lambda-learning:cycle1-start}}
+{$\Phi \leftarrow \Phi \setminus \{\phi\}$\;\label{algorithm:lambda-learning:cycle1-end}}
+\While{$\exists w_+ \in S^+, w_- \in S^-, \phi \in \Phi: w_+ \vdash^{(\phi)} w_-$\label
+{algorithm:lambda-learning:cycle2-start}}
+{$\Phi \leftarrow \Phi \setminus \{\phi\}$\;\label
+{algorithm:lambda-learning:cycle2-end}}
+\Return{Model $M$ with the set of instructions $\Phi$}\;
+\end{algorithm}
+
+First, in Step \ref{algorithm:lambda-learning:assumptions} the function \index{$\Assumptions$}$\Assumptions(S^+, k, l)$ returns some set of \emph{instruction candidates}. We may assume that every returned instruction $\phi = (x, z \to t, y) \in \Phi$ is a \emph{legal} instruction of the class $\klcalM$ (i.\,e., $\phi$ satisfies all \emph{local} restrictions of the class $\klcalM$). Let us assume, for a moment, that $\Phi$ already contains all instructions of a target $\lambda$-confluent model $H$. Then in Loop \ref{algorithm:lambda-learning:cycle1-start}--\ref{algorithm:lambda-learning:cycle1-end} we gradually remove all instructions that allow a reduction from a negative sample to a positive sample, i.\,e., instructions that violate the \emph{error preserving property} (Lemma \ref{lemma:error-preserving}). In Loop \ref{algorithm:lambda-learning:cycle2-start}--\ref{algorithm:lambda-learning:cycle2-end} we gradually remove all instructions that allow a reduction from a positive sample to a negative sample, i.\,e., instructions that violate the \emph{correctness preserving property} (Lemma \ref{lemma:correctness-preserving}). These filtered instructions are definitely not in the set of instructions of the target $\lambda$-confluent model $H$, therefore their removal will not cause any problem. However, consistency with the given sample $S$ is not guaranteed after Loop \ref{algorithm:lambda-learning:cycle1-start}--\ref{algorithm:lambda-learning:cycle1-end}. Similarly, it is not guaranteed that after Loop \ref{algorithm:lambda-learning:cycle2-start}--\ref{algorithm:lambda-learning:cycle2-end} the resulting model will be $\lambda$-confluent. The success of the above algorithm, therefore, depends both on the initial instruction candidates obtained in Step \ref{algorithm:lambda-learning:assumptions} and on the given sample $S$. Nevertheless, we will show that if we have a ``reasonable'' function $\Assumptions$, then there always exists a finite \emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ corresponding to the target $\lambda$-confluent model $H$.
+
+The time complexity of Algorithm \ref{algorithm:lambda-learning} depends on the time complexity of the function $\Assumptions$ in Step \ref{algorithm:lambda-learning:assumptions}. As we will see below, there exist ``correct'' functions $\Assumptions$ (for any class $\calM$ of $\CRS$ restricted according to Definition \ref{definition:restrictions}) that run in polynomial time. If the function $\Assumptions$ runs in polynomial time, then also the size of the set $\Phi$ is polynomial (with respect to the size of the input) and therefore also Loops \ref{algorithm:lambda-learning:cycle1-start}--\ref{algorithm:lambda-learning:cycle1-end} and \ref{algorithm:lambda-learning:cycle2-start}--\ref{algorithm:lambda-learning:cycle2-end} run in polynomial time.
+
+In the following Definition \ref{definition:assumptions} we define what we mean by the term \emph{correct} function $\Assumptions$.
+
+\begin{definition}[Correct assumptions]\label{definition:assumptions}
+We call the function \index{$\Assumptions$!correct}$\Assumptions$ \emph{correct} with respect to a class $\calM$ of context rewriting systems restricted according to Definition \ref{definition:restrictions}, if:
+\begin{enumerate}
+\item For every set $S^+ \subseteq \Sigma^*$, the set of instructions $\Phi = \Assumptions(S^+, k, l)$ is finite. Additionally, every instruction $\phi = (x, z \to t, y) \in \Phi$ is a \emph{legal} instruction of the class $\klcalM$ (i.\,e., $\phi$ satisfies all local restrictions of the class $\klcalM$).
+\item For every $M = (\Sigma, \Phi) \in \klcalM$  with \emph{minimal set of instructions}, there exists a finite set $S_0^+ \subseteq L(M)$ such that for every $S^+ \supseteq S_0^+: \Phi \subseteq \Assumptions(S^+, k, l)$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Monotone assumptions]\label{definition:monotone-assumptions}
+We call the function \index{$\Assumptions$!monotone}$\Assumptions$ \emph{monotone} if:
+\begin{enumerate}
+\item For every $S_1^+ \subseteq S_2^+ \subseteq \Sigma^*:
+\Assumptions(S_1^+, k, l) \subseteq \Assumptions(S_2^+, k, l)$,
+\item For every $l_1 \le l_2:
+\Assumptions(S^+, k, l_1) \subseteq \Assumptions(S^+, k, l_2)$.
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+The most trivial example of a correct function $\Assumptions$ is to return all possible legal instructions $\phi$ of the class $\klcalM$. The correctness and monotonicity follow easily. However, the number of returned instructions is, in general, exponentially large with respect to $l$, therefore such function would be of little interest in real applications.
+\end{example}
+
+\begin{example}\label{example:assumptions}
+In this example we define two very natural examples of \emph{monotone} functions $\Assumptions$ that are correct with respect to any particular class $\calM$ of context rewriting systems restricted according to Definition \ref{definition:restrictions}.
+
+\begin{enumerate}
+\item \index{$\Assumptions$!$\WeakAssumptions$}$\WeakAssumptions_{\calM}(S^+, k, l) := \{ \phi = (x, z \to t, y) \mid \phi $ is a legal instruction of the class $\klcalM$ and $\exists w_1, w_2 \in S^+: xzy$ is a subword of $\cent w_1 \$$ and $xty$ is a subword of $\cent w_2 \$ \}$.
+
+The basic intuition behind this function is the assumption that if both patterns $xzy$ and $xty$ occur in the set of positive samples as subwords, then it is justified to replace the word $z$ with $t$ in the context $(x, y)$. Note that if $k$ is specified then the more we increase the length of contexts $k$ the smaller (or equal) the number of such patterns we will find in the set of positive samples. The contexts serve here as a \emph{safety cushion} against the inference of incorrect instructions.
+
+\item \index{$\Assumptions$!$\StrongAssumptions$}$\StrongAssumptions_{\calM}(S^+, k, l) := \{ \phi = (x, z \to t, y) \mid \phi $ is a legal instruction of the class $\klcalM$ and $\exists w_1, w_2 \in S^+: w_1 \vdash^{(\phi)} w_2\}$.
+
+This condition is even more restrictive than the previous one.
+It basically says that the instruction $\phi = (x, z \to t, y)$ is justified only in the
+case when there are positive samples $w_1, w_2 \in S^+$ such that we can obtain $w_2$
+from $w_1$ by using this instruction.
+\end{enumerate}
+\end{example}
+Note that $\WeakAssumptions$ and $\StrongAssumptions$ are analogous to respectively \emph{$k, l$ substitutability} used in \citep{Yoshinaka2008} and \emph{$k, l$ local substitutability} introduced in \citep{Coste2012}.
+
+\begin{lemma}
+Both functions $\Assumptions$ from Example \ref{example:assumptions} are \emph{monotone} and \emph{correct} with respect to any fixed class $\calM$ of context rewriting systems restricted according to Definition \ref{definition:restrictions}.
+\end{lemma}
+
+\begin{proof}
+Both functions from Example \ref{example:assumptions} are monotone and, in addition, for every set $S^+ \subseteq \Sigma^*$: $\StrongAssumptions_{\calM}(S^+,k,l) \subseteq \WeakAssumptions_{\calM}(S^+,k,l)$. Therefore, we only need to prove the correctness for the more restrictive function $\StrongAssumptions_{\calM}$. The correctness of the function $\WeakAssumptions_{\calM}$ will follow immediately. Let $M = (\Sigma, \Phi)$ be any $\CRS$ from $\klcalM$ with minimal set of instructions. The minimality of $M$ implies that for every instruction $\phi \in \Phi$ there exists a word $w_{\phi} \in L(M)$ such that the instruction $\phi$ is used in every accepting computation $w_{\phi} \vdash_M^* \lambda$ (otherwise we could remove the instruction $\phi$ from $M$.) Without loss of generality we may assume that the instruction $\phi$ must be used in the very first step of every accepting computation $w_{\phi} \vdash_M^* \lambda$. (This does not mean that $\phi$ is the only applicable instruction. There may also be some other instructions applicable to $w_{\phi}$, but they will definitely not lead to any accepting computation.) Let us fix, for every $\phi \in \Phi$, some accepting computation $w_{\phi} \vdash^{(\phi)} w_{\phi}' \vdash_M^* \lambda$. Now define $S_0^+ := \bigcup_{\phi \in \Phi} \{ w_{\phi}, w_{\phi}' \}$. Apparently $S_0^+ \subseteq L(M)$. Moreover, $\Phi \subseteq \StrongAssumptions_{\calM}(S_0^+, k, l)$. The correctness follows easily from the monotonicity of the function $\StrongAssumptions_{\calM}$.
+\end{proof}
+
+Algorithm \ref{algorithm:assumptions_weak} (Algorithm \ref{algorithm:assumptions_strong}, respectively) shows a possible implementation of the function $\WeakAssumptions_{\calM}$ ($\StrongAssumptions_{\calM}$, respectively). Both of these algorithms have polynomial time complexity with respect to size of the input $S^+$, because there are at most quadratically many subwords in the set of positive samples (with respect to the $\size(S^+)$). In both of these algorithms we use the variable $\mathsf{Map}$ as a dictionary-like data structure (e.\,g., hash table).
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Implementation of $\WeakAssumptions_{\calM}(S^+, k, l)$}
+\label{algorithm:assumptions_weak}
+\index{$\Assumptions$!$\WeakAssumptions$}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{Set of positive samples $S^+$ over $\Sigma$, $\lambda \in S^+$.\\
+Length of contexts $k \ge 0$, or $k = \cdot$, if not specified.\\
+Maximal width of instructions $l \ge 1$.}
+\Output{A set of legal instructions $\Phi$ of the class $\klcalM$.}
+$\Phi \leftarrow \emptyset$\;
+$Map \leftarrow \emptyset$\;
+\ForEach{$w_+ \in S^+$ {\bf and each}
+$\alpha xzy \beta = \cent w_+ \$$ such that
+$x \in LC_k$, $y \in RC_k$, $|xzy| \le l$\label
+{algorithm:assumptions_weak:cycle1}}
+{
+$Map[(x, y)] \leftarrow Map[(x, y)] \cup \{z\}$\;
+}
+\ForEach{$x, y, z, t$, such that $z \neq t$ and
+$z, t \in Map[(x,y)]$\label
+{algorithm:assumptions_cl1:cycle2}}
+{
+\If{$\phi = (x, z \to t, y)$ is a legal instruction of $\klcalM$}
+{$\Phi \leftarrow \Phi \cup \{ (x, z \to t, y) \}$\;}
+}
+\Return{$\Phi$}\;
+\end{algorithm}
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Implementation of $\StrongAssumptions_{\calM}(S^+, k, l)$}
+\label{algorithm:assumptions_strong}
+\index{$\Assumptions$!$\StrongAssumptions$}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{Set of positive samples $S^+$ over $\Sigma$, $\lambda \in S^+$.\\
+Length of contexts $k \ge 0$, or $k = \cdot$, if not specified.\\
+Maximal width of instructions $l \ge 1$.}
+\Output{A set of legal instructions $\Phi$ of the class $\klcalM$.}
+$\Phi \leftarrow \emptyset$\;
+$Map \leftarrow \emptyset$\;
+\ForEach{$w_+ \in S^+$ {\bf and each}
+$\alpha xty \beta = \cent w_+ \$$ such that
+$x \in LC_k$, $y \in RC_k$, $|xty| \le l$\label
+{algorithm:assumptions_strong:cycle1}}
+{
+$Map[(x, y)] \leftarrow Map[(x, y)] \cup \{t\}$\;
+}
+$DS^+ \leftarrow \cent \cdot S^+ \cdot \$ = \{ \cent w_+ \$ \mid w_+ \in S^+ \}$\;
+\ForEach{$w_+ \in S^+$ {\bf and each}
+$\alpha xzy \beta = \cent w_+ \$$ such that
+$x \in LC_k$, $y \in RC_k$, $|xzy| \le l$\label
+{algorithm:assumptions_strong:cycle2}}
+{
+\ForEach{$t \in Map[(x, y)], t \neq z$}
+{
+\If{$\phi = (x, z \to t, y)$ is a legal instruction of $\klcalM$ {\bf and}
+ $\alpha xty \beta \in DS^+$}
+{$\Phi \leftarrow \Phi \cup \{ (x, z \to t, y) \}$\;}
+}
+}
+\Return{$\Phi$}\;
+\end{algorithm}
+
+In the following Example \ref{example:inference} we illustrate how Algorithm \ref{algorithm:lambda-learning} behaves when used on clearing restarting automata as the underlying class of models. We use the parameters $k = 1$ and $l = 6$.
+
+\begin{example}[\citep{C12}]\label{example:inference}
+Consider the class of clearing restarting automata ($\clRA$) and the function $ \WeakAssumptions_{\clRA}$ (from Example \ref{example:assumptions}). Imagine that our goal is to infer a model for the language $L = \{ a^n b^n \mid n \ge 0 \}$. Let us try $S^+ = \{\lambda, ab, aabb\}$. First, we would like to estimate the set $\Phi = \WeakAssumptions_{\clRA}(S^+, l, k)$  for $k = 1$ and $l = 6$. The set of all subwords of the delimited positive samples $\cent S^+ \$$ is:
+$SW^+ = \{\lambda$, $\cent$, $a$, $b$, $\$$,
+$\cent \$$, $\cent a$, $aa$, $ab$, $bb$, $b \$$,
+$\cent aa$, $\cent ab$, $aab$, $abb$, $ab \$$, $bb \$$,
+$\cent ab \$$, $\cent aab$, $aabb$, $abb \$$,
+$\cent aabb$, $aabb \$$, $\cent aabb \$ \}.$
+An instruction $(x, z, y)$, where $x \in LC_1 = \{a, b, \cent\}$,
+$y \in RC_1 = \{a, b, \$\}$, $|z| > 0$ and $|xzy| \le l$, is justified, according to the definition of $\WeakAssumptions_{\clRA}$, if and only if both $xzy, xy \in SW^+$. Thus, only the following reductions are justified:
+$\cent \underline{a} a \vdash \cent a$,
+$a \underline{a} b \vdash ab$,
+$a \underline{b} b \vdash ab$,
+$b \underline{b} \$ \vdash b\$$,
+$\cent \underline{ab} \$ \vdash \cent \$$,
+$a \underline{ab} b \vdash ab$,
+$\cent \underline{aabb} \$ \vdash \cent \$$.
+Therefore, $\WeakAssumptions_{\clRA}(S^+, l, k) = $
+$\{(\cent, \underline{a}, a)$,
+$(a, \underline{a}, b)$,
+$(a, \underline{b}, b)$,
+$(b, \underline{b}, \$)$,
+$(\cent, \underline{ab}, \$)$,
+$(a, \underline{ab}, b)$,
+$(\cent, \underline{aabb}, \$) \}$.
+Apparently, each of the following instructions can reduce a word in the language $L$ to a word outside the language $L$:
+$(\cent, \underline{a}, a)$,
+$(a, \underline{a}, b)$,
+$(a, \underline{b}, b)$,
+$(b, \underline{b}, \$)$.
+We can remove them easily by taking $S^- = \{ aab, abb \}$. We do not need to add anything else to $S^+$. The inference procedure (Algorithm \ref{algorithm:lambda-learning}) $\Infer_{\clRA}((S^+, S^-), l, k)$ will correctly output the model $N = (\{a, b\}, $
+$\{(\cent, \underline{ab}, \$)$,
+$(a, \underline{ab}, b) $,
+$(\cent, \underline{aabb}, \$) \})$.
+\end{example}
+
+In the following Theorem \ref{theorem:lambda-inference} we state our first positive result concerning the grammatical inference of restricted $\lambda$-confluent context rewriting systems.
+
+\begin{theorem}\label{theorem:lambda-inference}
+Let $\calM$ be a class of context rewriting systems restricted according to Definition \ref{definition:restrictions} and let function $\Assumptions$ be monotone and correct with respect to $\calM$. Then, for every $\lambda$-confluent model $M \in \klcalM$ there exists a finite \emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ and a $\lambda$-confluent model $N \in \klcalM$ equivalent to $M$ such that, on all samples $S = (S^+, S^-)$ for $L(M)$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, Algorithm \ref{algorithm:lambda-learning} $\Infer_{\calM}(S, k, l)$ returns $N$.
+\end{theorem}
+
+\begin{proof}
+Let $M = (\Sigma, \Phi) \in \klcalM$. Without loss of generality we may assume that $M$ has a minimal set of instructions. According to Definition \ref{definition:assumptions}, there exists an $S_0^+ \subseteq L(M)$ such that for every $S^+ \supseteq S_0^+: \Phi \subseteq \Assumptions(S^+, k, l)$. Let us initialize the set of negative samples $S_0^-$ to the empty set. Let $\Theta$ denote the set of \emph{all legal instructions} $\phi = (x, z \to t, y)$ of the class $\klcalM$. (There are only finitely many such instructions, as $|\phi| \le l$.) We say that the instruction $\phi \in \Theta$ is \emph{bad} if there exist $w_- \notin L(M), w_+ \in L(M): (w_- \vdash^{(\phi)} w_+) \vee (w_+ \vdash^{(\phi)} w_-)$ and call the pair of words $(w_-, w_+)$ the \emph{witness} for the bad instruction $\phi$. We say that the instruction $\phi$ is \emph{disabled} by $(S_0^+, S_0^-)$ if there exist $w_- \in S_0^-, w_+ \in S_0^+: (w_- \vdash^{(\phi)} w_+) \vee (w_+ \vdash^{(\phi)} w_-)$. Now consider the following Algorithm \ref{algorithm:samples_extension}:
+
+\begin{algorithm}\label{algorithm:extend}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Extension of Sample $S_0 = (S_0^+, S_0^-)$}
+\label{algorithm:samples_extension}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{Sample $S_0 = (S_0^+, S_0^-)$.}
+\Output{Extended sample $S_0 = (S_0^+, S_0^-)$.}
+%$S_0^- \leftarrow \emptyset$\;
+\While{$\exists $ \emph{bad} instruction $ \phi \in \Theta $ such that $ \phi $ is not \emph{disabled} by $ (S_0^+, S_0^-)$\label{algorithm:extend:cycle}}
+{
+Let $w_- \notin L(M), w_+ \in L(M)$ be a \emph{witness} for $\phi$\;
+$S_0^+ \leftarrow S_0^+ \cup \{ w_+ \}$\;
+$S_0^- \leftarrow S_0^- \cup \{ w_- \}$\;
+}
+\end{algorithm}
+
+Every added pair $w_+, w_-$ effectively disables at least one instruction from $\Theta$, so the whole procedure is definitely finite. Now consider any finite set of positive samples $S^+ \supseteq S_0^+$ and any finite set of negative samples $S^- \supseteq S_0^-$ consistent with $M$. If we run the learning Algorithm \ref{algorithm:lambda-learning} $\Infer_{\calM}(S^+, S^-, k, l)$, then in Step \ref{algorithm:lambda-learning:assumptions} we obtain some set of instructions including all instructions from $\Phi$. (This is guaranteed by the correctness of the function $\Assumptions$.) Note that no instruction from $\Phi$ is bad. In Loop \ref{algorithm:lambda-learning:cycle1-start}--\ref{algorithm:lambda-learning:cycle1-end} and Loop \ref{algorithm:lambda-learning:cycle2-start}--\ref{algorithm:lambda-learning:cycle2-end} Algorithm \ref{algorithm:lambda-learning} gradually removes all bad instructions. (This is because the sets $S_0^+$ and $S_0^-$ are constructed in such a way, that all bad instructions are disabled by $(S_0^+, S_0^-)$.) After these loops we are left only with correct instructions from $\Theta \supseteq \Phi$, so the resulting model is apparently equivalent to the model $M$. The resulting model is also $\lambda$-confluent. This is because if we take any $w \in L(M)$, then for every instruction $\phi$ of the resulting model and for every $w'$ such that $w \vdash^{(\phi)} w'$ we have $w' \in L(M)$. Otherwise the instruction $\phi$ would be bad. This means that the resulting model is \emph{correctness-preserving}, and therefore also $\lambda$-confluent. We may also assume that for all positive samples $S^+ \supseteq S_0^+$: $\Assumptions(S^+, k, l) = \Assumptions(S_0^+, k, l)$. This is because the function $\Assumptions$ is monotone and for all positive samples $S^+: \Assumptions(S^+, k, l) \subseteq \Theta$, where $\Theta$ is a finite set. This will guarantee us that the learning algorithm $\Infer_{\calM}(S^+, S^-, k, l)$ will return the same $\lambda$-confluent model for all samples $S = (S^+, S^-)$ for $L(M)$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$.
+\end{proof}
+
+\begin{example}[\citep{C12}]
+Consider the class of clearing restarting automata ($\clRA$) and the function $\WeakAssumptions_{\clRA}$ as in Example \ref{example:inference}. If we use $M = (\{a, b\}, \{(\cent, \underline{ab}, \$), (a, \underline{ab}, b) \})$ as our target model recognizing the language $L(M) = \{a^n b^n \mid n \ge 0 \}$ and the parameters $k = 1$, $l = 6$, then it can be shown that the following sets of positive and negative samples: $S_0^+ = \{ a^n b^n \mid 0 \le n \le 6 \}$ and $S_0^- = \{ aab$, $abb$, $aaab$, $abbb$, $aaaab$, $aaabb$, $aabbb$, $abbbb$, $aaaaab$, $aaaabb$, $aabbbb$, $abbbbb$, $aaaaabb$, $aabbbbb$, $aaaaaabb$, $aabbbbbb \}$ represent the corresponding characteristic sample from Theorem \ref{theorem:lambda-inference}.
+\end{example}
+
+Theorem \ref{theorem:lambda-inference} only guarantees the existence of the characteristic sample $S_0 = (S_0^+, S_0^-)$. It does not provide any bounds on the size of the sample $S_0$. The size of the resulting characteristic sample $S_0$ depends not only on the target $\lambda$-confluent model $M \in \klcalM$, but also on the used function $\Assumptions$. In the following Example \ref{example:signals} we will see that, in general, the size of the smallest characteristic sample $S_0 = (S_0^+, S_0^-)$ can be exponentially large with respect to the size of the target model. We use clearing restarting automata and the function $\StrongAssumptions$ (from Example \ref{example:assumptions}) to prove this fact.
+
+\begin{example}\label{example:signals}
+In this example we construct a sequence of confluent $2$-clearing restarting automata: $M_0 = (\Sigma_0, \Phi_0), M_1 = (\Sigma_1, \Phi_1), \ldots$, such that for all $i \in \{0, 1, 2, \ldots\}: \Sigma_i = \{a_0, a_1, \ldots, a_i\}$, and $\Phi_i \subseteq \Phi_{i+1}$. We prove that for each $i \in \{0, 1, 2, \ldots\}$ the size of the automaton $M_i$ is polynomial with respect to $i$, and that there exists an instruction $\phi_i \in \Phi_i$ such that the smallest word $w_i \in L(M_i)$, for which the instruction $\phi_i$ is applicable, has an exponential  length with respect to $i$, and thus also with respect to the size of the automaton $M_i$. In constructing these automata we use a technique of sending signals from one  sentinel to the other (and vice versa), which was widely applied in \citep{CM10}.
+
+The automaton $M_0 = (\Sigma_0, \Phi_0)$ accepts only one word: $a_0 a_0 a_0 a_0$, where $\Sigma_0 = \{ a_0 \}$ and $\Phi_0$ contains only one instruction $(\cent, a_0 a_0 a_0 a_0, \$)$.
+
+The best way, how to describe other automata in the sequence is to show how they work in the reverse direction (i.\,e.\ how they generate words starting from the empty word by using the inverse of the rewriting relation $\dashv$ defined as $\vdash^{-1}$). The automaton $M_1$ just sends a signal $a_1$ from the left sentinel $\cent$ to the right sentinel $\$$ starting from the word $a_0 a_0 a_0 a_0$, as follows:
+\\
+
+\indent $\cent \lambda \$ \dashv \cent \underline{a_0 a_0 a_0 a_0} \$ \dashv
+\cent \underline{\mathbf{a_1}} a_0 a_0 a_0 a_0 \$ \dashv
+\cent \mathbf{a_1} a_0 \underline{\mathbf{a_1}} a_0 a_0 a_0 \$ \dashv
+\cent \mathbf{a_1} a_0 \mathbf{a_1} a_0 \underline{\mathbf{a_1}} a_0 a_0 \$ \dashv $\\
+\indent $\cent \mathbf{a_1} a_0 \mathbf{a_1} a_0 \mathbf{a_1} a_0
+\underline{\mathbf{a_1}} a_0 \$ \dashv
+\cent \mathbf{a_1} a_0 \mathbf{a_1} a_0 \mathbf{a_1} a_0 \mathbf{a_1} a_0
+\underline{\mathbf{a_1}} \$$.
+\\
+
+This can be achieved by the following set of instructions: $\Phi_1 = \{ (\cent, a_0 a_0 a_0 a_0, \$)$, $(\cent, \underline{a_1}, a_0 a_0)$, $(a_1 a_0, \underline{a_1}, a_0 a_0)$, $(a_1 a_0, \underline{a_1}, a_0 \$)$, $(a_1 a_0, \underline{a_1}, \$) \}$. It can be easily verified that the only words accepted by the automaton $M_1$ are the words shown in the above accepting computation. This is because if we proceed in the reverse direction, starting from the empty word, then we basically cannot get anything else than what we have in the above computation. This property also holds for all subsequent automata in the sequence.
+
+The automaton $M_2 = (\Sigma_2, \Phi_2)$ is similar to $M_1$, except that this time it will send a signal $a_2$ from the right sentinel $\$$ to the left sentinel $\cent$. The reason why we want to send a signal in a reverse direction is that we want to preserve the nice property of having only one possible accepting computation. The automaton $M_2$ works as follows (it starts exactly where the previous automaton $M_1$ has ended):
+\\
+
+\indent $\cent a_1 a_0 a_1 a_0 a_1 a_0 a_1 a_0 a_1 \$ \dashv
+\cent a_1 a_0 a_1 a_0 a_1 a_0 a_1 a_0 a_1 \underline{\mathbf{a_2}} \$ \dashv$\\
+\indent $\cent a_1 a_0 a_1 a_0 a_1 a_0 a_1 a_0
+\underline{\mathbf{a_2}} a_1 \mathbf{a_2} \$ \dashv
+\cent a_1 a_0 a_1 a_0 a_1 a_0 a_1
+\underline{\mathbf{a_2}} a_0 \mathbf{a_2} a_1 \mathbf{a_2} \$ \dashv$\\
+\indent $\cent a_1 a_0 a_1 a_0 a_1 a_0
+\underline{\mathbf{a_2}} a_1 \mathbf{a_2} a_0 \mathbf{a_2} a_1 \mathbf{a_2} \$ \dashv
+\cent a_1 a_0 a_1 a_0 a_1 \underline{\mathbf{a_2}} a_0 \mathbf{a_2} a_1
+\mathbf{a_2} a_0 \mathbf{a_2} a_1 \mathbf{a_2} \$ \dashv$\\
+\indent $\ldots$\\
+\indent $\cent \mathbf{a_2} a_1 \mathbf{a_2} a_0 \mathbf{a_2} a_1
+\mathbf{a_2} a_0 \mathbf{a_2} a_1 \mathbf{a_2} a_0 \mathbf{a_2} a_1
+\mathbf{a_2} a_0 \mathbf{a_2} a_1 \mathbf{a_2} \$$
+\\
+
+To enable this kind of computation we only need to add the following instructions: $(\circ \circ, \underline{a_2}, \$)$, $(\circ \circ, \underline{a_2}, \circ a_2)$, $(\cent \circ, \underline{a_2}, \circ a_2)$, and $(\cent, \underline{a_2}, \circ a_2)$, where $\circ$ is a placeholder for any of the symbols from $\{ a_0, a_1 \}$. (Of course, different occurrences of the placeholder $\circ$ can be substituted by  different symbols.) As in the previous case, we have only one possible computation.
+
+Now we can generalize the above construction also to other automata in the sequence. The automaton $M_i$, for $i > 0$, is obtained from the automaton $M_{i-1}$ as follows:
+\begin{enumerate}
+\item If $i$ is odd then the automaton $M_i$ will send a signal from the left sentinel $\cent$ to the right sentinel $\$$, thus, in order to obtain $\Phi_i$, we only need to add  the following instructions to $\Phi_{i-1}$: $(\cent, \underline{a_i}, \circ \circ)$, $(a_i \circ, \underline{a_i}, \circ \circ)$, $(a_i \circ, \underline{a_i}, \circ \$)$, and $(a_i \circ, \underline{a_i}, \$)$, where $\circ$ is a placeholder for any symbol from $\{ a_0, a_1, \ldots, a_{i-1} \}$.
+
+\item If $i$ is even then the automaton $M_i$ will send a signal from the right sentinel $\$$ to the left sentinel $\cent$, thus, in order to obtain $\Phi_i$, we only need to add  the following instructions to $\Phi_{i-1}$: $(\circ \circ, \underline{a_i}, \$)$, $(\circ \circ, \underline{a_i}, \circ a_i)$, $(\cent \circ, \underline{a_i}, \circ a_i)$, and $(\cent, \underline{a_i}, \circ a_i)$, where $\circ$ is a placeholder for any symbol from $\{ a_0, a_1, \ldots, a_{i-1} \}$.
+\end{enumerate}
+
+First observe that the size of the automaton $M_i$ is polynomial with respect to $i$. This can be easily proved inductively by using a simple observation that we add only $O(i^3)$ new instructions to $\Phi_{i-1}$ when constructing $\Phi_i$.
+
+Now consider any $i > 0$. If $i$ is even then let us take the instruction $\phi_i = (\cent, \underline{a_i}, a_{i-1} a_{i-2})$. This instruction can be applied only after the previous signal $a_{i-1}$ has arrived to the left sentinel $\cent$. In other words, it can be applied only to the longest word in $L(M_{i-1})$. However, the length of the longest word in $L(M_j)$ is exponential with respect to $j$, for all $j \ge 0$, because every time the signal traverses from one end to the other, the length of the resulting word more than doubles.
+
+In the case when $i$ is odd we can take the instruction $\phi_i = (a_{i-2} a_{i-1}, \underline{a_i}, \$)$, which can be applied only after the previous signal $a_{i-1}$ has arrived to the right sentinel $\$$.
+
+Additionally, every $M_i$ is confluent, as there is always only one accepting computation.
+\end{example}
+
+The above example clearly shows that sometimes we need to consider an exponentially large set (i.\,e.\ a set that has an exponentially large binary representation) of positive samples $S^+$ in order to obtain all instructions of the target model. The argument is based on the use of the function $\StrongAssumptions$ (from Example \ref{example:assumptions}) combined with the class of confluent clearing restarting automata. This naturally gives rise to an open question, whether this phenomenon also applies to other functions and other classes of restricted context rewriting systems.
+
+As you can see, our auxiliary inference procedure (Algorithm \ref{algorithm:lambda-learning}) is relatively simple and straightforward, and, in addition, it sometimes fails to return a consistent model with the given input sample. This naturally leads to the question of whether one can design a more sophisticated algorithm that can, for instance, always return a model with the restricted maximal width that is consistent with the given set of positive and negative samples. It turns out that there is little hope in finding such algorithm, because the task of finding a clearing restarting automaton consistent with a given set of positive and negative samples is $\classNP$-hard, provided there is an upper bound on the width of its instructions.
+
+\begin{theorem}[\citep{C12}]\label{theorem:0clrainference}
+Let $l \ge 2$ be a fixed integer. It is $\classNP$-complete to decide whether there exists a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with a given sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$.
+\end{theorem}
+
+\begin{proof}
+Consider a $3$-$\SAT$ formula $\psi = \bigwedge_{i=1}^n C_i$, where clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$, and $\ell_{i,1}$, $\ell_{i,2}$,  $\ell_{i,3}$ are literals having pairwise different variables, for all  $i = 1, 2, \ldots, n$. Let $\Omega = \{a_1, a_2, \ldots, a_m\}$ be the set of all variables occurring in $\psi$. In the following, we will (effectively) construct a finite set of positive samples $S^+$ and a finite set of negative samples $S^-$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$, such that the following holds: the formula $\psi$ is satisfiable if and only if there exists a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with $S^+$ and $S^-$.
+
+Our alphabet will be $\Sigma = \Omega \cup \overline{\Omega}$, where $\overline{\Omega} = \{ \overline{a_i} \mid a_i \in \Omega \}$, and $\Omega \cap \overline{\Omega} = \emptyset$. First set $S^+ := \{ \lambda \}, S^- := \emptyset$. For each clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$ add the negative sample $w_{C_i}^- = \overline{\ell_{i,1}}\ \overline{\ell_{i,2}}\ \overline{\ell_{i,3}}$ to the set of negative samples $S^-$. (We define $\overline{\overline{a}} = a$ for all $a \in \Omega$). For each variable $a \in \Omega$ add the following positive samples: $w_0^+ = (a \overline{a})^l$, $w_1^+ = a^l$, $w_2^+ = \overline{a}^l$ to the set of positive samples $S^+$. And at last, for each $a \in \Omega$ add all words $w \in \{a, \overline{a}\}^{\le l}$, such that $|w|_a \ge 1$ and $|w|_{\overline{a}} \ge 1$, to the set of negative samples $S^-$. Note that, for fixed $l$, there is only finite number of such words for every $a \in \Sigma$. Thus the size of the constructed set of positive and negative samples is, in fact, linear with respect to the size of the formula $\psi$.
+
+($\Rightarrow$)
+Suppose that $\psi$ is satisfiable, i.\,e.\ there exists an assignment $v: \Omega \to \{0, 1\}$ such that $v^*(C_i) = 1$ for all $i \in \{1, 2, \ldots, n\}$, where $v^*$ denotes the natural extension of $v$ to formulas. We will construct a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with $S^+$ and $S^-$. Let $\Phi=\Phi_1 \cup \Phi_2$, where $\Phi_1 = \{ (\lambda, a, \lambda) \mid a \in \Omega: v(a) = 1 \} \cup \{ (\lambda, \overline{a}, \lambda) \mid a \in \Omega: v(a) = 0 \}$ and $\Phi_2 = \{ (\lambda, a^l, \lambda), (\lambda, \overline{a}^l, \lambda) \mid a \in \Omega \}$. It can be easily observed that, for each literal $\ell \in \Omega \cup \overline{\Omega}: \ell \vdash_M \lambda \Leftrightarrow v(\ell) = 1$, or equivalently: $\overline{\ell} \vdash_M \lambda \Leftrightarrow v(\ell) = 0$. Therefore, no negative sample $w_{C_i}^- = \overline{\ell_{i,1}}\ \overline{\ell_{i,2}}\ \overline{\ell_{i,3}}$, for $i = 1, 2, \ldots, n$, can be reduced to the empty word $\lambda$ by using the instructions from $\Phi_1$, because, otherwise, it would mean that $v(\ell_{i,1}) = v(\ell_{i,2}) = v(\ell_{i,3}) = 0$. As the literals used in $w_{C_i}^-$ have all pairwise different variables, no instruction from $\Phi_2$ can be applied to it. Therefore, the resulting automaton $M$ cannot reduce any negative sample of the form  $w_{C_i}^- = \overline{\ell_{i,1}}\ \overline{\ell_{i,2}}\ \overline{\ell_{i,3}}$ to the empty word $\lambda$. Moreover, all positive samples of the form $w_0^+ = (a \overline{a})^l$,  $w_1^+ = a^l$, $w_2^+ = \overline{a}^l$ can be reduced to the empty word $\lambda$. For each $a \in \Omega$ there is either the instruction $(\lambda, a, \lambda)$, or the instruction $(\lambda, \overline{a}, \lambda)$ in $\Phi_1$. Therefore, we can always reduce the positive sample $w_0^+ = (a \overline{a})^l$ either to the word $a^l$, or $\overline{a}^l$. After that, we can use one of the instructions in $\Phi_2$ to reduce it further to the empty word $\lambda$. Therefore, for each $a \in \Omega$: $(a \overline{a})^l \vdash_M^* \lambda$, and also trivially $a^l \vdash_M \lambda$, and $\overline{a}^l \vdash_M \lambda$. Finally, for each $a \in \Omega$ the word $w \in \{a, \overline{a}\}^{\le l}$, such that $|w|_a \ge 1$ and $|w|_{\overline{a}} \ge 1$, cannot be reduced to the empty word $\lambda$. This is because there is only one of the instructions: $(\lambda, a, \lambda)$, $(\lambda, \overline{a}, \lambda)$ available in $\Phi_1$, and we will never be able to use any of the instructions: $(\lambda, a^l, \lambda)$, $(\lambda, \overline{a}^l, \lambda)$ from $\Phi_2$, since $|w|_a < l$ and $|w|_{\overline{a}} < l$.
+
+($\Leftarrow$)
+Now suppose that there exists a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with $S^+$ and $S^-$. We will show that $\psi$ is satisfiable, i.\,e.\ we will construct an assignment $v: \Omega \to \{0, 1\}$ such that $v^*(C_i) = 1$ for all $i \in \{1, 2, \ldots, n\}$. First observe, that for each $a \in \Omega$: either $(\lambda, a, \lambda) \in \Phi$, or $(\lambda, \overline{a}, \lambda) \in \Phi$. Consider the positive sample $w_0^+ = (a \overline{a})^l \in S^+$. We know that $(a \overline{a})^l \vdash_M^* \lambda$. Let $\phi \in \Phi$ be the first instruction used in any such accepting computation. The instruction $\phi$ is of the form $(\lambda, z, \lambda)$, where $z$ is a subword of the word $(a \overline{a})^l$. However, the only allowed options here are $\phi \in \{ (\lambda, a, \lambda), (\lambda, \overline{a}, \lambda) \}$, because if $|z| > 1$, then we would immediately get that $|z|_a \ge 1$, $|z|_{\overline{a}} \ge 1$, and thus also $z \in S^-$, which is a contradiction to $z \vdash^{(\phi)} \lambda$. Moreover, both instructions $(\lambda, a, \lambda)$ and $(\lambda, \overline{a}, \lambda)$ cannot be in $\Phi$ simultaneously, because it would mean that $a \overline{a} \vdash_M^* \lambda$, where $a \overline{a} \in S^-$. Now, for each $a \in \Omega$ let $v(a) = 1 \text{ if } (\lambda, a, \lambda) \in \Phi$, and let $v(a) = 0 \text{ if } (\lambda, \overline{a}, \lambda) \in \Phi$. For each clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$ we have a negative sample $w_{C_i}^- = \overline{\ell_{i,1}}\ \overline{\ell_{i,2}}\ \overline{\ell_{i,3}} \in S^-$. Therefore, $\overline{\ell_{i,1}} \not\vdash_M \lambda$ or $\overline{\ell_{i,2}} \not\vdash_M \lambda$ or $\overline{\ell_{i,3}} \not\vdash_M \lambda$, which is equivalent to $v(\ell_{i,1}) = 1$ or $v(\ell_{i,2}) = 1$ or $v(\ell_{i,3}) = 1$. This means that $\psi$ is satisfiable.
+
+It remains to be shown that the task of finding a $\zlclRA$ $M = (\Sigma, \Phi)$ consistent with the given input set of positive and negative samples ($S^+$, $S^-$) is in $\classNP$. According to Theorem \ref{theorem:clra_membership} the membership problem for $\kclRA[1]$ (and therefore also for $\kclRA[0]$) is decidable in polynomial time. The next question is, how many instructions do we need? It turns out that the number of instructions can be bounded from above by $\size(S^+) = \sum_{w \in S^+} |w|$, because for every positive sample $w_+ \in S^+$ the accepting computation $w_+ \vdash_M^* \lambda$ uses at most $|w_+|$ many instructions. Therefore, we can first nondeterministically guess the set of instructions, and then verify in a polynomial time the consistency with the given input set of positive and negative samples.
+\end{proof}
+
+In the following, we prove a more general Theorem \ref{theorem:kclrainference}.
+
+\begin{theorem}\label{theorem:kclrainference}
+Let $k \ge 1 $ and $l \ge 4k + 4$ be fixed integers. It is $\classNP$-hard to decide whether there exists a $\klclRA$ $M = (\Sigma, \Phi)$ consistent with a given sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$.
+\end{theorem}
+
+\begin{proof}
+Consider a $3$-$\SAT$ formula $\psi = \bigwedge_{i=1}^n C_i$, where clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$, and $\ell_{i,1}$, $\ell_{i,2}$, $\ell_{i,3}$ are literals having pairwise different variables, for all $i \in \{1, 2, \ldots, n\}$. Let $\Omega = \{a_1, a_2, \ldots, a_m\}$ be the set of all variables occurring in $\psi$. In the following, we will (effectively) construct a finite sample $S = (S^+, S^-)$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$, such that the following holds: the formula $\psi$ is satisfiable if and only if there exists a $\klclRA$ $M = (\Sigma, \Phi)$ consistent with $S = (S^+, S^-)$. Our alphabet $\Sigma$ will contain all symbols from $\Omega \cup \overline{\Omega}$, where $\overline{\Omega} = \{ \overline{a_i} \mid a_i \in \Omega \}$, and $\Omega \cap \overline{\Omega} = \emptyset$. We define $\overline{\overline{a}} = a$ for all $a \in \Omega$. In addition, $\Sigma$ will contain also some other special symbols. First set $S^+ := \{ \lambda \}, S^- := \emptyset$. For each clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$ add the negative sample $w_{C_i}^- = \square^k \overline{\ell_{i,1}} \square^k \overline{\ell_{i,2}} \square^k \overline{\ell_{i,3}} \square^k$ to the set of negative samples $S^-$, where $\square$ is a special dummy symbol that will later match the contexts of the instructions. For each variable $a \in \Omega$, add the following  positive samples: $w_0^+ = \square^k a \square^t \overline{a} \square^k$, $w_1^+ = \square^k a \square^{k+t}$, $w_2^+ = \square^{k+t} \overline{a} \square^k$, and $w_3^+ = \square^{4k}$ to the set of positive samples $S^+$, and also add the negative sample $w_4^- = \square^k a \square^{2k}  \overline{a} \square^k$ to the set of negative samples $S^-$, where $t = l - 2k - 3$. Since $l \ge 4k + 4$, it follows that $t \ge 2k + 1$, and thus $w_0^+ \neq w_4^-$. Our next goal is to allow only the following types of instructions, where $a \in \Omega$:
+\begin{enumerate}
+\item[(a)] $(\square^k, a, \square^k)$.
+\item[(b)] $(\square^k, \overline{a}, \square^k)$.
+\item[(c)] $(\cent, \square^k a \square^{k+t}, \$)$.
+\item[(d)] $(\cent, \square^{k+t} \overline{a} \square^k, \$)$.
+\item[(e)] $(\cent, \square^{4k}, \$)$.
+\end{enumerate}
+All of these instructions have width at most $l$. (The longest are the instructions of the type (c) and (d), having the width $2k + t + 3 = l$.) On the other hand, it is not possible to store the whole word $w_0^+ = \square^k a \square^t \overline{a} \square^k$ in one instruction containing both sentinels (such as $(\cent, \square^k a \square^t \overline{a} \square^k, \$)$), since its width would be $2k + t + 4 = l + 1 > l$. Also note, that the instructions (c) and (d) will never interfere with any of the negative samples $w_{C_i}^- = \square^k \overline{\ell_{i,1}} \square^k \overline{\ell_{i,2}} \square^k \overline{\ell_{i,3}} \square^k$, because: $|\square^k \overline{\ell_{i,1}} \square^k \square^k \square^k| = |\square^k \square^k \square^k \overline{\ell_{i,3}} \square^k| = 4k + 1$, while $|\square^k a \square^{k+t}| = |\square^{k+t} \overline{a} \square^k| = 2k + t + 1 = l - 2 \ge 4k + 2$. The same holds for the negative sample $w_4^- = \square^k a \square^{2k}  \overline{a} \square^k$, because $|\square^k a \square^{2k} \square^k| = |\square^k \square^{2k}  \overline{a} \square^k| = 4k + 1$.
+
+In the following we introduce a general technique, how to prohibit the inference of any specific undesirable instruction. Suppose that we want to prohibit the instruction $\phi = (x, z, y)$, where $|xzy| \le l$. Let $x'$ (or $y'$) be the largest possible subword of $x$ (or $y$, respectively) not containing the sentinels ($\cent$, $\$$); thus either $x = x'$, or $x = \cent x'$ (either $y = y'$, or $y = y'\$$, respectively). There are only the following four possible cases:
+\begin{enumerate}
+\item $x = \cent x'$ and $y = y' \$$
+\item $x = \cent x'$ and $y = y'$
+\item $x = x'$ and $y = y' \$$
+\item $x = x'$ and $y = y'$
+\end{enumerate}
+In the first case we only need to add the word $x'zy'$ to the set of negative samples $S^-$ and the word $x'y'$ to the set of positive samples $S^+$ in order to prohibit the instruction $\phi = (x, z, y) = (\cent x', z, y' \$)$. In the other cases let us first introduce a new symbol $\square_{\phi}$, which we also add to our alphabet $\Sigma$. This is what we do in the particular cases:
+\begin{enumerate}
+\item $S^- := S^- \cup \{ x'zy' \}$, $S^+ := S^+ \cup \{  x'y' \}$.
+\item $S^- := S^- \cup \{ x'zy'  \square_{\phi} \}$, $S^+ := S^+ \cup \{  x'y'  \square_{\phi} \}$.
+\item $S^- := S^- \cup \{ \square_{\phi} x'zy' \}$, $S^+ := S^+ \cup \{ \square_{\phi} x'y' \}$.
+\item $S^- := S^- \cup \{ \square_{\phi} x'zy' \square_{\phi} \}$, $S^+ := S^+ \cup \{ \square_{\phi} x'y' \square_{\phi} \}$.
+\end{enumerate}
+For every prohibited instruction $\phi$ we add two new samples: a positive sample $w_{\phi}^+$ to the set $S^+$ and a negative sample $w_{\phi}^-$ to the set $S^-$. It is easy to see that in each case we have effectively prohibited the instruction $\phi = (x, z, y)$. Note that this is the only instruction not containing the symbol $\square_{\phi}$ (and having $x \in LC_k, y \in RC_k$) that reduces $w_{\phi}^+$ to $w_{\phi}^-$. Later, we will have to satisfy the consistency of the constructed $\klclRA$ $M$ also with these newly added samples, i.\,e.\ that for every prohibited instruction $\phi$ the following holds: $w_{\phi}^+ \vdash_M^* \lambda$ and $w_{\phi}^- \not\vdash_M^* \lambda$. In all cases, the newly added positive sample $w_{\phi}^+$ can always be reduced to the empty word in one step by using the instruction $(\cent, w_{\phi}^+, \$)$. This is because the width of this instruction is $2 + |w_{\phi}^+| \le 2 + 2 + |x'y'| \le 4 + 2k \le l$. If we use a new symbol $\square_{\phi}$ in $w_{\phi}^+$, then the instruction $(\cent, w_{\phi}^+, \$)$ will be applicable only to this specific sample $w_{\phi}^+ \in S^+$, and thus will not interfere with other samples. On the other hand, the verification of the second condition ($w_{\phi}^- \not\vdash_M^* \lambda$) is more difficult. Fortunately, we will always use the symbol $\square_{\phi}$ in $w_{\phi}^-$, i.\,e.\ the first case ($x = \cent x'$ and $y = y' \$$) will never occur in our proof.
+
+Now we have all necessary ingredients to finish the proof. For every $a \in \Omega$ consider the following positive sample: $w_0^+ = \square^k a \square^t \overline{a} \square^k$. By using the above technique, we disable all instructions applicable to this word having the width at most $l$ except for the instructions of the form (a) -- (e). Observe that we will never attempt to disable any instruction of the form $\phi = (\cent x', z, y' \$)$. This is because the word $w_0^+ = \square^k a \square^t \overline{a} \square^k$ (as we have already mentioned above) is too long. Moreover, there is only polynomially many disabled instructions, since there is only polynomially many subwords of the above word. Now we have completely specified the sets of positive and negative samples $S^+$, $S^-$, $S^+ \cap S^- = \emptyset$, $\lambda \in S^+$, and thus we can proceed with the proof.
+
+($\Rightarrow$)
+Suppose that $\psi$ is satisfiable, i.\,e.\ there exists an assignment $v: \Omega \to \{0, 1\}$ such that $v^*(C_i) = 1$ for all $i \in \{1, 2, \ldots, n\}$, where $v^*$ denotes the natural extension of $v$ to formulas. We will show that there exists a $\klclRA$ $M = (\Sigma, \Phi)$ consistent with $S = (S^+, S^-)$. Consider the following $\klclRA$ $M = (\Sigma, \Phi)$: First, add to $\Phi$ the following set of instructions: $\Phi_1 = \{ (\square^k, a, \square^k) \mid a \in \Omega: v(a) = 1 \} \cup \{ (\square^k, \overline{a}, \square^k) \mid a \in \Omega: v(a) = 0 \}$. It can be easily observed that, for all literals $l \in \Omega \cup \overline{\Omega}: \square^k l \square^k \vdash_M \square^k \square^k \Leftrightarrow v(l) = 1$, or equivalently: $\square^k \overline{l} \square^k \vdash_M \square^k \square^k \Leftrightarrow v(l) = 0$. Therefore no negative sample $w_{C_i}^- = \square^k \overline{\ell_{i,1}} \square^k \overline{\ell_{i,2}} \square^k \overline{\ell_{i,3}} \square^k$, where $i \in \{1, 2, \ldots, n\}$, can be reduced to the positive sample $\square^{4k}$ by using the instructions from $\Phi_1$, because otherwise it would mean that $v(\ell_{i,1}) = v(\ell_{i,2}) = v(\ell_{i,3}) = 0$. Next, add to $\Phi$ the following set of instructions $\Phi_2 = \{ (\cent, \square^k a \square^{k+t}, \$), (\cent, \square^{k+t} \overline{a} \square^k, \$) \mid a \in \Omega \} \cup \{ (\cent, \square^{4k}, \$) \}$. As we have already stated above, no instruction from $\Phi_2$ will ever interfere with any negative sample $w_{C_i}^- = \square^k \overline{\ell_{i,1}} \square^k \overline{\ell_{i,2}} \square^k \overline{\ell_{i,3}} \square^k$, or $w_4^- = \square^k a \square^{2k}  \overline{a} \square^k$. Finally, add to $\Phi$ all instructions $(\cent,  w_{\phi}^+, \$)$, where $ w_{\phi}^+$ was added to the set of positive samples $S^+$ during the process of disabling the undesirable instruction $\phi$. These instructions are applicable only to words containing the special symbols $\square_{\phi}$, so we do not have to care about them at all. Now we will show that the constructed $\klclRA$ $M = (\Sigma, \Phi)$ is consistent with the sample $S = (S^+, S^-)$.(The width of instructions of $M$ is obviously bounded from above by $l$.) First, it is easy to see, that for each variable $a \in \Omega$ the following positive samples: $w_0^+ = \square^k a \square^t \overline{a} \square^k$, $w_1^+ = \square^k a \square^{k+t}$, $w_2^+ = \square^{k+t} \overline{a} \square^k$, $w_3^+ = \square^{4k}$ are all reducible to the empty word $\lambda$. The positive sample $w_0^+$ is always reducible to either $w_1^+$, or $w_2^+$, depending on whether $(\square^k, a, \square^k) \in \Phi_1$, or $(\square^k, \overline{a}, \square^k) \in \Phi_1$. The other positive samples: $w_1^+$, $w_2^+$, $w_3^+$ can be reduced to the empty word $\lambda$ in one single step by using the corresponding instruction from $\Phi_2$. The negative sample $w_4^- = \square^k a \square^{2k} \overline{a} \square^k$ clearly cannot be reduced to the empty word $\lambda$. We can clear either the letter $a$, or $\overline{a}$ by using the corresponding instruction from $\Phi_1$, but then we get the irreducible word $\square^k \square^{2k} \overline{a} \square^k$, or $\square^k a \square^{2k} \square^k$. None of the instructions from $\Phi_2$ can be applied to such a word, since the length $|\square^k a \square^{2k} \square^k| = |\square^k \square^{2k} \overline{a} \square^k| = 4k + 1$, while $|\square^k a \square^{k+t}| = |\square^{k+t} \overline{a} \square^k| = 2k + t + 1 = l - 2 \ge 4k + 2$. It remains to be shown, that no negative sample $w_{\phi}^-$, which was added to the set of negative samples $S^-$ during the process of disabling some instruction $\phi$, can be reduced to the empty word $\lambda$. Both the negative sample $w_{\phi}^-$ and the corresponding positive sample $w_{\phi}^+$ contain the special symbol $\square_{\phi}$. The negative sample $w_{\phi}^-$ without this special symbol $\square_{\phi}$ is basically a subword of some word $\square^k a \square^t \overline{a} \square^k$. First observe that the only instruction from $\Phi$ that could be possibly applied to the negative sample $w_{\phi}^-$, is some instruction from $\Phi_1$. Without loss of generality assume that we can apply the instruction $\rho = (\square^k, a, \square^k) \in \Phi_1$ to the word $w_{\phi}^-$, i.\,e.\ $w_{\phi}^- \vdash^{(\rho)} w'$. This also implies that $(\square^k, \overline{a}, \square^k) \notin \Phi_1$. It is easy to see that no other instruction from $\Phi$ can be applied to the resulting word $w'$, except possibly the instruction $(\cent, w_{\phi}^+, \$)$. But if $(\cent, w_{\phi}^+, \$)$ was applicable to $w'$, it would have implied that we wanted to disable the instruction $\rho$ itself, which is not possible, since $\rho$ is of the form (a). Thus, we have shown that the constructed $\klclRA$ $M = (\Sigma, \Phi)$ is consistent with $S = (S^+, S^-)$. The size of the constructed set of positive and negative samples is linear with respect to the size of the formula $\psi$.
+
+($\Leftarrow$)
+Now suppose that there exists a $\klclRA$ $M = (\Sigma, \Phi)$ consistent with $S = (S^+, S^-)$. We will show that $\psi$ is satisfiable, i.\,e.\ we will construct an assignment $v: \Omega \to \{0, 1\}$ such that $v^*(C_i) = 1$ for all $i \in \{1, 2, \ldots, n\}$. First observe that for each $a \in \Omega$: either $(\square^k, a, \square^k) \in \Phi$, or $(\square^k, \overline{a}, \square^k) \in \Phi$. Consider the positive sample $w_0^+ = \square^k a \square^t \overline{a} \square^k$. We know that $\square^k a \square^t \overline{a} \square^k \vdash_M^* \lambda$. Let $\phi \in \Phi$ be the first instruction used in any such accepting computation. The instruction $\phi$ is either of the form $(\square^k, a, \square^k)$, or $(\square^k, \overline{a}, \square^k)$, because all other instructions are disabled. Moreover, it cannot happen that both instructions $(\square^k, a, \square^k)$, $(\square^k, \overline{a}, \square^k)$ are in $\Phi$, because it would mean that $\square^k a \square^{2k} \overline{a} \square^k \vdash_M^* \square^{4k}$, where $\square^k a \square^{2k} \overline{a} \square^k \in S^-$ and $\square^{4k} \in S^+$. Now let us define the assignment $v: \Omega \to \{0, 1\}$ as follows: for each $a \in \Omega:$ $v(a) = 1 \text{ if } (\lambda, a, \lambda) \in \Phi$, and $v(a) = 0 \text{ if } (\lambda, \overline{a}, \lambda) \in \Phi$. For each clause $C_i = \ell_{i,1} \vee \ell_{i,2} \vee \ell_{i,3}$ we have a negative sample $w_{C_i}^- = \square^k \overline{\ell_{i,1}} \square^k \overline{\ell_{i,2}} \square^k \overline{\ell_{i,3}} \square^k \in S^-$. Therefore, $(\square^k, \overline{\ell_{i,1}}, \square^k) \notin \Phi$ or $(\square^k, \overline{\ell_{i,2}}, \square^k) \notin \Phi$ or $(\square^k, \overline{\ell_{i,3}}, \square^k) \notin \Phi$, which is equivalent to $v(\ell_{i,1}) = 1$ or $v(\ell_{i,2}) = 1$ or $v(\ell_{i,3}) = 1$. This means that $\psi$ is satisfiable.
+\end{proof}
+
+\section{Learning Without Restrictions}\label{section:unrestricted-learning}
+
+Now we turn to learning without the restricted width of instructions. As we have already stated we will use the auxiliary inference procedure (Algorithm \ref{algorithm:lambda-learning}) from Section \ref{section:restricted-learning} as a component in our learning algorithm. The inference procedure itself requires the specification of the maximal width of instructions $l \ge 1$, so it is only natural to try all widths $l = 1, 2, \ldots$, until the inference procedure returns a consistent model with the given input sample. The last missing bit is making the learning algorithm a polynomial time algorithm w.r.t. the size of the input sample. In order to do so, we restrict ourselves to the left-most rewriting. The resulting learning algorithm is shown in Algorithm \ref{algorithm:unconstrained-lambda-learning}. Algorithm \ref{algorithm:consistency} shows the implementation of the consistency check function \index{$\Consistent$}$\Consistent$ and Algorithm \ref{algorithm:simplification} shows the implementation of the simplification function \index{$\Simplify$}$\Simplify$. Note that in Step \ref{algorithm:unconstrained-lambda-learning:infer} when calling the auxiliary inference procedure \index{$\Infer_{\calM}$}$\Infer_{\calM}(S, k, l)$ we do not use the left-most rewriting.
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Learning algorithm $\UnconstrainedInfer_{\calM}(S, k)$}
+\label{algorithm:unconstrained-lambda-learning}
+\index{$\UnconstrainedInfer_{\calM}$}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{Sample $S = (S^+, S^-)$ over $\Sigma$,
+$S^+ \cap S^- = \emptyset, \lambda \in S^+$.\\
+Length of contexts $k \ge 1$, or $k = \cdot$, if not specified.}
+\Output{A $\kCRS$ $M \in \leftcalM$ consistent with $S$.}
+$l_{\max} \leftarrow 2 + \max\{ |w| \mid w \in S^+ \}$\;
+\For{$l = 1 \ldots l_{\max}$\label
+{algorithm:unconstrained-lambda-learning:cycle-start}}
+{$M \leftarrow \Infer_{\calM}(S, k, l)$\label{algorithm:unconstrained-lambda-learning:infer}\;
+\If{$\Consistent(M_{\sf left}, S)$\label{algorithm:unconstrained-lambda-learning:consistent}}{\Return{$\Simplify(M_{\sf left})$\label{algorithm:unconstrained-lambda-learning:simplification}}\;\label
+{algorithm:unconstrained-lambda-learning:cycle-end}}}
+\Return{$M_{\sf left}$ with instructions $\Phi = \{(\cent, w \to \lambda, \$) \mid w \in S^+\}$}\label{algorithm:unconstrained-lambda-learning:end}\;
+\end{algorithm}
+
+In turns out that Algorithm \ref{algorithm:unconstrained-lambda-learning} is not only able to identify any target $\lambda$-confluent model in the limit in polynomial time, it also infers a simplified $\lambda$-confluent model with \emph{minimal width} in the limit.
+
+\begin{theorem}\label{theorem:unconstrained-lambda-inference}
+Let $\calM$ be a class of $\kCRS$ restricted according to Definition \ref{definition:restrictions} (where $k \ge 1$ or $k = \cdot$ if not used) and $\calLL$ be the class of languages $\calL{\lconcalM}$. Let function $\Assumptions$ (used in the auxiliary inference procedure $\Infer_{\calM}$) be monotone and correct with respect to $\calM$. Then:
+\begin{enumerate}
+\item\label{unconstrained-lambda-inference1} Given a sample $S = (S^+, S^-)$ for $L \in \calLL$, $\UnconstrainedInfer_{\calM}(S, k)$ returns a model $N \in \leftcalM$ \emph{consistent with} $S$ in polynomial time w.r.t. $\size(S)$.
+
+\item\label{unconstrained-lambda-inference2} For every model $M \in \lconcalM$ representing the language $L \in \calLL$, there exists a finite \emph{characteristic sample} $S_0 = (S_0^+, S_0^-)$ and a simplified $\lambda$-confluent model $N \in \leftcalM$ with \emph{minimal width} equivalent to $M$ such that, on all samples $S = (S^+, S^-)$ for $L$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, $\UnconstrainedInfer_{\calM}(S, k)$ returns $N$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof} (\ref{unconstrained-lambda-inference1}) Loop \ref{algorithm:unconstrained-lambda-learning:cycle-start} -- \ref{algorithm:unconstrained-lambda-learning:cycle-end}  consists of at most $2 + \size(S)$ iterations. Step \ref{algorithm:unconstrained-lambda-learning:infer} runs in polynomial time w.r.t. $\size(S)$ and since in Steps \ref{algorithm:unconstrained-lambda-learning:consistent} and \ref{algorithm:unconstrained-lambda-learning:simplification} we use only left-most reductions, both consistency check and simplification run in polynomial time w.r.t. $\size(S)$. Therefore, Algorithm \ref{algorithm:unconstrained-lambda-learning} runs in polynomial time w.r.t. $\size(S)$. Finally, in both Steps \ref{algorithm:unconstrained-lambda-learning:cycle-end} and \ref{algorithm:unconstrained-lambda-learning:end} we return a simplified model from $\leftcalM$ consistent with $S$.
+
+\noindent(\ref{unconstrained-lambda-inference2}) Without loss of generality we may assume that the model $M = (\Sigma, \Phi) \in \lconcalM$ representing the target language $L$ has minimal width $|M| = l_0$ and a minimal set of instructions. Similarly as in the proof of Theorem \ref{theorem:lambda-inference} we can define the term \emph{bad} instruction with respect to the target language $L(M)$. Let $\Theta \supseteq \Phi$ denote the set of all legal instruction of the class $\kllcalM$ that are not bad w.r.t. $L(M)$. Then apparently $\bar{M} := (\Sigma, \Theta) \in \kllcalM$, $\bar{M}$ is $\lambda$-confluent and $L(\bar{M}) = L(M)$. In addition, there exists a word $w_0 \in L(\bar{M})$ such that every accepting computation $w_0 \vdash_{\bar{M}}^* \lambda$ must use some instruction $\phi \in \Theta$ with $|\phi| = l_0$. (Otherwise the width $|M| = l_0$ would not be minimal.) According to Theorem \ref{theorem:lambda-inference} there exists a characteristic sample $S_0 = (S_0^+, S_0^-)$ and a $\lambda$-confluent model $N \in \kllcalM$ equivalent to $M$ such that, on all samples $S = (S^+, S^-)$ for $L(M)$ that satisfy $S_0^+ \subseteq S^+$ and $S_0^- \subseteq S^-$, the inference procedure $\Infer_{\calM}(S, k, l_0)$ returns $N$. We may assume that $w_0 \in S_0^+$. According to Lemma \ref{lemma:lambda} $L(N) = L(N_{\sf left})$, therefore the function $\Consistent$ in Step \ref{algorithm:unconstrained-lambda-learning:consistent} returns ${\bf True}$ and in Step \ref{algorithm:unconstrained-lambda-learning:simplification} we return $\Simplify(N_{\sf left})$, which is a simplified $\lambda$-confluent model with minimal width $l_0$ equivalent to $M$ obtained from $N_{\sf left}$. Note that the function $\Simplify$ does not break the property of $\lambda$-confluence. This follows from the fact that the function $\Simplify$ preserves the original rewriting relation $\vdash_N^*$ and therefore also $\lambda$-confluence. Nevertheless, in order to complete the proof, we need to show that Loop \ref{algorithm:unconstrained-lambda-learning:cycle-start} -- \ref{algorithm:unconstrained-lambda-learning:cycle-end} will get to $l = l_0$. In other words, we need to show that for every $l < l_0$ the inference procedure $\Infer_{\calM}(S, k, l)$ will return a model $N \in \klcalM$ such that the function $\Consistent$ in Step \ref{algorithm:unconstrained-lambda-learning:consistent} will return ${\bf False}$. For every $l < l_0: \Assumptions(S^+, k, l) \subset \Assumptions(S^+, k, l_0)$. This is because the set $\Assumptions(S^+, k, l_0)$ contains all instructions of $M$ (this follows from the minimality of $\Phi$), and some of these instructions have the width equal to $l_0$. Since all bad instructions from $\Assumptions(S^+, k, l_0)$ are disabled by $(S^+, S^-)$, the inference procedure $\Infer_{\calM}(S, k, l)$ will filter all bad instructions returned by $\Assumptions(S^+, k, l)$. The resulting set of instructions $\Phi'$ will contain only the correct instructions, i.\,e., $\Phi' \subseteq \Theta$. However, the instructions of $M$ that have the width equal to $l_0$ will be missing in this set $\Phi'$. This implies that the word $w_0 \in S_0^+$ cannot be reduced to $\lambda$ by using only the instructions from $\Phi'$. This also implies that the word $w_0$ cannot be reduced to $\lambda$ by using left-most reductions w.r.t. $\Phi'$. Therefore, the function $\Consistent$ in Step \ref{algorithm:unconstrained-lambda-learning:consistent} will return ${\bf False}$ and we will proceed to the next iteration.
+\end{proof}
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Implementation of $\Consistent(M, S)$}
+\label{algorithm:consistency}
+\index{$\Consistent$}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{A $\CRS$ $M = (\Sigma, \Phi)$.\\
+Sample $S = (S^+, S^-)$ over $\Sigma$,
+$S^+ \cap S^- = \emptyset, \lambda \in S^+$.}
+\Output{${\bf True}$ if $M$ consistent with $S$. Otherwise ${\bf False}$.}
+\If{$\forall w \in S^+: w \vdash_M^* \lambda \wedge
+\forall w \in S^-: w \not\vdash_M^* \lambda$}
+{\Return{${\bf True}$}\;}
+\Return{${\bf False}$}\;
+\end{algorithm}
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\caption{Implementation of $\Simplify(M)$}
+\label{algorithm:simplification}
+\index{$\Simplify$}
+%\DontPrintSemicolon
+\LinesNumbered
+\Input{A $\CRS$ $M = (\Sigma, \Phi)$.}
+\Output{A simplified $\CRS$ $M = (\Sigma, \Phi)$.}
+\While{$\exists \phi = (x, z \to t, y) \in \Phi:
+z \vdash_{\Phi - \{\phi\}}^* t$ in the context $(x, y)$}
+{$\Phi = \Phi - \{\phi\}$}
+\Return{$(\Sigma, \Phi)$}\;
+\end{algorithm}
+
+Note that the order of the removed instructions from $\Phi$ in the function $\Simplify$ (Algorithm \ref{algorithm:simplification}) does not matter as long as we are consistent. According to Definition \ref{definition:crs} we always get a simplified $\CRS$, although there may exist several equivalent simplified $\CRS$. The reason why we have included the simplification function $\Simplify$ in our Algorithm \ref{algorithm:unconstrained-lambda-learning} is twofold. First, our experiments have shown that the simplification function can substantially reduce the resulting set of instructions. Second, imagine a long sequence of reductions: $w_0 \vdash_M^{(\phi_1)} w_1 \ldots \vdash_M^{(\phi_n)} w_n = \lambda$. For each $0 \le i < j - 1 < n$ there is a chance that the learning algorithm will infer also a \emph{shortcut} instruction $\phi_{ij}$ such that $w_i \vdash_M^{(\phi_{ij})} w_j$. Such shortcut instructions are useless and there may be $O(n^2)$ shortcut instructions for every $n$-step reduction sequence. All shortcut instructions will be removed when using the simplification function $\Simplify$.

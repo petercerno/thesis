@@ -7,7 +7,7 @@
 2015-01-01
 
 [x] TODO: Resolve all TODOs in the text.
-[ ] TODO: Add \cite{} references to all Theorems and Definitions!
+[-] TODO: Add \cite{} references to all Theorems and Definitions!
 [x] TODO: Unify ending symbol in definitions etc.
 [x] TODO: Check old reviews. Update i.e., etc.
 [x] TODO: Check missing references \ref{} and citations \cite{}.
@@ -17,7 +17,7 @@
 
 2015-01-17
 
-[n] TODO: Update reference labels!
+[-] TODO: Update reference labels!
 [x] TODO: Update the reference concerning the decidability of the lambda-confluence.
 
 2015-02-15
@@ -31,10 +31,10 @@
 
 2015-03-21
 
-[ ] TODO: Clean the theoretical background (e.g. remove regular expressions, add TPDAs, etc.).
-[ ] TODO: Write an introduction to all Sections.
+[-] TODO: Clean the theoretical background (e.g. remove regular expressions, add TPDAs, etc.).
+[x] TODO: Write an introduction to all Sections.
 [x] TODO: Check and fine-tune the bibliography. Unify the bibliography uppercase letters.
-[ ] TODO: Add references to definitions when necessary.
+[x] TODO: Add references to definitions when necessary.
 
 2015-03-28
 
@@ -43,7 +43,7 @@
 
 2015-04-05
 
-[ ] TODO: Use the \dot{=} symbol for the language equality up to the empty word.
+[-] TODO: Use the \dot{=} symbol for the language equality up to the empty word.
 
 2015-04-06
 
@@ -53,7 +53,7 @@
 2015-04-11
 
 [x] TODO: Check the structure of the thesis.
-[ ] TODO: Check the spacing and overlines.
+[x] TODO: Check the spacing and overlines.
 [x] TODO: Add \Rightarrow and other symbols to the CFL section.
 [x] TODO: Add \dot{=} to the Words and languages symbols.
 [x] TODO: Add etc., i.e., e.g., iff to the List of Abbreviations.
@@ -62,8 +62,18 @@
 2015-04-12
 
 [x] TODO: Check the grammar typos.
-[ ] TODO: Emphasize the newly defined terms.
+[x] TODO: Emphasize the newly defined terms.
 
 2015-04-19
 
-[ ] TODO: Prune the index.
+[x] TODO: Prune the index.
+[x] TODO: Fix the pdf bookmarks (they cannot use special math symbols).
+
+2015-04-25
+
+[ ] TODO: Find the full names for: J.D. Emerald and K.G. Subramanian and D.G. Thomas
+[x] TODO: Add a short chapter covering the main goals of the thesis.
+[x] TODO: Update the structure of the thesis according to goals.
+[x] TODO: Mention that all goals are satisfied in the conclusion.
+[x] TODO: Add open problems to the conclusion.
+[x] TODO: Resolve the induction step as Ilya Bogdanov.
