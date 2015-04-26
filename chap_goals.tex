@@ -1,0 +1,9 @@
+\chapter{Main Goals of Thesis}\label{chapter:goals}
+
+The main goal of this thesis is to investigate context rewriting systems ($\CRS$). By placing various restrictions on $\CRS$ we can obtain many different models with different properties. Although it is infeasible to cover all possibilities, we can at least classify $\CRS$ into two broad classes: (1) $\CRS$ that \emph{cannot} use auxiliary symbols and (2) $\CRS$ that \emph{can} use auxiliary symbols. We start with clearing restarting automata, which are the most restricted representative of the first class, and then study the learnability of this class. In the second class we initially focus on $\Delta$-clearing restarting automata, which are allowed to use only one auxiliary symbol $\Delta$, and then we move to limited context restarting automata, which can use arbitrarily many auxiliary symbols. Our goals can be best described as follows:
+\begin{enumerate}
+\item\label{goal:clra} Investigate clearing restarting automata and their possible extensions, such as subword-clearing restarting automata. Compare the class of languages recognized by clearing restarting automata to the Chomsky hierarchy and discuss their (non-)closure properties. Study the impact of increasing the length of contexts $k$ on the power of the resulting $k$-clearing restarting automata.
+\item\label{goal:learning} Provide a general learning framework for learning context rewriting systems without auxiliary symbols from informant (i.\,e.\ from positive and negative samples) under a suitable learning paradigm.
+\item\label{goal:aux} Investigate context rewriting systems with auxiliary symbols. Start with $\Delta$-clearing restarting automata, which are allowed to use only one auxiliary symbol $\Delta$, and then move to limited context restarting automata. 
+\end{enumerate}
+These goals are pursued in the subsequent Chapters \ref{chapter:clra}, \ref{chapter:inference}, and \ref{chapter:crs_aux}.
