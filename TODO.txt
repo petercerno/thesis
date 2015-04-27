@@ -71,7 +71,7 @@
 
 2015-04-25
 
-[ ] TODO: Find the full names for: J.D. Emerald and K.G. Subramanian and D.G. Thomas
+[-] TODO: Find the full names for: J.D. Emerald and K.G. Subramanian and D.G. Thomas
 [x] TODO: Add a short chapter covering the main goals of the thesis.
 [x] TODO: Update the structure of the thesis according to goals.
 [x] TODO: Mention that all goals are satisfied in the conclusion.
